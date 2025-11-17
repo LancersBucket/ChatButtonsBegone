@@ -1,4 +1,7 @@
 # Changelog (desktop-land-and-learn)
+## v3.0.0/b - Novemeber 17th, 2025
+Migration to https://github.com/LancersBucket/ChatButtonsBegone
+
 ## v2.17.3/b - November 17th, 2025
 ### Changed
 - Added flow to migrate to the new repo
