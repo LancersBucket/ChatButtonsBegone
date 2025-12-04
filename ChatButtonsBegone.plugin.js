@@ -4,7 +4,7 @@
  * @description Remove annoying stuff from your Discord clients.
  * @author LancersBucket
  * @authorId 355477882082033664
- * @version 3.0.0
+ * @version 3.0.1
  * @source https://github.com/LancersBucket/ChatButtonsBegone
  */
 /*@cc_on
@@ -141,7 +141,7 @@ class EventHijacker {
 const config = {
     info: {
         name: 'ChatButtonsBegone',
-        version: '3.0.0',
+        version: '3.0.1',
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         github_raw: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/',
         branch: 'main',
@@ -490,6 +490,13 @@ const config = {
                     id: 'locator',
                     name: 'Remove Title Bar Text',
                     note: 'Removes the "locator" text in the title bar that shows the current server/DM.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'checkpointButton',
+                    name: 'Remove Checkpoint Button',
+                    note: 'Removes the Checkpoint button.',
                     value: false,
                 },
                 {
@@ -922,8 +929,9 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.browseChannels) this.addCssStyle('div[class^="containerDefault"]:has(div[aria-label="Browse Channels"] + div[class^="link"])');
         if (this.settings.servers.boostsButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="skill-trees-"])');
         if (this.settings.servers.inviteButton) {
-            this.addCssStyle('div[class*="iconItem"][aria-label="Create Invite"]');
-            this.addCssStyle('div[class*="iconItem"][aria-label="Invite to Server"]');
+            this.addCssStyle('[class^="headerContent"][class*="primaryInfo"]>span:not([class^="hiddenVisually"])');
+            this.addCssStyle('[class^="linkTop"]>[class^="children"]>span:first-of-type');
+            this.addCssStyle('[class^="linkTop"]>[class^="children"]>span[class^="hiddenVisually"]:first-of-type');
         }
         if (this.settings.servers.shopButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="shop-"] + div[class^="link"])');
         if (this.settings.servers.activitySection) this.addCssStyle('[class^="membersGroup"]:has([role="button"]), [class^="member"] [class^="container"]:has([class^="badges"])');
@@ -942,20 +950,20 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.voice.screensharePanelButton) this.addCssStyle('div[class^="actionButtons"] button[aria-label="Share Your Screen"]');
         if (this.settings.voice.activityPanelButton) this.addCssStyle('div[class^="actionButtons"] button[aria-label="Start An Activity"]');
-        // Why in the nine hells is the soundboard button in it's own special div? Did Discord do this just to piss me in particular off?
         if (this.settings.voice.soundboardPanelButton) this.addCssStyle('div[class^="actionButtons"] div:has(> button[aria-label="Open Soundboard"])');
         if (this.settings.voice.krispButton) this.addCssStyle('button[aria-label="Noise Suppression powered by Krisp"]');
 
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.addCssStyle('[class^="backForwardButtons"]');
         if (this.settings.toolbar.locator) this.addCssStyle('[class^="base"]>[class^="bar"]>[class^="title"]');
+        if (this.settings.toolbar.checkpointButton) this.addCssStyle('[class*="bar"] [class^="trailing"] > div[class^="button"]');
         if (this.settings.toolbar.helpButton) this.addCssStyle('a[href="https://support.discord.com"]');
         if (this.settings.toolbar.inboxButton) this.addCssStyle('div[class^="recentsIcon"], [class*="bar"] [class^="trailing"] > div[class^="clickable"]');
         
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate) {
             // Server list
-            this.addCssStyle('[class*=member] [class*=nameplated] [style*=linear-gradient], [class*="container"]:has(> [class*="videoContainer"] video[src*="nameplate"])');
+            this.addCssStyle('[class*="member"] [class*="nameplated"] [style*="linear-gradient"], [class*="container"]:has(> [class*="videoContainer"] video[src*="nameplate"])');
             // DM list
             this.addCssStyle('div[class*="interactive"]:hover>div[class*="container"]:has(img)');
             this.addCssStyle('div[class*="interactiveSelected"]>div[class*="container"]:has(img)');

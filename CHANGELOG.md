@@ -1,4 +1,12 @@
 # Changelog
+## v3.0.1 - December 4th, 2025
+### Added
+- Option to remove the new Discord Checkpoint button
+
+### Fixed
+- Invite Button not removing properly (thanks [@Zacam](https://github.com/Zacam)!)
+    - Now is language agnostic
+
 ## v3.0.0 - Novemeber 17th, 2025
 Migration to https://github.com/LancersBucket/ChatButtonsBegone
 
