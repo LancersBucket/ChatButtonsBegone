@@ -17,13 +17,14 @@ When opening an issue, prefix the title with a descriptive tag in brackets (for 
 
 ### CSS Selector Standards
 - **Prefer attribute selectors**: Use attribute selectors instead of class selectors where possible.
+- **Avoid aria- and id attributes**: When creating a selector, avoid using aria- and id attributes.
 - **Quoting**: Any attribute selector matching a specific value must use double quotes.
     - Example: `[class*="inset"]`
 
 ### ChatButtonsBegone Settings Standards
 - **Default state**: All settings should be disabled by default, except for Nitro-related buttons and features.
 - **Setting IDs**:
--   Use camelCase.
+    - Use camelCase.
     - Include the name of the target.
     - Suffix with Button when the setting corresponds to a button.
 
