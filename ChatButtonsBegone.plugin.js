@@ -301,8 +301,8 @@ const config = {
                 {
                     type: 'switch',
                     id: 'discordShopTab',
-                    name: 'Remove Discord\'s Shop Tab',
-                    note: 'Removes the Discord Shop tab from the DM list.',
+                    name: 'Remove Shop Tab',
+                    note: 'Removes the Shop tab from the DM list.',
                     value: true,
                 },
                 {
@@ -650,8 +650,8 @@ const config = {
                 {
                     type: 'switch',
                     id: 'activityPanel',
-                    name: 'Remove Activity Panel',
-                    note: 'Removes the activity panel from the user voice chat panel.',
+                    name: 'Remove Game Activity Panel',
+                    note: 'Removes the current game activity panel from the user voice chat panel.',
                     value: false,
                 },
             ],
