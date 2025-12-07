@@ -877,7 +877,7 @@ module.exports = class ChatButtonsBegone {
             this.addCssStyle('[class^="message"] [class^="buttonsInner"] [class^="hoverBarButton"]:has([class*="buttonContent"])');
             this.addCssStyle('[class^="message"] [class^="buttonsInner"] [class^="separator"]');
         }
-        if (this.settings.messageActions.superReactionButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Add Super Reaction"]');
+        if (this.settings.messageActions.superReactionButton) this.addCssStyle('[id="emoji-picker-tab-panel"] [class^="header"] div:has([for="burst-reaction-toggle-button"])');
         if (this.settings.messageActions.reactionButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Add Reaction"]');
         if (this.settings.messageActions.editButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Edit"]');
         if (this.settings.messageActions.replyButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Reply"]');
@@ -919,7 +919,7 @@ module.exports = class ChatButtonsBegone {
         /// Servers ///
         if (this.settings.servers.boostBar) this.addCssStyle('div[id="channels"] > ul[class^="content"] div:has(div[class^="progress"])');
         if (this.settings.servers.serverGuide) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="home-tab-"] + div[class^="link"])');
-        if (this.settings.servers.eventButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="upcoming-events-"] + div[class^="link"])');
+        if (this.settings.servers.eventButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="upcoming-events-"] ~ div[class^="link"])');
         if (this.settings.servers.membersButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="members-"])');
         if (this.settings.servers.channelsAndRoles) this.addCssStyle('div[class^="containerDefault"]:has(div[aria-label="Channels & Roles"])');
         if (this.settings.servers.browseChannels) this.addCssStyle('div[class^="containerDefault"]:has(div[aria-label="Browse Channels"] + div[class^="link"])');
@@ -929,7 +929,7 @@ module.exports = class ChatButtonsBegone {
             this.addCssStyle('[class^="linkTop"]>[class^="children"]>span:first-of-type');
             this.addCssStyle('[class^="linkTop"]>[class^="children"]>span[class^="hiddenVisually"]:first-of-type');
         }
-        if (this.settings.servers.shopButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="shop-"] + div[class^="link"])');
+        if (this.settings.servers.shopButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id*="shop-"] + div[class^="link"])');
         if (this.settings.servers.activitySection) this.addCssStyle('[class^="membersGroup"]:has([role="button"]), [class^="member"] [class^="container"]:has([class^="badges"])');
         if (this.settings.servers.serverBanner) {
             this.addCssStyle('nav[class^="container"] > div[class*="bannerVisible"] > div[class^="animatedContainer"]');
