@@ -286,23 +286,9 @@ const config = {
                 },
                 {
                     type: 'switch',
-                    id: 'snowsgivingTab',
-                    name: 'Remove Snowsgiving Tab',
-                    note: 'Removes the seasonal "Snowsgiving" tab from the DM list.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'discordBirthdayTab',
-                    name: 'Remove Discord\'s Birthday Tab',
-                    note: 'Removes the seasonal "Discord\'s Birthday" tab from the DM list.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
                     id: 'discordShopTab',
-                    name: 'Remove Discord\'s Shop Tab',
-                    note: 'Removes the Discord Shop tab from the DM list.',
+                    name: 'Remove Shop Tab',
+                    note: 'Removes the Shop tab from the DM list.',
                     value: true,
                 },
                 {
@@ -615,8 +601,8 @@ const config = {
                 {
                     type: 'switch',
                     id: 'avatarPopover',
-                    name: 'Remove Avatar Reply/React Popover',
-                    note: 'Removes the buttons when you hover over a user\'s profile picture.',
+                    name: 'Remove Status Reply/React Popover',
+                    note: 'Removes the buttons when you hover over a user\'s status.',
                     value: false,
                 },
                 {
@@ -650,8 +636,15 @@ const config = {
                 {
                     type: 'switch',
                     id: 'activityPanel',
-                    name: 'Remove Activity Panel',
-                    note: 'Removes the activity panel from the user voice chat panel.',
+                    name: 'Remove Game Activity Panel',
+                    note: 'Removes the current game activity panel from the user voice chat panel.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'seasonalEvents',
+                    name: 'Remove Seasonal Events',
+                    note: 'Removes seasonal event tabs and buttons (i.e. Snowsgiving, Discord\'s Birthday, etc.).',
                     value: false,
                 },
             ],
@@ -866,22 +859,18 @@ module.exports = class ChatButtonsBegone {
     addStyles() {
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.addCssStyle('[class^="attachWrapper"]');
-        if (this.settings.chatbar.giftButton) {
-            // New New Implementation
-            this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="container"]:has(> [class^="button"] > [class^="buttonWrapper"])');
-            // New Implementation
-            this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="container"]:has(> [class^="button"] + span)');
-            // Old Implementation
-            this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="button"]');
-        }
+        if (this.settings.chatbar.giftButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="button"]:has([class^="buttonWrapper"])');
         if (this.settings.chatbar.gifButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > div[class^="expression"]:not(:has([class*="stickerButton"], [class*="emojiButton"]))');
         if (this.settings.chatbar.stickerButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="expression"]:has([class*="stickerButton"])');
         if (this.settings.chatbar.emojiButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="expression"]:has([class*="emojiButton"])');
-        if (this.settings.chatbar.appLauncherButton) this.addCssStyle('[class^=channelAppLauncher]');
+        if (this.settings.chatbar.appLauncherButton) this.addCssStyle('[class^="channelAppLauncher"], [class*="app-launcher-entrypoint"]');
 
         /// Message Actions ///
-        if (this.settings.messageActions.quickReactions) this.addCssStyle('[class^="hoverBarButton"][aria-label*="Click to react with"]');
-        if (this.settings.messageActions.superReactionButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Add Super Reaction"]');
+        if (this.settings.messageActions.quickReactions) {
+            this.addCssStyle('[class^="message"] [class^="buttonsInner"] [class^="hoverBarButton"]:has([class*="buttonContent"])');
+            this.addCssStyle('[class^="message"] [class^="buttonsInner"] [class^="separator"]');
+        }
+        if (this.settings.messageActions.superReactionButton) this.addCssStyle('[id="emoji-picker-tab-panel"] [class^="header"] div:has([for="burst-reaction-toggle-button"])');
         if (this.settings.messageActions.reactionButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Add Reaction"]');
         if (this.settings.messageActions.editButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Edit"]');
         if (this.settings.messageActions.replyButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Reply"]');
@@ -892,8 +881,6 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.dms.quickSwitcher) this.addCssStyle('[class*="privateChannels"] [class*="searchBar"]');
         if (this.settings.dms.friendsTab) this.addCssStyle('[href="/channels/@me"]');
         if (this.settings.dms.premiumTab) this.addCssStyle('[href="/store"]');
-        if (this.settings.dms.snowsgivingTab) this.addCssStyle('[href="//discord.com/snowsgiving"]');
-        if (this.settings.dms.discordBirthdayTab) this.addCssStyle('[href="/activities"]');
         if (this.settings.dms.discordShopTab) {
             this.addCssStyle('[href="/shop"]');
             this.addCssStyle('[class^="profileButtons"] > div:has(button:not([aria-expanded]))');
@@ -923,7 +910,7 @@ module.exports = class ChatButtonsBegone {
         /// Servers ///
         if (this.settings.servers.boostBar) this.addCssStyle('div[id="channels"] > ul[class^="content"] div:has(div[class^="progress"])');
         if (this.settings.servers.serverGuide) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="home-tab-"] + div[class^="link"])');
-        if (this.settings.servers.eventButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="upcoming-events-"] + div[class^="link"])');
+        if (this.settings.servers.eventButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="upcoming-events-"] ~ div[class^="link"])');
         if (this.settings.servers.membersButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="members-"])');
         if (this.settings.servers.channelsAndRoles) this.addCssStyle('div[class^="containerDefault"]:has(div[aria-label="Channels & Roles"])');
         if (this.settings.servers.browseChannels) this.addCssStyle('div[class^="containerDefault"]:has(div[aria-label="Browse Channels"] + div[class^="link"])');
@@ -933,7 +920,7 @@ module.exports = class ChatButtonsBegone {
             this.addCssStyle('[class^="linkTop"]>[class^="children"]>span:first-of-type');
             this.addCssStyle('[class^="linkTop"]>[class^="children"]>span[class^="hiddenVisually"]:first-of-type');
         }
-        if (this.settings.servers.shopButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="shop-"] + div[class^="link"])');
+        if (this.settings.servers.shopButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id*="shop-"] + div[class^="link"])');
         if (this.settings.servers.activitySection) this.addCssStyle('[class^="membersGroup"]:has([role="button"]), [class^="member"] [class^="container"]:has([class^="badges"])');
         if (this.settings.servers.serverBanner) {
             this.addCssStyle('nav[class^="container"] > div[class*="bannerVisible"] > div[class^="animatedContainer"]');
@@ -950,7 +937,7 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.voice.screensharePanelButton) this.addCssStyle('div[class^="actionButtons"] button[aria-label="Share Your Screen"]');
         if (this.settings.voice.activityPanelButton) this.addCssStyle('div[class^="actionButtons"] button[aria-label="Start An Activity"]');
-        if (this.settings.voice.soundboardPanelButton) this.addCssStyle('div[class^="actionButtons"] div:has(> button[aria-label="Open Soundboard"])');
+        if (this.settings.voice.soundboardPanelButton) this.addCssStyle('div[class^="actionButtons"] span:has(button)');
         if (this.settings.voice.krispButton) this.addCssStyle('button[aria-label="Noise Suppression powered by Krisp"]');
 
         /// Title Bar ///
@@ -982,7 +969,7 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.profileCustomizations.avatarDecoration == 'memberlist') {
-            this.addCssStyle('div[class*="member"] div[class*="avatar"] [class*="avatarDecoration"]');
+            this.addCssStyle('div[class*="avatar"] [class*="avatarDecoration"]');
         } else if (this.settings.profileCustomizations.avatarDecoration == 'profile') {
             this.addCssStyle('div[class*="user-profile-popout"] div[class*="avatar"] [class*="avatarDecoration"]');
             this.addCssStyle('div[class*="profile"] div[class*="avatar"] [class*="avatarDecoration"]');
@@ -1011,7 +998,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.addServerButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="tutorialContainer"]:not(:first-child)');
         if (this.settings.miscellaneous.discoverButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="listItem"]:has(+ div[aria-hidden="true"])');
         if (this.settings.miscellaneous.placeholderText) this.addCssStyle('[class*="placeholder"][class*="slateTextArea"]');
-        if (this.settings.miscellaneous.avatarPopover) this.addCssStyle('[class*="avatarPopover"]');
+        if (this.settings.miscellaneous.avatarPopover) this.addCssStyle('[class*="statusPopover"]');
         if (this.settings.miscellaneous.noQuests) {
             // TODO: Currently only supports the Quests in the Active Now section.
             this.addCssStyle('div[class*="inset"]:has(div[class*="promotedTag"])');
@@ -1050,6 +1037,7 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.statusNudgePopup) this.addCssStyle('div[id^="popout"]:has([nudge])');
         if (this.settings.miscellaneous.activityPanel) this.addCssStyle('div[class*="activityPanel"]');
+        if (this.settings.miscellaneous.seasonalEvents) this.addCssStyle('[href="//discord.com/snowsgiving"], [href="/activities"]');
         
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.addCssStyle('div[class*="buttons"] div:has([class*="invisibleTypingButton"])');
