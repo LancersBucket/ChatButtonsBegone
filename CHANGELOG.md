@@ -1,4 +1,8 @@
 # Changelog
+## v3.0.3 - December 12th, 2025
+### Fixed
+- Gift button not removing properly
+
 ## v3.0.2 - December 5th, 2025
 ### Fixed
 - Remove Checkpoint compatability with other plugins (OldTitlebar, Collapsible UI, etc.)

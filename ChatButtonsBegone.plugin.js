@@ -4,7 +4,7 @@
  * @description Remove annoying stuff from your Discord clients.
  * @author LancersBucket
  * @authorId 355477882082033664
- * @version 3.0.2
+ * @version 3.0.3
  * @source https://github.com/LancersBucket/ChatButtonsBegone
  */
 /*@cc_on
@@ -141,7 +141,7 @@ class EventHijacker {
 const config = {
     info: {
         name: 'ChatButtonsBegone',
-        version: '3.0.2',
+        version: '3.0.3',
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         github_raw: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/',
         branch: 'main',
@@ -868,7 +868,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.chatbar.attachButton) this.addCssStyle('[class^="attachWrapper"]');
         if (this.settings.chatbar.giftButton) {
             // New New Implementation
-            this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="container"]:has(> [class^="button"] > [class^="buttonWrapper"])');
+            this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="container"]:has([class^="button"] > [class^="buttonWrapper"])');
             // New Implementation
             this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="container"]:has(> [class^="button"] + span)');
             // Old Implementation
