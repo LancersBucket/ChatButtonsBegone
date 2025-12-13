@@ -859,11 +859,14 @@ module.exports = class ChatButtonsBegone {
     addStyles() {
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.addCssStyle('[class^="attachWrapper"]');
-        if (this.settings.chatbar.giftButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="button"]:has([class^="buttonWrapper"])');
-        if (this.settings.chatbar.gifButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > div[class^="expression"]:not(:has([class*="stickerButton"], [class*="emojiButton"]))');
-        if (this.settings.chatbar.stickerButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="expression"]:has([class*="stickerButton"])');
-        if (this.settings.chatbar.emojiButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="expression"]:has([class*="emojiButton"])');
-        if (this.settings.chatbar.appLauncherButton) this.addCssStyle('[class^="channelAppLauncher"], [class*="app-launcher-entrypoint"]');
+        if (this.settings.chatbar.giftButton) {
+            this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="container"]:has([class^="button"] [class^="buttonWrapper"])');
+            this.addCssStyle('[class^="buttons"] > [class^="button"]:has([class^="buttonWrapper"] svg>g[clip-path^="url(#__lottie_element_"])');
+        }
+        if (this.settings.chatbar.gifButton) this.addCssStyle('[class^="expression-"]:has([class^="button"] svg>g[clip-path^="url(#__lottie_element_"])');
+        if (this.settings.chatbar.stickerButton) this.addCssStyle('[class^="expression"]:has([class*="stickerButton"])');
+        if (this.settings.chatbar.emojiButton) this.addCssStyle('[class^="buttons"] > [class^="expression"]:has([class*="emojiButton"])');
+        if (this.settings.chatbar.appLauncherButton) this.addCssStyle('[class*="app-launcher-entrypoint"]');
 
         /// Message Actions ///
         if (this.settings.messageActions.quickReactions) {
@@ -880,9 +883,9 @@ module.exports = class ChatButtonsBegone {
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.addCssStyle('[class*="privateChannels"] [class*="searchBar"]');
         if (this.settings.dms.friendsTab) this.addCssStyle('[href="/channels/@me"]');
-        if (this.settings.dms.premiumTab) this.addCssStyle('[href="/store"]');
+        if (this.settings.dms.premiumTab) this.addCssStyle('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) {
-            this.addCssStyle('[href="/shop"]');
+            this.addCssStyle('li:has([href="/shop"])');
             this.addCssStyle('[class^="profileButtons"] > div:has(button:not([aria-expanded]))');
         }
         
@@ -909,7 +912,7 @@ module.exports = class ChatButtonsBegone {
 
         /// Servers ///
         if (this.settings.servers.boostBar) this.addCssStyle('div[id="channels"] > ul[class^="content"] div:has(div[class^="progress"])');
-        if (this.settings.servers.serverGuide) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="home-tab-"] + div[class^="link"])');
+        if (this.settings.servers.serverGuide) this.addCssStyle('li:has(div[id^="home-tab-"] + div[class^="link"])');
         if (this.settings.servers.eventButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="upcoming-events-"] ~ div[class^="link"])');
         if (this.settings.servers.membersButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="members-"])');
         if (this.settings.servers.channelsAndRoles) this.addCssStyle('div[class^="containerDefault"]:has(div[aria-label="Channels & Roles"])');
@@ -982,28 +985,19 @@ module.exports = class ChatButtonsBegone {
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.nitroUpsell) {
-            this.addCssStyle('[class*="upsellContainer"], [class*="premiumFeature"]');
-            this.addCssStyle('[id*="profile-customization-tab"] div[class*="container"]:has([class*="artContainer"])');
+            this.addCssStyle('[class^="settingsPage"] div[class*="container"]:has([class^="artContainer"])');
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
-            this.addCssStyle('div[class*="upsellOverlayContainer"]:has(div > [class*="disabled"])');
-            // DM List > Nitro - Offer badge
-            this.addCssStyle('div[class*="premiumTrialBadge"]');
+            this.addCssStyle('[class^="profileButtons"]>span:first-of-type');
             // Billing Settings
-            this.addCssStyle('[class*="premiumTab"], [data-tab-id="Nitro Server Boost"], [data-tab-id="Library Inventory"]');
-            // Merch
-            this.addCssStyle('[data-tab-id="merchandise"]');
-            // Appearance > Themes > Custom Themes with Nitro Advertisement
-            this.addCssStyle('div[id="appearance-tab"] div[class^="container"]:has(div[class^="iconContainer"] + div[class^="textContent"] + div[class^="buttonContainer"])');
+            this.addCssStyle('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
         }
         if (this.settings.miscellaneous.addServerButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="tutorialContainer"]:not(:first-child)');
         if (this.settings.miscellaneous.discoverButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="listItem"]:has(+ div[aria-hidden="true"])');
         if (this.settings.miscellaneous.placeholderText) this.addCssStyle('[class*="placeholder"][class*="slateTextArea"]');
         if (this.settings.miscellaneous.avatarPopover) this.addCssStyle('[class*="statusPopover"]');
-        if (this.settings.miscellaneous.noQuests) {
-            // TODO: Currently only supports the Quests in the Active Now section.
-            this.addCssStyle('div[class*="inset"]:has(div[class*="promotedTag"])');
-            this.addCssStyle('[class*="channel"] a[href="/quest-home"]');
-        }
+        
+        // TODO: Currently only supports the Quests in the Active Now section.
+        if (this.settings.miscellaneous.noQuests) this.addCssStyle('li:has([href="/quest-home"])');
 
         let listSeparatorDm = '[class^="privateChannels"] [class^="sectionDivider"]';
         let listSeparatorServer = 'nav[class^="container"] [class^="sectionDivider"], nav[class^="container"] div[style="height: 0px;"] + div[style="height: 12px;"]';
