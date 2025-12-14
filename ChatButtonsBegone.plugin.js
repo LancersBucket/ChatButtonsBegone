@@ -922,12 +922,12 @@ module.exports = class ChatButtonsBegone {
 
         /// Servers ///
         if (this.settings.servers.boostBar) this.addCssStyle('div[id="channels"] > ul[class^="content"] div:has(div[class^="progress"])');
-        if (this.settings.servers.serverGuide) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="home-tab-"] + div[class^="link"])');
+        if (this.settings.servers.serverGuide) this.addCssStyle('li:has(div[id^="home-tab-"] + div[class^="link"])');
         if (this.settings.servers.eventButton) this.addCssStyle(`li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])`);
         if (this.settings.servers.membersButton) this.addCssStyle(`li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])`);
         if (this.settings.servers.channelsAndRoles) this.addCssStyle('div[class^="containerDefault"]:has(div[aria-label="Channels & Roles"])');
         if (this.settings.servers.browseChannels) this.addCssStyle(`li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])`);
-        if (this.settings.servers.boostsButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id^="skill-trees-"])');
+        if (this.settings.servers.boostsButton) this.addCssStyle('li:has(div[id^="skill-trees-"])');
         if (this.settings.servers.inviteButton) {
             this.addCssStyle('[class^="headerContent"][class*="primaryInfo"]>span:not([class^="hiddenVisually"])');
             this.addCssStyle('[class^="linkTop"]>[class^="children"]>span:first-of-type');
@@ -943,11 +943,11 @@ module.exports = class ChatButtonsBegone {
 
         /// Voice ///
         if (this.settings.voice.invitePlaceholder) this.addCssStyle('div[class*="singleUserRoot"]');
-        if (this.settings.voice.cameraPanelButton) this.addCssStyle('[class^="actionButtons"] button:first-of-type');
-        if (this.settings.voice.screensharePanelButton) this.addCssStyle('[class^="actionButtons"] button:nth-of-type(2)');
-        if (this.settings.voice.activityPanelButton) this.addCssStyle('[class^="actionButtons"] button:nth-of-type(3)');
-        if (this.settings.voice.soundboardPanelButton) this.addCssStyle('[class^="actionButtons"] span:has(svg)');
-        if (this.settings.voice.krispButton) this.addCssStyle('[class*="voiceButtonsContainer"] button:first-of-type');
+        if (this.settings.voice.cameraPanelButton) this.addCssStyle('section[class^="panels"] [class^="actionButtons"] button:first-of-type');
+        if (this.settings.voice.screensharePanelButton) this.addCssStyle('section[class^="panels"] [class^="actionButtons"] button:nth-of-type(2)');
+        if (this.settings.voice.activityPanelButton) this.addCssStyle('section[class^="panels"] [class^="actionButtons"] button:nth-of-type(3)');
+        if (this.settings.voice.soundboardPanelButton) this.addCssStyle('section[class^="panels"] [class^="actionButtons"] span:has(svg)');
+        if (this.settings.voice.krispButton) this.addCssStyle('section[class^="panels"] [class*="voiceButtonsContainer"] button:first-of-type');
 
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.addCssStyle('[class^="backForwardButtons"]');
