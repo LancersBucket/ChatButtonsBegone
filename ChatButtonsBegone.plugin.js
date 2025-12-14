@@ -628,13 +628,6 @@ const config = {
                 },
                 {
                     type: 'switch',
-                    id: 'statusNudgePopup',
-                    name: 'Remove Status Change Nudge',
-                    note: 'Removes the status change popup if you are not set to available.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
                     id: 'activityPanel',
                     name: 'Remove Game Activity Panel',
                     note: 'Removes the current game activity panel from the user voice chat panel.',
@@ -861,7 +854,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.chatbar.attachButton) this.addCssStyle('[class^="attachWrapper"]');
         if (this.settings.chatbar.giftButton) {
             this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="container"]:has([class^="button"] [class^="buttonWrapper"])');
-            this.addCssStyle('[class^="buttons"] > [class^="button"]:has([class^="buttonWrapper"] svg>g[clip-path^="url(#__lottie_element_"])');
+            this.addCssStyle('[class^="channelTextArea"] [class^="buttons"]>[class^="button_"]');
         }
         if (this.settings.chatbar.gifButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > div[class^="expression"]:not(:has([class*="stickerButton"], [class*="emojiButton"]))');
         if (this.settings.chatbar.stickerButton) this.addCssStyle('[class^="channelTextArea"] [class^="buttons"] > [class^="expression"]:has([class*="stickerButton"])');
@@ -993,8 +986,11 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.placeholderText) this.addCssStyle('[class*="placeholder"][class*="slateTextArea"]');
         if (this.settings.miscellaneous.avatarPopover) this.addCssStyle('[class*="statusPopover"]');
         
-        // TODO: Currently only supports the Quests in the Active Now section.
-        if (this.settings.miscellaneous.noQuests) this.addCssStyle('li:has([href="/quest-home"])');
+        if (this.settings.miscellaneous.noQuests) {
+            this.addCssStyle('li:has([href="/quest-home"])');
+            // Active now section
+            this.addCssStyle('div[class*="inset"]:has(div[class*="promotedTag"])');
+        }
 
         let listSeparatorDm = '[class^="privateChannels"] [class^="sectionDivider"]';
         let listSeparatorServer = 'nav[class^="container"] [class^="sectionDivider"], nav[class^="container"] div[style="height: 0px;"] + div[style="height: 12px;"]';
@@ -1026,7 +1022,6 @@ module.exports = class ChatButtonsBegone {
             this.addCssStyle(listSeparatorServer);
         }
 
-        if (this.settings.miscellaneous.statusNudgePopup) this.addCssStyle('div[id^="popout"]:has([nudge])');
         if (this.settings.miscellaneous.activityPanel) this.addCssStyle('div[class*="activityPanel"]');
         if (this.settings.miscellaneous.seasonalEvents) this.addCssStyle('[href="//discord.com/snowsgiving"], [href="/activities"]');
         
