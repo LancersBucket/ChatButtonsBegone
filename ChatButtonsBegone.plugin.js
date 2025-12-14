@@ -247,13 +247,6 @@ const config = {
                     note: 'Removes the "Forward" button from the message actions.',
                     value: false,
                 },
-                {
-                    type: 'switch',
-                    id: 'editImage',
-                    name: 'Remove Edit Image Button',
-                    note: 'Removes the "Edit Image with Apps" button when hovering over images.',
-                    value: false,
-                },
             ],
         },
         {
@@ -871,7 +864,6 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.editButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Edit"]');
         if (this.settings.messageActions.replyButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Reply"]');
         if (this.settings.messageActions.forwardButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Forward"]');
-        if (this.settings.messageActions.editImage) this.addCssStyle('[aria-label="Edit Image with Apps"]');
         
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.addCssStyle('[class*="privateChannels"] [class*="searchBar"]');
