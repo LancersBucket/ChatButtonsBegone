@@ -1,4 +1,33 @@
 # Changelog
+## v3.1.0
+Special thanks to [@Zacam](https://github.com/Zacam) for their work on this update.
+
+### Added
+- Option to remove the "Add Reaction" button on a message with reactions [Message Actions]
+
+### Changed
+- Moved Add Server setting to [Servers]
+- Moved Discover setting to [Servers]
+- Moved Game Activity Panel setting to [Voice]
+- Combined both Snowsgiving and Discord's Birthday Tab into "Seasonal Events" [Miscellaneous]
+- Renamed "Remove Avatar Reply/React Popover" to "Remove Status Reply/React Popover" [Miscellaneous]
+
+### Fixed
+- Remove Gift button not removing properly
+- Remove App Launcher removing other chatbar buttons
+- Remove Server Guide not removing properly
+- Remove Event Button not removing properly
+- Remove Shop Buttion not removing properly
+- Remove Avatar Decoration not removing properly
+- Reduced the amount of CSS statements needed for Nitro Upsell
+- Remove Status Popover not removing properly
+
+### Removed
+- Option to remove Edit Image
+- Option to remove Snowsgiving
+- Option to remove Discord's Birthday Tab
+- Option to remove Status Nudge Popup
+
 ## v3.0.2 - December 5th, 2025
 ### Fixed
 - Remove Checkpoint compatability with other plugins (OldTitlebar, Collapsible UI, etc.)
