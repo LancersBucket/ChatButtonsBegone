@@ -247,6 +247,13 @@ const config = {
                     note: 'Removes the "Forward" button from the message actions.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'addReactionButton',
+                    name: 'Remove "Add Reaction" Button On Messages',
+                    note: 'Removes the "Add Reaction" button that appears next to messages that already has reactions.',
+                    value: false,
+                },
             ],
         },
         {
@@ -864,6 +871,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.editButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Edit"]');
         if (this.settings.messageActions.replyButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Reply"]');
         if (this.settings.messageActions.forwardButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Forward"]');
+        if (this.settings.messageActions.addReactionButton) this.addCssStyle('[class^="reactions"] span:has(>[class^="reactionBtn"])');
         
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.addCssStyle('[class*="privateChannels"] [class*="searchBar"]');
