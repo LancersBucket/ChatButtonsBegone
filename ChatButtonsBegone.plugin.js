@@ -379,15 +379,8 @@ const config = {
                 {
                     type: 'switch',
                     id: 'channelsAndRoles',
-                    name: 'Remove Channels & Roles Button',
-                    note: 'Removes the Channels & Roles button from the channel list.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'browseChannels',
-                    name: 'Remove Browse Channels Button',
-                    note: 'Removes the Browse Channels button from the channel list.',
+                    name: 'Remove Channels / Roles Button',
+                    note: 'Removes the Channels / Roles button from the channel list.',
                     value: false,
                 },
                 {
@@ -925,8 +918,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.serverGuide) this.addCssStyle('li:has(div[id^="home-tab-"] + div[class^="link"])');
         if (this.settings.servers.eventButton) this.addCssStyle(`li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])`);
         if (this.settings.servers.membersButton) this.addCssStyle(`li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])`);
-        if (this.settings.servers.channelsAndRoles) this.addCssStyle('div[class^="containerDefault"]:has(div[aria-label="Channels & Roles"])');
-        if (this.settings.servers.browseChannels) this.addCssStyle(`li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])`);
+        if (this.settings.servers.channelsAndRoles) this.addCssStyle('li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
         if (this.settings.servers.boostsButton) this.addCssStyle('li:has(div[id^="skill-trees-"])');
         if (this.settings.servers.inviteButton) {
             this.addCssStyle('[class^="headerContent"][class*="primaryInfo"]>span:not([class^="hiddenVisually"])');
@@ -1033,7 +1025,6 @@ module.exports = class ChatButtonsBegone {
                 this.settings.servers.eventButton == true &&
                 this.settings.servers.membersButton == true &&
                 this.settings.servers.channelsAndRoles == true &&
-                this.settings.servers.browseChannels == true &&
                 this.settings.servers.boostsButton == true &&
                 this.settings.servers.shopButton == true
             ) {
