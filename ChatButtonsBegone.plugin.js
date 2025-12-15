@@ -4,7 +4,7 @@
  * @description Remove annoying stuff from your Discord clients.
  * @author LancersBucket
  * @authorId 355477882082033664
- * @version 3.0.2
+ * @version 3.1.0
  * @source https://github.com/LancersBucket/ChatButtonsBegone
  */
 /*@cc_on
@@ -141,7 +141,7 @@ class EventHijacker {
 const config = {
     info: {
         name: 'ChatButtonsBegone',
-        version: '3.0.2',
+        version: '3.1.0',
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         github_raw: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/',
         branch: 'main',
@@ -404,6 +404,20 @@ const config = {
                     note: 'Removes the Activities Section from the server member list.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'addServerButton',
+                    name: 'Remove "Add a Server" Button',
+                    note: 'Removes the "Add a Server" button from the server list.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'discoverButton',
+                    name: 'Remove Discover Button',
+                    note: 'Removes the "Discover" button from the server list.',
+                    value: false,
+                },
             ],
         },
         {
@@ -453,6 +467,13 @@ const config = {
                     id: 'krispButton',
                     name: 'Remove Noise Suppression (Krisp) Button',
                     note: 'Removes the noise supression button from the user voice chat panel.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'gameActivityPanel',
+                    name: 'Remove Game Activity Panel',
+                    note: 'Removes the current game activity panel from the user voice chat panel.',
                     value: false,
                 },
             ],
@@ -565,20 +586,6 @@ const config = {
             settings: [ // Miscellaneous settings
                 {
                     type: 'switch',
-                    id: 'addServerButton',
-                    name: 'Remove "Add a Server" Button',
-                    note: 'Removes the "Add a Server" button from the server list.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'discoverButton',
-                    name: 'Remove Discover Button',
-                    note: 'Removes the "Discover" button from the server list.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
                     id: 'nitroUpsell',
                     name: 'Remove Nitro Advertising',
                     note: 'Removes Nitro advertising thoughout various parts of Discord. Note: May not remove all of them.',
@@ -625,13 +632,6 @@ const config = {
                         { label: 'Semi-Smart Remove', value: 'smart' },
                         { label: 'Remove', value: 'remove' },
                     ],
-                },
-                {
-                    type: 'switch',
-                    id: 'activityPanel',
-                    name: 'Remove Game Activity Panel',
-                    note: 'Removes the current game activity panel from the user voice chat panel.',
-                    value: false,
                 },
                 {
                     type: 'switch',
@@ -801,6 +801,21 @@ module.exports = class ChatButtonsBegone {
 					return config;
 				}
 			},
+            {
+                to: '3.1.0',
+                migrate: (config) => {
+                    config.voice.gameActivityPanel = config.miscellaneous.activityPanel;
+                    delete config.miscellaneous.activityPanel;
+                    
+                    config.servers.addServerButton = config.miscellaneous.addServerButton;
+                    delete config.miscellaneous.addServerButton;
+
+                    config.servers.discoverButton = config.miscellaneous.discoverButton;
+                    delete config.miscellaneous.discoverButton;
+
+                    return config;
+                }
+            },
         ];
 
         let currentVersion = this.settingVersion;
@@ -923,6 +938,8 @@ module.exports = class ChatButtonsBegone {
             this.addCssStyle('nav[class^="container"] > div[id="channels"] > ul > div[style="height: 84px;"]');
             this.addCssStyle('nav[class^="container"] > div[id="channels"] > ul > div[style="height: 8px;"]');
         }
+        if (this.settings.servers.addServerButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="tutorialContainer"]:not(:first-child)');
+        if (this.settings.servers.discoverButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="listItem"]:has(+ div[aria-hidden="true"])');
 
         /// Voice ///
         if (this.settings.voice.invitePlaceholder) this.addCssStyle('div[class*="singleUserRoot"]');
@@ -935,6 +952,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.activityPanelButton) this.addCssStyle('div[class^="actionButtons"] button[aria-label="Start An Activity"]');
         if (this.settings.voice.soundboardPanelButton) this.addCssStyle('div[class^="actionButtons"] span:has(button)');
         if (this.settings.voice.krispButton) this.addCssStyle('button[aria-label="Noise Suppression powered by Krisp"]');
+        if (this.settings.voice.gameActivityPanel) this.addCssStyle('div[class*="activityPanel"]');
 
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.addCssStyle('[class^="backForwardButtons"]');
@@ -981,8 +999,6 @@ module.exports = class ChatButtonsBegone {
             // Billing Settings
             this.addCssStyle('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
         }
-        if (this.settings.miscellaneous.addServerButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="tutorialContainer"]:not(:first-child)');
-        if (this.settings.miscellaneous.discoverButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="listItem"]:has(+ div[aria-hidden="true"])');
         if (this.settings.miscellaneous.placeholderText) this.addCssStyle('[class*="placeholder"][class*="slateTextArea"]');
         if (this.settings.miscellaneous.avatarPopover) this.addCssStyle('[class*="statusPopover"]');
         
@@ -1022,7 +1038,6 @@ module.exports = class ChatButtonsBegone {
             this.addCssStyle(listSeparatorServer);
         }
 
-        if (this.settings.miscellaneous.activityPanel) this.addCssStyle('div[class*="activityPanel"]');
         if (this.settings.miscellaneous.seasonalEvents) this.addCssStyle('[href="//discord.com/snowsgiving"], [href="/activities"]');
         
         /// Compatibility ///
