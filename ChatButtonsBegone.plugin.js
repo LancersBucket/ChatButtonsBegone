@@ -883,7 +883,7 @@ module.exports = class ChatButtonsBegone {
         
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.addCssStyle('[class*="privateChannels"] [class*="searchBar"]');
-        if (this.settings.dms.friendsTab) this.addCssStyle('[href="/channels/@me"]');
+        if (this.settings.dms.friendsTab) this.addCssStyle('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.addCssStyle('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) {
             this.addCssStyle('li:has([href="/shop"])');
@@ -891,11 +891,11 @@ module.exports = class ChatButtonsBegone {
         }
         
         if (this.settings.dms.DMHeader == 'hideButton') {
-            this.addCssStyle('h2 > [aria-label="Create DM"]');
+            this.addCssStyle('h2 > div[class^="privateChannelRecipientsInviteButtonIconContainer"]');
         } else if (this.settings.dms.DMHeader == 'hideText') {
-            this.addCssStyle('[class*="privateChannelsHeaderContainer"] > [class*="headerText"]');
+            this.addCssStyle('[class^="privateChannelsHeaderContainer"] > [class^="headerText"]');
         } else if (this.settings.dms.DMHeader == 'remove') {
-            this.addCssStyle('[class*="privateChannelsHeaderContainer"]');
+            this.addCssStyle('[class^="privateChannelsHeaderContainer"]');
         }
         
         if (this.settings.dms.activeNow == 'simplify') {
@@ -912,10 +912,10 @@ module.exports = class ChatButtonsBegone {
         }
 
         /// Servers ///
-        if (this.settings.servers.boostBar) this.addCssStyle('div[id="channels"] > ul[class^="content"] div:has(div[class^="progress"])');
+        if (this.settings.servers.boostBar) this.addCssStyle('div[id="channels"] > ul[class^="content"] div[class*="containerWithMargin"]:has(div[class^="progress"])');
         if (this.settings.servers.serverGuide) this.addCssStyle('li:has(div[id^="home-tab-"] + div[class^="link"])');
-        if (this.settings.servers.eventButton) this.addCssStyle(`li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])`);
-        if (this.settings.servers.membersButton) this.addCssStyle(`li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])`);
+        if (this.settings.servers.eventButton) this.addCssStyle('li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
+        if (this.settings.servers.membersButton) this.addCssStyle('li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
         if (this.settings.servers.channelsAndRoles) this.addCssStyle('li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
         if (this.settings.servers.boostsButton) this.addCssStyle('li:has(div[id^="skill-trees-"])');
         if (this.settings.servers.inviteButton) {
@@ -925,11 +925,7 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.servers.shopButton) this.addCssStyle('div[class^="containerDefault"]:has(div[id*="shop-"] + div[class^="link"])');
         if (this.settings.servers.activitySection) this.addCssStyle('[class^="membersGroup"]:has([role="button"]), [class^="member"] [class^="container"]:has([class^="badges"])');
-        if (this.settings.servers.serverBanner) {
-            this.addCssStyle('nav[class^="container"] > div[class*="bannerVisible"] > div[class^="animatedContainer"]');
-            this.addCssStyle('nav[class^="container"] > div[id="channels"] > ul > div[style="height: 84px;"]');
-            this.addCssStyle('nav[class^="container"] > div[id="channels"] > ul > div[style="height: 8px;"]');
-        }
+        if (this.settings.servers.serverBanner) this.addCssStyle('nav[class^="container"] > div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"])');
         if (this.settings.servers.addServerButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="tutorialContainer"]:not(:first-child)');
         if (this.settings.servers.discoverButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="listItem"]:has(+ div[aria-hidden="true"])');
 
@@ -981,6 +977,7 @@ module.exports = class ChatButtonsBegone {
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.nitroUpsell) {
+            // Settings "Edit Profile" Page
             this.addCssStyle('[class^="settingsPage"] div[class*="container"]:has([class^="artContainer"])');
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.addCssStyle('[class^="profileButtons"]>span:first-of-type');
