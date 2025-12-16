@@ -254,6 +254,13 @@ const config = {
                     note: 'Removes the "Add Reaction" button that appears next to messages that already has reactions.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'removeMore',
+                    name: 'Remove "More" Button',
+                    note: 'Removes the "More" (three dots) button from the message actions.',
+                    value: false,
+                },
             ],
         },
         {
@@ -871,16 +878,28 @@ module.exports = class ChatButtonsBegone {
 
         /// Message Actions ///
         if (this.settings.messageActions.quickReactions) {
-            this.addCssStyle('[class^="message"] [class^="buttonsInner"] [class^="hoverBarButton"]:has([class*="buttonContent"])');
+            this.addCssStyle('[class^="hoverBarButton"]:has(>div[class^="icon"]>div[class^="emoji"])');
             this.addCssStyle('[class^="message"] [class^="buttonsInner"] [class^="separator"]');
         }
         if (this.settings.messageActions.superReactionButton) this.addCssStyle('[id="emoji-picker-tab-panel"] [class^="header"] div:has([for="burst-reaction-toggle-button"])');
-        if (this.settings.messageActions.reactionButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Add Reaction"]');
-        if (this.settings.messageActions.editButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Edit"]');
-        if (this.settings.messageActions.replyButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Reply"]');
-        if (this.settings.messageActions.forwardButton) this.addCssStyle('[class^="hoverBarButton"][aria-label="Forward"]');
+        if (this.settings.messageActions.reactionButton) this.addCssStyle('[class^="hoverBarButton"]:has(svg>path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])');
+        if (this.settings.messageActions.editButton) this.addCssStyle('[class^="hoverBarButton"]:has(svg>path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])');
+        if (this.settings.messageActions.replyButton) this.addCssStyle('[class^="hoverBarButton"]:has(svg>path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])');
+        if (this.settings.messageActions.forwardButton) this.addCssStyle('[class^="hoverBarButton"]:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])');
         if (this.settings.messageActions.addReactionButton) this.addCssStyle('[class^="reactions"] span:has(>[class^="reactionBtn"])');
+        if (this.settings.messageActions.removeMore) this.addCssStyle('[class^="hoverBarButton"]:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])');
         
+        if (this.settings.messageActions.quickReactions == true &&
+            this.settings.messageActions.reactionButton == true &&
+            this.settings.messageActions.editButton == true &&
+            this.settings.messageActions.replyButton == true &&
+            this.settings.messageActions.forwardButton == true &&
+            this.settings.messageActions.addReactionButton == true &&
+            this.settings.messageActions.removeMore == true
+        ) {
+            this.addCssStyle('div[data-list-item-id^="chat-messages"]>[class^="buttonContainer"]');
+        }
+                
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.addCssStyle('[class*="privateChannels"] [class*="searchBar"]');
         if (this.settings.dms.friendsTab) this.addCssStyle('li:has([href="/channels/@me"])');
