@@ -1,4 +1,20 @@
 # Changelog
+## v3.2.0
+Special thanks to [@Zacam](https://github.com/Zacam) for their work on this update.
+
+### Added
+- Option to remove the "More" button in message actions
+
+### Changed
+- Merged Browse Channels into Channels / Roles [Servers]
+
+### Fixed
+- Message Action options now works for all languages
+- DM Header's Hide Button option now works for all languages [Direct Messages]
+- Server options now works for all languages
+- Voice options now works for all languages
+- Hide Badges now works for all languages [Profile Customizations]
+
 ## v3.1.0
 Special thanks to [@Zacam](https://github.com/Zacam) for their work on this update.
 

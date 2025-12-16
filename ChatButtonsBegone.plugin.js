@@ -4,7 +4,7 @@
  * @description Remove annoying stuff from your Discord clients.
  * @author LancersBucket
  * @authorId 355477882082033664
- * @version 3.1.0
+ * @version 3.2.0
  * @source https://github.com/LancersBucket/ChatButtonsBegone
  */
 /*@cc_on
@@ -141,7 +141,7 @@ class EventHijacker {
 const config = {
     info: {
         name: 'ChatButtonsBegone',
-        version: '3.1.0',
+        version: '3.2.0',
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         github_raw: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/',
         branch: 'main',
@@ -812,6 +812,15 @@ module.exports = class ChatButtonsBegone {
 
                     config.servers.discoverButton = config.miscellaneous.discoverButton;
                     delete config.miscellaneous.discoverButton;
+
+                    return config;
+                }
+            },
+            {
+                to: '3.2.0',
+                migrate: (config) => {
+                    config.servers.channelsAndRoles = config.servers.channelsAndRoles || config.servers.browseChannels;
+                    delete config.servers.browseChannels;
 
                     return config;
                 }
