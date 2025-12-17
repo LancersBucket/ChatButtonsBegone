@@ -13,6 +13,9 @@ It doesn't stop at chat buttons though, it also adds the ability to remove vario
 ## Changelog
 See [CHANGELOG.md](./CHANGELOG.md) for details on version history.
 
+## Contributing
+Looking to contribute to Chat Buttons Begone? Check out our contributing guidelines here: [CONTRIBUTING.md](./CONTRIBUTING.md)
+
 ## Special Thanks
 Special thanks to the following people:
 - [Zacam](https://github.com/Zacam) for their work in a variety of ways for this plugin
