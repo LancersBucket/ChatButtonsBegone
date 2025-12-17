@@ -1,4 +1,8 @@
 # Changelog
+## v3.1.1
+### Fixed
+- Plugin now works with newer Discord clients (Updated CSS class hashing)
+
 ## v3.1.0
 Special thanks to [@Zacam](https://github.com/Zacam) for their work on this update.
 
