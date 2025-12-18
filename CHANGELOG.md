@@ -15,7 +15,11 @@ Special thanks to [@Zacam](https://github.com/Zacam) for their work on this upda
 - Voice options now works for all languages
 - Hide Badges now works for all languages [Profile Customizations]
 
-## v3.1.0
+## v3.1.1 - December 17th, 2025
+### Fixed
+- Plugin now works with newer Discord clients (Updated CSS class hashing)
+
+## v3.1.0 - December 15th, 2025
 Special thanks to [@Zacam](https://github.com/Zacam) for their work on this update.
 
 ### Added
