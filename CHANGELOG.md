@@ -1,4 +1,8 @@
 # Changelog
+## v3.1.2 - December 18th, 2025
+### Fixed
+- Removed Gift button not removing properly
+
 ## v3.1.1 - December 17th, 2025
 ### Fixed
 - Plugin now works with newer Discord clients (Updated CSS class hashing)

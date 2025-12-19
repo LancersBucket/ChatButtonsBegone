@@ -4,7 +4,7 @@
  * @description Remove annoying stuff from your Discord clients.
  * @author LancersBucket
  * @authorId 355477882082033664
- * @version 3.1.1
+ * @version 3.1.2
  * @source https://github.com/LancersBucket/ChatButtonsBegone
  */
 /*@cc_on
@@ -141,7 +141,7 @@ class EventHijacker {
 const config = {
     info: {
         name: 'ChatButtonsBegone',
-        version: '3.1.1',
+        version: '3.1.2',
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         github_raw: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/',
         branch: 'main',
@@ -869,7 +869,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.chatbar.attachButton) this.addCssStyle('[class*="attachWrapper"]');
         if (this.settings.chatbar.giftButton) {
             this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="container"]:has([class*="button"] [class*="buttonWrapper"])');
-            this.addCssStyle('[class*="channelTextArea"] [class*="buttons"]>[class*="button_"]');
+            this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="button"]:not([class$="buttonContainer"])');
         }
         if (this.settings.chatbar.gifButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > div[class*="expression"]:not(:has([class*="stickerButton"], [class*="emojiButton"]))');
         if (this.settings.chatbar.stickerButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="expression"]:has([class*="stickerButton"])');
@@ -920,18 +920,18 @@ module.exports = class ChatButtonsBegone {
 
         /// Servers ///
         if (this.settings.servers.boostBar) this.addCssStyle('div[id="channels"] > ul[class*="content"] div:has(div[class*="progress"])');
-        if (this.settings.servers.serverGuide) this.addCssStyle('li:has(div[id*="home-tab-"] + div[class*="link"])');
-        if (this.settings.servers.eventButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="upcoming-events-"] ~ div[class*="link"])');
-        if (this.settings.servers.membersButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="members-"])');
+        if (this.settings.servers.serverGuide) this.addCssStyle('li:has(div[id*="home-tab"] + div[class*="link"])');
+        if (this.settings.servers.eventButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="upcoming-events"] ~ div[class*="link"])');
+        if (this.settings.servers.membersButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="members"])');
         if (this.settings.servers.channelsAndRoles) this.addCssStyle('div[class*="containerDefault"]:has(div[aria-label="Channels & Roles"])');
         if (this.settings.servers.browseChannels) this.addCssStyle('div[class*="containerDefault"]:has(div[aria-label="Browse Channels"] + div[class*="link"])');
-        if (this.settings.servers.boostsButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="skill-trees-"])');
+        if (this.settings.servers.boostsButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="skill-trees"])');
         if (this.settings.servers.inviteButton) {
             this.addCssStyle('[class*="headerContent"][class*="primaryInfo"]>span:not([class*="hiddenVisually"])');
             this.addCssStyle('[class*="linkTop"]>[class*="children"]>span:first-of-type');
             this.addCssStyle('[class*="linkTop"]>[class*="children"]>span[class*="hiddenVisually"]:first-of-type');
         }
-        if (this.settings.servers.shopButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="shop-"] + div[class*="link"])');
+        if (this.settings.servers.shopButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="shop"] + div[class*="link"])');
         if (this.settings.servers.activitySection) this.addCssStyle('[class*="membersGroup"]:has([role="button"]), [class*="member"] [class*="container"]:has([class*="badges"])');
         if (this.settings.servers.serverBanner) {
             this.addCssStyle('nav[class*="container"] > div[class*="bannerVisible"] > div[class*="animatedContainer"]');
