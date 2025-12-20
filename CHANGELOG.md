@@ -1,9 +1,10 @@
 # Changelog
-## v3.2.0
+## v3.2.0 - December 20th, 2025
 Special thanks to [@Zacam](https://github.com/Zacam) for their work on this update.
 
 ### Added
-- Option to remove the "More" button in message actions
+- Option to remove the "More" button in Message Actions [Message Actions]
+- Option to remove the "Add Reaction" button that appears next to messages that already has reactions. [Message Actions]
 
 ### Changed
 - Merged Browse Channels into Channels / Roles [Servers]

@@ -883,9 +883,10 @@ module.exports = class ChatButtonsBegone {
             this.settings.chatbar.emojiButton &&
             this.settings.chatbar.appLauncherButton
         ) {
-            // If all Chat Buttons are removed, hide the entire button container
+            // If all Chat Buttons are removed, hide the entire button container instead
             this.addCssStyle('[class*="channelTextArea"] [class*="buttons"]');
         } else {
+            // Otherwise, hide individual buttons
             if (this.settings.chatbar.giftButton) {
                 this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="container"]:has([class*="button"] [class*="buttonWrapper"])');
                 this.addCssStyle('[class*="channelTextArea"] [class*="buttons"]>[class*="button_"]');
@@ -895,7 +896,7 @@ module.exports = class ChatButtonsBegone {
             if (this.settings.chatbar.emojiButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="expression"]:has([class*="emojiButton"])');
             if (this.settings.chatbar.appLauncherButton) this.addCssStyle('[class*="app-launcher-entrypoint"]');
         }
-        
+
         /// Message Actions ///
         if (this.settings.messageActions.quickReactions &&
             this.settings.messageActions.reactionButton &&
@@ -904,9 +905,10 @@ module.exports = class ChatButtonsBegone {
             this.settings.messageActions.forwardButton &&
             this.settings.messageActions.removeMore
         ) {
-            // If all Message Actions are removed, hide the entire button container
+            // If all Message Actions are removed, hide the entire button container instead
             this.addCssStyle('div[data-list-item-id*="chat-messages"]>[class*="buttonContainer"]');
         } else {
+            // Otherwise, hide individual buttons
             if (this.settings.messageActions.quickReactions) {
                 this.addCssStyle('[class*="hoverBarButton"]:has(>div[class*="icon"]>div[class*="emoji"])');
                 this.addCssStyle('[class*="message"] [class*="buttonsInner"] [class*="separator"]');
