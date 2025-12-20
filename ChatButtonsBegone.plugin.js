@@ -4,7 +4,7 @@
  * @description Remove annoying stuff from your Discord clients.
  * @author LancersBucket
  * @authorId 355477882082033664
- * @version 3.1.2
+ * @version 3.2.0
  * @source https://github.com/LancersBucket/ChatButtonsBegone
  */
 /*@cc_on
@@ -141,7 +141,7 @@ class EventHijacker {
 const config = {
     info: {
         name: 'ChatButtonsBegone',
-        version: '3.1.2',
+        version: '3.2.0',
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         github_raw: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/',
         branch: 'main',
@@ -252,6 +252,13 @@ const config = {
                     id: 'addReactionButton',
                     name: 'Remove "Add Reaction" Button On Messages',
                     note: 'Removes the "Add Reaction" button that appears next to messages that already has reactions.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'removeMore',
+                    name: 'Remove "More" Button',
+                    note: 'Removes the "More" (three dots) button from the message actions.',
                     value: false,
                 },
             ],
@@ -365,15 +372,8 @@ const config = {
                 {
                     type: 'switch',
                     id: 'channelsAndRoles',
-                    name: 'Remove Channels & Roles Button',
-                    note: 'Removes the Channels & Roles button from the channel list.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'browseChannels',
-                    name: 'Remove Browse Channels Button',
-                    note: 'Removes the Browse Channels button from the channel list.',
+                    name: 'Remove Channels / Roles Button',
+                    note: 'Removes the Channels / Roles button from the channel list.',
                     value: false,
                 },
                 {
@@ -816,6 +816,15 @@ module.exports = class ChatButtonsBegone {
                     return config;
                 }
             },
+            {
+                to: '3.2.0',
+                migrate: (config) => {
+                    config.servers.channelsAndRoles = config.servers.channelsAndRoles || config.servers.browseChannels;
+                    delete config.servers.browseChannels;
+
+                    return config;
+                }
+            },
         ];
 
         let currentVersion = this.settingVersion;
@@ -867,30 +876,56 @@ module.exports = class ChatButtonsBegone {
     addStyles() {
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.addCssStyle('[class*="attachWrapper"]');
-        if (this.settings.chatbar.giftButton) {
-            this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="container"]:has([class*="button"] [class*="buttonWrapper"])');
-            this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="button"]:not([class$="buttonContainer"])');
+
+        if (this.settings.chatbar.giftButton &&
+            this.settings.chatbar.gifButton &&
+            this.settings.chatbar.stickerButton &&
+            this.settings.chatbar.emojiButton &&
+            this.settings.chatbar.appLauncherButton
+        ) {
+            // If all Chat Buttons are removed, hide the entire button container instead
+            this.addCssStyle('[class*="channelTextArea"] [class*="buttons"]');
+        } else {
+            // Otherwise, hide individual buttons
+            if (this.settings.chatbar.giftButton) {
+                this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="container"]:has([class*="button"] [class*="buttonWrapper"])');
+                this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="button"]:not([class$="buttonContainer"])');
+            }
+            if (this.settings.chatbar.gifButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > div[class*="expression"]:not(:has([class*="stickerButton"], [class*="emojiButton"]))');
+            if (this.settings.chatbar.stickerButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="expression"]:has([class*="stickerButton"])');
+            if (this.settings.chatbar.emojiButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="expression"]:has([class*="emojiButton"])');
+            if (this.settings.chatbar.appLauncherButton) this.addCssStyle('[class*="app-launcher-entrypoint"]');
         }
-        if (this.settings.chatbar.gifButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > div[class*="expression"]:not(:has([class*="stickerButton"], [class*="emojiButton"]))');
-        if (this.settings.chatbar.stickerButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="expression"]:has([class*="stickerButton"])');
-        if (this.settings.chatbar.emojiButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="expression"]:has([class*="emojiButton"])');
-        if (this.settings.chatbar.appLauncherButton) this.addCssStyle('[class*="app-launcher-entrypoint"]');
 
         /// Message Actions ///
-        if (this.settings.messageActions.quickReactions) {
-            this.addCssStyle('[class*="message"] [class*="buttonsInner"] [class*="hoverBarButton"]:has([class*="buttonContent"])');
-            this.addCssStyle('[class*="message"] [class*="buttonsInner"] [class*="separator"]');
+        if (this.settings.messageActions.quickReactions &&
+            this.settings.messageActions.reactionButton &&
+            this.settings.messageActions.editButton &&
+            this.settings.messageActions.replyButton &&
+            this.settings.messageActions.forwardButton &&
+            this.settings.messageActions.removeMore
+        ) {
+            // If all Message Actions are removed, hide the entire button container instead
+            this.addCssStyle('div[data-list-item-id*="chat-messages"]>[class*="buttonContainer"]');
+        } else {
+            // Otherwise, hide individual buttons
+            if (this.settings.messageActions.quickReactions) {
+                this.addCssStyle('[class*="hoverBarButton"]:has(>div[class*="icon"]>div[class*="emoji"])');
+                this.addCssStyle('[class*="message"] [class*="buttonsInner"] [class*="separator"]');
+            }
+            if (this.settings.messageActions.reactionButton) this.addCssStyle('[class*="hoverBarButton"]:has(svg>path[d*="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])');
+            if (this.settings.messageActions.editButton) this.addCssStyle('[class*="hoverBarButton"]:has(svg>path[d*="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])');
+            if (this.settings.messageActions.replyButton) this.addCssStyle('[class*="hoverBarButton"]:has(svg>path[d*="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])');
+            if (this.settings.messageActions.forwardButton) this.addCssStyle('[class*="hoverBarButton"]:has(svg>path[d*="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])');
+            if (this.settings.messageActions.removeMore) this.addCssStyle('[class*="hoverBarButton"]:has(svg>path[d*="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])');
         }
+
         if (this.settings.messageActions.superReactionButton) this.addCssStyle('[id="emoji-picker-tab-panel"] [class*="header"] div:has([for="burst-reaction-toggle-button"])');
-        if (this.settings.messageActions.reactionButton) this.addCssStyle('[class*="hoverBarButton"][aria-label="Add Reaction"]');
-        if (this.settings.messageActions.editButton) this.addCssStyle('[class*="hoverBarButton"][aria-label="Edit"]');
-        if (this.settings.messageActions.replyButton) this.addCssStyle('[class*="hoverBarButton"][aria-label="Reply"]');
-        if (this.settings.messageActions.forwardButton) this.addCssStyle('[class*="hoverBarButton"][aria-label="Forward"]');
         if (this.settings.messageActions.addReactionButton) this.addCssStyle('[class*="reactions"] span:has(>[class*="reactionBtn"])');
-        
+
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.addCssStyle('[class*="privateChannels"] [class*="searchBar"]');
-        if (this.settings.dms.friendsTab) this.addCssStyle('[href="/channels/@me"]');
+        if (this.settings.dms.friendsTab) this.addCssStyle('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.addCssStyle('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) {
             this.addCssStyle('li:has([href="/shop"])');
@@ -898,7 +933,7 @@ module.exports = class ChatButtonsBegone {
         }
         
         if (this.settings.dms.DMHeader == 'hideButton') {
-            this.addCssStyle('h2 > [aria-label="Create DM"]');
+            this.addCssStyle('h2 > div[class*="privateChannelRecipientsInviteButtonIconContainer"]');
         } else if (this.settings.dms.DMHeader == 'hideText') {
             this.addCssStyle('[class*="privateChannelsHeaderContainer"] > [class*="headerText"]');
         } else if (this.settings.dms.DMHeader == 'remove') {
@@ -919,13 +954,12 @@ module.exports = class ChatButtonsBegone {
         }
 
         /// Servers ///
-        if (this.settings.servers.boostBar) this.addCssStyle('div[id="channels"] > ul[class*="content"] div:has(div[class*="progress"])');
+        if (this.settings.servers.boostBar) this.addCssStyle('div[id="channels"] > ul[class*="content"] div[class*="containerWithMargin"]:has(div[class*="progress"])');
         if (this.settings.servers.serverGuide) this.addCssStyle('li:has(div[id*="home-tab"] + div[class*="link"])');
-        if (this.settings.servers.eventButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="upcoming-events"] ~ div[class*="link"])');
-        if (this.settings.servers.membersButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="members"])');
-        if (this.settings.servers.channelsAndRoles) this.addCssStyle('div[class*="containerDefault"]:has(div[aria-label="Channels & Roles"])');
-        if (this.settings.servers.browseChannels) this.addCssStyle('div[class*="containerDefault"]:has(div[aria-label="Browse Channels"] + div[class*="link"])');
-        if (this.settings.servers.boostsButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="skill-trees"])');
+        if (this.settings.servers.eventButton) this.addCssStyle('li:has(svg>path[d*="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
+        if (this.settings.servers.membersButton) this.addCssStyle('li:has(svg>path[d*="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
+        if (this.settings.servers.channelsAndRoles) this.addCssStyle('li:has(svg>path[d*="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
+        if (this.settings.servers.boostsButton) this.addCssStyle('li:has(div[id*="skill-trees"])');
         if (this.settings.servers.inviteButton) {
             this.addCssStyle('[class*="headerContent"][class*="primaryInfo"]>span:not([class*="hiddenVisually"])');
             this.addCssStyle('[class*="linkTop"]>[class*="children"]>span:first-of-type');
@@ -933,25 +967,17 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.servers.shopButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="shop"] + div[class*="link"])');
         if (this.settings.servers.activitySection) this.addCssStyle('[class*="membersGroup"]:has([role="button"]), [class*="member"] [class*="container"]:has([class*="badges"])');
-        if (this.settings.servers.serverBanner) {
-            this.addCssStyle('nav[class*="container"] > div[class*="bannerVisible"] > div[class*="animatedContainer"]');
-            this.addCssStyle('nav[class*="container"] > div[id="channels"] > ul > div[style="height: 84px;"]');
-            this.addCssStyle('nav[class*="container"] > div[id="channels"] > ul > div[style="height: 8px;"]');
-        }
+        if (this.settings.servers.serverBanner) this.addCssStyle('nav[class*="container"] > div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"])');
         if (this.settings.servers.addServerButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="tutorialContainer"]:not(:first-child)');
         if (this.settings.servers.discoverButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="listItem"]:has(+ div[aria-hidden="true"])');
 
         /// Voice ///
         if (this.settings.voice.invitePlaceholder) this.addCssStyle('div[class*="singleUserRoot"]');
-
-        if (this.settings.voice.cameraPanelButton) {
-            this.addCssStyle('div[class*="actionButtons"] button[aria-label="Turn On Camera"]');
-            this.addCssStyle('div[class*="actionButtons"] button[aria-label="Turn Off Camera"]');
-        }
-        if (this.settings.voice.screensharePanelButton) this.addCssStyle('div[class*="actionButtons"] button[aria-label="Share Your Screen"]');
-        if (this.settings.voice.activityPanelButton) this.addCssStyle('div[class*="actionButtons"] button[aria-label="Start An Activity"]');
-        if (this.settings.voice.soundboardPanelButton) this.addCssStyle('div[class*="actionButtons"] span:has(button)');
-        if (this.settings.voice.krispButton) this.addCssStyle('button[aria-label="Noise Suppression powered by Krisp"]');
+        if (this.settings.voice.cameraPanelButton) this.addCssStyle('section[class*="panels"] [class*="actionButtons"] button:first-of-type');
+        if (this.settings.voice.screensharePanelButton) this.addCssStyle('section[class*="panels"] [class*="actionButtons"] button:nth-of-type(2)');
+        if (this.settings.voice.activityPanelButton) this.addCssStyle('section[class*="panels"] [class*="actionButtons"] button:nth-of-type(3)');
+        if (this.settings.voice.soundboardPanelButton) this.addCssStyle('section[class*="panels"] [class*="actionButtons"] span:has(svg)');
+        if (this.settings.voice.krispButton) this.addCssStyle('section[class*="panels"] [class*="voiceButtonsContainer"] button:first-of-type');
         if (this.settings.voice.gameActivityPanel) this.addCssStyle('div[class*="activityPanel"]');
 
         /// Title Bar ///
@@ -988,11 +1014,12 @@ module.exports = class ChatButtonsBegone {
             this.addCssStyle('[class*="avatarDecoration"]');
         }
 
-        if (this.settings.profileCustomizations.hideBadges) this.addCssStyle('div[aria-label="User Badges"]');
+        if (this.settings.profileCustomizations.hideBadges) this.addCssStyle('[class*="tags"] > [class*="container"]');
         if (this.settings.profileCustomizations.profileEffects) this.addCssStyle('[class*="profileEffects"] img[class*="effect"]')
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.nitroUpsell) {
+            // Settings "Edit Profile" Page
             this.addCssStyle('[class*="settingsPage"] div[class*="container"]:has([class*="artContainer"])');
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.addCssStyle('[class*="profileButtons"]>span:first-of-type');
@@ -1016,20 +1043,19 @@ module.exports = class ChatButtonsBegone {
             this.addCssStyle(listSeparatorServer);
         } else if (this.settings.miscellaneous.listSeparator == 'smart') {
             if (
-                this.settings.dms.friendsTab == true &&
-                this.settings.dms.premiumTab == true &&
-                this.settings.dms.discordShopTab == true
+                this.settings.dms.friendsTab &&
+                this.settings.dms.premiumTab &&
+                this.settings.dms.discordShopTab
             ) {
                 this.addCssStyle(listSeparatorDm);
             }
             if (
-                this.settings.servers.serverGuide == true &&
-                this.settings.servers.eventButton == true &&
-                this.settings.servers.membersButton == true &&
-                this.settings.servers.channelsAndRoles == true &&
-                this.settings.servers.browseChannels == true &&
-                this.settings.servers.boostsButton == true &&
-                this.settings.servers.shopButton == true
+                this.settings.servers.serverGuide &&
+                this.settings.servers.eventButton &&
+                this.settings.servers.membersButton &&
+                this.settings.servers.channelsAndRoles &&
+                this.settings.servers.boostsButton &&
+                this.settings.servers.shopButton
             ) {
                 this.addCssStyle(listSeparatorServer);
             }

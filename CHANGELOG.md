@@ -1,4 +1,21 @@
 # Changelog
+## v3.2.0 - December 20th, 2025
+Special thanks to [@Zacam](https://github.com/Zacam) for their work on this update.
+
+### Added
+- Option to remove the "More" button in Message Actions [Message Actions]
+- Option to remove the "Add Reaction" button that appears next to messages that already has reactions. [Message Actions]
+
+### Changed
+- Merged Browse Channels into Channels / Roles [Servers]
+
+### Fixed
+- Message Action options now works for all languages
+- DM Header's Hide Button option now works for all languages [Direct Messages]
+- Server options now works for all languages
+- Voice options now works for all languages
+- Hide Badges now works for all languages [Profile Customizations]
+
 ## v3.1.2 - December 18th, 2025
 ### Fixed
 - Removed Gift button not removing properly
