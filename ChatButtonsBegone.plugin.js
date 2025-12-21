@@ -4,7 +4,7 @@
  * @description Remove annoying stuff from your Discord clients.
  * @author LancersBucket
  * @authorId 355477882082033664
- * @version 3.2.0
+ * @version 3.2.1
  * @source https://github.com/LancersBucket/ChatButtonsBegone
  */
 /*@cc_on
@@ -141,7 +141,7 @@ class EventHijacker {
 const config = {
     info: {
         name: 'ChatButtonsBegone',
-        version: '3.2.0',
+        version: '3.2.1',
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         github_raw: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/',
         branch: 'main',
@@ -888,7 +888,7 @@ module.exports = class ChatButtonsBegone {
         } else {
             // Otherwise, hide individual buttons
             if (this.settings.chatbar.giftButton) {
-                this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="container"]:has([class*="button"] [class*="buttonWrapper"])');
+                this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="container"]:has([class*="button"] [class*="buttonWrapper"]) svg:not([class*="sendIcon"])');
                 this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > [class*="button"]:not([class$="buttonContainer"])');
             }
             if (this.settings.chatbar.gifButton) this.addCssStyle('[class*="channelTextArea"] [class*="buttons"] > div[class*="expression"]:not(:has([class*="stickerButton"], [class*="emojiButton"]))');
@@ -967,7 +967,10 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.servers.shopButton) this.addCssStyle('div[class*="containerDefault"]:has(div[id*="shop"] + div[class*="link"])');
         if (this.settings.servers.activitySection) this.addCssStyle('[class*="membersGroup"]:has([role="button"]), [class*="member"] [class*="container"]:has([class*="badges"])');
-        if (this.settings.servers.serverBanner) this.addCssStyle('nav[class*="container"] > div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"])');
+        if (this.settings.servers.serverBanner) {
+            this.addCssStyle('nav[class*="container"] > div[class*="bannerVisible"] > div[class*="animatedContainer"]');
+            this.addCssStyle('nav[class*="container"] > div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
+        }
         if (this.settings.servers.addServerButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="tutorialContainer"]:not(:first-child)');
         if (this.settings.servers.discoverButton) this.addCssStyle('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="listItem"]:has(+ div[aria-hidden="true"])');
 

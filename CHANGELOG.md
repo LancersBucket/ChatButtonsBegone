@@ -1,4 +1,9 @@
 # Changelog
+## v3.2.1 - December 21st, 2025
+### Fixed
+- Remove Server Banner not removing properly (thanks [@Zacam](https://github.com/Zacam)!)
+- Remove Gift Button erroneously removing the accessibility send button
+
 ## v3.2.0 - December 20th, 2025
 Special thanks to [@Zacam](https://github.com/Zacam) for their work on this update.
 
@@ -18,7 +23,7 @@ Special thanks to [@Zacam](https://github.com/Zacam) for their work on this upda
 
 ## v3.1.2 - December 18th, 2025
 ### Fixed
-- Removed Gift button not removing properly
+- Remove Gift Button not removing properly
 
 ## v3.1.1 - December 17th, 2025
 ### Fixed
