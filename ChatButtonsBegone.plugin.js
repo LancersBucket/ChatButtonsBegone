@@ -140,11 +140,8 @@ class EventHijacker {
 
 const config = {
     info: {
-        name: 'ChatButtonsBegone',
+        // Needed to migrate from auto-updater versions
         version: '3.2.2',
-        github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        github_raw: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/',
-        branch: 'main',
     },
     defaultConfig: [
         {
@@ -658,32 +655,6 @@ const config = {
                 },
             ],
         },
-        {
-            type: 'category',
-            name: 'Core Settings',
-            id: 'core',
-            collapsible: true,
-            shown: false,
-            settings: [ // Core settings
-                {
-                    type: 'switch',
-                    id: 'checkForUpdates',
-                    name: 'Check for Updates',
-                    note: 'Check for updates on startup.',
-                    value: true,
-                },
-                {
-                    type: 'dropdown',
-                    id: 'branch',
-                    name: 'Update Channel',
-                    note: 'Change which update channel to use for updates. Note: Please restart the plugin to update to the new channel.',
-                    options: [
-                        { label: 'main', value: 'main' },
-                        { label: 'desktop-land-and-learn (/b)', value: 'desktop-land-and-learn' },
-                    ],
-                }
-            ],
-        },
     ],
 };
 
@@ -693,12 +664,6 @@ module.exports = class ChatButtonsBegone {
         this.styler = new Styler(meta.name);
         this.eventHijacker = new EventHijacker(meta.name);
         this.settings = this.api.Data.load('settings') || this.defaultSettings();
-
-        if (!this.api.Plugins.isEnabled(meta.name)) {
-            if (this.settings.core.checkForUpdates) {
-                this.checkForUpdates();
-            }
-        }
 
         this.settingVersion = this.api.Data.load('settingVersion') || '0.0.0';
 
@@ -1073,78 +1038,8 @@ module.exports = class ChatButtonsBegone {
         this.eventHijacker.setSetting('singleAttachButton', this.settings.miscellaneous.singleAttachButton);
     }
 
-    async checkForUpdates() {
-        try {
-            // Check the latest version on remote
-            const request = new XMLHttpRequest();
-            
-            // Ensure branch is set
-            if (this.settings.core.branch != 'main' && this.settings.core.branch != 'desktop-land-and-learn') {
-                this.settings.core.branch = 'main';
-                this.api.Data.save('settings', this.settings);
-            }
-            let link = config.info.github_raw + this.settings.core.branch + '/ChatButtonsBegone.plugin.js';
-            request.open('GET', link);
-            request.onload = () => {
-                if (request.status === 200) {
-                    const remoteVersion = request.responseText.match(/version: ['"]([\d.\/\w]+)['"]/i)?.[1];
-                    const localVersion = config.info.version;
-
-                    if (remoteVersion && config.info.branch !== this.settings.core.branch) {
-                        this.api.Logger.info(`Update channel changed to ${this.settings.core.branch}.`);
-                        BdApi.UI.showConfirmationModal('ChatButtonsBegone Update Channel Change',
-                            `A new version of ChatButtonsBegone (**v${remoteVersion}**) on branch '${this.settings.core.branch}' is available!\n\n` +
-                            `You are on **v${localVersion}** on branch '${config.info.branch}'. Please see the [changelog](${config.info.github}/blob/${this.settings.core.branch}/CHANGELOG.md) for a list of changes.\n\n` +
-                            `Would you like to update now?`,
-                            {
-                                confirmText: 'Update',
-                                onConfirm: () => {
-                                    this.api.Logger.info('Updating plugin...');
-                                    require('fs').writeFileSync(
-                                        require('path').join(BdApi.Plugins.folder, `${config.info.name}.plugin.js`),
-                                        request.responseText
-                                    );
-                                    this.api.Logger.info('Plugin updated! BetterDiscord will now reload the plugin.');
-                                }
-                            }
-                        );
-                    }
-                    else if (remoteVersion && this.compareVersions(remoteVersion, localVersion) > 0) {
-                        BdApi.UI.showConfirmationModal('ChatButtonsBegone Update',
-                            `A new version of ChatButtonsBegone (**v${remoteVersion}**) is available!\n\n` +
-                            `You are on **v${localVersion}**. Please see the [changelog](${config.info.github}/blob/${this.settings.core.branch}/CHANGELOG.md) for a list of changes.\n\n` +
-                            `Would you like to update now?`,
-                            {
-                                confirmText: 'Update',
-                                onConfirm: () => {
-                                    this.api.Logger.info('Updating plugin...');
-                                    require('fs').writeFileSync(
-                                        require('path').join(BdApi.Plugins.folder, `${config.info.name}.plugin.js`),
-                                        request.responseText
-                                    );
-                                    this.api.Logger.info('Plugin updated! BetterDiscord will now reload the plugin.');
-                                }
-                            }
-                        );
-                    } else {
-                        this.api.Logger.info('No updates available.');
-                    }
-                } else {
-                    this.api.Logger.error(`Failed to check for updates. Status: ${request.status}`);
-                }
-            };
-            request.send();
-        } catch (error) {
-            this.api.Logger.error(`Failed to check for updates: ${error}`);
-        }
-    }
-
     async start() {
         this.ensureDefaultSettings();
-
-        if (this.settings.core.checkForUpdates) {
-            await this.checkForUpdates();
-        }
 
         try {
             this.addStyles();
