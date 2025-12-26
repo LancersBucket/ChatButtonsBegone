@@ -1026,8 +1026,6 @@ module.exports = class ChatButtonsBegone {
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add('div[class*="buttons"] div:has([class*="invisibleTypingButton"])');
 
-        this.api.Logger.info(`${this.styler.index} styles loaded.`);
-
         /// Event Hijacker ///
         this.eventHijacker.setSetting('singleAttachButton', this.settings.miscellaneous.singleAttachButton);
     }
@@ -1049,7 +1047,6 @@ module.exports = class ChatButtonsBegone {
     stop() {
         this.styler.purge();
         this.eventHijacker.stopMutationObserver();
-        this.api.Logger.info('All styles purged.');
     }
 
     getSettingsPanel() {
