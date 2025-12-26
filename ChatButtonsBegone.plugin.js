@@ -150,7 +150,7 @@ const config = {
             id: 'chatbar',
             collapsible: true,
             shown: true,
-            settings: [ // Chat Bar settings
+            settings: [
                 {
                     type: 'switch',
                     id: 'attachButton',
@@ -201,7 +201,7 @@ const config = {
             id: 'messageActions',
             collapsible: true,
             shown: false,
-            settings: [ // Message Actions settings
+            settings: [
                 {
                     type: 'switch',
                     id: 'quickReactions',
@@ -266,7 +266,7 @@ const config = {
             id: 'dms',
             collapsible: true,
             shown: false,
-            settings: [ // DM settings
+            settings: [
                 {
                     type: 'switch',
                     id: 'quickSwitcher',
@@ -330,7 +330,7 @@ const config = {
             id: 'servers',
             collapsible: true,
             shown: false,
-            settings: [ // Server settings
+            settings: [
                 {
                     type: 'switch',
                     id: 'serverBanner',
@@ -423,7 +423,7 @@ const config = {
             id: 'voice',
             collapsible: true,
             shown: false,
-            settings: [ // Voice settings
+            settings: [
                 {
                     type: 'switch',
                     id: 'invitePlaceholder',
@@ -481,7 +481,7 @@ const config = {
             id: 'toolbar',
             collapsible: true,
             shown: false,
-            settings: [ // Title Bar settings
+            settings: [
                 {
                     type: 'switch',
                     id: 'navButtons',
@@ -525,7 +525,7 @@ const config = {
             id: 'profileCustomizations',
             collapsible: true,
             shown: false,
-            settings: [ // Profile Customizations settings
+            settings: [
                 {
                     type: 'switch',
                     id: 'namePlate',
@@ -580,7 +580,7 @@ const config = {
             id: 'miscellaneous',
             collapsible: true,
             shown: false,
-            settings: [ // Miscellaneous settings
+            settings: [
                 {
                     type: 'switch',
                     id: 'nitroUpsell',
@@ -645,7 +645,7 @@ const config = {
             id: 'compatibility',
             collapsible: true,
             shown: false,
-            settings: [ // Compatibility settings
+            settings: [
                 {
                     type: 'switch',
                     id: 'invisibleTypingButton',
@@ -690,7 +690,6 @@ module.exports = class ChatButtonsBegone {
     }
 
     migrateConfig() {
-        // List of migrations in order
         const migrations = [
             {
                 to: '2.12.0',
