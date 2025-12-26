@@ -140,6 +140,7 @@ class EventHijacker {
 
 const config = {
     info: {
+        github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         // Needed to migrate from auto-updater versions
         version: '3.2.2',
     },
