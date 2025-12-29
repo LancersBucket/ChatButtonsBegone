@@ -36,101 +36,6 @@ class Styler {
 	}
 }
 
-class EventHijacker {
-    constructor() {
-        this.mutationObserver = null;
-        this.events = Array(1).fill([null, null]);
-
-        this.settings = {
-            singleAttachButton: false,
-        }
-    }
-
-    setSetting(key, value) {
-        if (key in this.settings) {
-            this.settings[key] = value;
-        }
-        this.stopMutationObserver();
-        this.startMutationObserver();
-    }
-
-    startMutationObserver() {
-        if (this.mutationObserver) this.mutationObserver.disconnect();
-
-        this.mutationObserver = new MutationObserver((mutationsList) => {
-            let buttonAdded = false;
-            for (const mutation of mutationsList) {
-                for (const node of mutation.addedNodes) {
-                    if (node.nodeType === 1) {
-                        if (
-                            (node.matches && node.matches('[class*="attachButton"][role=button]')) ||
-                            (node.querySelector && node.querySelector('[class*="attachButton"][role=button]'))
-                        ) {
-                            buttonAdded = true;
-                            break;
-                        }
-                    }
-                }
-                if (buttonAdded) break;
-            }
-            if (buttonAdded) {
-                this.removeEvents();
-                this.addEvents();
-            }
-        });
-        this.mutationObserver.observe(document.body, { childList: true, subtree: true });
-
-        this.removeEvents();
-        this.addEvents();
-    }
-
-    stopMutationObserver() {
-        if (this.mutationObserver) this.mutationObserver.disconnect();
-        this.mutationObserver = null;
-        this.removeEvents();
-    }
-
-    async addEvents() {
-        // Attach Button (Event 0)
-        if (this.settings.singleAttachButton) {
-            const attachButtonElement = document.querySelector('[class*="attachButton"][role=button]');
-            const attachButtonHandler = (e) => {
-                var target = e.target;
-                if (target) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    
-                    var handleClick = async () => {
-                        var doubleClickEvent = new MouseEvent('dblclick', {
-                            bubbles: true,
-                            cancelable: false,
-                            view: window,
-                        });
-                        attachButtonElement.dispatchEvent(doubleClickEvent);
-                    }
-                    handleClick();
-                }
-            };
-            this.events[0] = [attachButtonElement, attachButtonHandler];
-            attachButtonElement.addEventListener('click', attachButtonHandler, { capture: true });
-        }
-    }
-
-    removeEvents() {
-        if (!this.events) return;
-        for (const [el, handler] of this.events) {
-            try {
-                el.removeEventListener('click', handler, { capture: true });
-            } catch {}
-            try {
-                el.removeEventListener('click', handler, { capture: false });
-            } catch {}
-        }
-        this.events = [];
-    }
-}
-
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
@@ -603,13 +508,6 @@ const config = {
                     value: false,
                 },
                 {
-                    type: 'switch',
-                    id: 'singleAttachButton',
-                    name: 'Single Click File Select',
-                    note: 'Changes the file select in the Attach Button to a single click instead of a double click. Note: This will remove the ability to create a poll.',
-                    value: false,
-                },
-                {
                     type: 'dropdown',
                     id: 'listSeparator',
                     name: 'Remove DM/Server Channel List Separator',
@@ -655,7 +553,6 @@ module.exports = class ChatButtonsBegone {
     constructor(meta) {
         this.api = new BdApi(meta.name);
         this.styler = new Styler(meta.name);
-        this.eventHijacker = new EventHijacker(meta.name);
         this.settings = this.api.Data.load('settings') || this.defaultSettings();
 
         this.settingVersion = this.api.Data.load('settingVersion') || '0.0.0';
@@ -1018,9 +915,6 @@ module.exports = class ChatButtonsBegone {
         
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add('div[class*="buttons"] div:has([class*="invisibleTypingButton"])');
-
-        /// Event Hijacker ///
-        this.eventHijacker.setSetting('singleAttachButton', this.settings.miscellaneous.singleAttachButton);
     }
 
     async start() {
@@ -1028,7 +922,6 @@ module.exports = class ChatButtonsBegone {
 
         try {
             this.addStyles();
-            this.eventHijacker.startMutationObserver();
         } catch (error) {
             this.api.Logger.error(`Failed to apply styles. Please report the following error to ${config.info.github}/issues :\n\n${error}`);
             BdApi.UI.showToast('ChatButtonsBegone encountered an error! Check the console for more information.',
@@ -1039,7 +932,6 @@ module.exports = class ChatButtonsBegone {
 
     stop() {
         this.styler.purge();
-        this.eventHijacker.stopMutationObserver();
     }
 
     getSettingsPanel() {
