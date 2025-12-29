@@ -1,19 +1,12 @@
 /**
  * @name ChatButtonsBegone
- * @displayName ChatButtonsBegone
- * @description Remove annoying stuff from your Discord clients.
  * @author LancersBucket
- * @authorId 355477882082033664
+ * @description Remove annoying stuff from your Discord clients.
  * @version 3.2.2
- * @source https://github.com/LancersBucket/ChatButtonsBegone
+ * @authorId 355477882082033664
+ * @website https://github.com/LancersBucket/ChatButtonsBegone
+ * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
-/*@cc_on
-@if (@_jscript)
-
-var shell = WScript.CreateObject('WScript.Shell');
-shell.Popup('It looks like you\'ve mistakenly tried to run me directly. That\'s not how you install plugins. \n(So don\'t do that!)', 0, 'I\'m a plugin for BetterDiscord', 0x30);
-
-@else@*/
 class Styler {
     constructor(pluginName) {
 		this.pluginName = pluginName;
@@ -141,7 +134,6 @@ class EventHijacker {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        // Needed to migrate from auto-updater versions
         version: '3.2.2',
     },
     defaultConfig: [
@@ -1091,4 +1083,3 @@ module.exports = class ChatButtonsBegone {
         });
     }
 };
-/*@end@*/
