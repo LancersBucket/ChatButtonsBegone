@@ -8,31 +8,23 @@
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
 class Styler {
-    constructor(pluginName) {
+    constructor(pluginName, api) {
 		this.pluginName = pluginName;
-		this.index = 1;
-		this.createParent();
-	}
-
-	createParent() {
-		this.parent = document.createElement('style');
-		this.parent.id = `${this.pluginName}`;
-		document.querySelector('bd-styles').appendChild(this.parent);
+        this.api = api;
+        this.styles = [];
 	}
 
 	add(selector) {
-		if (!this.parent) this.createParent();
-
-		this.element = document.createElement('style');
-		this.element.id = `style-${this.index++}`;
-		this.element.textContent = `${selector} { display: none !important; }`;
-		this.parent.appendChild(this.element);
+        this.styles.push(selector);
 	}
 
+    apply() {
+        this.api.DOM.addStyle(this.pluginName, `${this.styles.join(', ')} { display: none !important; }`);
+    }
+
 	purge() {
-		this.parent.remove();
-		this.parent = null;
-		this.index = 0;
+        this.api.DOM.removeStyle(this.pluginName);
+        this.styles = [];
 	}
 }
 
@@ -552,7 +544,7 @@ const config = {
 module.exports = class ChatButtonsBegone {
     constructor(meta) {
         this.api = new BdApi(meta.name);
-        this.styler = new Styler(meta.name);
+        this.styler = new Styler(meta.name, this.api);
         this.settings = this.api.Data.load('settings') || {};
 
         this.settingVersion = this.api.Data.load('settingVersion') || '0.0.0';
@@ -915,6 +907,8 @@ module.exports = class ChatButtonsBegone {
         
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add('div[class*="buttons"] div:has([class*="invisibleTypingButton"])');
+
+        this.styler.apply();
     }
 
     async start() {
