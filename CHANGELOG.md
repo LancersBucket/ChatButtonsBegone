@@ -1,5 +1,16 @@
 # Changelog
-## v3.2.2
+## v3.3.0
+### Fixed
+- Crash when launching the plugin with no config file
+
+### Removed
+- Auto-updater
+    - ChatButtonsBegone is on the Better Discord Store! Updates will now be handled through Better Discord.
+    - You can no longer switch between update branches
+- Option to enable Single Click File Select
+    - Please use [SingleClickFileSelect](https://github.com/LancersBucket/SingleClickFileSelect) if you need this functionality
+
+## v3.2.2 - December 25th, 2025
 ### Fixed
 - Auto-updater not updating if the branch key is invalid
 
