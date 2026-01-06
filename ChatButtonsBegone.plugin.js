@@ -305,6 +305,13 @@ const config = {
                     note: 'Removes the "Discover" button from the server list.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'newIndicator',
+                    name: 'Remove Top/Bottom "New" indicator',
+                    note: 'Removes the "New" indicator that appears at the top or bottom of the server list when there are new notifications.',
+                    value: false,
+                },
             ],
         },
         {
@@ -361,6 +368,13 @@ const config = {
                     id: 'gameActivityPanel',
                     name: 'Remove Game Activity Panel',
                     note: 'Removes the current game activity panel from the user voice chat panel.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'voiceAvatars',
+                    name: 'Remove Server Voice Chat Avatars',
+                    note: 'Removes the avatars of users in voice chats in servers.',
                     value: false,
                 },
             ],
@@ -809,6 +823,7 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.servers.addServerButton) this.styler.add('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="tutorialContainer"]:not(:first-child)');
         if (this.settings.servers.discoverButton) this.styler.add('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="listItem"]:has(+ div[aria-hidden="true"])');
+        if (this.settings.servers.newIndicator) this.styler.add('nav div[class*="-unreadMentionsIndicator"]');
 
         /// Voice ///
         if (this.settings.voice.invitePlaceholder) this.styler.add('div[class*="singleUserRoot"]');
@@ -818,6 +833,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.soundboardPanelButton) this.styler.add('section[class*="panels"] [class*="actionButtons"] span:has(svg)');
         if (this.settings.voice.krispButton) this.styler.add('section[class*="panels"] [class*="voiceButtonsContainer"] button:first-of-type');
         if (this.settings.voice.gameActivityPanel) this.styler.add('div[class*="activityPanel"]');
+        if (this.settings.voice.voiceAvatars) this.styler.add('div[class*="voiceuser"] div[class*="userAvatar"]');
 
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.styler.add('[class*="backForwardButtons"]');
