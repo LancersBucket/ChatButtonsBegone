@@ -1,5 +1,10 @@
 # Changelog
 ## v3.3.0
+### Added
+- Option to remove the Game Collection / Wishlist in the profile popout [Profile Customizations]
+- Option to remove "new" indicator in the server rail [Servers]
+- Option to remove avatars from the server voice chat list [Voice]
+
 ### Fixed
 - Crash when launching the plugin with no config file
 

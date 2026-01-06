@@ -475,6 +475,20 @@ const config = {
                     id: 'profileEffects',
                     name: 'Remove Profile Effects',
                     note: 'Removes profile effects (Animated Overlays) from user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'dropdown',
+                    id: 'gameCollectionWishlist',
+                    name: 'Game Collection/Wishlist',
+                    note: 'Controls the visibility of the Game Collection and Wishlist sections in user profiles. "Show" shows both sections, "Remove Collection" removes the Game Collection section, "Remove Wishlist" removes the Wishlist section, "Remove Both" removes both sections.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove Collection', value: 'collection' },
+                        { label: 'Remove Wishlist', value: 'wishlist' },
+                        { label: 'Remove Both', value: 'both' },
+                    ]
                 },
             ],
         },
@@ -871,6 +885,15 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.profileCustomizations.hideBadges) this.styler.add('[class*="tags"] > [class*="container"]');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add('[class*="profileEffects"] img[class*="effect"]')
+
+        if (this.settings.profileCustomizations.gameCollectionWishlist == 'collection') {
+            this.styler.add('[class*="user-profile-popout"] section[class*="-container"]:has(>ul[class*="cardsList"])');
+        } else if (this.settings.profileCustomizations.gameCollectionWishlist == 'wishlist') {
+            this.styler.add('[class*="user-profile-popout"] [class*="-overlay"][class*="-container"]');
+        } else if (this.settings.profileCustomizations.gameCollectionWishlist == 'both') {
+            this.styler.add('[class*="user-profile-popout"] section[class*="-container"]:has(>ul[class*="cardsList"])');
+            this.styler.add('[class*="user-profile-popout"] [class*="-overlay"][class*="-container"]');
+        }
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.nitroUpsell) {
