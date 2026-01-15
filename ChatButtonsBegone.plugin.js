@@ -551,6 +551,110 @@ module.exports = class ChatButtonsBegone {
 
         this.ensureDefaultSettings();
         this.migrateConfig();
+
+        [
+            // Chat Bar
+            this.attachButton,
+            this.chatBarButtons,
+
+            // Message Actions
+            this.messageActionButtons,
+            this.addReactionButton,
+
+            // Direct Messages
+            this.DMList,
+            this.DMHeader,
+            this.activeNowColumn,
+            this.activeNowCards,
+            this.activeNowEmpty,
+
+            // Servers
+            this.serverSideBar,
+            this.boostBar,
+            this.headerInviteButton,
+            this.channelListInviteButton,
+            this.serverActivitySection,
+            this.serverActivitySectionCards,
+            this.serverBanner,
+            this.addServerDiscoverButton,
+
+            // Voice
+            this.vcScreen,
+            this.vcButtons,
+            this.vcKrisp,
+            this.vcActivityPanel,
+
+            // Title Bar
+            this.backForwardButtons,
+            this.titleBarTrailing,
+            this.upperToolbar,
+            
+            // Profile Customizations
+            this.namePlate,
+            this.dmEntry,
+            this.clanTagProfile,
+            this.clanTagChiplet,
+            this.clanTagChipletServer,
+            this.avatar,
+            this.profileBadges,
+            this.profileEffects,
+
+            // Miscellaneous
+            this.shopArt,
+            this.profileShop,
+            this.txtPlaceholder,
+            this.profilePopover,
+            this.promotedQuest,
+            this.dmDivider,
+            this.channelDivider,
+        ] = this.api.Webpack.getBulk(
+            { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
+            { filter: this.api.Webpack.Filters.byKeys('channelTextArea', 'buttons') }, // Buttons Global
+            
+            { filter: this.api.Webpack.Filters.byKeys('hoverBarButton') }, // Message Action Buttons
+            { filter: this.api.Webpack.Filters.byKeys('reactions', 'reactionBtn') }, // Message Add Reaction Button
+            
+            { filter: this.api.Webpack.Filters.byKeys('privateChannels') }, // DM List
+            { filter: this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer') }, // DM Header
+            { filter: this.api.Webpack.Filters.byKeys('nowPlayingColumn') }, // Active Now Column
+            { filter: this.api.Webpack.Filters.byKeys('activitySection') }, // Active Now Cards
+            { filter: this.api.Webpack.Filters.byKeys('emptyCard') },  // Active Now Empty Card
+
+            { filter: this.api.Webpack.Filters.byKeys('guilds', 'content') }, // Server Sidebar
+            { filter: this.api.Webpack.Filters.byKeys('containerWithMargin', 'progressContainer') }, // Server Boost Bar
+            { filter: this.api.Webpack.Filters.byKeys('inviteButton') }, // Header Invite Button
+            { filter: this.api.Webpack.Filters.byKeys('linkTop','children') }, // Channel List Invite Button
+            { filter: this.api.Webpack.Filters.byKeys('membersGroup') }, // Server Activity Section
+            { filter: this.api.Webpack.Filters.byKeys('container', 'usesCardRows') }, // Server Activity Section Cards
+            { filter: this.api.Webpack.Filters.byKeys('bannerVisible', 'animatedContainer') }, // Server Banner
+            { filter: this.api.Webpack.Filters.byKeys('tutorialContainer') }, // Add Server / Discover Button
+
+            { filter: this.api.Webpack.Filters.byKeys('singleUserRoot') }, // Invite Placeholder
+            { filter: this.api.Webpack.Filters.byKeys('container', 'actionButtons') }, // VC Buttons
+            { filter: this.api.Webpack.Filters.byKeys('voiceButtonsContainer') }, // Krisp Button
+            { filter: this.api.Webpack.Filters.byKeys('activityPanel') }, // VC Activity Panel
+
+            { filter: this.api.Webpack.Filters.byKeys('backForwardButtons') }, // Back/Forward Buttons
+            { filter: this.api.Webpack.Filters.byKeys('trailing', 'title') }, // Trailing Buttons
+            { filter: this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar') }, // OldTitleBar Toolbar Buttons
+
+            { filter: this.api.Webpack.Filters.byKeys('nameplated','container') }, // Nameplates
+            { filter: this.api.Webpack.Filters.byKeys('interactive','interactiveSelected') }, // DM Entry Item
+            { filter: this.api.Webpack.Filters.byKeys('guildTagContainer') }, // Profile Clan Tag
+            { filter: this.api.Webpack.Filters.byKeys('clanTagChiplet') }, // Clan Tag Chiplet
+            { filter: this.api.Webpack.Filters.byKeys('chipletContainerInner','chipletContainerInline') }, // Clan Tag Chiplet in Server
+            { filter: this.api.Webpack.Filters.byKeys('avatarDecorationContainer') }, // Avatar Decoration
+            { filter: this.api.Webpack.Filters.byKeys('tags','usernameRow') }, // Profile Badges
+            { filter: this.api.Webpack.Filters.byKeys('profileEffects') }, // Profile Effects
+
+            { filter: this.api.Webpack.Filters.byKeys('settingsPage') }, // Profile Shop Art
+            { filter: this.api.Webpack.Filters.byKeys('profileButtons') }, // Profile Shop Button
+            { filter: this.api.Webpack.Filters.byKeys('slateTextArea') }, // Placeholder Text
+            { filter: this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover') }, // Profile Status Popover
+            { filter: this.api.Webpack.Filters.byKeys('promotedTag') }, // Active Now Quests Promotion
+            { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
+            { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') } // Server Channel Divider
+        );
     }
 
     compareVersions(a, b) {
@@ -711,168 +815,156 @@ module.exports = class ChatButtonsBegone {
 
     addStyles() {
         /// Chat Buttons ///
-        if (this.settings.chatbar.attachButton) this.styler.add('[class*="attachWrapper"]');
-
-        if (this.settings.chatbar.giftButton &&
-            this.settings.chatbar.gifButton &&
-            this.settings.chatbar.stickerButton &&
-            this.settings.chatbar.emojiButton &&
-            this.settings.chatbar.appLauncherButton
-        ) {
-            // If all Chat Buttons are removed, hide the entire button container instead
-            this.styler.add('[class*="channelTextArea"] [class*="buttons"]');
-        } else {
-            // Otherwise, hide individual buttons
-            if (this.settings.chatbar.giftButton) this.styler.add('[class*="channelTextArea"] [class*="buttons"] > [class*="button"]:not([class$="buttonContainer"])');
-            if (this.settings.chatbar.gifButton) this.styler.add('[class*="channelTextArea"] [class*="buttons"] > div[class*="expression"]:not(:has([class*="stickerButton"], [class*="emojiButton"]))');
-            if (this.settings.chatbar.stickerButton) this.styler.add('[class*="channelTextArea"] [class*="buttons"] > [class*="expression"]:has([class*="stickerButton"])');
-            if (this.settings.chatbar.emojiButton) this.styler.add('[class*="channelTextArea"] [class*="buttons"] > [class*="expression"]:has([class*="emojiButton"])');
-            if (this.settings.chatbar.appLauncherButton) this.styler.add('[class*="app-launcher-entrypoint"]');
-        }
+        if (this.settings.chatbar.attachButton) this.styler.add(`.${this.attachButton.attachWrapper}`);
+        if (this.settings.chatbar.giftButton) this.styler.add(`.${this.chatBarButtons.buttons} > .${this.chatBarButtons.button}:not(.expression-picker-chat-input-button)`);
+        if (this.settings.chatbar.gifButton) this.styler.add(`.expression-picker-chat-input-button:not(:has(.${this.chatBarButtons.stickerButton}, .${this.chatBarButtons.emojiButton.split(' ')[0]}))`);
+        if (this.settings.chatbar.stickerButton) this.styler.add(`.expression-picker-chat-input-button:has(.${this.chatBarButtons.stickerButton})`);
+        if (this.settings.chatbar.emojiButton) this.styler.add(`.expression-picker-chat-input-button:has(.${this.chatBarButtons.emojiButton.split(' ')[0]})`);
+        if (this.settings.chatbar.appLauncherButton) this.styler.add('.app-launcher-entrypoint');
 
         /// Message Actions ///
-        if (this.settings.messageActions.quickReactions &&
-            this.settings.messageActions.reactionButton &&
-            this.settings.messageActions.editButton &&
-            this.settings.messageActions.replyButton &&
-            this.settings.messageActions.forwardButton &&
-            this.settings.messageActions.removeMore
-        ) {
-            // If all Message Actions are removed, hide the entire button container instead
-            this.styler.add('div[data-list-item-id*="chat-messages"]>[class*="buttonContainer"]');
-        } else {
-            // Otherwise, hide individual buttons
-            if (this.settings.messageActions.quickReactions) {
-                this.styler.add('[class*="hoverBarButton"]:has(>div[class*="icon"]>div[class*="emoji"])');
-                this.styler.add('[class*="message"] [class*="buttonsInner"] [class*="separator"]');
-            }
-            if (this.settings.messageActions.reactionButton) this.styler.add('[class*="hoverBarButton"]:has(svg>path[d*="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])');
-            if (this.settings.messageActions.editButton) this.styler.add('[class*="hoverBarButton"]:has(svg>path[d*="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])');
-            if (this.settings.messageActions.replyButton) this.styler.add('[class*="hoverBarButton"]:has(svg>path[d*="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])');
-            if (this.settings.messageActions.forwardButton) this.styler.add('[class*="hoverBarButton"]:has(svg>path[d*="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])');
-            if (this.settings.messageActions.removeMore) this.styler.add('[class*="hoverBarButton"]:has(svg>path[d*="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])');
+        if (this.settings.messageActions.quickReactions) {
+            this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(>.${this.messageActionButtons.icon}>[data-type="emoji"])`);
+            this.styler.add(`.${this.messageActionButtons.separator}`);
         }
+        if (this.settings.messageActions.reactionButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])`);
+        if (this.settings.messageActions.editButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])`);
+        if (this.settings.messageActions.replyButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])`);
+        if (this.settings.messageActions.forwardButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`);
+        if (this.settings.messageActions.removeMore) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`);
 
-        if (this.settings.messageActions.superReactionButton) this.styler.add('[id="emoji-picker-tab-panel"] [class*="header"] div:has([for="burst-reaction-toggle-button"])');
-        if (this.settings.messageActions.addReactionButton) this.styler.add('[class*="reactions"] span:has(>[class*="reactionBtn"])');
+        // if (this.settings.messageActions.superReactionButton) this.styler.add('[id="emoji-picker-tab-panel"] [class*="header"] div:has([for="burst-reaction-toggle-button"])');
+        if (this.settings.messageActions.addReactionButton) this.styler.add(`span:has(>.${this.addReactionButton.reactionBtn})`);
 
         /// Direct Messages ///
-        if (this.settings.dms.quickSwitcher) this.styler.add('[class*="privateChannels"] [class*="searchBar"]');
+        if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class$="searchBar"]`);
         if (this.settings.dms.friendsTab) this.styler.add('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.styler.add('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) {
             this.styler.add('li:has([href="/shop"])');
-            this.styler.add('[class*="profileButtons"] > div:has(button:not([aria-expanded]))');
         }
         
         if (this.settings.dms.DMHeader == 'hideButton') {
-            this.styler.add('h2 > div[class*="privateChannelRecipientsInviteButtonIconContainer"]');
+            this.styler.add(`.${this.DMHeader.privateChannelRecipientsInviteButtonIconContainer}`)
         } else if (this.settings.dms.DMHeader == 'hideText') {
-            this.styler.add('[class*="privateChannelsHeaderContainer"] > [class*="headerText"]');
+            this.styler.add(`.${this.DMHeader.headerText}`);
         } else if (this.settings.dms.DMHeader == 'remove') {
-            this.styler.add('[class*="privateChannelsHeaderContainer"]');
+            this.styler.add(`.${this.DMHeader.privateChannelsHeaderContainer}`);
         }
         
-        if (this.settings.dms.activeNow == 'simplify') {
-            this.styler.add('div[class*="inset"]:has(div[class*="twitchSection"])');
-            this.styler.add('div[class*="inset"]:has(div[class*="activitySection"])');
+        if (this.settings.dms.activeNow == 'simplify') { 
+            this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.twitchSectionPreview})`);
+            this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.activitySection})`);
         } else if (this.settings.dms.activeNow == 'empty') {
-            this.styler.add('[class*="nowPlayingColumn"]:has([class*="emptyCard"])');
+            this.styler.add(`.${this.activeNowColumn}:has(.${this.activeNowEmpty.emptyCard})`);
         } else if (this.settings.dms.activeNow == 'simplifyempty') {
-            this.styler.add('div[class*="inset"]:has(div[class*="twitchSection"])');
-            this.styler.add('div[class*="inset"]:has(div[class*="activitySection"])');
-            this.styler.add('[class*="nowPlayingColumn"]:has([class*="emptyCard"])');
+            this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.twitchSectionPreview})`);
+            this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.activitySection})`);
+            this.styler.add(`.${this.activeNowColumn.nowPlayingColumn}:has(.${this.activeNowEmpty.emptyCard})`);
         } else if (this.settings.dms.activeNow == 'remove') {
-            this.styler.add('[class*="nowPlayingColumn"]');
+            this.styler.add(`.${this.activeNowColumn.nowPlayingColumn}`);
         }
 
         /// Servers ///
-        if (this.settings.servers.boostBar) this.styler.add('div[id="channels"] > ul[class*="content"] div[class*="containerWithMargin"]:has(div[class*="progress"])');
-        if (this.settings.servers.serverGuide) this.styler.add('li:has(div[id*="home-tab"] + div[class*="link"])');
-        if (this.settings.servers.eventButton) this.styler.add('li:has(svg>path[d*="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
-        if (this.settings.servers.membersButton) this.styler.add('li:has(svg>path[d*="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
-        if (this.settings.servers.channelsAndRoles) this.styler.add('li:has(svg>path[d*="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
+        if (this.settings.servers.boostBar) this.styler.add(`.${this.boostBar.containerWithMargin}`);
+        if (this.settings.servers.serverGuide) this.styler.add('li:has(div[id*="home-tab"])');
+        if (this.settings.servers.eventButton) this.styler.add('li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
+        if (this.settings.servers.membersButton) this.styler.add('li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
+        if (this.settings.servers.channelsAndRoles) this.styler.add('li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
         if (this.settings.servers.boostsButton) this.styler.add('li:has(div[id*="skill-trees"])');
         if (this.settings.servers.inviteButton) {
-            this.styler.add('[class*="headerContent"][class*="primaryInfo"]>span:not([class*="hiddenVisually"])');
-            this.styler.add('[class*="linkTop"]>[class*="children"]>span:first-of-type');
-            this.styler.add('[class*="linkTop"]>[class*="children"]>span[class*="hiddenVisually"]:first-of-type');
+            this.styler.add(`.${this.headerInviteButton.inviteButton}`);
+            this.styler.add(`.${this.channelListInviteButton.linkTop}>.${this.channelListInviteButton.children}>span:first-of-type`);
         }
-        if (this.settings.servers.shopButton) this.styler.add('div[class*="containerDefault"]:has(div[id*="shop"] + div[class*="link"])');
-        if (this.settings.servers.activitySection) this.styler.add('[class*="membersGroup"]:has([role="button"]), [class*="member"] [class*="container"]:has([class*="badges"])');
+        if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
+        if (this.settings.servers.activitySection) {
+            this.styler.add(`.${this.serverActivitySection.membersGroup}:has([role="button"])`);
+            this.styler.add(`div > div .${this.serverActivitySectionCards.usesCardRows}`)
+        }
         if (this.settings.servers.serverBanner) {
-            this.styler.add('nav[class*="container"] > div[class*="bannerVisible"] > div[class*="animatedContainer"]');
-            this.styler.add('nav[class*="container"] > div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
+            this.styler.add(`.${this.serverBanner.animatedContainer}`);
+            this.styler.add('div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
         }
-        if (this.settings.servers.addServerButton) this.styler.add('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="tutorialContainer"]:not(:first-child)');
-        if (this.settings.servers.discoverButton) this.styler.add('div[class*="itemsContainer"] > div[data-direction="vertical"] > div[class*="listItem"]:has(+ div[aria-hidden="true"])');
+        if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}:not(:first-child)`);
+        if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.listItem}:has(+ div[aria-hidden="true"])`);
 
         /// Voice ///
-        if (this.settings.voice.invitePlaceholder) this.styler.add('div[class*="singleUserRoot"]');
-        if (this.settings.voice.cameraPanelButton) this.styler.add('section[class*="panels"] [class*="actionButtons"] button:first-of-type');
-        if (this.settings.voice.screensharePanelButton) this.styler.add('section[class*="panels"] [class*="actionButtons"] button:nth-of-type(2)');
-        if (this.settings.voice.activityPanelButton) this.styler.add('section[class*="panels"] [class*="actionButtons"] button:nth-of-type(3)');
-        if (this.settings.voice.soundboardPanelButton) this.styler.add('section[class*="panels"] [class*="actionButtons"] span:has(svg)');
-        if (this.settings.voice.krispButton) this.styler.add('section[class*="panels"] [class*="voiceButtonsContainer"] button:first-of-type');
-        if (this.settings.voice.gameActivityPanel) this.styler.add('div[class*="activityPanel"]');
+        if (this.settings.voice.invitePlaceholder) this.styler.add(`div[class$="-row"]:has(.${this.vcScreen.singleUserRoot})`);
+        if (this.settings.voice.cameraPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} > button:first-of-type`);
+        if (this.settings.voice.screensharePanelButton) this.styler.add(`.${this.vcButtons.actionButtons} > button:nth-of-type(2)`);
+        if (this.settings.voice.activityPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} > button:nth-of-type(3)`);
+        if (this.settings.voice.soundboardPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} span:has(svg)`);
+        if (this.settings.voice.krispButton) this.styler.add(`.${this.vcKrisp.voiceButtonsContainer} button:first-of-type`);
+        if (this.settings.voice.gameActivityPanel) this.styler.add(`.${this.vcActivityPanel.activityPanel}`);
 
         /// Title Bar ///
-        if (this.settings.toolbar.navButtons) this.styler.add('[class*="backForwardButtons"]');
-        if (this.settings.toolbar.locator) this.styler.add('[class*="base"]>[class*="bar"]>[class*="title"]');
-        if (this.settings.toolbar.checkpointButton) this.styler.add('[class*="button"]:has(>svg>path[d*="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])');
-        if (this.settings.toolbar.helpButton) this.styler.add('a[href="https://support.discord.com"]');
-        if (this.settings.toolbar.inboxButton) this.styler.add('[class*="clickable"]:has(svg>path[d*="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])');
+        if (this.settings.toolbar.navButtons) this.styler.add(`.${this.backForwardButtons.backForwardButtons}`);
+        if (this.settings.toolbar.locator) this.styler.add(`.${this.titleBarTrailing.title}`);
+        if (this.settings.toolbar.checkpointButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(>svg>path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])`);
+        if (this.settings.toolbar.helpButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) a[href="https://support.discord.com"]`);
+        if (this.settings.toolbar.inboxButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(svg>path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])`);
         
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate) {
-            // Server list
-            this.styler.add('[class*="member"] [class*="nameplated"] [style*="linear-gradient"], [class*="container"]:has(> [class*="videoContainer"] video[src*="nameplate"])');
+            // Server List
+            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"]`);
+            this.styler.add(`.${this.namePlate.nameplated} > div > div > video`);
+            
             // DM list
-            this.styler.add('div[class*="interactive"]:hover>div[class*="container"]:has(img)');
-            this.styler.add('div[class*="interactiveSelected"]>div[class*="container"]:has(img)');
+            this.styler.add(`.${this.dmEntry.interactive} > [style*="linear-gradient"]`);
+            this.styler.add(`.${this.dmEntry.interactiveSelected} > div > div > video`);
         }
 
         if (this.settings.profileCustomizations.clanTag == 'memberlist') {
-            this.styler.add('span[class*="clanTag"]');
+            this.styler.add(`.${this.dmEntry.clanTag}`);
+            this.styler.add(`.${this.clanTagChiplet.clanTagChiplet}`);
+            this.styler.add(`.${this.clanTagChipletServer.chipletContainerInner}`);
         } else if (this.settings.profileCustomizations.clanTag == 'profile') {
-            this.styler.add('span[class*="guildTagContainer"]');
+            this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
         } else if (this.settings.profileCustomizations.clanTag == 'global') {
-            this.styler.add('span[class*="clanTag"]');
-            this.styler.add('span[class*="guildTagContainer"]');
+            // DM List
+            this.styler.add(`.${this.dmEntry.clanTag}`);
+            // DMs
+            this.styler.add(`.${this.clanTagChiplet.clanTagChiplet}`);
+            // Server List
+            this.styler.add(`.${this.clanTagChipletServer.chipletContainerInner}`);
+            // Profile
+            this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
         }
 
-        if (this.settings.profileCustomizations.avatarDecoration == 'memberlist') {
-            this.styler.add('div[class*="avatar"] [class*="avatarDecoration"]');
-        } else if (this.settings.profileCustomizations.avatarDecoration == 'profile') {
-            this.styler.add('div[class*="user-profile-popout"] div[class*="avatar"] [class*="avatarDecoration"]');
-            this.styler.add('div[class*="profile"] div[class*="avatar"] [class*="avatarDecoration"]');
-        } else if (this.settings.profileCustomizations.avatarDecoration == 'global') {
-            this.styler.add('[class*="avatarDecoration"]');
+        // TODO: profileCustomizations.avatarDecoration needs to be converted into a toggle
+        // Need to wait until we increment to v3.3.0
+        switch (this.settings.profileCustomizations.avatarDecoration) {
+            case 'memberlist':
+            case 'profile':
+            case 'global':
+                this.styler.add(`.${this.avatar.avatarDecorationContainer}`);
+                break;
         }
 
-        if (this.settings.profileCustomizations.hideBadges) this.styler.add('[class*="tags"] > [class*="container"]');
-        if (this.settings.profileCustomizations.profileEffects) this.styler.add('[class*="profileEffects"] img[class*="effect"]')
+        if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
+        if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.nitroUpsell) {
             // Settings "Edit Profile" Page
-            this.styler.add('[class*="settingsPage"] div[class*="container"]:has([class*="artContainer"])');
+            this.styler.add(`.${this.shopArt.settingsPage} div:has(>[class$="-artContainer"])`);
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
-            this.styler.add('[class*="profileButtons"]>span:first-of-type');
+            this.styler.add(`.${this.profileShop.profileButtons} > span:first-of-type`);
             // Billing Settings
             this.styler.add('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
         }
-        if (this.settings.miscellaneous.placeholderText) this.styler.add('[class*="placeholder"][class*="slateTextArea"]');
-        if (this.settings.miscellaneous.avatarPopover) this.styler.add('[class*="statusPopover"]');
-        
+        if (this.settings.miscellaneous.placeholderText) this.styler.add(`.${this.txtPlaceholder.slateTextArea}:has(+ .${this.txtPlaceholder.slateTextArea})`);
+        if (this.settings.miscellaneous.avatarPopover) this.styler.add(`.${this.profilePopover.statusPopover}`);
+
         if (this.settings.miscellaneous.noQuests) {
             this.styler.add('li:has([href="/quest-home"])');
             // Active now section
-            this.styler.add('div[class*="inset"]:has(div[class*="promotedTag"])');
+            this.styler.add(`.${this.promotedQuest.promotedTag}`);
         }
 
-        let listSeparatorDm = '[class*="privateChannels"] [class*="sectionDivider"]';
-        let listSeparatorServer = 'nav[class*="container"] [class*="sectionDivider"], nav[class*="container"] div[style="height: 0px;"] + div[style="height: 12px;"]';
+        let listSeparatorDm = `.${this.dmDivider.sectionDivider}`;
+        let listSeparatorServer = `.${this.channelDivider.sectionDivider}`;
         if (this.settings.miscellaneous.listSeparator == 'dmlist') {
             this.styler.add(listSeparatorDm);
         } else if (this.settings.miscellaneous.listSeparator == 'serverlist') {
@@ -903,7 +995,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
         
         /// Compatibility ///
-        if (this.settings.compatibility.invisibleTypingButton) this.styler.add('div[class*="buttons"] div:has([class*="invisibleTypingButton"])');
+        if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`.${this.chatBarButtons.buttons} div:has(.invisibleTypingButton)`);
 
         this.styler.apply();
     }
