@@ -837,11 +837,11 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.forwardButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`);
         if (this.settings.messageActions.removeMore) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`);
         if (
-            this.settings.messageActions.reactionButton == true &&
-            this.settings.messageActions.editButton == true &&
-            this.settings.messageActions.replyButton == true &&
-            this.settings.messageActions.forwardButton == true &&
-            this.settings.messageActions.removeMore == true
+            this.settings.messageActions.reactionButton &&
+            this.settings.messageActions.editButton &&
+            this.settings.messageActions.replyButton &&
+            this.settings.messageActions.forwardButton &&
+            this.settings.messageActions.removeMore
         ) {
             this.styler.add(`.${this.messageActionContainer.message} .${this.messageActionContainer.buttons}`);
         }
@@ -900,7 +900,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
         }
         if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}:not(:first-child)`);
-        if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.listItem}:has(+ div[aria-hidden="true"])`);
+        if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer} + .${this.addServerDiscoverButton.listItem}`);
 
         /// Voice ///
         if (this.settings.voice.invitePlaceholder) this.styler.add(`div[class$="-row"]:has(.${this.vcScreen.singleUserRoot})`);
@@ -965,6 +965,8 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.shopArt.settingsPage} div:has(>[class$="-artContainer"])`);
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.styler.add(`.${this.profileUpsell.upsellOverlayContainer}`);
+            // Profile Shop Button
+            this.styler.add(`[class$="-profile"] [class$="-profileButtons"] > span:first-of-type`);
             // Billing Settings
             this.styler.add('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
         }
