@@ -1,10 +1,14 @@
 # Changelog
 ## v3.3.0
+Thanks [@Zacam](https://github.com/Zacam) for the help with getting Chat Buttons Begone to the BD Store!
+
 ### Added
-Thanks [@Zacam](https://github.com/Zacam) for the new features!
 - Option to remove the Game Collection / Wishlist in the profile popout [Profile Customizations]
 - Option to remove "new" indicator in the server rail [Servers]
 - Option to remove avatars from the server voice chat list [Voice]
+
+### Changed
+- Converted CSS selectors to use `BdApi.Webpack` to reduce the performance impact of CBB
 
 ### Fixed
 - Crash when launching the plugin with no config file
@@ -12,7 +16,7 @@ Thanks [@Zacam](https://github.com/Zacam) for the new features!
 ### Removed
 - Auto-updater
     - ChatButtonsBegone is on the Better Discord Store! Updates will now be handled through Better Discord.
-    - You can no longer switch between update branches
+    - You can no longer switch between update branches. desktop-land-and-learn (/b) is now deprecated.
 - Option to enable Single Click File Select
     - Please use [SingleClickFileSelect](https://github.com/LancersBucket/SingleClickFileSelect) if you need this functionality
 
@@ -167,7 +171,7 @@ Migration to https://github.com/LancersBucket/ChatButtonsBegone
 ### Changed
 - Moved Chat Bar options (Attach Button, Gift Button, etc.) into their own category [Chat Bar]
 - Nitro Upsell now removes Nitro advertisement in the Appearance settings [Miscellaneous]
-- Updated codebase to remove dependence on depreciated BD functions
+- Updated codebase to remove dependence on deprecated BD functions
 - Switched to BD's native logging class and reduced unneeded console output
 
 ### Removed
