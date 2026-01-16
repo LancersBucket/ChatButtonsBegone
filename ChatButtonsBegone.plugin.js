@@ -503,6 +503,20 @@ const config = {
                         { label: 'Remove Both', value: 'both' },
                     ]
                 },
+                {
+                    type: 'switch',
+                    id: 'hideCollection',
+                    name: 'Remove Profile Collection',
+                    note: 'Removes the Game Collection from popup user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'hideWishlist',
+                    name: 'Remove Profile Wishlist',
+                    note: 'Removes the Wishlist from popup user profiles.',
+                    value: false,
+                },
             ],
         },
         {
@@ -648,6 +662,8 @@ module.exports = class ChatButtonsBegone {
             this.avatar,
             this.profileBadges,
             this.profileEffects,
+            this.profileCollection,
+            this.profileWishlist,
 
             // Miscellaneous
             this.shopArt,
@@ -700,6 +716,8 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('avatarDecorationContainer') }, // Avatar Decoration
             { filter: this.api.Webpack.Filters.byKeys('tags','usernameRow') }, // Profile Badges
             { filter: this.api.Webpack.Filters.byKeys('profileEffects') }, // Profile Effects
+            { filter: this.api.Webpack.Filters.byKeys('container','cardsList') }, // Popup Profile Game Collection
+            { filter: this.api.Webpack.Filters.byKeys('inner', 'overlay') }, // Popup Profile Wishlist
 
             { filter: this.api.Webpack.Filters.byKeys('settingsPage') }, // Profile Shop Art
             { filter: this.api.Webpack.Filters.byKeys('profileButtons') }, // Profile Shop Button
@@ -1018,6 +1036,9 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('[class*="user-profile-popout"] section[class*="-container"]:has(>ul[class*="cardsList"])');
             this.styler.add('[class*="user-profile-popout"] [class*="-overlay"][class*="-container"]');
         }
+
+        if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}`);
+        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.overlay}`);
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.nitroUpsell) {
