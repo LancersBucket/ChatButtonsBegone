@@ -312,6 +312,19 @@ const config = {
                     note: 'Removes the "New" indicator that appears at the top or bottom of the server list when there are new notifications.',
                     value: false,
                 },
+                {
+                    type: 'dropdown',
+                    id: 'unreadIndicator',
+                    name: 'Unread Mentions Indicator',
+                    note: 'Controls the visibility of the Unread Mentions Indicators. "Remove Top" removes the Top Indicator, "Remove Bottom" removes the Bottom Indicator, "Remove Both" removes both Top and Bottom Indicators.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove Top', value: 'top' },
+                        { label: 'Remove Bottom', value: 'bottom' },
+                        { label: 'Remove Both', value: 'both' },
+                    ],
+                },
             ],
         },
         {
@@ -548,6 +561,13 @@ const config = {
                     note: 'Removes seasonal event tabs and buttons (i.e. Snowsgiving, Discord\'s Birthday, etc.).',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'blockedMessage',
+                    name: 'Remove Blocked Messages Indicator',
+                    note: 'Removes the "blocked message(s)" insert in Chat',
+                    value: false,
+                },
             ],
         },
         {
@@ -605,6 +625,8 @@ module.exports = class ChatButtonsBegone {
             this.serverActivitySectionCards,
             this.serverBanner,
             this.addServerDiscoverButton,
+            this.indicatorTop,
+            this.indicatorBottom,
 
             // Voice
             this.vcScreen,
@@ -635,6 +657,8 @@ module.exports = class ChatButtonsBegone {
             this.promotedQuest,
             this.dmDivider,
             this.channelDivider,
+            this.blockedGroup,
+            this.blockedIndicator,
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('channelTextArea', 'buttons') }, // Buttons Global
@@ -656,6 +680,8 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('container', 'usesCardRows') }, // Server Activity Section Cards
             { filter: this.api.Webpack.Filters.byKeys('bannerVisible', 'animatedContainer') }, // Server Banner
             { filter: this.api.Webpack.Filters.byKeys('tutorialContainer') }, // Add Server / Discover Button
+            { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop') }, // Server Unread Mentions Indicator: Top
+            { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom') }, // Server Unread Mentions Indicator: Bottom
 
             { filter: this.api.Webpack.Filters.byKeys('singleUserRoot') }, // Invite Placeholder
             { filter: this.api.Webpack.Filters.byKeys('container', 'actionButtons') }, // VC Buttons
@@ -681,7 +707,9 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover') }, // Profile Status Popover
             { filter: this.api.Webpack.Filters.byKeys('promotedTag') }, // Active Now Quests Promotion
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
-            { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') } // Server Channel Divider
+            { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
+            { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
+            { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
         );
     }
 
@@ -916,6 +944,13 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}:not(:first-child)`);
         if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.listItem}:has(+ div[aria-hidden="true"])`);
         if (this.settings.servers.newIndicator) this.styler.add('nav div[class*="-unreadMentionsIndicator"]');
+        if (this.settings.servers.unreadIndicator == 'both') {
+            this.styler.add(`.${this.indicatorTop.unreadMentionsIndicatorTop}, .${this.indicatorBottom.unreadMentionsIndicatorBottom}`);
+        } else if (this.settings.servers.unreadIndicator == 'top') {
+            this.styler.add(`.${this.indicatorTop.unreadMentionsIndicatorTop}`);
+        } else if (this.settings.servers.unreadIndicator == 'bottom') {
+            this.styler.add(`.${this.indicatorBottom.unreadMentionsIndicatorBottom}`);
+        }
 
         /// Voice ///
         if (this.settings.voice.invitePlaceholder) this.styler.add(`div[class$="-row"]:has(.${this.vcScreen.singleUserRoot})`);
@@ -989,7 +1024,7 @@ module.exports = class ChatButtonsBegone {
             // Settings "Edit Profile" Page
             this.styler.add(`.${this.shopArt.settingsPage} div:has(>[class$="-artContainer"])`);
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
-            this.styler.add(`.${this.profileShop.profileButtons} > span:first-of-type`);
+            // this.styler.add(`.${this.profileShop.profileButtons} > span:first-of-type`);
             // Billing Settings
             this.styler.add('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
         }
@@ -1032,6 +1067,7 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
+        if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
         
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`.${this.chatBarButtons.buttons} div:has(.invisibleTypingButton)`);
