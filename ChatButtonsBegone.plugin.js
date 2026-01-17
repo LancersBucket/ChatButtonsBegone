@@ -1041,7 +1041,7 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.noQuests) {
             this.styler.add('li:has([href="/quest-home"])');
-            // Active now section
+            // Active Now section
             this.styler.add(`.${this.promotedQuest.promotedTag}`);
             this.styler.add(`.${this.questPrompt.wrapper}`);
         }
