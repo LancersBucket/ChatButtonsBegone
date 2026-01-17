@@ -671,6 +671,7 @@ module.exports = class ChatButtonsBegone {
             this.txtPlaceholder,
             this.profilePopover,
             this.promotedQuest,
+            this.questPrompt,
             this.dmDivider,
             this.channelDivider,
             this.blockedGroup,
@@ -724,6 +725,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('slateTextArea') }, // Placeholder Text
             { filter: this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover') }, // Profile Status Popover
             { filter: this.api.Webpack.Filters.byKeys('promotedTag') }, // Active Now Quests Promotion
+            { filter: this.api.Webpack.Filters.byKeys('utils', 'heading', 'instructions') }, // Active Now Quest Prompt
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
             { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
@@ -1044,8 +1046,6 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.nitroUpsell) {
             // Settings "Edit Profile" Page
             this.styler.add(`.${this.shopArt.settingsPage} div:has(>[class$="-artContainer"])`);
-            // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
-            // this.styler.add(`.${this.profileShop.profileButtons} > span:first-of-type`);
             // Billing Settings
             this.styler.add('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
         }
@@ -1054,8 +1054,9 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.noQuests) {
             this.styler.add('li:has([href="/quest-home"])');
-            // Active now section
+            // Active Now section
             this.styler.add(`.${this.promotedQuest.promotedTag}`);
+            this.styler.add(`.${this.questPrompt.wrapper}`);
         }
 
         let listSeparatorDm = `.${this.dmDivider.sectionDivider}`;
