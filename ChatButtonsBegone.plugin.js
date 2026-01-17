@@ -216,7 +216,7 @@ const config = {
         },
         {
             type: 'category',
-            name: 'Servers',
+            name: 'Servers and Channels',
             id: 'servers',
             collapsible: true,
             shown: false,
