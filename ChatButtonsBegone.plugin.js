@@ -453,7 +453,7 @@ const config = {
                     type: 'switch',
                     id: 'avatarDecoration',
                     name: 'Avatar Decoration',
-                    note: 'Controls the visibility of avatar decorations. "Remove in Member List" removes it in member lists (Server/DM and messages), "Remove in Profile" removes it in profiles, "Remove" removes it everywhere.',
+                    note: 'Controls the visibility of avatar decorations.',
                     value: false,
                 },
                 {
@@ -474,14 +474,14 @@ const config = {
                     type: 'switch',
                     id: 'hideCollection',
                     name: 'Remove Profile Collection',
-                    note: 'Removes the Game Collection from popup user profiles.',
+                    note: 'Removes the Game Collection from user profiles.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'hideWishlist',
                     name: 'Remove Profile Wishlist',
-                    note: 'Removes the Wishlist from popup user profiles.',
+                    note: 'Removes the Wishlist from user profiles.',
                     value: false,
                 },
             ]
@@ -630,11 +630,10 @@ module.exports = class ChatButtonsBegone {
             this.clanTagChiplet,
             this.clanTagChipletServer,
             this.avatar,
+            this.avatarDecorationChat,
             this.profileBadges,
             this.profileEffects,
             this.profileCollection,
-            this.profileSidebar,
-            this.profileScroller,
             this.profileWishlist,
 
             // Miscellaneous
@@ -690,12 +689,11 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('clanTagChiplet') }, // Clan Tag Chiplet
             { filter: this.api.Webpack.Filters.byKeys('chipletContainerInner','chipletContainerInline') }, // Clan Tag Chiplet in Server
             { filter: this.api.Webpack.Filters.byKeys('avatarDecorationContainer') }, // Avatar Decoration
+            { filter: this.api.Webpack.Filters.byKeys('avatarDecoration','contents') }, // Avatar Decoration in Chat
             { filter: this.api.Webpack.Filters.byKeys('tags','usernameRow') }, // Profile Badges
             { filter: this.api.Webpack.Filters.byKeys('profileEffects') }, // Profile Effects
-            { filter: this.api.Webpack.Filters.byKeys('container','cardsList') }, // Popup Profile Game Collection
-            { filter: this.api.Webpack.Filters.byKeys('overlay') }, // Profile Sidebar
-            { filter: this.api.Webpack.Filters.byKeys('scrollerBase') }, // Profile Scroller
-            { filter: this.api.Webpack.Filters.byKeys('inner', 'overlay') }, // Popup Profile Wishlist
+            { filter: this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer') }, // Profile Game Collection
+            { filter: this.api.Webpack.Filters.byKeys('wishlistBreadcrumb') }, // Popup Profile Wishlist
 
             { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
             { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
@@ -1019,12 +1017,13 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.profileCustomizations.avatarDecoration) {
             this.styler.add(`.${this.avatar.avatarDecorationContainer}`);
+            this.styler.add(`.${this.avatarDecorationChat.avatarDecoration}`);
         }
 
         if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
-        if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}`);
-        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.inner} > .${this.profileScroller.scrollerBase} > .${this.profileWishlist.overlay}:not(& .${this.profileSidebar.overlay})`);
+        if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}:has([class^="breadcrumb"])`);
+        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.wishlistBreadcrumb}`);
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
