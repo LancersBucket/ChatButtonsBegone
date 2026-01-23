@@ -641,7 +641,7 @@ module.exports = class ChatButtonsBegone {
             this.blockedGroup,
             this.blockedIndicator,
             this.shopArt,
-            this.profileShop,
+            this.profileUpsell,
             this.txtPlaceholder,
             this.profilePopover,
             this.promotedQuest,
