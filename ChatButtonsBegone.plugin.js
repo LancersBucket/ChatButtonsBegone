@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.2.2
+ * @version 3.3.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -82,8 +82,8 @@ const config = {
                     name: 'Remove App Launcher Button',
                     note: 'Removes the App Launcher button from the chatbar.',
                     value: false,
-                },
-            ],
+                }
+            ]
         },
         {
             type: 'category',
@@ -147,8 +147,8 @@ const config = {
                     name: 'Remove "More" Button',
                     note: 'Removes the "More" (three dots) button from the message actions.',
                     value: false,
-                },
-            ],
+                }
+            ]
         },
         {
             type: 'category',
@@ -210,17 +210,44 @@ const config = {
                         { label: "Remove When Empty", value: 'empty' },
                         { label: "Simplify + Remove When Empty", value: 'simplifyempty' },
                         { label: "Remove", value: 'remove' },
-                    ],
-                },
-            ],
+                    ]
+                }
+            ]
         },
         {
             type: 'category',
-            name: 'Servers',
+            name: 'Servers and Channels',
             id: 'servers',
             collapsible: true,
             shown: false,
             settings: [
+                {
+                    type: 'switch',
+                    id: 'addServerButton',
+                    name: 'Remove "Add a Server" Button',
+                    note: 'Removes the "Add a Server" button from the server list.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'discoverButton',
+                    name: 'Remove Discover Button',
+                    note: 'Removes the "Discover" button from the server list.',
+                    value: false,
+                },
+                {
+                    type: 'dropdown',
+                    id: 'unreadIndicator',
+                    name: 'Unread Mentions Indicator',
+                    note: 'Controls the visibility of the Unread Mentions Indicators. "Remove Top" removes the Top Indicator, "Remove Bottom" removes the Bottom Indicator, "Remove Both" removes both Top and Bottom Indicators.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove Top', value: 'top' },
+                        { label: 'Remove Bottom', value: 'bottom' },
+                        { label: 'Remove Both', value: 'both' },
+                    ]
+                },
                 {
                     type: 'switch',
                     id: 'serverBanner',
@@ -290,42 +317,8 @@ const config = {
                     name: 'Remove Activities Section',
                     note: 'Removes the Activities Section from the server member list.',
                     value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'addServerButton',
-                    name: 'Remove "Add a Server" Button',
-                    note: 'Removes the "Add a Server" button from the server list.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'discoverButton',
-                    name: 'Remove Discover Button',
-                    note: 'Removes the "Discover" button from the server list.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'newIndicator',
-                    name: 'Remove Top/Bottom "New" indicator',
-                    note: 'Removes the "New" indicator that appears at the top or bottom of the server list when there are new notifications.',
-                    value: false,
-                },
-                {
-                    type: 'dropdown',
-                    id: 'unreadIndicator',
-                    name: 'Unread Mentions Indicator',
-                    note: 'Controls the visibility of the Unread Mentions Indicators. "Remove Top" removes the Top Indicator, "Remove Bottom" removes the Bottom Indicator, "Remove Both" removes both Top and Bottom Indicators.',
-                    value: 'show',
-                    options: [
-                        { label: 'Show', value: 'show' },
-                        { label: 'Remove Top', value: 'top' },
-                        { label: 'Remove Bottom', value: 'bottom' },
-                        { label: 'Remove Both', value: 'both' },
-                    ],
-                },
-            ],
+                }
+            ]
         },
         {
             type: 'category',
@@ -433,8 +426,8 @@ const config = {
                     name: 'Remove Help Button',
                     note: 'Removes the Help button.',
                     value: false,
-                },
-            ],
+                }
+            ]
         },
         {
             type: 'category',
@@ -461,7 +454,7 @@ const config = {
                         { label: 'Remove in Member List', value: 'memberlist' },
                         { label: 'Remove in Profile', value: 'profile' },
                         { label: 'Remove', value: 'global' },
-                    ],
+                    ]
                 },
                 {
                     type: 'dropdown',
@@ -474,7 +467,7 @@ const config = {
                         { label: 'Remove in Member List', value: 'memberlist' },
                         { label: 'Remove in Profile', value: 'profile' },
                         { label: 'Remove', value: 'global' },
-                    ],
+                    ]
                 },
                 {
                     type: 'switch',
@@ -517,7 +510,21 @@ const config = {
                     note: 'Removes the Wishlist from popup user profiles.',
                     value: false,
                 },
-            ],
+                {
+                    type: 'switch',
+                    id: 'hideCollection',
+                    name: 'Remove Profile Collection',
+                    note: 'Removes the Game Collection from popup user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'hideWishlist',
+                    name: 'Remove Profile Wishlist',
+                    note: 'Removes the Wishlist from popup user profiles.',
+                    value: false,
+                }
+            ]
         },
         {
             type: 'category',
@@ -526,6 +533,13 @@ const config = {
             collapsible: true,
             shown: false,
             settings: [
+                {
+                    type: 'switch',
+                    id: 'blockedMessage',
+                    name: 'Remove Blocked Messages Indicator',
+                    note: 'Removes the "blocked message(s)" insert in Chat',
+                    value: false,
+                },
                 {
                     type: 'switch',
                     id: 'nitroUpsell',
@@ -566,7 +580,7 @@ const config = {
                         { label: 'Remove in Server Channel list', value: 'serverlist' },
                         { label: 'Semi-Smart Remove', value: 'smart' },
                         { label: 'Remove', value: 'remove' },
-                    ],
+                    ]
                 },
                 {
                     type: 'switch',
@@ -574,15 +588,8 @@ const config = {
                     name: 'Remove Seasonal Events',
                     note: 'Removes seasonal event tabs and buttons (i.e. Snowsgiving, Discord\'s Birthday, etc.).',
                     value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'blockedMessage',
-                    name: 'Remove Blocked Messages Indicator',
-                    note: 'Removes the "blocked message(s)" insert in Chat',
-                    value: false,
-                },
-            ],
+                }
+            ]
         },
         {
             type: 'category',
@@ -597,10 +604,10 @@ const config = {
                     name: 'Remove Invisible Typing Button',
                     note: 'Removes the button added by Strencher\'s InvisibleTyping plugin from the chat.',
                     value: false,
-                },
-            ],
-        },
-    ],
+                }
+            ]
+        }
+    ]
 };
 
 module.exports = class ChatButtonsBegone {
@@ -632,6 +639,9 @@ module.exports = class ChatButtonsBegone {
             this.activeNowEmpty,
 
             // Servers
+            this.addServerDiscoverButton,
+            this.indicatorTop,
+            this.indicatorBottom,
             this.serverSideBar,
             this.boostBar,
             this.headerInviteButton,
@@ -640,9 +650,6 @@ module.exports = class ChatButtonsBegone {
             this.serverActivitySectionCards,
             this.serverActivityOnHover,
             this.serverBanner,
-            this.addServerDiscoverButton,
-            this.indicatorTop,
-            this.indicatorBottom,
 
             // Voice
             this.vcScreen,
@@ -665,9 +672,13 @@ module.exports = class ChatButtonsBegone {
             this.profileBadges,
             this.profileEffects,
             this.profileCollection,
+            this.profileSidebar,
+            this.profileScroller,
             this.profileWishlist,
 
             // Miscellaneous
+            this.blockedGroup,
+            this.blockedIndicator,
             this.shopArt,
             this.profileShop,
             this.txtPlaceholder,
@@ -692,6 +703,9 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('activitySection') }, // Active Now Cards
             { filter: this.api.Webpack.Filters.byKeys('emptyCard') },  // Active Now Empty Card
 
+            { filter: this.api.Webpack.Filters.byKeys('tutorialContainer') }, // Add Server / Discover Button
+            { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop') }, // Server Unread Mentions Indicator: Top
+            { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom') }, // Server Unread Mentions Indicator: Bottom
             { filter: this.api.Webpack.Filters.byKeys('guilds', 'content') }, // Server Sidebar
             { filter: this.api.Webpack.Filters.byKeys('containerWithMargin', 'progressContainer') }, // Server Boost Bar
             { filter: this.api.Webpack.Filters.byKeys('inviteButton') }, // Header Invite Button
@@ -700,9 +714,6 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('container', 'usesCardRows') }, // Server Activity Section Cards
             { filter: this.api.Webpack.Filters.byKeys('container', 'openOnHover') }, // Server Activity Section Cards
             { filter: this.api.Webpack.Filters.byKeys('bannerVisible', 'animatedContainer') }, // Server Banner
-            { filter: this.api.Webpack.Filters.byKeys('tutorialContainer') }, // Add Server / Discover Button
-            { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop') }, // Server Unread Mentions Indicator: Top
-            { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom') }, // Server Unread Mentions Indicator: Bottom
 
             { filter: this.api.Webpack.Filters.byKeys('singleUserRoot') }, // Invite Placeholder
             { filter: this.api.Webpack.Filters.byKeys('container', 'actionButtons') }, // VC Buttons
@@ -722,8 +733,12 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('tags','usernameRow') }, // Profile Badges
             { filter: this.api.Webpack.Filters.byKeys('profileEffects') }, // Profile Effects
             { filter: this.api.Webpack.Filters.byKeys('container','cardsList') }, // Popup Profile Game Collection
+            { filter: this.api.Webpack.Filters.byKeys('overlay') }, // Profile Sidebar
+            { filter: this.api.Webpack.Filters.byKeys('scrollerBase') }, // Profile Scroller
             { filter: this.api.Webpack.Filters.byKeys('inner', 'overlay') }, // Popup Profile Wishlist
 
+            { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
+            { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
             { filter: this.api.Webpack.Filters.byKeys('settingsPage') }, // Profile Shop Art
             { filter: this.api.Webpack.Filters.byKeys('profileButtons') }, // Profile Shop Button
             { filter: this.api.Webpack.Filters.byKeys('slateTextArea') }, // Placeholder Text
@@ -854,7 +869,7 @@ module.exports = class ChatButtonsBegone {
 
                     return config;
                 }
-            },
+            }
         ];
 
         let currentVersion = this.settingVersion;
@@ -959,6 +974,17 @@ module.exports = class ChatButtonsBegone {
         }
 
         /// Servers ///
+        if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}:not(:first-child)`);
+        if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer} + .${this.addServerDiscoverButton.listItem}`);
+
+        if (this.settings.servers.unreadIndicator == 'both') {
+            this.styler.add(`.${this.indicatorTop.unreadMentionsIndicatorTop}, .${this.indicatorBottom.unreadMentionsIndicatorBottom}`);
+        } else if (this.settings.servers.unreadIndicator == 'top') {
+            this.styler.add(`.${this.indicatorTop.unreadMentionsIndicatorTop}`);
+        } else if (this.settings.servers.unreadIndicator == 'bottom') {
+            this.styler.add(`.${this.indicatorBottom.unreadMentionsIndicatorBottom}`);
+        }
+
         if (this.settings.servers.boostBar) this.styler.add(`.${this.boostBar.containerWithMargin}`);
         if (this.settings.servers.serverGuide) this.styler.add('li:has(div[id*="home-tab"])');
         if (this.settings.servers.eventButton) this.styler.add('li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
@@ -978,16 +1004,6 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.serverBanner) {
             this.styler.add(`.${this.serverBanner.animatedContainer}`);
             this.styler.add('div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
-        }
-        if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}:not(:first-child)`);
-        if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.listItem}:has(+ div[aria-hidden="true"])`);
-        if (this.settings.servers.newIndicator) this.styler.add('nav div[class*="-unreadMentionsIndicator"]');
-        if (this.settings.servers.unreadIndicator == 'both') {
-            this.styler.add(`.${this.indicatorTop.unreadMentionsIndicatorTop}, .${this.indicatorBottom.unreadMentionsIndicatorBottom}`);
-        } else if (this.settings.servers.unreadIndicator == 'top') {
-            this.styler.add(`.${this.indicatorTop.unreadMentionsIndicatorTop}`);
-        } else if (this.settings.servers.unreadIndicator == 'bottom') {
-            this.styler.add(`.${this.indicatorBottom.unreadMentionsIndicatorBottom}`);
         }
 
         /// Voice ///
@@ -1061,6 +1077,8 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.overlay}`);
 
         /// Miscellaneous ///
+        if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
+
         if (this.settings.miscellaneous.nitroUpsell) {
             // Settings "Edit Profile" Page
             this.styler.add(`.${this.shopArt.settingsPage} div:has(>[class$="-artContainer"])`);
@@ -1169,7 +1187,7 @@ module.exports = class ChatButtonsBegone {
                 this.styler.purge();
                 this.addStyles();
                 this.api.UI.showToast('Styles refreshed.', { type: 'info' });
-            },
+            }
         });
     }
 };
