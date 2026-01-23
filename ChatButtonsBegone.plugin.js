@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.3.1
+ * @version 3.3.0
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.2.2',
+        version: '3.3.0',
     },
     defaultConfig: [
         {
@@ -105,13 +105,6 @@ const config = {
                     name: 'Remove Reaction Button',
                     note: 'Removes the "Add Reaction" button from the message actions.',
                     value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'superReactionButton',
-                    name: 'Remove Super Reaction Button',
-                    note: 'Removes the "Add Super Reaction" button from the message actions.',
-                    value: true,
                 },
                 {
                     type: 'switch',
@@ -382,8 +375,8 @@ const config = {
                     name: 'Remove Server Voice Chat Avatars',
                     note: 'Removes the avatars of users in voice chats in servers.',
                     value: false,
-                },
-            ],
+                }
+            ]
         },
         {
             type: 'category',
@@ -484,19 +477,6 @@ const config = {
                     value: false,
                 },
                 {
-                    type: 'dropdown',
-                    id: 'gameCollectionWishlist',
-                    name: 'Game Collection/Wishlist',
-                    note: 'Controls the visibility of the Game Collection and Wishlist sections in user profiles. "Show" shows both sections, "Remove Collection" removes the Game Collection section, "Remove Wishlist" removes the Wishlist section, "Remove Both" removes both sections.',
-                    value: 'show',
-                    options: [
-                        { label: 'Show', value: 'show' },
-                        { label: 'Remove Collection', value: 'collection' },
-                        { label: 'Remove Wishlist', value: 'wishlist' },
-                        { label: 'Remove Both', value: 'both' },
-                    ]
-                },
-                {
                     type: 'switch',
                     id: 'hideCollection',
                     name: 'Remove Profile Collection',
@@ -510,20 +490,6 @@ const config = {
                     note: 'Removes the Wishlist from popup user profiles.',
                     value: false,
                 },
-                {
-                    type: 'switch',
-                    id: 'hideCollection',
-                    name: 'Remove Profile Collection',
-                    note: 'Removes the Game Collection from popup user profiles.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'hideWishlist',
-                    name: 'Remove Profile Wishlist',
-                    note: 'Removes the Wishlist from popup user profiles.',
-                    value: false,
-                }
             ]
         },
         {
@@ -688,7 +654,7 @@ module.exports = class ChatButtonsBegone {
             this.dmDivider,
             this.channelDivider,
             this.blockedGroup,
-            this.blockedIndicator,
+            this.blockedIndicator
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('channelTextArea', 'buttons') }, // Buttons Global
@@ -748,7 +714,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
             { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
-            { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
+            { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') } // Blocked Message Indicator
         );
     }
 
@@ -918,16 +884,8 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.chatbar.appLauncherButton) this.styler.add('.app-launcher-entrypoint');
 
         /// Message Actions ///
-        if (this.settings.messageActions.quickReactions) {
-            this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(>.${this.messageActionButtons.icon}>[data-type="emoji"])`);
-            this.styler.add(`.${this.messageActionButtons.separator}`);
-        }
-        if (this.settings.messageActions.reactionButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])`);
-        if (this.settings.messageActions.editButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])`);
-        if (this.settings.messageActions.replyButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])`);
-        if (this.settings.messageActions.forwardButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`);
-        if (this.settings.messageActions.removeMore) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`);
         if (
+            this.settings.messageActions.quickReactions &&
             this.settings.messageActions.reactionButton &&
             this.settings.messageActions.editButton &&
             this.settings.messageActions.replyButton &&
@@ -973,7 +931,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.activeNowColumn.nowPlayingColumn}`);
         }
 
-        /// Servers ///
+        /// Servers and Channels ///
         if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}:not(:first-child)`);
         if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer} + .${this.addServerDiscoverButton.listItem}`);
 
@@ -985,25 +943,25 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.indicatorBottom.unreadMentionsIndicatorBottom}`);
         }
 
+        if (this.settings.servers.serverBanner) {
+            this.styler.add(`.${this.serverBanner.animatedContainer}`);
+            this.styler.add('div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
+        }
         if (this.settings.servers.boostBar) this.styler.add(`.${this.boostBar.containerWithMargin}`);
         if (this.settings.servers.serverGuide) this.styler.add('li:has(div[id*="home-tab"])');
         if (this.settings.servers.eventButton) this.styler.add('li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
         if (this.settings.servers.membersButton) this.styler.add('li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
         if (this.settings.servers.channelsAndRoles) this.styler.add('li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
         if (this.settings.servers.boostsButton) this.styler.add('li:has(div[id*="skill-trees"])');
+        if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
         if (this.settings.servers.inviteButton) {
             this.styler.add(`.${this.headerInviteButton.inviteButton}`);
             this.styler.add(`.${this.channelListInviteButton.linkTop}>.${this.channelListInviteButton.children}>span:first-of-type`);
         }
-        if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
         if (this.settings.servers.activitySection) {
             this.styler.add(`.${this.serverActivitySection.membersGroup}:has([role="button"])`);
             this.styler.add(`div > div .${this.serverActivitySectionCards.usesCardRows}`);
             this.styler.add(`div > div .${this.serverActivityOnHover.container}.${this.serverActivityOnHover.openOnHover}`)
-        }
-        if (this.settings.servers.serverBanner) {
-            this.styler.add(`.${this.serverBanner.animatedContainer}`);
-            this.styler.add('div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
         }
 
         /// Voice ///
@@ -1014,6 +972,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.soundboardPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} span:has(svg)`);
         if (this.settings.voice.krispButton) this.styler.add(`.${this.vcKrisp.voiceButtonsContainer} button:first-of-type`);
         if (this.settings.voice.gameActivityPanel) this.styler.add(`.${this.vcActivityPanel.activityPanel}`);
+        // TODO: Convert to Webpack
         if (this.settings.voice.voiceAvatars) this.styler.add('div[class*="voiceuser"] div[class*="userAvatar"]');
 
         /// Title Bar ///
@@ -1063,16 +1022,6 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
-
-        if (this.settings.profileCustomizations.gameCollectionWishlist == 'collection') {
-            this.styler.add('[class*="user-profile-popout"] section[class*="-container"]:has(>ul[class*="cardsList"])');
-        } else if (this.settings.profileCustomizations.gameCollectionWishlist == 'wishlist') {
-            this.styler.add('[class*="user-profile-popout"] [class*="-overlay"][class*="-container"]');
-        } else if (this.settings.profileCustomizations.gameCollectionWishlist == 'both') {
-            this.styler.add('[class*="user-profile-popout"] section[class*="-container"]:has(>ul[class*="cardsList"])');
-            this.styler.add('[class*="user-profile-popout"] [class*="-overlay"][class*="-container"]');
-        }
-
         if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}`);
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.overlay}`);
 
@@ -1085,15 +1034,16 @@ module.exports = class ChatButtonsBegone {
             // Billing Settings
             this.styler.add('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
         }
-        if (this.settings.miscellaneous.placeholderText) this.styler.add(`.${this.txtPlaceholder.slateTextArea}:has(+ .${this.txtPlaceholder.slateTextArea})`);
-        if (this.settings.miscellaneous.avatarPopover) this.styler.add(`.${this.profilePopover.statusPopover}`);
-
+        
         if (this.settings.miscellaneous.noQuests) {
             this.styler.add('li:has([href="/quest-home"])');
             // Active Now section
             this.styler.add(`.${this.promotedQuest.promotedTag}`);
             this.styler.add(`.${this.questPrompt.wrapper}`);
         }
+
+        if (this.settings.miscellaneous.placeholderText) this.styler.add(`.${this.txtPlaceholder.slateTextArea}:has(+ .${this.txtPlaceholder.slateTextArea})`);
+        if (this.settings.miscellaneous.avatarPopover) this.styler.add(`.${this.profilePopover.statusPopover}`);
 
         let listSeparatorDm = `.${this.dmDivider.sectionDivider}`;
         let listSeparatorServer = `.${this.channelDivider.sectionDivider}`;
@@ -1125,8 +1075,7 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
-        if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
-        
+
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`.${this.chatBarButtons.buttons} div:has(.invisibleTypingButton)`);
 
