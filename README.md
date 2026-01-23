@@ -17,7 +17,3 @@ See [CHANGELOG.md](./CHANGELOG.md) for details on version history.
 Special thanks to the following people:
 - [Zacam](https://github.com/Zacam) for their work in a variety of ways for this plugin
 - [MisansProducts](https://github.com/MisansProducts)
-
-## Other Plugins
-Check out my other plugins too!
-- [CallConfirmations](https://github.com/LancersBucket/CallConfirmations)
