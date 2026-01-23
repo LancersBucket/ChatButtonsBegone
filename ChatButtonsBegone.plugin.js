@@ -375,8 +375,15 @@ const config = {
                     name: 'Remove Game Activity Panel',
                     note: 'Removes the current game activity panel from the user voice chat panel.',
                     value: false,
-                }
-            ]
+                },
+                {
+                    type: 'switch',
+                    id: 'voiceAvatars',
+                    name: 'Remove Server Voice Chat Avatars',
+                    note: 'Removes the avatars of users in voice chats in servers.',
+                    value: false,
+                },
+            ],
         },
         {
             type: 'category',
@@ -474,6 +481,34 @@ const config = {
                     id: 'profileEffects',
                     name: 'Remove Profile Effects',
                     note: 'Removes profile effects (Animated Overlays) from user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'dropdown',
+                    id: 'gameCollectionWishlist',
+                    name: 'Game Collection/Wishlist',
+                    note: 'Controls the visibility of the Game Collection and Wishlist sections in user profiles. "Show" shows both sections, "Remove Collection" removes the Game Collection section, "Remove Wishlist" removes the Wishlist section, "Remove Both" removes both sections.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove Collection', value: 'collection' },
+                        { label: 'Remove Wishlist', value: 'wishlist' },
+                        { label: 'Remove Both', value: 'both' },
+                    ]
+                },
+                {
+                    type: 'switch',
+                    id: 'hideCollection',
+                    name: 'Remove Profile Collection',
+                    note: 'Removes the Game Collection from popup user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'hideWishlist',
+                    name: 'Remove Profile Wishlist',
+                    note: 'Removes the Wishlist from popup user profiles.',
+                    value: false,
                 },
                 {
                     type: 'switch',
@@ -645,21 +680,23 @@ module.exports = class ChatButtonsBegone {
             this.blockedGroup,
             this.blockedIndicator,
             this.shopArt,
-            this.profileUpsell,
+            this.profileShop,
             this.txtPlaceholder,
             this.profilePopover,
             this.promotedQuest,
             this.questPrompt,
             this.dmDivider,
-            this.channelDivider
+            this.channelDivider,
+            this.blockedGroup,
+            this.blockedIndicator,
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('channelTextArea', 'buttons') }, // Buttons Global
-
+            
             { filter: this.api.Webpack.Filters.byKeys('hoverBarButton') }, // Message Action Buttons
             { filter: this.api.Webpack.Filters.byKeys('reactions', 'reactionBtn') }, // Message Add Reaction Button
             { filter: this.api.Webpack.Filters.byKeys('messageListItem', 'message', 'buttons') }, // Message Action Button
-
+            
             { filter: this.api.Webpack.Filters.byKeys('privateChannels') }, // DM List
             { filter: this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer') }, // DM Header
             { filter: this.api.Webpack.Filters.byKeys('nowPlayingColumn') }, // Active Now Column
@@ -703,13 +740,15 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
             { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
             { filter: this.api.Webpack.Filters.byKeys('settingsPage') }, // Profile Shop Art
-            { filter: this.api.Webpack.Filters.byKeys('upsellOverlayContainer') }, // Per_Server Nitro Upsell
+            { filter: this.api.Webpack.Filters.byKeys('profileButtons') }, // Profile Shop Button
             { filter: this.api.Webpack.Filters.byKeys('slateTextArea') }, // Placeholder Text
             { filter: this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover') }, // Profile Status Popover
             { filter: this.api.Webpack.Filters.byKeys('promotedTag') }, // Active Now Quests Promotion
             { filter: this.api.Webpack.Filters.byKeys('utils', 'heading', 'instructions') }, // Active Now Quest Prompt
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
-            { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') } // Server Channel Divider
+            { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
+            { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
+            { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
         );
     }
 
@@ -897,8 +936,12 @@ module.exports = class ChatButtonsBegone {
         ) {
             this.styler.add(`.${this.messageActionContainer.message} .${this.messageActionContainer.buttons}`);
         }
+        if (this.settings.messageActions.reactionButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])`);
+        if (this.settings.messageActions.editButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])`);
+        if (this.settings.messageActions.replyButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])`);
+        if (this.settings.messageActions.forwardButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`);
+        if (this.settings.messageActions.removeMore) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`);
 
-        // if (this.settings.messageActions.superReactionButton) this.styler.add('[id="emoji-picker-tab-panel"] [class*="header"] div:has([for="burst-reaction-toggle-button"])');
         if (this.settings.messageActions.addReactionButton) this.styler.add(`span:has(>.${this.addReactionButton.reactionBtn})`);
 
         /// Direct Messages ///
@@ -971,6 +1014,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.soundboardPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} span:has(svg)`);
         if (this.settings.voice.krispButton) this.styler.add(`.${this.vcKrisp.voiceButtonsContainer} button:first-of-type`);
         if (this.settings.voice.gameActivityPanel) this.styler.add(`.${this.vcActivityPanel.activityPanel}`);
+        if (this.settings.voice.voiceAvatars) this.styler.add('div[class*="voiceuser"] div[class*="userAvatar"]');
 
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.styler.add(`.${this.backForwardButtons.backForwardButtons}`);
@@ -1020,8 +1064,17 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
 
+        if (this.settings.profileCustomizations.gameCollectionWishlist == 'collection') {
+            this.styler.add('[class*="user-profile-popout"] section[class*="-container"]:has(>ul[class*="cardsList"])');
+        } else if (this.settings.profileCustomizations.gameCollectionWishlist == 'wishlist') {
+            this.styler.add('[class*="user-profile-popout"] [class*="-overlay"][class*="-container"]');
+        } else if (this.settings.profileCustomizations.gameCollectionWishlist == 'both') {
+            this.styler.add('[class*="user-profile-popout"] section[class*="-container"]:has(>ul[class*="cardsList"])');
+            this.styler.add('[class*="user-profile-popout"] [class*="-overlay"][class*="-container"]');
+        }
+
         if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}`);
-        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.inner} > .${this.profileScroller.scrollerBase} > .${this.profileWishlist.overlay}:not(& .${this.profileSidebar.overlay})`);
+        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.overlay}`);
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
@@ -1029,10 +1082,6 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.nitroUpsell) {
             // Settings "Edit Profile" Page
             this.styler.add(`.${this.shopArt.settingsPage} div:has(>[class$="-artContainer"])`);
-            // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
-            this.styler.add(`.${this.profileUpsell.upsellOverlayContainer}`);
-            // Profile Shop Button
-            this.styler.add(`[class$="-profile"] [class$="-profileButtons"] > span:first-of-type`);
             // Billing Settings
             this.styler.add('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
         }
@@ -1076,7 +1125,8 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
-
+        if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
+        
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`.${this.chatBarButtons.buttons} div:has(.invisibleTypingButton)`);
 
