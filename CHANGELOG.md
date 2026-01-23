@@ -1,5 +1,5 @@
 # Changelog
-## v3.3.0
+## v3.3.0 - January 23rd, 2026
 Thanks [@Zacam](https://github.com/Zacam) for the help with getting Chat Buttons Begone to the BD Store!
 
 ### Added
