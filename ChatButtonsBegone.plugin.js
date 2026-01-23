@@ -616,6 +616,7 @@ module.exports = class ChatButtonsBegone {
             this.vcButtons,
             this.vcKrisp,
             this.vcActivityPanel,
+            this.scSmallAvatar,
 
             // Title Bar
             this.backForwardButtons,
@@ -679,6 +680,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('container', 'actionButtons') }, // VC Buttons
             { filter: this.api.Webpack.Filters.byKeys('voiceButtonsContainer') }, // Krisp Button
             { filter: this.api.Webpack.Filters.byKeys('activityPanel') }, // VC Activity Panel
+            { filter: this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall') }, // VC Server Channel Avatars
 
             { filter: this.api.Webpack.Filters.byKeys('backForwardButtons') }, // Back/Forward Buttons
             { filter: this.api.Webpack.Filters.byKeys('trailing', 'title') }, // Trailing Buttons
@@ -982,8 +984,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.soundboardPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} span:has(svg)`);
         if (this.settings.voice.krispButton) this.styler.add(`.${this.vcKrisp.voiceButtonsContainer} button:first-of-type`);
         if (this.settings.voice.gameActivityPanel) this.styler.add(`.${this.vcActivityPanel.activityPanel}`);
-        // TODO: Convert to Webpack
-        if (this.settings.voice.voiceAvatars) this.styler.add('div[class*="voiceuser"] div[class*="userAvatar"]');
+        if (this.settings.voice.voiceAvatars) this.styler.add(`.${this.scSmallAvatar.avatarSmall}`);
 
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.styler.add(`.${this.backForwardButtons.backForwardButtons}`);
