@@ -9,23 +9,23 @@
  */
 class Styler {
     constructor(pluginName, api) {
-		this.pluginName = pluginName;
+        this.pluginName = pluginName;
         this.api = api;
         this.styles = [];
-	}
+    }
 
-	add(selector) {
+    add(selector) {
         this.styles.push(selector);
-	}
+    }
 
     apply() {
         this.api.DOM.addStyle(this.pluginName, `${this.styles.join(', ')} { display: none !important; }`);
     }
 
-	purge() {
+    purge() {
         this.api.DOM.removeStyle(this.pluginName);
         this.styles = [];
-	}
+    }
 }
 
 const config = {
@@ -481,7 +481,7 @@ const config = {
                     id: 'hideBadges',
                     name: 'Remove Profile Badges',
                     note: 'Removes the badges from user profiles.',
-                    value: false,  
+                    value: false,
                 },
                 {
                     type: 'switch',
@@ -622,6 +622,7 @@ module.exports = class ChatButtonsBegone {
             // Message Actions
             this.messageActionButtons,
             this.addReactionButton,
+            this.messageActionContainer,
 
             // Direct Messages
             this.DMList,
@@ -637,6 +638,7 @@ module.exports = class ChatButtonsBegone {
             this.channelListInviteButton,
             this.serverActivitySection,
             this.serverActivitySectionCards,
+            this.serverActivityOnHover,
             this.serverBanner,
             this.addServerDiscoverButton,
             this.indicatorTop,
@@ -652,7 +654,7 @@ module.exports = class ChatButtonsBegone {
             this.backForwardButtons,
             this.titleBarTrailing,
             this.upperToolbar,
-            
+
             // Profile Customizations
             this.namePlate,
             this.dmEntry,
@@ -682,6 +684,7 @@ module.exports = class ChatButtonsBegone {
             
             { filter: this.api.Webpack.Filters.byKeys('hoverBarButton') }, // Message Action Buttons
             { filter: this.api.Webpack.Filters.byKeys('reactions', 'reactionBtn') }, // Message Add Reaction Button
+            { filter: this.api.Webpack.Filters.byKeys('messageListItem', 'message', 'buttons') }, // Message Action Button
             
             { filter: this.api.Webpack.Filters.byKeys('privateChannels') }, // DM List
             { filter: this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer') }, // DM Header
@@ -695,6 +698,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('linkTop','children') }, // Channel List Invite Button
             { filter: this.api.Webpack.Filters.byKeys('membersGroup') }, // Server Activity Section
             { filter: this.api.Webpack.Filters.byKeys('container', 'usesCardRows') }, // Server Activity Section Cards
+            { filter: this.api.Webpack.Filters.byKeys('container', 'openOnHover') }, // Server Activity Section Cards
             { filter: this.api.Webpack.Filters.byKeys('bannerVisible', 'animatedContainer') }, // Server Banner
             { filter: this.api.Webpack.Filters.byKeys('tutorialContainer') }, // Add Server / Discover Button
             { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop') }, // Server Unread Mentions Indicator: Top
@@ -801,38 +805,38 @@ module.exports = class ChatButtonsBegone {
                 }
             },
             {
-				to: '2.13.0',
-				migrate: (config) => {
+                to: '2.13.0',
+                migrate: (config) => {
                     // Move charbar settings into their own category
                     config.chatbar = {}
 
-					config.chatbar.attachButton = config.attachButton;
+                    config.chatbar.attachButton = config.attachButton;
                     delete config.attachButton;
-					
-					config.chatbar.giftButton = config.giftButton;
-					delete config.giftButton;
-					
-					config.chatbar.gifButton = config.gifButton;
-					delete config.gifButton;
-					
-					config.chatbar.stickerButton = config.stickerButton;
-					delete config.stickerButton;
-					
-					config.chatbar.emojiButton = config.emojiButton;
-					delete config.emojiButton;
-					
-					config.chatbar.appLauncherButton = config.appLauncherButton;
-					delete config.appLauncherButton;
 
-					return config;
-				}
-			},
+                    config.chatbar.giftButton = config.giftButton;
+                    delete config.giftButton;
+
+                    config.chatbar.gifButton = config.gifButton;
+                    delete config.gifButton;
+
+                    config.chatbar.stickerButton = config.stickerButton;
+                    delete config.stickerButton;
+
+                    config.chatbar.emojiButton = config.emojiButton;
+                    delete config.emojiButton;
+
+                    config.chatbar.appLauncherButton = config.appLauncherButton;
+                    delete config.appLauncherButton;
+
+                    return config;
+                }
+            },
             {
                 to: '3.1.0',
                 migrate: (config) => {
                     config.voice.gameActivityPanel = config.miscellaneous.activityPanel;
                     delete config.miscellaneous.activityPanel;
-                    
+
                     config.servers.addServerButton = config.miscellaneous.addServerButton;
                     delete config.miscellaneous.addServerButton;
 
@@ -855,13 +859,13 @@ module.exports = class ChatButtonsBegone {
 
         let currentVersion = this.settingVersion;
         migrations.forEach(migration => {
-			if (this.compareVersions(currentVersion, migration.to) < 0) {
+            if (this.compareVersions(currentVersion, migration.to) < 0) {
                 this.settings = migration.migrate(this.settings);
-				currentVersion = migration.to;
-			}
-		});
+                currentVersion = migration.to;
+            }
+        });
         this.api.Data.save('settings', this.settings);
-        
+
         if (this.compareVersions(this.settingVersion, config.info.version) <= 0) {
             this.settingVersion = config.info.version;
             this.api.Data.save('settingVersion', this.settingVersion);
@@ -908,8 +912,21 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.replyButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])`);
         if (this.settings.messageActions.forwardButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`);
         if (this.settings.messageActions.removeMore) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`);
+        if (
+            this.settings.messageActions.reactionButton &&
+            this.settings.messageActions.editButton &&
+            this.settings.messageActions.replyButton &&
+            this.settings.messageActions.forwardButton &&
+            this.settings.messageActions.removeMore
+        ) {
+            this.styler.add(`.${this.messageActionContainer.message} .${this.messageActionContainer.buttons}`);
+        }
+        if (this.settings.messageActions.reactionButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])`);
+        if (this.settings.messageActions.editButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])`);
+        if (this.settings.messageActions.replyButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])`);
+        if (this.settings.messageActions.forwardButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`);
+        if (this.settings.messageActions.removeMore) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`);
 
-        // if (this.settings.messageActions.superReactionButton) this.styler.add('[id="emoji-picker-tab-panel"] [class*="header"] div:has([for="burst-reaction-toggle-button"])');
         if (this.settings.messageActions.addReactionButton) this.styler.add(`span:has(>.${this.addReactionButton.reactionBtn})`);
 
         /// Direct Messages ///
@@ -919,7 +936,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.dms.discordShopTab) {
             this.styler.add('li:has([href="/shop"])');
         }
-        
+
         if (this.settings.dms.DMHeader == 'hideButton') {
             this.styler.add(`.${this.DMHeader.privateChannelRecipientsInviteButtonIconContainer}`)
         } else if (this.settings.dms.DMHeader == 'hideText') {
@@ -927,7 +944,7 @@ module.exports = class ChatButtonsBegone {
         } else if (this.settings.dms.DMHeader == 'remove') {
             this.styler.add(`.${this.DMHeader.privateChannelsHeaderContainer}`);
         }
-        
+
         if (this.settings.dms.activeNow == 'simplify') { 
             this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.twitchSectionPreview})`);
             this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.activitySection})`);
@@ -955,7 +972,8 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
         if (this.settings.servers.activitySection) {
             this.styler.add(`.${this.serverActivitySection.membersGroup}:has([role="button"])`);
-            this.styler.add(`div > div .${this.serverActivitySectionCards.usesCardRows}`)
+            this.styler.add(`div > div .${this.serverActivitySectionCards.usesCardRows}`);
+            this.styler.add(`div > div .${this.serverActivityOnHover.container}.${this.serverActivityOnHover.openOnHover}`)
         }
         if (this.settings.servers.serverBanner) {
             this.styler.add(`.${this.serverBanner.animatedContainer}`);
@@ -988,13 +1006,13 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.toolbar.checkpointButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(>svg>path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])`);
         if (this.settings.toolbar.helpButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) a[href="https://support.discord.com"]`);
         if (this.settings.toolbar.inboxButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(svg>path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])`);
-        
+
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate) {
             // Server List
             this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"]`);
             this.styler.add(`.${this.namePlate.nameplated} > div > div > video`);
-            
+
             // DM list
             this.styler.add(`.${this.dmEntry.interactive} > [style*="linear-gradient"]`);
             this.styler.add(`.${this.dmEntry.interactiveSelected} > div > div > video`);
@@ -1120,7 +1138,7 @@ module.exports = class ChatButtonsBegone {
             if (setting.type === 'category') {
                 setting.settings.forEach(subSetting => {
                     try {
-                        subSetting.value = this.settings[setting.id][subSetting.id];    
+                        subSetting.value = this.settings[setting.id][subSetting.id];
                     } catch (error) {
                         this.api.Logger.error(error);
                     }
@@ -1149,8 +1167,8 @@ module.exports = class ChatButtonsBegone {
                 if (category === 'core') return;
                 
                 this.styler.purge();
-				this.addStyles();
-				this.api.UI.showToast('Styles refreshed.', { type: 'info' });
+                this.addStyles();
+                this.api.UI.showToast('Styles refreshed.', { type: 'info' });
             },
         });
     }
