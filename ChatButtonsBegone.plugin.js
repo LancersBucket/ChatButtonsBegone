@@ -700,7 +700,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
             { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
             { filter: this.api.Webpack.Filters.byKeys('settingsPage') }, // Profile Shop Art
-            { filter: this.api.Webpack.Filters.byKeys('profileButtons') }, // Profile Shop Button
+            { filter: this.api.Webpack.Filters.byKeys('upsellOverlayContainer') }, // Per_Server Nitro Upsell
             { filter: this.api.Webpack.Filters.byKeys('slateTextArea') }, // Placeholder Text
             { filter: this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover') }, // Profile Status Popover
             { filter: this.api.Webpack.Filters.byKeys('promotedTag') }, // Active Now Quests Promotion
@@ -1017,8 +1017,6 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
         }
 
-        // TODO: profileCustomizations.avatarDecoration needs to be converted into a toggle
-        // Need to wait until we increment to v3.3.0
         if (this.settings.profileCustomizations.avatarDecoration) {
             this.styler.add(`.${this.avatar.avatarDecorationContainer}`);
         }
