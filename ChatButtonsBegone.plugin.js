@@ -450,17 +450,11 @@ const config = {
                     ]
                 },
                 {
-                    type: 'dropdown',
+                    type: 'switch',
                     id: 'avatarDecoration',
                     name: 'Avatar Decoration',
                     note: 'Controls the visibility of avatar decorations. "Remove in Member List" removes it in member lists (Server/DM and messages), "Remove in Profile" removes it in profiles, "Remove" removes it everywhere.',
-                    value: 'show',
-                    options: [
-                        { label: 'Show', value: 'show' },
-                        { label: 'Remove in Member List', value: 'memberlist' },
-                        { label: 'Remove in Profile', value: 'profile' },
-                        { label: 'Remove', value: 'global' },
-                    ]
+                    value: false,
                 },
                 {
                     type: 'switch',
@@ -835,6 +829,18 @@ module.exports = class ChatButtonsBegone {
 
                     return config;
                 }
+            },
+            {
+                to: '3.3.0',
+                migrate: (config) => {
+                    if (config.profileCustomizations.avatarDecoration !== 'show') {
+                        config.profileCustomizations.avatarDecoration = true;
+                    } else {
+                        config.profileCustomizations.avatarDecoration = false;
+                    }
+                    
+                    return config;
+                }
             }
         ];
 
@@ -893,6 +899,10 @@ module.exports = class ChatButtonsBegone {
             this.settings.messageActions.removeMore
         ) {
             this.styler.add(`.${this.messageActionContainer.message} .${this.messageActionContainer.buttons}`);
+        }
+        if (this.settings.messageActions.quickReactions) {
+            this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(>.${this.messageActionButtons.icon}>[data-type="emoji"])`);
+            this.styler.add(`.${this.messageActionButtons.separator}`);
         }
         if (this.settings.messageActions.reactionButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])`);
         if (this.settings.messageActions.editButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])`);
@@ -1012,18 +1022,14 @@ module.exports = class ChatButtonsBegone {
 
         // TODO: profileCustomizations.avatarDecoration needs to be converted into a toggle
         // Need to wait until we increment to v3.3.0
-        switch (this.settings.profileCustomizations.avatarDecoration) {
-            case 'memberlist':
-            case 'profile':
-            case 'global':
-                this.styler.add(`.${this.avatar.avatarDecorationContainer}`);
-                break;
+        if (this.settings.profileCustomizations.avatarDecoration) {
+            this.styler.add(`.${this.avatar.avatarDecorationContainer}`);
         }
 
         if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
         if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}`);
-        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.overlay}`);
+        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.inner} > .${this.profileScroller.scrollerBase} > .${this.profileWishlist.overlay}:not(& .${this.profileSidebar.overlay})`);
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
