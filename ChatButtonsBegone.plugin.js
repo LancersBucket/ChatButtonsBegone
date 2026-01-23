@@ -648,8 +648,6 @@ module.exports = class ChatButtonsBegone {
             this.questPrompt,
             this.dmDivider,
             this.channelDivider,
-            this.blockedGroup,
-            this.blockedIndicator
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('channelTextArea', 'buttons') }, // Buttons Global
@@ -709,8 +707,6 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('utils', 'heading', 'instructions') }, // Active Now Quest Prompt
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
-            { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
-            { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') } // Blocked Message Indicator
         );
     }
 
