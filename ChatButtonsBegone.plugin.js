@@ -204,6 +204,13 @@ const config = {
                         { label: "Simplify + Remove When Empty", value: 'simplifyempty' },
                         { label: "Remove", value: 'remove' },
                     ]
+                },
+                {
+                    type: 'switch',
+                    id: 'libraryTab',
+                    name: 'Remove Library Tab',
+                    note: 'Removes the Library tab from the DM list.',
+                    value: false,
                 }
             ]
         },
@@ -548,6 +555,13 @@ const config = {
                     name: 'Remove Seasonal Events',
                     note: 'Removes seasonal event tabs and buttons (i.e. Snowsgiving, Discord\'s Birthday, etc.).',
                     value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'ioChevrons',
+                    name: 'Remove I/O Chevrons',
+                    note: 'Removes the chevrons (arrows) from the I/O buttons in the user panel.',
+                    value: false,
                 }
             ]
         },
@@ -647,6 +661,7 @@ module.exports = class ChatButtonsBegone {
             this.questPrompt,
             this.dmDivider,
             this.channelDivider,
+            this.iochevron
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('channelTextArea', 'buttons') }, // Buttons Global
@@ -705,6 +720,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('utils', 'heading', 'instructions') }, // Active Now Quest Prompt
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
+            { filter: this.api.Webpack.Filters.byKeys('buttonChevron') } // I/O Chevrons
         );
     }
 
@@ -937,6 +953,8 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.activeNowColumn.nowPlayingColumn}`);
         }
 
+        if (this.settings.dms.libraryTab) this.styler.add('li:has([href="/library"])');
+
         /// Servers and Channels ///
         if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}:not(:first-child)`);
         if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer} + .${this.addServerDiscoverButton.listItem}`);
@@ -1079,6 +1097,7 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
+        if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
 
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`.${this.chatBarButtons.buttons} div:has(.invisibleTypingButton)`);
