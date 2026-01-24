@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.3.0
+ * @version 3.3.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.3.0',
+        version: '3.3.1',
     },
     defaultConfig: [
         {
@@ -189,7 +189,7 @@ const config = {
                         { label: "Remove Button", value: 'hideButton' },
                         { label: "Remove Text", value: 'hideText' },
                         { label: "Remove", value: 'remove' },
-                    ],
+                    ]
                 },
                 {
                     type: 'dropdown',
@@ -371,6 +371,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'gameActivityButton',
+                    name: 'Remove Game Activity Button',
+                    note: 'Removes the suggested activities button from bottom voice chat panel.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'voiceAvatars',
                     name: 'Remove Server Voice Chat Avatars',
                     note: 'Removes the avatars of users in voice chats in servers.',
@@ -483,7 +490,7 @@ const config = {
                     name: 'Remove Profile Wishlist',
                     note: 'Removes the Wishlist from user profiles.',
                     value: false,
-                },
+                }
             ]
         },
         {
@@ -616,6 +623,8 @@ module.exports = class ChatButtonsBegone {
             this.vcButtons,
             this.vcKrisp,
             this.vcActivityPanel,
+            this.vcButtonSection,
+            this.vcActivities,
             this.scSmallAvatar,
 
             // Title Bar
@@ -646,7 +655,7 @@ module.exports = class ChatButtonsBegone {
             this.promotedQuest,
             this.questPrompt,
             this.dmDivider,
-            this.channelDivider,
+            this.channelDivider
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('channelTextArea', 'buttons') }, // Buttons Global
@@ -665,7 +674,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop') }, // Server Unread Mentions Indicator: Top
             { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom') }, // Server Unread Mentions Indicator: Bottom
             { filter: this.api.Webpack.Filters.byKeys('guilds', 'content') }, // Server Sidebar
-            { filter: this.api.Webpack.Filters.byKeys('containerWithMargin', 'progressContainer') }, // Server Boost Bar
+            { filter: this.api.Webpack.Filters.byKeys('container', 'contentContainer', 'progressContainer') }, // Server Boost Bar
             { filter: this.api.Webpack.Filters.byKeys('inviteButton') }, // Header Invite Button
             { filter: this.api.Webpack.Filters.byKeys('linkTop','children') }, // Channel List Invite Button
             { filter: this.api.Webpack.Filters.byKeys('membersGroup') }, // Server Activity Section
@@ -677,6 +686,8 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('container', 'actionButtons') }, // VC Buttons
             { filter: this.api.Webpack.Filters.byKeys('voiceButtonsContainer') }, // Krisp Button
             { filter: this.api.Webpack.Filters.byKeys('activityPanel') }, // VC Activity Panel
+            { filter: this.api.Webpack.Filters.byKeys('buttonSection', 'buttonContainer') },
+            { filter: this.api.Webpack.Filters.byKeys('attachedCaretButtonContainer') },
             { filter: this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall') }, // VC Server Channel Avatars
 
             { filter: this.api.Webpack.Filters.byKeys('backForwardButtons') }, // Back/Forward Buttons
@@ -704,7 +715,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('promotedTag') }, // Active Now Quests Promotion
             { filter: this.api.Webpack.Filters.byKeys('utils', 'heading', 'instructions') }, // Active Now Quest Prompt
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
-            { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
+            { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') } // Server Channel Divider
         );
     }
 
@@ -909,7 +920,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.addReactionButton) this.styler.add(`span:has(>.${this.addReactionButton.reactionBtn})`);
 
         /// Direct Messages ///
-        if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class$="searchBar"]`);
+        if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class^="searchBar"]`);
         if (this.settings.dms.friendsTab) this.styler.add('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.styler.add('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) {
@@ -953,7 +964,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.serverBanner.animatedContainer}`);
             this.styler.add('div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
         }
-        if (this.settings.servers.boostBar) this.styler.add(`.${this.boostBar.containerWithMargin}`);
+        if (this.settings.servers.boostBar) this.styler.add(`.${this.boostBar.container}`);
         if (this.settings.servers.serverGuide) this.styler.add('li:has(div[id*="home-tab"])');
         if (this.settings.servers.eventButton) this.styler.add('li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
         if (this.settings.servers.membersButton) this.styler.add('li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
@@ -971,13 +982,14 @@ module.exports = class ChatButtonsBegone {
         }
 
         /// Voice ///
-        if (this.settings.voice.invitePlaceholder) this.styler.add(`div[class$="-row"]:has(.${this.vcScreen.singleUserRoot})`);
+        if (this.settings.voice.invitePlaceholder) this.styler.add(`div[class^="row"]>div:has(.${this.vcScreen.singleUserRoot})`);
         if (this.settings.voice.cameraPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} > button:first-of-type`);
         if (this.settings.voice.screensharePanelButton) this.styler.add(`.${this.vcButtons.actionButtons} > button:nth-of-type(2)`);
         if (this.settings.voice.activityPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} > button:nth-of-type(3)`);
         if (this.settings.voice.soundboardPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} span:has(svg)`);
         if (this.settings.voice.krispButton) this.styler.add(`.${this.vcKrisp.voiceButtonsContainer} button:first-of-type`);
         if (this.settings.voice.gameActivityPanel) this.styler.add(`.${this.vcActivityPanel.activityPanel}`);
+        if (this.settings.voice.gameActivityButton) this.styler.add(`.${this.vcButtonSection.buttonContainer}:has(.${this.vcActivities.attachedCaretButtonContainer})`);
         if (this.settings.voice.voiceAvatars) this.styler.add(`.${this.scSmallAvatar.avatarSmall}`);
 
         /// Title Bar ///
@@ -1038,7 +1050,7 @@ module.exports = class ChatButtonsBegone {
             // Profile Shop Button
             this.styler.add(`[class$="-profile"] [class$="-profileButtons"] > span:first-of-type`);
         }
-        
+
         if (this.settings.miscellaneous.noQuests) {
             this.styler.add('li:has([href="/quest-home"])');
             // Active Now section
