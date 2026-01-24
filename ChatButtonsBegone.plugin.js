@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.3.1
+ * @version 3.4.0
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.3.1',
+        version: '3.4.0',
     },
     defaultConfig: [
         {
@@ -451,11 +451,17 @@ const config = {
             shown: false,
             settings: [
                 {
-                    type: 'switch',
+                    type: 'dropdown',
                     id: 'namePlate',
                     name: 'Remove Nameplates',
                     note: 'Removes nameplates from members in the member list.',
-                    value: false,
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove in DMs/Members', value: 'original' },
+                        { label: 'Remove in User Area', value: 'self' },
+                        { label: 'Remove', value: 'global' },
+                    ]
                 },
                 {
                     type: 'dropdown',
@@ -765,80 +771,6 @@ module.exports = class ChatButtonsBegone {
     migrateConfig() {
         const migrations = [
             {
-                to: '2.12.0',
-                migrate: (config) => {
-                    // Combine activeNow and simplifyActiveNow into the dropdown activeNow
-                    if (config.dms.activeNow == true) {
-                        config.dms.activeNow = 'remove';
-                    } else if (config.dms.simplifyActiveNow == true) {
-                        config.dms.activeNow = 'simplify'
-                    } else {
-                        config.dms.activeNow = 'show';
-                    }
-                    delete config.dms.simplifyActiveNow;
-
-                    // Migrate old clanTag setting to dropdown
-                    if (config.miscellaneous.clanTag == true) {
-                        config.miscellaneous.clanTag = 'memberlist';
-                    } else {
-                        config.miscellaneous.clanTag = 'show';
-                    }
-
-                    return config;
-                }
-            },
-            {
-                to: '2.13.0',
-                migrate: (config) => {
-                    config.profileCustomizations = {};
-                    if ('namePlate' in config.miscellaneous) {
-                        config.profileCustomizations.namePlate = config.miscellaneous.namePlate;
-                        delete config.miscellaneous.namePlate;
-                    }
-                    if ('clanTag' in config.miscellaneous) {
-                        config.profileCustomizations.clanTag = config.miscellaneous.clanTag;
-                        delete config.miscellaneous.clanTag;
-                    }
-                    if ('avatarDecoration' in config.miscellaneous) {
-                        config.profileCustomizations.avatarDecoration = config.miscellaneous.avatarDecoration;
-                        delete config.miscellaneous.avatarDecoration;
-                    }
-                    if ('hideBadges' in config.miscellaneous) {
-                        config.profileCustomizations.hideBadges = config.miscellaneous.hideBadges;
-                        delete config.miscellaneous.hideBadges;
-                    }
-
-                    return config;
-                }
-            },
-            {
-                to: '2.13.0',
-                migrate: (config) => {
-                    // Move charbar settings into their own category
-                    config.chatbar = {}
-
-                    config.chatbar.attachButton = config.attachButton;
-                    delete config.attachButton;
-
-                    config.chatbar.giftButton = config.giftButton;
-                    delete config.giftButton;
-
-                    config.chatbar.gifButton = config.gifButton;
-                    delete config.gifButton;
-
-                    config.chatbar.stickerButton = config.stickerButton;
-                    delete config.stickerButton;
-
-                    config.chatbar.emojiButton = config.emojiButton;
-                    delete config.emojiButton;
-
-                    config.chatbar.appLauncherButton = config.appLauncherButton;
-                    delete config.appLauncherButton;
-
-                    return config;
-                }
-            },
-            {
                 to: '3.1.0',
                 migrate: (config) => {
                     config.voice.gameActivityPanel = config.miscellaneous.activityPanel;
@@ -869,6 +801,18 @@ module.exports = class ChatButtonsBegone {
                         config.profileCustomizations.avatarDecoration = true;
                     } else {
                         config.profileCustomizations.avatarDecoration = false;
+                    }
+                    
+                    return config;
+                }
+            },
+            {
+                to: '3.4.0',
+                migrate: (config) => {
+                    if (config.profileCustomizations.namePlate === true) {
+                        config.profileCustomizations.namePlate = 'original';
+                    } else {
+                        config.profileCustomizations.namePlate = 'show';
                     }
                     
                     return config;
@@ -1028,13 +972,15 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.toolbar.inboxButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(svg>path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])`);
 
         /// Profile Customizations ///
-        if (this.settings.profileCustomizations.namePlate) {
-            // Server List
-            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"]`);
-
-            // DM list
-            this.styler.add(`.${this.dmEntry.interactive} > [style*="linear-gradient"]`);
-
+        if (this.settings.profileCustomizations.namePlate == 'original') {
+            // Server List / DM List
+            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style*="linear-gradient"]`);
+        } else if (this.settings.profileCustomizations.namePlate == 'self') {
+            // Self Avatar Area
+            this.styler.add(`.${this.selfNamePlate.fitInAccount}`);
+        } else if (this.settings.profileCustomizations.namePlate == 'global') {
+            // Server List / DM List
+            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style*="linear-gradient"]`);
             // Self Avatar Area
             this.styler.add(`.${this.selfNamePlate.fitInAccount}`);
         }

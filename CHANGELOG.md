@@ -1,4 +1,28 @@
 # Changelog
+## v3.4.0 - January 24th, 2026
+[@Zacam](https://github.com/Zacam) is now an official collaborator for Chat Buttons Begone!
+
+### Added
+- Option to remove the Library Tab [Direct Messages]
+- Option to remove the I/O Button Chevrons in user area [Miscellaneous]
+- Option to remove the Suggested Activity Button from the voice chat panel [Voice]
+- Option to remove Server Channel List Settings Button [Servers and Channels] 
+
+### Changed
+- Remove Nameplate is now a dropdown
+    - Show: Keep Nameplates
+    - Remove in DMs/Members: Remove Nameplates in user lists
+    - Remove in User Area: Remove Nameplate in self user area (bottom left)
+    - Remove: Removes Nameplates everywhere
+
+### Fixed
+- Boost Bar not removing properly
+- DM Quick Switcher not removing properly
+- Invite Button removing the Open Chat button in VCs rather than the Invite Button
+
+### Removed
+- Automatic migration support for versions older than v3.0.0
+
 ## v3.3.0 - January 23rd, 2026
 Thanks [@Zacam](https://github.com/Zacam) for the help with getting Chat Buttons Begone to the BD Store!
 
