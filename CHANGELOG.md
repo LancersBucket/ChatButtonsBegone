@@ -23,6 +23,7 @@
 
 ### Removed
 - Automatic migration support for versions older than v3.0.0
+- Support for desktop-land-and-learn
 
 ## v3.3.0 - January 23rd, 2026
 Thanks [@Zacam](https://github.com/Zacam) for the help with getting Chat Buttons Begone to the BD Store!
