@@ -998,7 +998,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
         if (this.settings.servers.inviteButton) {
             this.styler.add(`.${this.headerInviteButton.inviteButton}`);
-            this.styler.add(`.${this.channelListButtons.linkTop}>.${this.channelListButtons.children}>span:first-of-type`);
+            this.styler.add(`.${this.channelListButtons.children}>span:has(svg>path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])`);
         }
         if (this.settings.servers.settingsButton) this.styler.add(`.${this.channelListButtons.children}>span:has(svg>path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])`);
         if (this.settings.servers.activitySection) {
