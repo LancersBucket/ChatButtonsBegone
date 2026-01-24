@@ -1017,13 +1017,13 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.nitroUpsell) {
             // Settings "Edit Profile" Page
-            this.styler.add(`.${this.shopArt.settingsPage} div:has(>[class$="-artContainer"])`);
+            this.styler.add(`.${this.shopArt.settingsPage} div:has(>[class^="artContainer"])`);
             // Billing Settings
             this.styler.add('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.styler.add(`.${this.profileUpsell.upsellOverlayContainer}`);
             // Profile Shop Button
-            this.styler.add(`[class$="-profile"] [class$="-profileButtons"] > span:first-of-type`);
+            this.styler.add(`[class^="profile"] [class^="profileButtons"] > span:first-of-type`);
         }
 
         if (this.settings.miscellaneous.noQuests) {
