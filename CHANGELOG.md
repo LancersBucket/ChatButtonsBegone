@@ -19,6 +19,7 @@
 - Boost Bar not removing properly
 - DM Quick Switcher not removing properly
 - Invite Button removing the Open Chat button in VCs rather than the Invite Button
+- Nitro Upsell not removing properly in the Edit Profile Page and the Profile Shop Button 
 
 ### Removed
 - Automatic migration support for versions older than v3.0.0
