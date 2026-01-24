@@ -313,6 +313,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'settingsButton',
+                    name: 'Remove Settings Button',
+                    note: 'Removes the settings button when hovering over channel list entries.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'activitySection',
                     name: 'Remove Activities Section',
                     note: 'Removes the Activities Section from the server member list.',
@@ -626,7 +633,7 @@ module.exports = class ChatButtonsBegone {
             this.serverSideBar,
             this.boostBar,
             this.headerInviteButton,
-            this.channelListInviteButton,
+            this.channelListButtons,
             this.serverActivitySection,
             this.serverActivitySectionCards,
             this.serverActivityOnHover,
@@ -991,8 +998,9 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
         if (this.settings.servers.inviteButton) {
             this.styler.add(`.${this.headerInviteButton.inviteButton}`);
-            this.styler.add(`.${this.channelListInviteButton.linkTop}>.${this.channelListInviteButton.children}>span:first-of-type`);
+            this.styler.add(`.${this.channelListButtons.linkTop}>.${this.channelListButtons.children}>span:first-of-type`);
         }
+        if (this.settings.servers.settingsButton) this.styler.add(`.${this.channelListButtons.children}>span:has(svg>path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])`);
         if (this.settings.servers.activitySection) {
             this.styler.add(`.${this.serverActivitySection.membersGroup}:has([role="button"])`);
             this.styler.add(`div > div .${this.serverActivitySectionCards.usesCardRows}`);
