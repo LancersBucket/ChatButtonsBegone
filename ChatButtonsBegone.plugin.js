@@ -655,6 +655,7 @@ module.exports = class ChatButtonsBegone {
 
             // Profile Customizations
             this.namePlate,
+            this.selfNamePlate,
             this.dmEntry,
             this.clanTagProfile,
             this.clanTagChiplet,
@@ -717,6 +718,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar') }, // OldTitleBar Toolbar Buttons
 
             { filter: this.api.Webpack.Filters.byKeys('nameplated','container') }, // Nameplates
+            { filter: this.api.Webpack.Filters.byKeys('container','fitInAccount') }, // Nameplates
             { filter: this.api.Webpack.Filters.byKeys('interactive','interactiveSelected') }, // DM Entry Item
             { filter: this.api.Webpack.Filters.byKeys('guildTagContainer') }, // Profile Clan Tag
             { filter: this.api.Webpack.Filters.byKeys('clanTagChiplet') }, // Clan Tag Chiplet
@@ -1029,11 +1031,12 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.namePlate) {
             // Server List
             this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"]`);
-            this.styler.add(`.${this.namePlate.nameplated} > div > div > video`);
 
             // DM list
             this.styler.add(`.${this.dmEntry.interactive} > [style*="linear-gradient"]`);
-            this.styler.add(`.${this.dmEntry.interactiveSelected} > div > div > video`);
+
+            // Self Avatar Area
+            this.styler.add(`.${this.selfNamePlate.fitInAccount}`);
         }
 
         if (this.settings.profileCustomizations.clanTag == 'memberlist') {
