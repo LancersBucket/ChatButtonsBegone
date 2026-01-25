@@ -908,7 +908,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.twitchSectionPreview})`);
             this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.activitySection})`);
         } else if (this.settings.dms.activeNow == 'empty') {
-            this.styler.add(`.${this.activeNowColumn}:has(.${this.activeNowEmpty.emptyCard})`);
+            this.styler.add(`.${this.activeNowColumn.nowPlayingColumn}:has(.${this.activeNowEmpty.emptyCard})`);
         } else if (this.settings.dms.activeNow == 'simplifyempty') {
             this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.twitchSectionPreview})`);
             this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.activitySection})`);
