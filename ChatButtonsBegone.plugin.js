@@ -499,6 +499,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'profileGIF',
+                    name: 'Remove "GIF" from Profile Banner',
+                    note: 'Removes the "GIF" tag from user profiles that have an animated banner.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'hideCollection',
                     name: 'Remove Profile Collection',
                     note: 'Removes the Game Collection from user profiles.',
@@ -670,6 +677,7 @@ module.exports = class ChatButtonsBegone {
             this.avatarDecorationChat,
             this.profileBadges,
             this.profileEffects,
+            this.profileGIF,
             this.profileCollection,
             this.profileWishlist,
 
@@ -733,6 +741,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('avatarDecoration','contents') }, // Avatar Decoration in Chat
             { filter: this.api.Webpack.Filters.byKeys('tags','usernameRow') }, // Profile Badges
             { filter: this.api.Webpack.Filters.byKeys('profileEffects') }, // Profile Effects
+            { filter: this.api.Webpack.Filters.byKeys('mask', 'gifTag') }, // Profile GIF Tag
             { filter: this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer') }, // Profile Game Collection
             { filter: this.api.Webpack.Filters.byKeys('wishlistBreadcrumb') }, // Popup Profile Wishlist
 
@@ -1009,6 +1018,7 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
+        if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.${this.profileGIF.gifTag}`);
         if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}:has([class^="breadcrumb"])`);
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.wishlistBreadcrumb}`);
 
