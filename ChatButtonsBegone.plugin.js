@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.4.0
+ * @version 3.4.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.4.0',
+        version: '3.4.1',
     },
     defaultConfig: [
         {
@@ -589,8 +589,15 @@ const config = {
                     name: 'Remove I/O Chevrons',
                     note: 'Removes the chevrons (arrows) from the I/O buttons in the user panel.',
                     value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'tagsBotApp',
+                    name: 'Remove APP/BOT Tags',
+                    note: 'Removes the APP/Bot Tags from Bots in Memberslist/Messages.',
+                    value: false,
                 }
-            ]
+            ],
         },
         {
             type: 'category',
@@ -692,15 +699,16 @@ module.exports = class ChatButtonsBegone {
             this.questPrompt,
             this.dmDivider,
             this.channelDivider,
-            this.iochevron
+            this.iochevron,
+            this.tagsBot
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('channelTextArea', 'buttons') }, // Buttons Global
-            
+
             { filter: this.api.Webpack.Filters.byKeys('hoverBarButton') }, // Message Action Buttons
             { filter: this.api.Webpack.Filters.byKeys('reactions', 'reactionBtn') }, // Message Add Reaction Button
             { filter: this.api.Webpack.Filters.byKeys('messageListItem', 'message', 'buttons') }, // Message Action Button
-            
+
             { filter: this.api.Webpack.Filters.byKeys('privateChannels') }, // DM List
             { filter: this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer') }, // DM Header
             { filter: this.api.Webpack.Filters.byKeys('nowPlayingColumn') }, // Active Now Column
@@ -755,7 +763,8 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('utils', 'heading', 'instructions') }, // Active Now Quest Prompt
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
-            { filter: this.api.Webpack.Filters.byKeys('buttonChevron') } // I/O Chevrons
+            { filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
+            { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') } // APP/BOT Tags
         );
     }
 
@@ -1077,6 +1086,7 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
+        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}`);
 
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`.${this.chatBarButtons.buttons} div:has(.invisibleTypingButton)`);
@@ -1131,10 +1141,10 @@ module.exports = class ChatButtonsBegone {
                     this.settings[id] = value;
                 }
                 this.api.Data.save('settings', this.settings);
-                
+
                 // Don't refresh styles on core settings change
                 if (category === 'core') return;
-                
+
                 this.styler.purge();
                 this.addStyles();
                 this.api.UI.showToast('Styles refreshed.', { type: 'info' });
