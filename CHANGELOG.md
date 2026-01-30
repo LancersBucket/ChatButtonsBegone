@@ -1,4 +1,12 @@
 # Changelog
+## v3.4.1 - January 29th, 2026
+## Added
+- Option to remove the "GIF" tag on user profiles that have an animated banner [Profile Customizations]
+- Option to remove APP/BOT tags from APPs and BOTs [Miscellaneous]
+
+## Fixed
+- Active now's "Remove When Empty" breaking the rest of the settings
+
 ## v3.4.0 - January 24th, 2026
 [@Zacam](https://github.com/Zacam) is now an official collaborator for Chat Buttons Begone!
 
