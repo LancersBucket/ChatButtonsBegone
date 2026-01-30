@@ -1086,7 +1086,7 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
-        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}`);
+        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}:not(.${this.tagsBot.botTagOP.split(' ')[0]})`);
 
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`.${this.chatBarButtons.buttons} div:has(.invisibleTypingButton)`);
