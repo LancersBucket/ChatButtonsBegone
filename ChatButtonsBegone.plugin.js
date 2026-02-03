@@ -53,7 +53,7 @@ const config = {
                     id: 'giftButton',
                     name: 'Remove Gift/Boost Button',
                     note: 'Removes the Gift Nitro/Boost Server button from the chatbar.',
-                    value: true,
+                    value: false,
                 },
                 {
                     type: 'switch',
@@ -169,14 +169,14 @@ const config = {
                     id: 'premiumTab',
                     name: 'Remove Nitro Tab',
                     note: 'Removes the Nitro tab from the DM list.',
-                    value: true,
+                    value: false,
                 },
                 {
                     type: 'switch',
                     id: 'discordShopTab',
                     name: 'Remove Shop Tab',
                     note: 'Removes the Shop tab from the DM list.',
-                    value: true,
+                    value: false,
                 },
                 {
                     type: 'dropdown',
@@ -260,7 +260,7 @@ const config = {
                     id: 'boostBar',
                     name: 'Remove Boost Bar',
                     note: 'Removes the boost progress bar from the channel list.',
-                    value: true,
+                    value: false,
                 },
                 {
                     type: 'switch',
@@ -768,24 +768,6 @@ module.exports = class ChatButtonsBegone {
         );
     }
 
-    compareVersions(a, b) {
-        if (a.includes('/')) {
-            a = a.split('/')[0];
-        }
-        if (b.includes('/')) {
-            b = b.split('/')[0];
-        }
-        const aParts = a.split('.').map(Number);
-        const bParts = b.split('.').map(Number);
-        for (let i = 0; i < Math.min(aParts.length, bParts.length); i++) {
-            const aPart = aParts[i] || 0;
-            const bPart = bParts[i] || 0;
-            if (aPart > bPart) return 1;
-            if (aPart < bPart) return -1;
-        }
-        return 0;
-    }
-
     migrateConfig() {
         const migrations = [
             {
@@ -838,16 +820,32 @@ module.exports = class ChatButtonsBegone {
             }
         ];
 
+        const compareVersions = function(a, b) {
+            if (a.includes('/')) a = a.split('/')[0];
+            if (b.includes('/')) b = b.split('/')[0];
+
+            const aParts = a.split('.').map(Number);
+            const bParts = b.split('.').map(Number);
+
+            for (let i = 0; i < Math.min(aParts.length, bParts.length); i++) {
+                const aPart = aParts[i] || 0;
+                const bPart = bParts[i] || 0;
+                if (aPart > bPart) return 1;
+                if (aPart < bPart) return -1;
+            }
+            return 0;
+        }
+
         let currentVersion = this.settingVersion;
         migrations.forEach(migration => {
-            if (this.compareVersions(currentVersion, migration.to) < 0) {
+            if (compareVersions(currentVersion, migration.to) < 0) {
                 this.settings = migration.migrate(this.settings);
                 currentVersion = migration.to;
             }
         });
         this.api.Data.save('settings', this.settings);
 
-        if (this.compareVersions(this.settingVersion, config.info.version) <= 0) {
+        if (compareVersions(this.settingVersion, config.info.version) <= 0) {
             this.settingVersion = config.info.version;
             this.api.Data.save('settingVersion', this.settingVersion);
         }
@@ -1065,7 +1063,8 @@ module.exports = class ChatButtonsBegone {
             if (
                 this.settings.dms.friendsTab &&
                 this.settings.dms.premiumTab &&
-                this.settings.dms.discordShopTab
+                this.settings.dms.discordShopTab &&
+                this.settings.miscellaneous.noQuests
             ) {
                 this.styler.add(listSeparatorDm);
             }
