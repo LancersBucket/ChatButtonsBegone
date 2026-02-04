@@ -875,7 +875,7 @@ module.exports = class ChatButtonsBegone {
     addStyles() {
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.styler.add(`.${this.attachButton.attachWrapper}`);
-        if (this.settings.chatbar.giftButton) this.styler.add(`.${this.chatBarButtons.buttons} > .${this.chatBarButtons.button}:not(.expression-picker-chat-input-button)`);
+        if (this.settings.chatbar.giftButton) this.styler.add(`.${this.chatBarButtons.buttons} > div:not(.expression-picker-chat-input-button)`);
         if (this.settings.chatbar.gifButton) this.styler.add(`.expression-picker-chat-input-button:not(:has(.${this.chatBarButtons.stickerButton}, .${this.chatBarButtons.emojiButton.split(' ')[0]}))`);
         if (this.settings.chatbar.stickerButton) this.styler.add(`.expression-picker-chat-input-button:has(.${this.chatBarButtons.stickerButton})`);
         if (this.settings.chatbar.emojiButton) this.styler.add(`.expression-picker-chat-input-button:has(.${this.chatBarButtons.emojiButton.split(' ')[0]})`);

@@ -4,7 +4,8 @@
 - Nitro settings are now disabled by default
 
 ### Fixed
-- Remove DM/Server Channel List Separator Semi-Smart Mode now considers the quest tab for the DM list [Miscellaneous]
+- Remove DM/Server Channel List Separator Semi-Smart Mode now considers the quest tab for the DM list
+- Gift Button not removing properly
 
 ## v3.4.1 - January 29th, 2026
 ### Added
