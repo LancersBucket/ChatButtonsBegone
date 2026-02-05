@@ -1,5 +1,5 @@
 # Changelog
-## v3.4.2
+## v3.4.2 - February 5th, 2026
 ### Changed
 - Nitro settings are now disabled by default
 
