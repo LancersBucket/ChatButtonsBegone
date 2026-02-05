@@ -1,10 +1,18 @@
 # Changelog
+## v3.4.2 - February 5th, 2026
+### Changed
+- Nitro settings are now disabled by default
+
+### Fixed
+- Remove DM/Server Channel List Separator Semi-Smart Mode now considers the quest tab for the DM list
+- Gift Button not removing properly
+
 ## v3.4.1 - January 29th, 2026
-## Added
+### Added
 - Option to remove the "GIF" tag on user profiles that have an animated banner [Profile Customizations]
 - Option to remove APP/BOT tags from APPs and BOTs [Miscellaneous]
 
-## Fixed
+### Fixed
 - Active now's "Remove When Empty" breaking the rest of the settings
 
 ## v3.4.0 - January 24th, 2026
