@@ -1,4 +1,8 @@
 # Changelog
+## v3.4.3 - February 6th, 2026
+### Fixed
+- Gift Button removing InvisibleTypingButton and Send Button
+
 ## v3.4.2 - February 5th, 2026
 ### Changed
 - Nitro settings are now disabled by default
