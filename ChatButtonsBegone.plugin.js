@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.4.2
+ * @version 3.4.3
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.4.2',
+        version: '3.4.3',
     },
     defaultConfig: [
         {
@@ -700,7 +700,8 @@ module.exports = class ChatButtonsBegone {
             this.dmDivider,
             this.channelDivider,
             this.iochevron,
-            this.tagsBot
+            this.tagsBot,
+            this.id111
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('channelTextArea', 'buttons') }, // Buttons Global
@@ -764,7 +765,8 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
             { filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
-            { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') } // APP/BOT Tags
+            { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
+            { filter: this.api.Webpack.Filters.byId(11111)}
         );
     }
 
@@ -877,7 +879,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.chatbar.attachButton) this.styler.add(`.${this.attachButton.attachWrapper}`);
         if (this.settings.chatbar.giftButton) {
             // New Implementation (Valentines Upsell)
-            this.styler.add(`.${this.chatBarButtons.buttons} > div:not(.expression-picker-chat-input-button)`);
+            this.styler.add(`.${this.chatBarButtons.buttons} div[class^="container"]:has(>.${this.chatBarButtons.button})`);
             // Old Implementation
             this.styler.add(`.${this.chatBarButtons.buttons} > .${this.chatBarButtons.button}:not(.expression-picker-chat-input-button)`);
         }
