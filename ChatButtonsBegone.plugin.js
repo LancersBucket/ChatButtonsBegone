@@ -908,7 +908,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.forwardButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`);
         if (this.settings.messageActions.removeMore) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`);
 
-        if (this.settings.messageActions.addReactionButton) this.styler.add(`span:has(.${this.addReactionButton.reactionBtn})`);
+        if (this.settings.messageActions.addReactionButton) this.styler.add(`.${this.addReactionButton.reactionBtn}`);
 
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class^="searchBar"]`);
