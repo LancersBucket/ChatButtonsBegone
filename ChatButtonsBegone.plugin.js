@@ -1112,7 +1112,7 @@ module.exports = class ChatButtonsBegone {
 
         // Remove Custom User Status
         if (this.settings.miscellaneous.userStatus == 'dmlist') {
-            this.styler.add(`.${this.dmlistStatus.subText}:has(>div>*)`);
+            this.styler.add(`.${this.dmlistStatus.content.subText}`);
         } else if (this.settings.miscellaneous.userStatus == 'memberlist') {
             this.styler.add(`.${this.memberlistStatus.subText}`);
         } else if (this.settings.miscellaneous.userStatus == 'remove') {
