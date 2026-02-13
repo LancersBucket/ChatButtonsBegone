@@ -1,4 +1,8 @@
 # Changelog
+## v3.4.4 - February 12th, 2026
+### Fixed
+- Plugin crashing if Remove Gif Button or Remove Emoji Button is active
+
 ## v3.4.3 - February 6th, 2026
 ### Fixed
 - Gift Button removing InvisibleTypingButton and Send Button
