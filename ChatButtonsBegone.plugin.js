@@ -1105,7 +1105,7 @@ module.exports = class ChatButtonsBegone {
         try {
             this.addStyles();
         } catch (error) {
-            this.api.Logger.error(`Failed to apply styles. Please report the following error to ${config.info.github}/issues :\n\n${error}`);
+            this.api.Logger.error(`Failed to apply styles. Please report the following error to ${config.info.github}/issues:\n\n${error}`);
             BdApi.UI.showToast('ChatButtonsBegone encountered an error! Check the console for more information.',
                 { type: 'error', timeout: '5000' }
             );
