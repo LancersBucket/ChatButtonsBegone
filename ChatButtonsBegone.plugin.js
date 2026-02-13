@@ -596,6 +596,19 @@ const config = {
                     name: 'Remove APP/BOT Tags',
                     note: 'Removes the APP/Bot Tags from Bots in Memberslist/Messages.',
                     value: false,
+                },
+                {
+                    type: 'dropdown',
+                    id: 'userStatus',
+                    name: 'Remove Custom User Status',
+                    note: 'Controls the visibility of custom User Status in DM and Server Member List. "Show" shows them, "Remove" removes them entirely.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show'},
+                        { label: 'Remove in DM list', value: 'dmlist' },
+                        { label: 'Remove in Server Member list', value: 'memberlist' },
+                        { label: 'Remove', value: 'remove' },
+                    ]
                 }
             ],
         },
@@ -699,7 +712,9 @@ module.exports = class ChatButtonsBegone {
             this.dmDivider,
             this.channelDivider,
             this.iochevron,
-            this.tagsBot
+            this.tagsBot,
+            this.dmlistStatus,
+            this.memberlistStatus
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('textArea', 'buttons') }, // Buttons Global
@@ -762,7 +777,9 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
             { filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
-            { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') } // APP/BOT Tags
+            { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
+            { filter: this.api.Webpack.Filters.byKeys('subText', 'content') }, // DMs List User Status
+            { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
         );
 
         // Add Reaction Button
@@ -1092,6 +1109,18 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
         if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}:not(.${this.tagsBot.botTagOP?.split(' ')[0]})`);
+
+        // Remove Custom User Status
+        if (this.settings.miscellaneous.userStatus == 'dmlist') {
+            this.styler.add(`.${this.dmlistStatus.subText}:has(>div>*)`);
+        } else if (this.settings.miscellaneous.userStatus == 'memberlist') {
+            this.styler.add(`.${this.memberlistStatus.subText}`);
+        } else if (this.settings.miscellaneous.userStatus == 'remove') {
+            // DM List
+            this.styler.add(`.${this.dmlistStatus.subText}:has(>div>*)`);
+            // Member List
+            this.styler.add(`.${this.memberlistStatus.subText}`);
+        }
 
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`div:has(>.invisibleTypingButton)`);
