@@ -713,6 +713,7 @@ module.exports = class ChatButtonsBegone {
             this.channelDivider,
             this.iochevron,
             this.tagsBot,
+            this.dmStatus,
             this.dmlistStatus,
             this.memberlistStatus
         ] = this.api.Webpack.getBulk(
@@ -778,7 +779,8 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
             { filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
             { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
-            { filter: this.api.Webpack.Filters.byKeys('subText', 'content') }, // DMs List User Status
+            { filter: this.api.Webpack.Filters.byKeys('textXs') }, // DMs List User Status
+            { filter: this.api.Webpack.Filters.byKeys('activityStatusText') }, // DMs List User Status
             { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
         );
 
@@ -1112,12 +1114,12 @@ module.exports = class ChatButtonsBegone {
 
         // Remove Custom User Status
         if (this.settings.miscellaneous.userStatus == 'dmlist') {
-            this.styler.add(`.${this.dmlistStatus.content.subText}`);
+            this.styler.add(`.${this.dmStatus.textXs}:has(.${this.dmlistStatus.activityStatusText})`);
         } else if (this.settings.miscellaneous.userStatus == 'memberlist') {
             this.styler.add(`.${this.memberlistStatus.subText}`);
         } else if (this.settings.miscellaneous.userStatus == 'remove') {
             // DM List
-            this.styler.add(`.${this.dmlistStatus.content.subText}`);
+            this.styler.add(`.${this.dmStatus.textXs}:has(.${this.dmlistStatus.activityStatusText})`);
             // Member List
             this.styler.add(`.${this.memberlistStatus.subText}`);
         }
