@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.4.4
+ * @version 3.4.5
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.4.4',
+        version: '3.4.5',
     },
     defaultConfig: [
         {
@@ -911,7 +911,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.addReactionButton) this.styler.add(`.${this.addReactionButton.reactionBtn}`);
 
         /// Direct Messages ///
-        if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class^="searchBar"]`);
+        if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class^="searchBar"], .${this.DMList.privateChannels} div[style="height: 8px;"]`);
         if (this.settings.dms.friendsTab) this.styler.add('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.styler.add('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) {
@@ -1010,7 +1010,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.clanTag == 'memberlist') {
             this.styler.add(`.${this.dmEntry.clanTag}`);
             this.styler.add(`.${this.clanTagChiplet.clanTagChiplet}`);
-            this.styler.add(`.${this.clanTagChipletServer.chipletContainerInner}`);
+            this.styler.add(`:not(.${this.clanTagProfile.guildTagContainer}) > .${this.clanTagChipletServer.chipletContainerInner}`);
         } else if (this.settings.profileCustomizations.clanTag == 'profile') {
             this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
         } else if (this.settings.profileCustomizations.clanTag == 'global') {
