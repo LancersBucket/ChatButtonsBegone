@@ -1117,7 +1117,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.memberlistStatus.subText}`);
         } else if (this.settings.miscellaneous.userStatus == 'remove') {
             // DM List
-            this.styler.add(`.${this.dmlistStatus.subText}:has(>div>*)`);
+            this.styler.add(`.${this.dmlistStatus.content.subText}`);
             // Member List
             this.styler.add(`.${this.memberlistStatus.subText}`);
         }
