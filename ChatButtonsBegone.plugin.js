@@ -911,7 +911,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.addReactionButton) this.styler.add(`.${this.addReactionButton.reactionBtn}`);
 
         /// Direct Messages ///
-        if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class^="searchBar"], .${this.DMList.privateChannels} div[style="height: 8px;"]`);
+        if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class^="searchBar"]`);
         if (this.settings.dms.friendsTab) this.styler.add('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.styler.add('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) {
