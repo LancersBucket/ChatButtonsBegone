@@ -517,6 +517,13 @@ const config = {
                     name: 'Remove Profile Wishlist',
                     note: 'Removes the Wishlist from user profiles.',
                     value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'hideStatus',
+                    name: 'Remove Profile Custom Status',
+                    note: 'Removes the Custom Status from user profiles.',
+                    value: false,
                 }
             ]
         },
@@ -699,6 +706,7 @@ module.exports = class ChatButtonsBegone {
             this.profileGIF,
             this.profileCollection,
             this.profileWishlist,
+            this.profileCustomStatus,
 
             // Miscellaneous
             this.blockedGroup,
@@ -766,6 +774,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('mask', 'gifTag') }, // Profile GIF Tag
             { filter: this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer') }, // Profile Game Collection
             { filter: this.api.Webpack.Filters.byKeys('wishlistBreadcrumb') }, // Popup Profile Wishlist
+            { filter: this.api.Webpack.Filters.byKeys('container', 'ring') }, // Popup Profile Custom Status
 
             { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
             { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
@@ -1053,6 +1062,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.${this.profileGIF.gifTag}`);
         if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}:has([class^="breadcrumb"])`);
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.wishlistBreadcrumb}`);
+        if (this.settings.profileCustomizations.hideStatus) this.styler.add(`.${this.profileCustomStatus.ring}`);
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
