@@ -401,7 +401,7 @@ const config = {
         },
         {
             type: 'category',
-            name: 'Title Bar',
+            name: 'Title and Toolbar',
             id: 'toolbar',
             collapsible: true,
             shown: false,
@@ -439,6 +439,55 @@ const config = {
                     id: 'helpButton',
                     name: 'Remove Help Button',
                     note: 'Removes the Help button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'threadsButton',
+                    name: 'Remove Threads Button',
+                    note: 'Removes Threads button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'notifyButton',
+                    name: 'Remove Notify Button',
+                    note: 'Removes Notification Bell button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'pinnedButton',
+                    name: 'Remove Pins Button',
+                    note: 'Removes Pinned Messages button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'memberButton',
+                    name: 'Remove Show/Hide Members Button',
+                    note: 'Removes Show/Hide Members button. Also affects the DMs "Add Friend"',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'voiceButton',
+                    name: 'Remove Voice Call Button',
+                    note: 'Removes Start Voice Call button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'videoButton',
+                    name: 'Remove Video Call Button',
+                    note: 'Removes Start Video Call button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'profileButton',
+                    name: 'Remove Show/Hide Profile Button',
+                    note: 'Removes Show/Hide User Profile from DMs button.',
                     value: false,
                 }
             ]
@@ -758,8 +807,8 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall') }, // VC Server Channel Avatars
 
             { filter: this.api.Webpack.Filters.byKeys('backForwardButtons') }, // Back/Forward Buttons
-            { filter: this.api.Webpack.Filters.byKeys('trailing', 'title') }, // Trailing Buttons
-            { filter: this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar') }, // OldTitleBar Toolbar Buttons
+            { filter: this.api.Webpack.Filters.byKeys('trailing', 'title') }, // Title Buttons
+            { filter: this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar', 'iconWrapper') }, // Toolbar Buttons
 
             { filter: this.api.Webpack.Filters.byKeys('nameplated','container') }, // Nameplates
             { filter: this.api.Webpack.Filters.byKeys('container','fitInAccount') }, // Nameplates
@@ -1020,6 +1069,15 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.toolbar.checkpointButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(>svg>path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])`);
         if (this.settings.toolbar.helpButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) a[href="https://support.discord.com"]`);
         if (this.settings.toolbar.inboxButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(svg>path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])`);
+
+        /// Toolbar ///
+        if (this.settings.toolbar.threadsButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(svg>path[d^="M12 2.81a1 1 0 0 1 0-1.41l.36-.36a1 1 0 0 1 1.41 0l9.2 9.2a1"]) `);
+        if (this.settings.toolbar.notifyButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) `);
+        if (this.settings.toolbar.pinnedButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg path[d^="M19.38 11.38a3 3 0 0 0 4.24 0l.03-.03a.5.5 0 0 0 0-.7L13.35.35a.5.5"]) `);
+        if (this.settings.toolbar.memberButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"]) `);
+        if (this.settings.toolbar.voiceButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(svg>path[d="M13 7a1 1 0 0 1 1-1 4 4 0 0 1 4 4 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 0 1-1-1Z"]) `);
+        if (this.settings.toolbar.videoButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M4 4a3 3 0 0 0-3 3v10a3"])`);
+        if (this.settings.toolbar.profileButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54.54"]) `);
 
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate == 'original') {
