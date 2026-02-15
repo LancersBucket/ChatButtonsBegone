@@ -1096,7 +1096,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.clanTag == 'memberlist') {
             this.styler.add(`.${this.dmEntry.clanTag}`);
             this.styler.add(`.${this.clanTagChiplet.clanTagChiplet}`);
-            this.styler.add(`:not(.${this.clanTagProfile.guildTagContainer}) > .${this.clanTagChipletServer.chipletContainerInner}`);
+            this.styler.add(`:not(.${this.clanTagProfile.guildTagContainer}, #guild-header-popout-guild-tag) > .${this.clanTagChipletServer.chipletContainerInner}`);
         } else if (this.settings.profileCustomizations.clanTag == 'profile') {
             this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
         } else if (this.settings.profileCustomizations.clanTag == 'global') {
@@ -1105,7 +1105,7 @@ module.exports = class ChatButtonsBegone {
             // DMs
             this.styler.add(`.${this.clanTagChiplet.clanTagChiplet}`);
             // Server List
-            this.styler.add(`.${this.clanTagChipletServer.chipletContainerInner}`);
+            this.styler.add(`:not(#guild-header-popout-guild-tag) > .${this.clanTagChipletServer.chipletContainerInner}`);
             // Profile
             this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
         }
