@@ -1,7 +1,19 @@
 # Changelog
-## v3.4.5
+## v3.5.0
 ### Added
-- Option to remove user's custom statuses
+- Option to remove user's custom statuses [Miscellaneous]
+- Option to remove user's status in profile view [Profile Customizations]
+- Option to remove Toolbar Buttons [Title and Toolbar]
+    - Threads Button
+    - Notification Bell
+    - Pins Button
+    - Show/Hide Members Button
+    - Voice Call Button
+    - Video Call Button
+    - Show/Hide User Profile Button
+
+### Changed
+- Renamed "Title Bar" category to "Title and Toolbar"
 
 ### Fixed
 - Remove Clan Tag's "Member List" option also removing it in the profile view
