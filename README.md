@@ -1,13 +1,17 @@
 # Chat Buttons Begone!
+Are you tired of all the needless clutter scattered around your client?
 
-This plugin is based on the work of [QbDesu](https://github.com/QbDesu)'s [RemoveChatButtons](https://github.com/BleedingBD/plugin-RemoveChatButtons) plugin.
+Well look no further!
 
-This plugin allow you to remove all those annoying Chat Buttons that always bothered you. And much more!
-Gift button? Begone! Sticker button? Begone!
+From removing buttons on the Chat Bar, to the buttons/features no one ever uses, *or asked for*, Chat Buttons Begone has you covered!
+![thumbnail](./_meta/thumbnail.png)
 
-It doesn't stop at chat buttons, it also adds the ability to remove various other annoying things around the app, such as the Invite button on every channel, the Active Now section, Voice Panel buttons, any DM tabs such as the Nitro tab, and much, much more! With over 70 settings you can choose what to remove and what to keep. Simply go to the plugin settings to customize it to your liking.
+Why manage custom CSS that gets broken every update? Chat Buttons Begone leverages the BdApi to ensure class compatibility between updates for you!
 
-![Screenshot](https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/main/_meta/thumbnail.png)
+With over 70 settings, you can configure your client to remove or keep exactly what you want to, and make Discord your own.
+![settings](./_meta/settings.png)
+
+This plugin is based on the work of, and expands upon, [QbDesu](https://github.com/QbDesu)'s [RemoveChatButtons](https://github.com/BleedingBD/plugin-RemoveChatButtons) plugin.
 
 ## Changelog
 See [CHANGELOG.md](./CHANGELOG.md) for details on version history.

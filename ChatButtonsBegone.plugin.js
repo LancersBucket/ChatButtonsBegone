@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.4.4
+ * @version 3.5.0
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.4.4',
+        version: '3.5.0',
     },
     defaultConfig: [
         {
@@ -401,7 +401,7 @@ const config = {
         },
         {
             type: 'category',
-            name: 'Title Bar',
+            name: 'Title and Toolbar',
             id: 'toolbar',
             collapsible: true,
             shown: false,
@@ -439,6 +439,55 @@ const config = {
                     id: 'helpButton',
                     name: 'Remove Help Button',
                     note: 'Removes the Help button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'threadsButton',
+                    name: 'Remove Threads Button',
+                    note: 'Removes Threads button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'notifyButton',
+                    name: 'Remove Notify Button',
+                    note: 'Removes Notification Bell button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'pinnedButton',
+                    name: 'Remove Pins Button',
+                    note: 'Removes Pinned Messages button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'memberButton',
+                    name: 'Remove Show/Hide Members Button',
+                    note: 'Removes Show/Hide Members button. Also affects the DMs "Add Friend"',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'voiceButton',
+                    name: 'Remove Voice Call Button',
+                    note: 'Removes Start Voice Call button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'videoButton',
+                    name: 'Remove Video Call Button',
+                    note: 'Removes Start Video Call button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'profileButton',
+                    name: 'Remove Show/Hide Profile Button',
+                    note: 'Removes Show/Hide User Profile from DMs button.',
                     value: false,
                 }
             ]
@@ -516,6 +565,13 @@ const config = {
                     id: 'hideWishlist',
                     name: 'Remove Profile Wishlist',
                     note: 'Removes the Wishlist from user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'hideStatus',
+                    name: 'Remove Profile Custom Status',
+                    note: 'Removes the Custom Status from user profiles.',
                     value: false,
                 }
             ]
@@ -596,6 +652,19 @@ const config = {
                     name: 'Remove APP/BOT Tags',
                     note: 'Removes the APP/Bot Tags from Bots in Memberslist/Messages.',
                     value: false,
+                },
+                {
+                    type: 'dropdown',
+                    id: 'userStatus',
+                    name: 'Remove Custom User Status',
+                    note: 'Controls the visibility of custom User Status in DM and Server Member List. "Show" shows them, "Remove" removes them entirely.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show'},
+                        { label: 'Remove in DM list', value: 'dmlist' },
+                        { label: 'Remove in Server Member list', value: 'memberlist' },
+                        { label: 'Remove', value: 'remove' },
+                    ]
                 }
             ],
         },
@@ -686,6 +755,7 @@ module.exports = class ChatButtonsBegone {
             this.profileGIF,
             this.profileCollection,
             this.profileWishlist,
+            this.profileCustomStatus,
 
             // Miscellaneous
             this.blockedGroup,
@@ -699,7 +769,10 @@ module.exports = class ChatButtonsBegone {
             this.dmDivider,
             this.channelDivider,
             this.iochevron,
-            this.tagsBot
+            this.tagsBot,
+            this.dmStatus,
+            this.dmlistStatus,
+            this.memberlistStatus
         ] = this.api.Webpack.getBulk(
             { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
             { filter: this.api.Webpack.Filters.byKeys('textArea', 'buttons') }, // Buttons Global
@@ -734,8 +807,8 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall') }, // VC Server Channel Avatars
 
             { filter: this.api.Webpack.Filters.byKeys('backForwardButtons') }, // Back/Forward Buttons
-            { filter: this.api.Webpack.Filters.byKeys('trailing', 'title') }, // Trailing Buttons
-            { filter: this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar') }, // OldTitleBar Toolbar Buttons
+            { filter: this.api.Webpack.Filters.byKeys('trailing', 'title') }, // Title Buttons
+            { filter: this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar', 'iconWrapper') }, // Toolbar Buttons
 
             { filter: this.api.Webpack.Filters.byKeys('nameplated','container') }, // Nameplates
             { filter: this.api.Webpack.Filters.byKeys('container','fitInAccount') }, // Nameplates
@@ -750,6 +823,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('mask', 'gifTag') }, // Profile GIF Tag
             { filter: this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer') }, // Profile Game Collection
             { filter: this.api.Webpack.Filters.byKeys('wishlistBreadcrumb') }, // Popup Profile Wishlist
+            { filter: this.api.Webpack.Filters.byKeys('container', 'ring') }, // Popup Profile Custom Status
 
             { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
             { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
@@ -762,7 +836,10 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
             { filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
-            { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') } // APP/BOT Tags
+            { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
+            { filter: this.api.Webpack.Filters.byKeys('textXs') }, // DMs List User Status
+            { filter: this.api.Webpack.Filters.byKeys('activityStatusText') }, // DMs List User Status
+            { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
         );
 
         // Add Reaction Button
@@ -993,6 +1070,15 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.toolbar.helpButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) a[href="https://support.discord.com"]`);
         if (this.settings.toolbar.inboxButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(svg>path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])`);
 
+        /// Toolbar ///
+        if (this.settings.toolbar.threadsButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(svg>path[d^="M12 2.81a1 1 0 0 1 0-1.41l.36-.36a1 1 0 0 1 1.41 0l9.2 9.2a1"]) `);
+        if (this.settings.toolbar.notifyButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) `);
+        if (this.settings.toolbar.pinnedButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg path[d^="M19.38 11.38a3 3 0 0 0 4.24 0l.03-.03a.5.5 0 0 0 0-.7L13.35.35a.5.5"]) `);
+        if (this.settings.toolbar.memberButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"]) `);
+        if (this.settings.toolbar.voiceButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(svg>path[d="M13 7a1 1 0 0 1 1-1 4 4 0 0 1 4 4 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 0 1-1-1Z"]) `);
+        if (this.settings.toolbar.videoButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M4 4a3 3 0 0 0-3 3v10a3"])`);
+        if (this.settings.toolbar.profileButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54.54"]) `);
+
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate == 'original') {
             // Server List / DM List
@@ -1010,7 +1096,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.clanTag == 'memberlist') {
             this.styler.add(`.${this.dmEntry.clanTag}`);
             this.styler.add(`.${this.clanTagChiplet.clanTagChiplet}`);
-            this.styler.add(`.${this.clanTagChipletServer.chipletContainerInner}`);
+            this.styler.add(`:not(.${this.clanTagProfile.guildTagContainer}, #guild-header-popout-guild-tag) > .${this.clanTagChipletServer.chipletContainerInner}`);
         } else if (this.settings.profileCustomizations.clanTag == 'profile') {
             this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
         } else if (this.settings.profileCustomizations.clanTag == 'global') {
@@ -1019,7 +1105,7 @@ module.exports = class ChatButtonsBegone {
             // DMs
             this.styler.add(`.${this.clanTagChiplet.clanTagChiplet}`);
             // Server List
-            this.styler.add(`.${this.clanTagChipletServer.chipletContainerInner}`);
+            this.styler.add(`:not(#guild-header-popout-guild-tag) > .${this.clanTagChipletServer.chipletContainerInner}`);
             // Profile
             this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
         }
@@ -1034,6 +1120,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.${this.profileGIF.gifTag}`);
         if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}:has([class^="breadcrumb"])`);
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.wishlistBreadcrumb}`);
+        if (this.settings.profileCustomizations.hideStatus) this.styler.add(`.${this.profileCustomStatus.ring}`);
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
@@ -1093,6 +1180,18 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
         if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}:not(.${this.tagsBot.botTagOP?.split(' ')[0]})`);
 
+        // Remove Custom User Status
+        if (this.settings.miscellaneous.userStatus == 'dmlist') {
+            this.styler.add(`.${this.dmStatus.textXs}:has(.${this.dmlistStatus.activityStatusText})`);
+        } else if (this.settings.miscellaneous.userStatus == 'memberlist') {
+            this.styler.add(`.${this.memberlistStatus.subText}`);
+        } else if (this.settings.miscellaneous.userStatus == 'remove') {
+            // DM List
+            this.styler.add(`.${this.dmStatus.textXs}:has(.${this.dmlistStatus.activityStatusText})`);
+            // Member List
+            this.styler.add(`.${this.memberlistStatus.subText}`);
+        }
+
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`div:has(>.invisibleTypingButton)`);
 
@@ -1105,7 +1204,7 @@ module.exports = class ChatButtonsBegone {
         try {
             this.addStyles();
         } catch (error) {
-            this.api.Logger.error(`Failed to apply styles. Please report the following error to ${config.info.github}/issues :\n\n${error}`);
+            this.api.Logger.error(`Failed to apply styles. Please report the following error to ${config.info.github}/issues:\n\n${error}`);
             BdApi.UI.showToast('ChatButtonsBegone encountered an error! Check the console for more information.',
                 { type: 'error', timeout: '5000' }
             );

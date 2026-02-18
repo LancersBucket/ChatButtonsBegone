@@ -1,4 +1,24 @@
 # Changelog
+## v3.5.0
+### Added
+- Option to remove user's custom statuses [Miscellaneous]
+- Option to remove user's status in profile view [Profile Customizations]
+- Option to remove Toolbar Buttons [Title and Toolbar]
+    - Threads Button
+    - Notification Bell
+    - Pins Button
+    - Show/Hide Members Button
+    - Voice Call Button
+    - Video Call Button
+    - Show/Hide User Profile Button
+
+### Changed
+- Renamed "Title Bar" category to "Title and Toolbar"
+
+### Fixed
+- Remove Clan Tag's "Member List" option also removing it in the profile view
+- Remove Clan Tag removing it on the server's dropdown menu
+
 ## v3.4.4 - February 12th, 2026
 ### Fixed
 - Plugin crashing if Remove Gif Button or Remove Emoji Button is active
