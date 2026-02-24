@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.5.0
+ * @version 3.5.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.5.0',
+        version: '3.5.1',
     },
     defaultConfig: [
         {
@@ -654,6 +654,13 @@ const config = {
                     value: false,
                 },
                 {
+                    type: 'switch',
+                    id: 'badgeNewUser',
+                    name: 'Remove New User Badge',
+                    note: 'Removes the New User badge from Chat usernames area.',
+                    value: false,
+                },
+                {
                     type: 'dropdown',
                     id: 'userStatus',
                     name: 'Remove Custom User Status',
@@ -770,6 +777,7 @@ module.exports = class ChatButtonsBegone {
             this.channelDivider,
             this.iochevron,
             this.tagsBot,
+            this.badgeNew,
             this.dmStatus,
             this.dmlistStatus,
             this.memberlistStatus
@@ -837,6 +845,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
             { filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
             { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
+            { filter: this.api.Webpack.Filters.byKeys('newMemberBadge') }, // New User Badge
             { filter: this.api.Webpack.Filters.byKeys('textXs') }, // DMs List User Status
             { filter: this.api.Webpack.Filters.byKeys('activityStatusText') }, // DMs List User Status
             { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
@@ -1179,6 +1188,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
         if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}:not(.${this.tagsBot.botTagOP?.split(' ')[0]})`);
+        if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.${this.badgeNew.newMemberBadge}`);
 
         // Remove Custom User Status
         if (this.settings.miscellaneous.userStatus == 'dmlist') {
