@@ -648,6 +648,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'baseGradient',
+                    name: 'Remove Chat/Typing Now Gradient',
+                    note: 'Removes the grladient from the Chat Input/Now Typing area.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'tagsBotApp',
                     name: 'Remove APP/BOT Tags',
                     note: 'Removes the APP/Bot Tags from Bots in Memberslist/Messages.',
@@ -776,6 +783,7 @@ module.exports = class ChatButtonsBegone {
             this.dmDivider,
             this.channelDivider,
             this.iochevron,
+            this.typeGradient,
             this.tagsBot,
             this.badgeNew,
             this.dmStatus,
@@ -844,6 +852,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
             { filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
+            { filter: this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase') }, // Chat Input Gradient
             { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
             { filter: this.api.Webpack.Filters.byKeys('newMemberBadge') }, // New User Badge
             { filter: this.api.Webpack.Filters.byKeys('textXs') }, // DMs List User Status
@@ -1187,6 +1196,7 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
+        if (this.settings.miscellaneous.baseGradient) this.styler.add(`.${this.typeGradient.chatGradientBase}`);
         if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}:not(.${this.tagsBot.botTagOP?.split(' ')[0]})`);
         if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.${this.badgeNew.newMemberBadge}`);
 
