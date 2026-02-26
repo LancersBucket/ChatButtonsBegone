@@ -768,6 +768,7 @@ module.exports = class ChatButtonsBegone {
             this.profileEffects,
             this.profileGIF,
             this.profileCollection,
+            this.profileWidgets,
             this.profileWishlist,
             this.profileCustomStatus,
 
@@ -838,6 +839,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('profileEffects') }, // Profile Effects
             { filter: this.api.Webpack.Filters.byKeys('mask', 'gifTag') }, // Profile GIF Tag
             { filter: this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer') }, // Profile Game Collection
+            { filter: this.api.Webpack.Filters.byKeys('widgetPreviews') }, // Profile Game Collection
             { filter: this.api.Webpack.Filters.byKeys('wishlistBreadcrumb') }, // Popup Profile Wishlist
             { filter: this.api.Webpack.Filters.byKeys('container', 'ring') }, // Popup Profile Custom Status
 
@@ -1136,7 +1138,10 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
         if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.${this.profileGIF.gifTag}`);
-        if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}:has([class^="breadcrumb"])`);
+        if (this.settings.profileCustomizations.hideCollection) {
+            this.styler.add(`.${this.profileCollection.cardsList}:has([class^="breadcrumb"])`);
+            this.styler.add(`.${this.profileWidgets.widgetPreviews}`);
+        }
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.wishlistBreadcrumb}`);
         if (this.settings.profileCustomizations.hideStatus) this.styler.add(`.${this.profileCustomStatus.ring}`);
 
