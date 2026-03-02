@@ -1102,13 +1102,13 @@ module.exports = class ChatButtonsBegone {
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate == 'original') {
             // Server List / DM List
-            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style*="linear-gradient"]`);
+            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style^="background: linear-gradient"]`);
         } else if (this.settings.profileCustomizations.namePlate == 'self') {
             // Self Avatar Area
             this.styler.add(`.${this.selfNamePlate.fitInAccount}`);
         } else if (this.settings.profileCustomizations.namePlate == 'global') {
             // Server List / DM List
-            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style*="linear-gradient"]`);
+            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style^="background: linear-gradient"]`);
             // Self Avatar Area
             this.styler.add(`.${this.selfNamePlate.fitInAccount}`);
         }
