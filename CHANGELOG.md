@@ -1,4 +1,14 @@
 # Changelog
+## v3.5.1
+### Added
+- Option to remove the "New Member" badge in servers [Miscellaneous]
+- Option to to remove the Gradient that shows on Text Input and Typing Indicator [Miscellaneous]
+    - Both scrolled and not scrolled
+
+### Fixed
+- Remove Nameplates removing Group DMs in DM list
+- Remove Profile Collections leaving a gap
+
 ## v3.5.0
 ### Added
 - Option to remove user's custom statuses [Miscellaneous]
