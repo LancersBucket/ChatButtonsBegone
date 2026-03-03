@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.5.0
+ * @version 3.5.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.5.0',
+        version: '3.5.1',
     },
     defaultConfig: [
         {
@@ -648,9 +648,23 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'baseGradient',
+                    name: 'Remove Chat/Typing Now Gradient',
+                    note: 'Removes the grladient from the Chat Input/Now Typing area.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'tagsBotApp',
                     name: 'Remove APP/BOT Tags',
                     note: 'Removes the APP/Bot Tags from Bots in Memberslist/Messages.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'badgeNewUser',
+                    name: 'Remove New User Badge',
+                    note: 'Removes the New User badge from Chat usernames area.',
                     value: false,
                 },
                 {
@@ -754,6 +768,7 @@ module.exports = class ChatButtonsBegone {
             this.profileEffects,
             this.profileGIF,
             this.profileCollection,
+            this.profileWidgets,
             this.profileWishlist,
             this.profileCustomStatus,
 
@@ -769,7 +784,9 @@ module.exports = class ChatButtonsBegone {
             this.dmDivider,
             this.channelDivider,
             this.iochevron,
+            this.typeGradient,
             this.tagsBot,
+            this.badgeNew,
             this.dmStatus,
             this.dmlistStatus,
             this.memberlistStatus
@@ -822,6 +839,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('profileEffects') }, // Profile Effects
             { filter: this.api.Webpack.Filters.byKeys('mask', 'gifTag') }, // Profile GIF Tag
             { filter: this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer') }, // Profile Game Collection
+            { filter: this.api.Webpack.Filters.byKeys('widgetPreviews') }, // Profile Game Collection
             { filter: this.api.Webpack.Filters.byKeys('wishlistBreadcrumb') }, // Popup Profile Wishlist
             { filter: this.api.Webpack.Filters.byKeys('container', 'ring') }, // Popup Profile Custom Status
 
@@ -836,7 +854,9 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
             { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
             { filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
+            { filter: this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase') }, // Chat Input Gradient
             { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
+            { filter: this.api.Webpack.Filters.byKeys('newMemberBadge') }, // New User Badge
             { filter: this.api.Webpack.Filters.byKeys('textXs') }, // DMs List User Status
             { filter: this.api.Webpack.Filters.byKeys('activityStatusText') }, // DMs List User Status
             { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
@@ -1082,13 +1102,13 @@ module.exports = class ChatButtonsBegone {
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate == 'original') {
             // Server List / DM List
-            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style*="linear-gradient"]`);
+            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style^="background: linear-gradient"]`);
         } else if (this.settings.profileCustomizations.namePlate == 'self') {
             // Self Avatar Area
             this.styler.add(`.${this.selfNamePlate.fitInAccount}`);
         } else if (this.settings.profileCustomizations.namePlate == 'global') {
             // Server List / DM List
-            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style*="linear-gradient"]`);
+            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style^="background: linear-gradient"]`);
             // Self Avatar Area
             this.styler.add(`.${this.selfNamePlate.fitInAccount}`);
         }
@@ -1118,7 +1138,10 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
         if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.${this.profileGIF.gifTag}`);
-        if (this.settings.profileCustomizations.hideCollection) this.styler.add(`.${this.profileCollection.cardsList}:has([class^="breadcrumb"])`);
+        if (this.settings.profileCustomizations.hideCollection) {
+            this.styler.add(`.${this.profileCollection.cardsList}:has([class^="breadcrumb"])`);
+            this.styler.add(`.${this.profileWidgets.widgetPreviews}`);
+        }
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.wishlistBreadcrumb}`);
         if (this.settings.profileCustomizations.hideStatus) this.styler.add(`.${this.profileCustomStatus.ring}`);
 
@@ -1178,7 +1201,9 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
+        if (this.settings.miscellaneous.baseGradient) this.styler.add(`.${this.typeGradient.chatGradientBase}`);
         if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}:not(.${this.tagsBot.botTagOP?.split(' ')[0]})`);
+        if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.${this.badgeNew.newMemberBadge}`);
 
         // Remove Custom User Status
         if (this.settings.miscellaneous.userStatus == 'dmlist') {
