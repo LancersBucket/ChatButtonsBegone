@@ -1,4 +1,8 @@
 # Changelog
+## v3.5.2 - March 8th, 2026
+### Fixed
+- Remove Event Button removing the message editor box when using the InsertTimestamps plugin
+
 ## v3.5.1 - March 2nd, 2026
 ### Added
 - Option to remove the "New Member" badge in servers [Miscellaneous]
