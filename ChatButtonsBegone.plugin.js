@@ -1056,9 +1056,9 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.servers.boostBar) this.styler.add(`.${this.boostBar.container}`);
         if (this.settings.servers.serverGuide) this.styler.add('li:has(div[id*="home-tab"])');
-        if (this.settings.servers.eventButton) this.styler.add('li:not([id^="chat-messages"]):has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
-        if (this.settings.servers.membersButton) this.styler.add('li:not([id^="chat-messages"]):has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
-        if (this.settings.servers.channelsAndRoles) this.styler.add('li:not([id^="chat-messages"]):has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
+        if (this.settings.servers.eventButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
+        if (this.settings.servers.membersButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
+        if (this.settings.servers.channelsAndRoles) this.styler.add('[id="channels"] li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
         if (this.settings.servers.boostsButton) this.styler.add('li:has(div[id*="skill-trees"])');
         if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
         if (this.settings.servers.inviteButton) {
