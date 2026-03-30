@@ -1,4 +1,8 @@
 # Changelog
+## v3.5.3 - March 30th, 2026
+### Fixed
+- Remove Add Server and Discover not removing properly
+
 ## v3.5.2 - March 8th, 2026
 ### Fixed
 - Remove Event Button removing the message editor box when using the InsertTimestamps plugin
