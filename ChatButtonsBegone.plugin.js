@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.5.2
+ * @version 3.5.3
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -803,7 +803,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('activitySection') }, // Active Now Cards
             { filter: this.api.Webpack.Filters.byKeys('emptyCard') },  // Active Now Empty Card
 
-            { filter: this.api.Webpack.Filters.byKeys('tutorialContainer') }, // Add Server / Discover Button
+            { filter: this.api.Webpack.Filters.byKeys('tutorialContainer', 'listItem') }, // Add Server / Discover Button
             { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop') }, // Server Unread Mentions Indicator: Top
             { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom') }, // Server Unread Mentions Indicator: Bottom
             { filter: this.api.Webpack.Filters.byKeys('guilds', 'content') }, // Server Sidebar
@@ -1039,7 +1039,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.dms.libraryTab) this.styler.add('li:has([href="/library"])');
 
         /// Servers and Channels ///
-        if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}:not(:first-child)`);
+        if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}`);
         if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer} + .${this.addServerDiscoverButton.listItem}`);
 
         if (this.settings.servers.unreadIndicator == 'both') {
