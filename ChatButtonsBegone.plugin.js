@@ -541,6 +541,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'hideBanner',
+                    name: 'Remove Profile Banner',
+                    note: 'Removes the banner image from user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'profileEffects',
                     name: 'Remove Profile Effects',
                     note: 'Removes profile effects (Animated Overlays) from user profiles.',
@@ -765,6 +772,7 @@ module.exports = class ChatButtonsBegone {
             this.avatar,
             this.avatarDecorationChat,
             this.profileBadges,
+            this.profileBanner,
             this.profileEffects,
             this.profileGIF,
             this.profileCollection,
@@ -1136,6 +1144,7 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
+        if (this.settings.profileCustomizations.hideBanner) this.styler.add(`.${this.profileBanner.banner}`);
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
         if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.${this.profileGIF.gifTag}`);
         if (this.settings.profileCustomizations.hideCollection) {
