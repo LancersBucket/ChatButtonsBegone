@@ -1,5 +1,8 @@
 # Changelog
-## v3.5.3 - March 30th, 2026
+## v3.5.3 - March 31st, 2026
+### Added
+- Remove Profile Banners [Profile Customizations]
+
 ### Fixed
 - Remove Add Server and Discover not removing properly
 
