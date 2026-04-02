@@ -4,6 +4,7 @@
 - Remove Profile Banners [Profile Customizations]
 
 ### Fixed
+- Remove Reaction Button - needed dedicated Webpack
 - Remove Add Server and Discover not removing properly
 
 ## v3.5.2 - March 8th, 2026
