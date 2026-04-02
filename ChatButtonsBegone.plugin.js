@@ -727,6 +727,7 @@ module.exports = class ChatButtonsBegone {
             // Message Actions
             this.messageActionButtons,
             this.messageActionContainer,
+            this.messageReactionButton,
 
             // Direct Messages
             this.DMList,
@@ -804,6 +805,7 @@ module.exports = class ChatButtonsBegone {
 
             { filter: this.api.Webpack.Filters.byKeys('hoverBarButton') }, // Message Action Buttons
             { filter: this.api.Webpack.Filters.byKeys('messageListItem', 'message', 'buttons') }, // Message Action Button
+            { filter: this.api.Webpack.Filters.byKeys('reactions', 'reactionBtn') }, // Message Add Reaction Button
 
             { filter: this.api.Webpack.Filters.byKeys('privateChannels') }, // DM List
             { filter: this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer') }, // DM Header
@@ -1014,7 +1016,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.forwardButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`);
         if (this.settings.messageActions.removeMore) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`);
 
-        if (this.settings.messageActions.addReactionButton) this.styler.add(`.${this.addReactionButton.reactionBtn}`);
+        if (this.settings.messageActions.addReactionButton) this.styler.add(`.${this.messageReactionButton.reactionBtn}`);
 
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class^="searchBar"]`);
