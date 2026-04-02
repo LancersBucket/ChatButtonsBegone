@@ -1,6 +1,8 @@
 # Changelog
 ## v3.5.4 - April 2nd, 2026
-- Remove Reaction Button - needed dedicated Webpack
+### Fixed
+- Remove Reaction Button
+- Remove Quests causing a plugin crashing 
 
 ## v3.5.3 - March 31st, 2026
 ### Added
