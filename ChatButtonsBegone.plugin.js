@@ -872,9 +872,6 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('activityStatusText') }, // DMs List User Status
             { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
         );
-
-        // Add Reaction Button
-        this.addReactionButton = BdApi.Webpack.getAllByKeys("reactionBtn", "forceShow", "reactionMe", "reactionReadOnly")[1];
     }
 
     migrateConfig() {
