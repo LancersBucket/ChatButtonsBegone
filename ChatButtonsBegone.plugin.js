@@ -872,6 +872,9 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('activityStatusText') }, // DMs List User Status
             { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
         );
+
+        // Add Reaction Button
+        this.addReactionButton = BdApi.Webpack.getAllByKeys("reactionBtn", "forceShow", "reactionMe", "reactionReadOnly")[1];
     }
 
     migrateConfig() {
@@ -1208,7 +1211,11 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(listSeparatorServer);
         }
 
-        if (this.settings.miscellaneous.seasonalEvents) this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
+        if (this.settings.miscellaneous.seasonalEvents) {
+            this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
+            // April Fools
+            this.styler.add(`.${this.titleBarTrailing.trailing} > div > div[class^="clickable"]`);
+        }
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
         if (this.settings.miscellaneous.baseGradient) this.styler.add(`.${this.typeGradient.chatGradientBase}`);
         if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}:not(.${this.tagsBot.botTagOP?.split(' ')[0]})`);
