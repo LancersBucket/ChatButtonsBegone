@@ -872,10 +872,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('activityStatusText') }, // DMs List User Status
             { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
         );
-
-        // Add Reaction Button
-        this.addReactionButton = BdApi.Webpack.getAllByKeys("reactionBtn", "forceShow", "reactionMe", "reactionReadOnly")[1];
-    }
+}
 
     migrateConfig() {
         const migrations = [
@@ -1213,8 +1210,8 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.seasonalEvents) {
             this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
-            // April Fools
-            this.styler.add(`.${this.titleBarTrailing.trailing} > div > div[class^="clickable"]`);
+            // Last Meadow Online
+            this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(>svg>path[fill^="url(#uid_"])`);
         }
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
         if (this.settings.miscellaneous.baseGradient) this.styler.add(`.${this.typeGradient.chatGradientBase}`);
