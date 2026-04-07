@@ -1,4 +1,8 @@
 # Changelog
+## v3.5.5
+### Changed
+- Merged Remove Checkpoint into Remove Seasonal Events [Miscellaneous]
+
 ## v3.5.4 - April 2nd, 2026
 ### Fixed
 - Remove Reaction Button

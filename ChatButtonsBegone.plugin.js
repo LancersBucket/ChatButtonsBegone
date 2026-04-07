@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.5.4
+ * @version 3.5.5
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -31,7 +31,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.5.2',
+        version: '3.5.5',
     },
     defaultConfig: [
         {
@@ -418,13 +418,6 @@ const config = {
                     id: 'locator',
                     name: 'Remove Title Bar Text',
                     note: 'Removes the "locator" text in the title bar that shows the current server/DM.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'checkpointButton',
-                    name: 'Remove Checkpoint Button',
-                    note: 'Removes the Checkpoint button.',
                     value: false,
                 },
                 {
@@ -1094,7 +1087,6 @@ module.exports = class ChatButtonsBegone {
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.styler.add(`.${this.backForwardButtons.backForwardButtons}`);
         if (this.settings.toolbar.locator) this.styler.add(`.${this.titleBarTrailing.title}`);
-        if (this.settings.toolbar.checkpointButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(>svg>path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])`);
         if (this.settings.toolbar.helpButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) a[href="https://support.discord.com"]`);
         if (this.settings.toolbar.inboxButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(svg>path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])`);
 
@@ -1210,6 +1202,8 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.miscellaneous.seasonalEvents) {
             this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
+            // Checkpoint Button
+            this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(>svg>path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])`);
             // Last Meadow Online
             this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(>svg>path[fill^="url(#uid_"])`);
         }
