@@ -1,6 +1,7 @@
 # Changelog
 ## v3.5.5
 ### Added
+- Option to remove "Show All" VC Button [Servers and Channels]
 - Option to remove Last Meadow Button (see Remove Seasonal Events) [Miscellaneous]
 - Option to remove "Add To Favorites" right click option (see Remove Nitro Advertising) [Miscellaneous]
 

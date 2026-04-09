@@ -313,6 +313,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'showallButton',
+                    name: 'Remove "Show All" Button',
+                    note: 'Removes the VC "Show All" button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'settingsButton',
                     name: 'Remove Settings Button',
                     note: 'Removes the settings button when hovering over channel list entries.',
@@ -741,6 +748,7 @@ module.exports = class ChatButtonsBegone {
             this.serverActivitySectionCards,
             this.serverActivityOnHover,
             this.serverBanner,
+            this.showAllbutton,
 
             // Voice
             this.vcScreen,
@@ -817,6 +825,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('container', 'usesCardRows') }, // Server Activity Section Cards
             { filter: this.api.Webpack.Filters.byKeys('container', 'openOnHover') }, // Server Activity Section Cards
             { filter: this.api.Webpack.Filters.byKeys('bannerVisible', 'animatedContainer') }, // Server Banner
+            { filter: this.api.Webpack.Filters.byKeys('refreshVoiceChannelsButton') }, // "Show All" Button
 
             { filter: this.api.Webpack.Filters.byKeys('singleUserRoot') }, // Invite Placeholder
             { filter: this.api.Webpack.Filters.byKeys('container', 'actionButtons') }, // VC Buttons
@@ -865,7 +874,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('activityStatusText') }, // DMs List User Status
             { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
         );
-}
+    }
 
     migrateConfig() {
         const migrations = [
@@ -1066,6 +1075,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.headerInviteButton.inviteButton}`);
             this.styler.add(`.${this.channelListButtons.children}>span:has(svg>path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])`);
         }
+        if (this.settings.servers.showallButton) this.styler.add(`.${this.showAllbutton.refreshVoiceChannelsButton}`);
         if (this.settings.servers.settingsButton) this.styler.add(`.${this.channelListButtons.children}>span:has(svg>path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])`);
         if (this.settings.servers.activitySection) {
             this.styler.add(`.${this.serverActivitySection.membersGroup}:has([role="button"])`);
