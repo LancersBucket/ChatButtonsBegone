@@ -327,6 +327,20 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'unreadMentionsBar',
+                    name: 'Remove "Unread Mentions" Notification',
+                    note: 'Removes the per-Server "Unread Mentions" Notification.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'unreadMessagesBar',
+                    name: 'Remove "Unread Messages" Notification',
+                    note: 'Removes the per-Server "Unread Messages" Notification.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'activitySection',
                     name: 'Remove Activities Section',
                     note: 'Removes the Activities Section from the server member list.',
@@ -736,7 +750,7 @@ module.exports = class ChatButtonsBegone {
             this.activeNowCards,
             this.activeNowEmpty,
 
-            // Servers
+            // Servers & Channels
             this.addServerDiscoverButton,
             this.indicatorTop,
             this.indicatorBottom,
@@ -749,6 +763,8 @@ module.exports = class ChatButtonsBegone {
             this.serverActivityOnHover,
             this.serverBanner,
             this.showAllbutton,
+            this.umentionsBar,
+            this.umessagesBar,
 
             // Voice
             this.vcScreen,
@@ -826,6 +842,8 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('container', 'openOnHover') }, // Server Activity Section Cards
             { filter: this.api.Webpack.Filters.byKeys('bannerVisible', 'animatedContainer') }, // Server Banner
             { filter: this.api.Webpack.Filters.byKeys('refreshVoiceChannelsButton') }, // "Show All" Button
+            { filter: this.api.Webpack.Filters.byKeys('mentionsBar') }, // "Unread Mentions" Bar
+            { filter: this.api.Webpack.Filters.byKeys('unreadBar') }, // "Unread Messages" Bar
 
             { filter: this.api.Webpack.Filters.byKeys('singleUserRoot') }, // Invite Placeholder
             { filter: this.api.Webpack.Filters.byKeys('container', 'actionButtons') }, // VC Buttons
@@ -1077,6 +1095,8 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.servers.showallButton) this.styler.add(`.${this.showAllbutton.refreshVoiceChannelsButton}`);
         if (this.settings.servers.settingsButton) this.styler.add(`.${this.channelListButtons.children}>span:has(svg>path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])`);
+        if (this.settings.servers.unreadMentionsBar) this.styler.add(`.${this.umentionsBar.mentionsBar}`);
+        if (this.settings.servers.unreadMessagesBar) this.styler.add(`.${this.umessagesBar.unreadBar}`);
         if (this.settings.servers.activitySection) {
             this.styler.add(`.${this.serverActivitySection.membersGroup}:has([role="button"])`);
             this.styler.add(`div > div .${this.serverActivitySectionCards.usesCardRows}`);
