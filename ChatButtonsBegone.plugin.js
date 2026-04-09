@@ -1158,6 +1158,9 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.${this.profileUpsell.upsellOverlayContainer}`);
             // Profile Shop Button
             this.styler.add(`[class^="profile"] [class^="profileButtons"] > span:first-of-type`);
+            // "Add to Favorites" Right Click Menu Option and Separator
+            this.styler.add(`div[role="separator"] + div > div[id$="context-favorite-channel"]`)
+            this.styler.add(`div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])`)
         }
 
         if (this.settings.miscellaneous.noQuests) {
