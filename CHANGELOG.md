@@ -1,5 +1,5 @@
 # Changelog
-## v3.5.5
+## v3.6.0
 ### Added
 - Option to remove Last Meadow Button (see Remove Seasonal Events) [Miscellaneous]
 - Option to remove "Add To Favorites" right click option (see Remove Nitro Advertising) [Miscellaneous]
