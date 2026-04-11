@@ -1,5 +1,9 @@
 # Changelog
-## v3.6.0
+## v3.6.1
+### Fixed
+- Remove Shop Button
+
+## v3.6.0 - April 9th, 2026
 ### Added
 - Option to remove Last Meadow Button (see Remove Seasonal Events) [Miscellaneous]
 - Option to remove "Add To Favorites" right click option (see Remove Nitro Advertising) [Miscellaneous]
