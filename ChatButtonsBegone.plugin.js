@@ -417,6 +417,13 @@ const config = {
                     name: 'Remove Server Voice Chat Avatars',
                     note: 'Removes the avatars of users in voice chats in servers.',
                     value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'voiceWasHere',
+                    name: 'Remove Was Here from VC List',
+                    note: 'Removes the Was Here/What You Missed in vc list.',
+                    value: false,
                 }
             ]
         },
@@ -774,6 +781,7 @@ module.exports = class ChatButtonsBegone {
             this.vcButtonSection,
             this.vcActivities,
             this.scSmallAvatar,
+            this.vcWasHere,
 
             // Title Bar
             this.backForwardButtons,
@@ -852,6 +860,7 @@ module.exports = class ChatButtonsBegone {
             { filter: this.api.Webpack.Filters.byKeys('buttonSection', 'buttonContainer') },
             { filter: this.api.Webpack.Filters.byKeys('attachedCaretButtonContainer') },
             { filter: this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall') }, // VC Server Channel Avatars
+            { filter: this.api.Webpack.Filters.byKeys('row', 'avatarWrapper') }, // VC Server Channel Was Here
 
             { filter: this.api.Webpack.Filters.byKeys('backForwardButtons') }, // Back/Forward Buttons
             { filter: this.api.Webpack.Filters.byKeys('trailing', 'title') }, // Title Buttons
@@ -1113,6 +1122,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.gameActivityPanel) this.styler.add(`.${this.vcActivityPanel.activityPanel}`);
         if (this.settings.voice.gameActivityButton) this.styler.add(`.${this.vcButtonSection.buttonContainer}:has(.${this.vcActivities.attachedCaretButtonContainer})`);
         if (this.settings.voice.voiceAvatars) this.styler.add(`.${this.scSmallAvatar.avatarSmall}`);
+        if (this.settings.voice.voiceWasHere) this.styler.add(`.${this.vcWasHere.row}`);
 
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.styler.add(`.${this.backForwardButtons.backForwardButtons}`);

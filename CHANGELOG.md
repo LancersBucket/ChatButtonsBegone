@@ -1,5 +1,7 @@
 # Changelog
 ## v3.6.1
+### Added
+- Option to remove "Was Here" from VC in Server Channels List [Voice]
 ### Fixed
 - Remove Shop Button
 
