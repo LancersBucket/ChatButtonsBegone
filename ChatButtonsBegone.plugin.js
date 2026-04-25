@@ -1028,7 +1028,6 @@ module.exports = class ChatButtonsBegone {
 
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.styler.add(`.{0}`, this.attachButton, 'attachWrapper');
-        
         if (this.settings.chatbar.giftButton) {
             // New Implementation (Valentines Upsell)
             this.styler.add(`.{0} div[class^="container"]:has(>.{1})`, this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');

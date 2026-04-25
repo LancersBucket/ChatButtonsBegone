@@ -1,5 +1,5 @@
 # Changelog
-## v3.4.0
+## v4.0.0 - April 25th, 2026
 ### Added
 - Option to remove "Was Here" from VC in Server Channels List [Voice]
 
