@@ -1116,7 +1116,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.membersButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
         if (this.settings.servers.channelsAndRoles) this.styler.add('[id="channels"] li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
         if (this.settings.servers.boostsButton) this.styler.add('li:has(div[id*="skill-trees"])');
-        if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
+        if (this.settings.servers.shopButton) this.styler.add('[id="channels"] li:has(> div > [data-list-item-id*="shop"])');
         if (this.settings.servers.inviteButton) {
             this.styler.add(`.{0}`, this.headerInviteButton, 'inviteButton');
             this.styler.add(`.{0}>span:has(svg>path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])`, this.channelListButtons, 'children');
@@ -1232,12 +1232,12 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.placeholderText) this.styler.add(`.{0}:has(+ .{1})`, this.txtPlaceholder, 'slateTextArea', this.txtPlaceholder, 'slateTextArea');
         if (this.settings.miscellaneous.avatarPopover) this.styler.add(`.{0}`, this.profilePopover, 'statusPopover');
 
-        let listSeparatorDm = `.${this.dmDivider.sectionDivider}`;
-        let listSeparatorServer = `.${this.channelDivider.sectionDivider}`;
+        let listSeparatorDm = [`.{0}`, this.dmDivider, 'sectionDivider'];
+        let listSeparatorServer = [`.{0}`, this.channelDivider, 'sectionDivider'];
         if (this.settings.miscellaneous.listSeparator == 'dmlist') {
-            this.styler.add(listSeparatorDm);
+            this.styler.add(...listSeparatorDm);
         } else if (this.settings.miscellaneous.listSeparator == 'serverlist') {
-            this.styler.add(listSeparatorServer);
+            this.styler.add(...listSeparatorServer);
         } else if (this.settings.miscellaneous.listSeparator == 'smart') {
             if (
                 this.settings.dms.friendsTab &&
@@ -1245,7 +1245,7 @@ module.exports = class ChatButtonsBegone {
                 this.settings.dms.discordShopTab &&
                 this.settings.miscellaneous.noQuests
             ) {
-                this.styler.add(listSeparatorDm);
+                this.styler.add(...listSeparatorDm);
             }
             if (
                 this.settings.servers.serverGuide &&
@@ -1255,11 +1255,11 @@ module.exports = class ChatButtonsBegone {
                 this.settings.servers.boostsButton &&
                 this.settings.servers.shopButton
             ) {
-                this.styler.add(listSeparatorServer);
+                this.styler.add(...listSeparatorServer);
             }
         } else if (this.settings.miscellaneous.listSeparator == 'remove') {
-            this.styler.add(listSeparatorDm);
-            this.styler.add(listSeparatorServer);
+            this.styler.add(...listSeparatorDm);
+            this.styler.add(...listSeparatorServer);
         }
 
         if (this.settings.miscellaneous.seasonalEvents) {
