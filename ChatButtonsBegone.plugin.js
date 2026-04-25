@@ -12,7 +12,6 @@ class Styler {
         this.pluginName = pluginName;
         this.api = api;
         this.styles = [];
-        this.queue = [];
     }
 
     async add(selector, ...modules) {
@@ -1039,9 +1038,11 @@ module.exports = class ChatButtonsBegone {
             // Old Implementation
             this.styler.add(`.{0} > .{1}:not(.expression-picker-chat-input-button)`, this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
         }
-        if (this.settings.chatbar.gifButton) this.styler.add(`.expression-picker-chat-input-button:not(:has(.${this.chatBarButtons.stickerButton}, .${this.chatBarButtons.emojiButton?.split(' ')[0]}))`);
-        if (this.settings.chatbar.stickerButton) this.styler.add(`.expression-picker-chat-input-button:has(.${this.chatBarButtons.stickerButton})`);
-        if (this.settings.chatbar.emojiButton) this.styler.add(`.expression-picker-chat-input-button:has(.${this.chatBarButtons.emojiButton?.split(' ')[0]})`);
+        // TODO: Fix
+        // if (this.settings.chatbar.gifButton) this.styler.add(`.expression-picker-chat-input-button:not(:has(.{0}, .${this.chatBarButtons.emojiButton?.split(' ')[0]}))`, this.chatBarButtons, 'stickerButton');
+        if (this.settings.chatbar.stickerButton) this.styler.add(`.expression-picker-chat-input-button:has(.{0})`, this.chatBarButtons, 'stickerButton');
+        // TODO: Fix
+        // if (this.settings.chatbar.emojiButton) this.styler.add(`.expression-picker-chat-input-button:has(.${this.chatBarButtons.emojiButton?.split(' ')[0]})`);
         if (this.settings.chatbar.appLauncherButton) this.styler.add('.app-launcher-entrypoint');
 
         /// Message Actions ///
@@ -1053,22 +1054,22 @@ module.exports = class ChatButtonsBegone {
             this.settings.messageActions.forwardButton &&
             this.settings.messageActions.removeMore
         ) {
-            this.styler.add(`.${this.messageActionContainer.message} .${this.messageActionContainer.buttons}`);
+            this.styler.add(`.{0} .{1}`, this.messageActionContainer, 'message', this.messageActionContainer, 'buttons');
         }
         if (this.settings.messageActions.quickReactions) {
-            this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(>.${this.messageActionButtons.icon}>[data-type="emoji"])`);
-            this.styler.add(`.${this.messageActionButtons.separator}`);
+            this.styler.add(`.{0}:has(>.{1}>[data-type="emoji"])`, this.messageActionButtons, 'hoverBarButton', this.messageActionButtons, 'icon');
+            this.styler.add(`.{0}`, this.messageActionButtons, 'separator');
         }
-        if (this.settings.messageActions.reactionButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])`);
-        if (this.settings.messageActions.editButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])`);
-        if (this.settings.messageActions.replyButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])`);
-        if (this.settings.messageActions.forwardButton) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`);
-        if (this.settings.messageActions.removeMore) this.styler.add(`.${this.messageActionButtons.hoverBarButton}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`);
+        if (this.settings.messageActions.reactionButton) this.styler.add(`.{0}:has(svg>path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])`, this.messageActionButtons, 'hoverBarButton');
+        if (this.settings.messageActions.editButton) this.styler.add(`.{0}:has(svg>path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])`, this.messageActionButtons, 'hoverBarButton');
+        if (this.settings.messageActions.replyButton) this.styler.add(`.{0}:has(svg>path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])`, this.messageActionButtons, 'hoverBarButton');
+        if (this.settings.messageActions.forwardButton) this.styler.add(`.{0}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`, this.messageActionButtons, 'hoverBarButton');
+        if (this.settings.messageActions.removeMore) this.styler.add(`.{0}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`, this.messageActionButtons, 'hoverBarButton');
 
-        if (this.settings.messageActions.addReactionButton) this.styler.add(`.${this.messageReactionButton.reactionBtn}`);
+        if (this.settings.messageActions.addReactionButton) this.styler.add(`.{0}`, this.messageReactionButton, 'reactionBtn');
 
         /// Direct Messages ///
-        if (this.settings.dms.quickSwitcher) this.styler.add(`.${this.DMList.privateChannels} [class^="searchBar"]`);
+        if (this.settings.dms.quickSwitcher) this.styler.add(`.{0} [class^="searchBar"]`, this.DMList, 'privateChannels');
         if (this.settings.dms.friendsTab) this.styler.add('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.styler.add('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) {
@@ -1078,43 +1079,43 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.dms.DMHeader == 'hideButton') {
             this.styler.add(`.${this.DMHeader.privateChannelRecipientsInviteButtonIconContainer}`)
         } else if (this.settings.dms.DMHeader == 'hideText') {
-            this.styler.add(`.${this.DMHeader.headerText}`);
+            this.styler.add(`.{0}`, this.DMHeader, 'headerText');
         } else if (this.settings.dms.DMHeader == 'remove') {
-            this.styler.add(`.${this.DMHeader.privateChannelsHeaderContainer}`);
+            this.styler.add(`.{0}`, this.DMHeader, 'privateChannelsHeaderContainer');
         }
 
         if (this.settings.dms.activeNow == 'simplify') { 
-            this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.twitchSectionPreview})`);
-            this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.activitySection})`);
+            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
+            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
         } else if (this.settings.dms.activeNow == 'empty') {
-            this.styler.add(`.${this.activeNowColumn.nowPlayingColumn}:has(.${this.activeNowEmpty.emptyCard})`);
+            this.styler.add(`.{0}:has(.{1})`, this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
         } else if (this.settings.dms.activeNow == 'simplifyempty') {
-            this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.twitchSectionPreview})`);
-            this.styler.add(`.${this.activeNowCards.body}:has(.${this.activeNowCards.activitySection})`);
-            this.styler.add(`.${this.activeNowColumn.nowPlayingColumn}:has(.${this.activeNowEmpty.emptyCard})`);
+            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
+            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
+            this.styler.add(`.{0}:has(.{1})`, this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
         } else if (this.settings.dms.activeNow == 'remove') {
-            this.styler.add(`.${this.activeNowColumn.nowPlayingColumn}`);
+            this.styler.add(`.{0}`, this.activeNowColumn, 'nowPlayingColumn');
         }
 
         if (this.settings.dms.libraryTab) this.styler.add('li:has([href="/library"])');
 
         /// Servers and Channels ///
-        if (this.settings.servers.addServerButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer}`);
-        if (this.settings.servers.discoverButton) this.styler.add(`.${this.addServerDiscoverButton.tutorialContainer} + .${this.addServerDiscoverButton.listItem}`);
+        if (this.settings.servers.addServerButton) this.styler.add(`.{0}`, this.addServerDiscoverButton, 'tutorialContainer');
+        if (this.settings.servers.discoverButton) this.styler.add(`.{0} + .{1}`, this.addServerDiscoverButton, 'tutorialContainer', this.addServerDiscoverButton, 'listItem');
 
         if (this.settings.servers.unreadIndicator == 'both') {
-            this.styler.add(`.${this.indicatorTop.unreadMentionsIndicatorTop}, .${this.indicatorBottom.unreadMentionsIndicatorBottom}`);
+            this.styler.add(`.{0}, .{1}`, this.indicatorTop, 'unreadMentionsIndicatorTop', this.indicatorBottom, 'unreadMentionsIndicatorBottom');
         } else if (this.settings.servers.unreadIndicator == 'top') {
-            this.styler.add(`.${this.indicatorTop.unreadMentionsIndicatorTop}`);
+            this.styler.add(`.{0}`, this.indicatorTop, 'unreadMentionsIndicatorTop');
         } else if (this.settings.servers.unreadIndicator == 'bottom') {
-            this.styler.add(`.${this.indicatorBottom.unreadMentionsIndicatorBottom}`);
+            this.styler.add(`.{0}`, this.indicatorBottom, 'unreadMentionsIndicatorBottom');
         }
 
         if (this.settings.servers.serverBanner) {
-            this.styler.add(`.${this.serverBanner.animatedContainer}`);
+            this.styler.add(`.{0}`, this.serverBanner, 'animatedContainer');
             this.styler.add('div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
         }
-        if (this.settings.servers.boostBar) this.styler.add(`.${this.boostBar.container}`);
+        if (this.settings.servers.boostBar) this.styler.add(`.{0}`, this.boostBar, 'container');
         if (this.settings.servers.serverGuide) this.styler.add('[id="channels"] li:has(div[id*="home-tab"])');
         if (this.settings.servers.eventButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
         if (this.settings.servers.membersButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
@@ -1122,103 +1123,103 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.boostsButton) this.styler.add('li:has(div[id*="skill-trees"])');
         if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
         if (this.settings.servers.inviteButton) {
-            this.styler.add(`.${this.headerInviteButton.inviteButton}`);
-            this.styler.add(`.${this.channelListButtons.children}>span:has(svg>path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])`);
+            this.styler.add(`.{0}`, this.headerInviteButton, 'inviteButton');
+            this.styler.add(`.{0}>span:has(svg>path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])`, this.channelListButtons, 'children');
         }
-        if (this.settings.servers.showallButton) this.styler.add(`.${this.showAllbutton.refreshVoiceChannelsButton}`);
-        if (this.settings.servers.settingsButton) this.styler.add(`.${this.channelListButtons.children}>span:has(svg>path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])`);
-        if (this.settings.servers.unreadMentionsBar) this.styler.add(`.${this.umentionsBar.mentionsBar}`);
-        if (this.settings.servers.unreadMessagesBar) this.styler.add(`.${this.umessagesBar.unreadBar}`);
+        if (this.settings.servers.showallButton) this.styler.add(`.{0}`, this.showAllbutton, 'refreshVoiceChannelsButton');
+        if (this.settings.servers.settingsButton) this.styler.add(`.{0}>span:has(svg>path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])`, this.channelListButtons, 'children');
+        if (this.settings.servers.unreadMentionsBar) this.styler.add(`.{0}`, this.umentionsBar, 'mentionsBar');
+        if (this.settings.servers.unreadMessagesBar) this.styler.add(`.{0}`, this.umessagesBar, 'unreadBar');
         if (this.settings.servers.activitySection) {
-            this.styler.add(`.${this.serverActivitySection.membersGroup}:has([role="button"])`);
-            this.styler.add(`div > div .${this.serverActivitySectionCards.usesCardRows}`);
+            this.styler.add(`.{0}:has([role="button"])`, this.serverActivitySection, 'membersGroup');
+            this.styler.add(`div > div .{0}`, this.serverActivitySectionCards, 'usesCardRows');
             this.styler.add(`div > div .${this.serverActivityOnHover.container}.${this.serverActivityOnHover.openOnHover}`)
         }
 
         /// Voice ///
-        if (this.settings.voice.invitePlaceholder) this.styler.add(`div[class^="row"]>div:has(.${this.vcScreen.singleUserRoot})`);
-        if (this.settings.voice.cameraPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} > button:first-of-type`);
-        if (this.settings.voice.screensharePanelButton) this.styler.add(`.${this.vcButtons.actionButtons} > button:nth-of-type(2)`);
-        if (this.settings.voice.activityPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} > button:nth-of-type(3)`);
-        if (this.settings.voice.soundboardPanelButton) this.styler.add(`.${this.vcButtons.actionButtons} span:has(svg)`);
-        if (this.settings.voice.krispButton) this.styler.add(`.${this.vcKrisp.voiceButtonsContainer} button:first-of-type`);
-        if (this.settings.voice.gameActivityPanel) this.styler.add(`.${this.vcActivityPanel.activityPanel}`);
-        if (this.settings.voice.gameActivityButton) this.styler.add(`.${this.vcButtonSection.buttonContainer}:has(.${this.vcActivities.attachedCaretButtonContainer})`);
-        if (this.settings.voice.voiceAvatars) this.styler.add(`.${this.scSmallAvatar.avatarSmall}`);
-        if (this.settings.voice.voiceWasHere) this.styler.add(`.${this.vcWasHere.row}`);
+        if (this.settings.voice.invitePlaceholder) this.styler.add(`div[class^="row"]>div:has(.{0})`, this.vcScreen, 'singleUserRoot');
+        if (this.settings.voice.cameraPanelButton) this.styler.add(`.{0} > button:first-of-type`, this.vcButtons, 'actionButtons');
+        if (this.settings.voice.screensharePanelButton) this.styler.add(`.{0} > button:nth-of-type(2)`, this.vcButtons, 'actionButtons');
+        if (this.settings.voice.activityPanelButton) this.styler.add(`.{0} > button:nth-of-type(3)`, this.vcButtons, 'actionButtons');
+        if (this.settings.voice.soundboardPanelButton) this.styler.add(`.{0} span:has(svg)`, this.vcButtons, 'actionButtons');
+        if (this.settings.voice.krispButton) this.styler.add(`.{0} button:first-of-type`, this.vcKrisp, 'voiceButtonsContainer');
+        if (this.settings.voice.gameActivityPanel) this.styler.add(`.{0}`, this.vcActivityPanel, 'activityPanel');
+        if (this.settings.voice.gameActivityButton) this.styler.add(`.{0}:has(.{1})`, this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
+        if (this.settings.voice.voiceAvatars) this.styler.add(`.{0}`, this.scSmallAvatar, 'avatarSmall');
+        if (this.settings.voice.voiceWasHere) this.styler.add(`.{0}`, this.vcWasHere, 'row');
 
         /// Title Bar ///
-        if (this.settings.toolbar.navButtons) this.styler.add(`.${this.backForwardButtons.backForwardButtons}`);
-        if (this.settings.toolbar.locator) this.styler.add(`.${this.titleBarTrailing.title}`);
-        if (this.settings.toolbar.helpButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) a[href="https://support.discord.com"]`);
-        if (this.settings.toolbar.inboxButton) this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(svg>path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])`);
+        if (this.settings.toolbar.navButtons) this.styler.add(`.{0}`, this.backForwardButtons, 'backForwardButtons');
+        if (this.settings.toolbar.locator) this.styler.add(`.{0}`, this.titleBarTrailing, 'title');
+        if (this.settings.toolbar.helpButton) this.styler.add(`:is(.{0}, .{1}) a[href="https://support.discord.com"]`, this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
+        if (this.settings.toolbar.inboxButton) this.styler.add(`:is(.{0}, .{1}) div:has(svg>path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])`, this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
 
         /// Toolbar ///
-        if (this.settings.toolbar.threadsButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(svg>path[d^="M12 2.81a1 1 0 0 1 0-1.41l.36-.36a1 1 0 0 1 1.41 0l9.2 9.2a1"]) `);
-        if (this.settings.toolbar.notifyButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) `);
-        if (this.settings.toolbar.pinnedButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg path[d^="M19.38 11.38a3 3 0 0 0 4.24 0l.03-.03a.5.5 0 0 0 0-.7L13.35.35a.5.5"]) `);
-        if (this.settings.toolbar.memberButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"]) `);
-        if (this.settings.toolbar.voiceButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(svg>path[d="M13 7a1 1 0 0 1 1-1 4 4 0 0 1 4 4 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 0 1-1-1Z"]) `);
-        if (this.settings.toolbar.videoButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M4 4a3 3 0 0 0-3 3v10a3"])`);
-        if (this.settings.toolbar.profileButton) this.styler.add(`.${this.upperToolbar.iconWrapper}:has(>svg>path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54.54"]) `);
+        if (this.settings.toolbar.threadsButton) this.styler.add(`.{0}:has(svg>path[d^="M12 2.81a1 1 0 0 1 0-1.41l.36-.36a1 1 0 0 1 1.41 0l9.2 9.2a1"]) `, this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.notifyButton) this.styler.add(`.{0}:has(>svg>path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) `, this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.pinnedButton) this.styler.add(`.{0}:has(>svg path[d^="M19.38 11.38a3 3 0 0 0 4.24 0l.03-.03a.5.5 0 0 0 0-.7L13.35.35a.5.5"]) `, this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.memberButton) this.styler.add(`.{0}:has(>svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"]) `, this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.voiceButton) this.styler.add(`.{0}:has(svg>path[d="M13 7a1 1 0 0 1 1-1 4 4 0 0 1 4 4 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 0 1-1-1Z"]) `, this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.videoButton) this.styler.add(`.{0}:has(>svg>path[d^="M4 4a3 3 0 0 0-3 3v10a3"])`, this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.profileButton) this.styler.add(`.{0}:has(>svg>path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54.54"]) `, this.upperToolbar, 'iconWrapper');
 
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate == 'original') {
             // Server List / DM List
-            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style^="background: linear-gradient"]`);
+            this.styler.add(`.{0} > [style*="linear-gradient"], .{1} > [style^="background: linear-gradient"]`, this.namePlate, 'nameplated', this.dmEntry, 'interactive');
         } else if (this.settings.profileCustomizations.namePlate == 'self') {
             // Self Avatar Area
-            this.styler.add(`.${this.selfNamePlate.fitInAccount}`);
+            this.styler.add(`.{0}`, this.selfNamePlate, 'fitInAccount');
         } else if (this.settings.profileCustomizations.namePlate == 'global') {
             // Server List / DM List
-            this.styler.add(`.${this.namePlate.nameplated} > [style*="linear-gradient"], .${this.dmEntry.interactive} > [style^="background: linear-gradient"]`);
+            this.styler.add(`.{0} > [style*="linear-gradient"], .{1} > [style^="background: linear-gradient"]`, this.namePlate, 'nameplated', this.dmEntry, 'interactive');
             // Self Avatar Area
-            this.styler.add(`.${this.selfNamePlate.fitInAccount}`);
+            this.styler.add(`.{0}`, this.selfNamePlate, 'fitInAccount');
         }
 
         if (this.settings.profileCustomizations.clanTag == 'memberlist') {
-            this.styler.add(`.${this.dmEntry.clanTag}`);
-            this.styler.add(`.${this.clanTagChiplet.clanTagChiplet}`);
-            this.styler.add(`:not(.${this.clanTagProfile.guildTagContainer}, #guild-header-popout-guild-tag) > .${this.clanTagChipletServer.chipletContainerInner}`);
+            this.styler.add(`.{0}`, this.dmEntry, 'clanTag');
+            this.styler.add(`.{0}`, this.clanTagChiplet, 'clanTagChiplet');
+            this.styler.add(`:not(.{0}, #guild-header-popout-guild-tag) > .{1}`, this.clanTagProfile, 'guildTagContainer', this.clanTagChipletServer, 'chipletContainerInner');
         } else if (this.settings.profileCustomizations.clanTag == 'profile') {
-            this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
+            this.styler.add(`.{0}`, this.clanTagProfile, 'guildTagContainer');
         } else if (this.settings.profileCustomizations.clanTag == 'global') {
             // DM List
-            this.styler.add(`.${this.dmEntry.clanTag}`);
+            this.styler.add(`.{0}`, this.dmEntry, 'clanTag');
             // DMs
-            this.styler.add(`.${this.clanTagChiplet.clanTagChiplet}`);
+            this.styler.add(`.{0}`, this.clanTagChiplet, 'clanTagChiplet');
             // Server List
-            this.styler.add(`:not(#guild-header-popout-guild-tag) > .${this.clanTagChipletServer.chipletContainerInner}`);
+            this.styler.add(`:not(#guild-header-popout-guild-tag) > .{0}`, this.clanTagChipletServer, 'chipletContainerInner');
             // Profile
-            this.styler.add(`.${this.clanTagProfile.guildTagContainer}`);
+            this.styler.add(`.{0}`, this.clanTagProfile, 'guildTagContainer');
         }
 
         if (this.settings.profileCustomizations.avatarDecoration) {
-            this.styler.add(`.${this.avatar.avatarDecorationContainer}`);
-            this.styler.add(`.${this.avatarDecorationChat.avatarDecoration}`);
+            this.styler.add(`.{0}`, this.avatar, 'avatarDecorationContainer');
+            this.styler.add(`.{0}`, this.avatarDecorationChat, 'avatarDecoration');
         }
 
-        if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.${this.profileBadges.tags} > div:has(a)`);
-        if (this.settings.profileCustomizations.hideBanner) this.styler.add(`.${this.profileBanner.banner}`);
-        if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.${this.profileEffects.profileEffects} .${this.profileEffects.effect}`);
-        if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.${this.profileGIF.gifTag}`);
+        if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.{0} > div:has(a)`, this.profileBadges, 'tags');
+        if (this.settings.profileCustomizations.hideBanner) this.styler.add(`.{0}`, this.profileBanner, 'banner');
+        if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.{0} .{1}`, this.profileEffects, 'profileEffects', this.profileEffects, 'effect');
+        if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.{0}`, this.profileGIF, 'gifTag');
         if (this.settings.profileCustomizations.hideCollection) {
-            this.styler.add(`.${this.profileCollection.cardsList}:has([class^="breadcrumb"])`);
-            this.styler.add(`.${this.profileWidgets.widgetPreviews}`);
+            this.styler.add(`.{0}:has([class^="breadcrumb"])`, this.profileCollection, 'cardsList');
+            this.styler.add(`.{0}`, this.profileWidgets, 'widgetPreviews');
         }
-        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.${this.profileWishlist.wishlistBreadcrumb}`);
-        if (this.settings.profileCustomizations.hideStatus) this.styler.add(`.${this.profileCustomStatus.ring}`);
+        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.{0}`, this.profileWishlist, 'wishlistBreadcrumb');
+        if (this.settings.profileCustomizations.hideStatus) this.styler.add(`.{0}`, this.profileCustomStatus, 'ring');
 
         /// Miscellaneous ///
-        if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.${this.blockedGroup.groupStart}:has(.${this.blockedIndicator.blockedSystemMessage})`);
+        if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.{0}:has(.{1})`, this.blockedGroup, 'groupStart', this.blockedIndicator, 'blockedSystemMessage');
 
         if (this.settings.miscellaneous.nitroUpsell) {
             // Settings "Edit Profile" Page
-            this.styler.add(`.${this.shopArt.settingsPage} div:has(>[class^="artContainer"])`);
+            this.styler.add(`.{0} div:has(>[class^="artContainer"])`, this.shopArt, 'settingsPage');
             // Billing Settings
             this.styler.add('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
-            this.styler.add(`.${this.profileUpsell.upsellOverlayContainer}`);
+            this.styler.add(`.{0}`, this.profileUpsell, 'upsellOverlayContainer');
             // Profile Shop Button
             this.styler.add(`[class^="profile"] [class^="profileButtons"] > span:first-of-type`);
             // "Add to Favorites" Right Click Menu Option and Separator
@@ -1229,12 +1230,12 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.noQuests) {
             this.styler.add('li:has([href="/quest-home"])');
             // Active Now section
-            this.styler.add(`.${this.promotedQuest.promotedTag}`);
-            this.styler.add(`.${this.questPrompt.wrapper}`);
+            this.styler.add(`.{0}`, this.promotedQuest, 'promotedTag');
+            this.styler.add(`.{0}`, this.questPrompt, 'wrapper');
         }
 
-        if (this.settings.miscellaneous.placeholderText) this.styler.add(`.${this.txtPlaceholder.slateTextArea}:has(+ .${this.txtPlaceholder.slateTextArea})`);
-        if (this.settings.miscellaneous.avatarPopover) this.styler.add(`.${this.profilePopover.statusPopover}`);
+        if (this.settings.miscellaneous.placeholderText) this.styler.add(`.{0}:has(+ .{1})`, this.txtPlaceholder, 'slateTextArea', this.txtPlaceholder, 'slateTextArea');
+        if (this.settings.miscellaneous.avatarPopover) this.styler.add(`.{0}`, this.profilePopover, 'statusPopover');
 
         let listSeparatorDm = `.${this.dmDivider.sectionDivider}`;
         let listSeparatorServer = `.${this.channelDivider.sectionDivider}`;
@@ -1269,25 +1270,25 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.seasonalEvents) {
             this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
             // Checkpoint Button
-            this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(>svg>path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])`);
+            this.styler.add(`:is(.{0}, .{1}) div:has(>svg>path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])`, this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
             // Last Meadow Online
-            this.styler.add(`:is(.${this.titleBarTrailing.trailing}, .${this.upperToolbar.toolbar}) div:has(>svg>path[fill^="url(#uid_"])`);
+            this.styler.add(`:is(.{0}, .{1}) div:has(>svg>path[fill^="url(#uid_"])`, this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
         }
-        if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.${this.iochevron.buttonChevron}`);
-        if (this.settings.miscellaneous.baseGradient) this.styler.add(`.${this.typeGradient.chatGradientBase}`);
-        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.${this.tagsBot.botTag}:not(.${this.tagsBot.botTagOP?.split(' ')[0]})`);
-        if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.${this.badgeNew.newMemberBadge}`);
+        if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.{0}`, this.iochevron, 'buttonChevron');
+        if (this.settings.miscellaneous.baseGradient) this.styler.add(`.{0}`, this.typeGradient, 'chatGradientBase');
+        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.{0}:not(.${this.tagsBot.botTagOP?.split(' ')[0]})`, this.tagsBot, 'botTag');
+        if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.{0}`, this.badgeNew, 'newMemberBadge');
 
         // Remove Custom User Status
         if (this.settings.miscellaneous.userStatus == 'dmlist') {
-            this.styler.add(`.${this.dmStatus.textXs}:has(.${this.dmlistStatus.activityStatusText})`);
+            this.styler.add(`.{0}:has(.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
         } else if (this.settings.miscellaneous.userStatus == 'memberlist') {
-            this.styler.add(`.${this.memberlistStatus.subText}`);
+            this.styler.add(`.{0}`, this.memberlistStatus, 'subText');
         } else if (this.settings.miscellaneous.userStatus == 'remove') {
             // DM List
-            this.styler.add(`.${this.dmStatus.textXs}:has(.${this.dmlistStatus.activityStatusText})`);
+            this.styler.add(`.{0}:has(.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
             // Member List
-            this.styler.add(`.${this.memberlistStatus.subText}`);
+            this.styler.add(`.{0}`, this.memberlistStatus, 'subText');
         }
 
         /// Compatibility ///
