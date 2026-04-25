@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 3.6.1
+ * @version 4.0.0
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -15,10 +15,10 @@ class Styler {
     }
 
     async add(selector, ...modules) {
-        var mods = []
+        var mods = [];
         for (var i = 0; i < modules.length; i+=2) {
             var result = await modules[i];
-            mods.push(result[modules[i+1]])
+            mods.push(result[modules[i+1]]);
         }
         this.styles.push(this.format(selector, ...mods));
         this.clear();
@@ -49,7 +49,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '3.6.1',
+        version: '4.0.0',
     },
     defaultConfig: [
         {
@@ -1306,9 +1306,9 @@ module.exports = class ChatButtonsBegone {
     }
 
     async waitForBulk(...filters) {
-        var out = []
+        var out = [];
         for (var i = 0; i < filters.length; i++) {
-            out.push(this.api.Webpack.waitForModule(filters[i]))
+            out.push(this.api.Webpack.waitForModule(filters[i]));
         }
         return out;
     }
