@@ -15,17 +15,12 @@ class Styler {
     }
 
     async add(selector, ...modules) {
-        console.log("adding", selector, ...modules)
         var mods = []
         for (var i = 0; i < modules.length; i+=2) {
-            console.log("waiting for", modules[i]);
             var result = await modules[i];
-            console.log("got", result)
             mods.push(result[modules[i+1]])
-            console.log("queued", result[modules[i+1]])
         }
         this.styles.push(this.format(selector, ...mods));
-        console.log("formatted", this.format(selector, ...mods))
         this.clear();
         this.apply();
     }
@@ -873,6 +868,7 @@ module.exports = class ChatButtonsBegone {
             // Chat Bar
             this.attachButton,
             this.chatBarButtons,
+            this.emojiButton,
 
             // Message Actions
             this.messageActionButtons,
@@ -955,6 +951,7 @@ module.exports = class ChatButtonsBegone {
         ] = await this.waitForBulk(
             this.api.Webpack.Filters.byKeys('attachWrapper'), // Attach Button
             this.api.Webpack.Filters.byKeys('textArea', 'buttons'), // Buttons Global
+            this.api.Webpack.Filters.byKeys('emojiButtonNormal', 'emojiButton'), // Emoji Button
 
             this.api.Webpack.Filters.byKeys('hoverBarButton'), // Message Action Buttons
             this.api.Webpack.Filters.byKeys('messageListItem', 'message', 'buttons'), // Message Action Button
@@ -1038,11 +1035,9 @@ module.exports = class ChatButtonsBegone {
             // Old Implementation
             this.styler.add(`.{0} > .{1}:not(.expression-picker-chat-input-button)`, this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
         }
-        // TODO: Fix
-        // if (this.settings.chatbar.gifButton) this.styler.add(`.expression-picker-chat-input-button:not(:has(.{0}, .${this.chatBarButtons.emojiButton?.split(' ')[0]}))`, this.chatBarButtons, 'stickerButton');
+        if (this.settings.chatbar.gifButton) this.styler.add(`.expression-picker-chat-input-button:not(:has(.{0}, .{1}))`, this.chatBarButtons, 'stickerButton', this.emojiButton, 'emojiButton');
         if (this.settings.chatbar.stickerButton) this.styler.add(`.expression-picker-chat-input-button:has(.{0})`, this.chatBarButtons, 'stickerButton');
-        // TODO: Fix
-        // if (this.settings.chatbar.emojiButton) this.styler.add(`.expression-picker-chat-input-button:has(.${this.chatBarButtons.emojiButton?.split(' ')[0]})`);
+        if (this.settings.chatbar.emojiButton) this.styler.add(`.expression-picker-chat-input-button:has(.{0})`, this.emojiButton, 'emojiButton');
         if (this.settings.chatbar.appLauncherButton) this.styler.add('.app-launcher-entrypoint');
 
         /// Message Actions ///
