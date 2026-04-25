@@ -1072,7 +1072,7 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.dms.DMHeader == 'hideButton') {
-            this.styler.add(`.${this.DMHeader.privateChannelRecipientsInviteButtonIconContainer}`)
+            this.styler.add(`.{0}`, this.DMHeader, 'privateChannelRecipientsInviteButtonIconContainer');
         } else if (this.settings.dms.DMHeader == 'hideText') {
             this.styler.add(`.{0}`, this.DMHeader, 'headerText');
         } else if (this.settings.dms.DMHeader == 'remove') {
@@ -1128,7 +1128,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.activitySection) {
             this.styler.add(`.{0}:has([role="button"])`, this.serverActivitySection, 'membersGroup');
             this.styler.add(`div > div .{0}`, this.serverActivitySectionCards, 'usesCardRows');
-            this.styler.add(`div > div .{0} .{1}`, this.serverActivityOnHover, 'container', this.serverActivityOnHover, 'openOnHover');
+            this.styler.add(`div > div .{0}.{1}`, this.serverActivityOnHover, 'container', this.serverActivityOnHover, 'openOnHover');
         }
 
         /// Voice ///
@@ -1271,7 +1271,7 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.{0}`, this.iochevron, 'buttonChevron');
         if (this.settings.miscellaneous.baseGradient) this.styler.add(`.{0}`, this.typeGradient, 'chatGradientBase');
-        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.{0}:not(.${this.tagsBot.botTagOP?.split(' ')[0]})`, this.tagsBot, 'botTag');
+        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.{0}:not(.{0})`, this.tagsBot, 'botTagOP');
         if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.{0}`, this.badgeNew, 'newMemberBadge');
 
         // Remove Custom User Status
