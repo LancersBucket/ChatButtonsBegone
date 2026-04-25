@@ -998,7 +998,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('chipletContainerInner','chipletContainerInline'), // Clan Tag Chiplet in Server
             this.api.Webpack.Filters.byKeys('avatarDecorationContainer'), // Avatar Decoration
             this.api.Webpack.Filters.byKeys('avatarDecoration','contents'), // Avatar Decoration in Chat
-            this.api.Webpack.Filters.byKeys('tags','usernameRow'), // Profile Badges
+            this.api.Webpack.Filters.byKeys('anchor', 'anchorUnderlineOnHover'), // Profile Badges
             this.api.Webpack.Filters.byKeys('mask','banner'), // Profile Badges
             this.api.Webpack.Filters.byKeys('profileEffects'), // Profile Effects
             this.api.Webpack.Filters.byKeys('mask', 'gifTag'), // Profile GIF Tag
@@ -1194,7 +1194,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.{0}`, this.avatarDecorationChat, 'avatarDecoration');
         }
 
-        if (this.settings.profileCustomizations.hideBadges) this.styler.add(`.{0} > div:has(a)`, this.profileBadges, 'tags');
+        if (this.settings.profileCustomizations.hideBadges) this.styler.add(`div[class^="container"]:has(> a.{0} > img)`, this.profileBadges, 'anchor');
         if (this.settings.profileCustomizations.hideBanner) this.styler.add(`.{0}`, this.profileBanner, 'banner');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.{0} .{1}`, this.profileEffects, 'profileEffects', this.profileEffects, 'effect');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.{0}`, this.profileGIF, 'gifTag');

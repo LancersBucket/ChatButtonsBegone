@@ -1,7 +1,11 @@
 # Changelog
-## v3.6.1
+## v3.4.0
 ### Added
 - Option to remove "Was Here" from VC in Server Channels List [Voice]
+
+### Changed
+- Converted static selectors to lazy load to work with 
+
 ### Fixed
 - Remove Shop Button
 
