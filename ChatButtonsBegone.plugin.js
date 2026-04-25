@@ -12,6 +12,7 @@ class Styler {
         this.pluginName = pluginName;
         this.api = api;
         this.styles = [];
+        this.queue = [];
     }
 
     add(selector) {
@@ -739,168 +740,6 @@ module.exports = class ChatButtonsBegone {
 
         this.ensureDefaultSettings();
         this.migrateConfig();
-
-        [
-            // Chat Bar
-            this.attachButton,
-            this.chatBarButtons,
-
-            // Message Actions
-            this.messageActionButtons,
-            this.messageActionContainer,
-            this.messageReactionButton,
-
-            // Direct Messages
-            this.DMList,
-            this.DMHeader,
-            this.activeNowColumn,
-            this.activeNowCards,
-            this.activeNowEmpty,
-
-            // Servers & Channels
-            this.addServerDiscoverButton,
-            this.indicatorTop,
-            this.indicatorBottom,
-            this.serverSideBar,
-            this.boostBar,
-            this.headerInviteButton,
-            this.channelListButtons,
-            this.serverActivitySection,
-            this.serverActivitySectionCards,
-            this.serverActivityOnHover,
-            this.serverBanner,
-            this.showAllbutton,
-            this.umentionsBar,
-            this.umessagesBar,
-
-            // Voice
-            this.vcScreen,
-            this.vcButtons,
-            this.vcKrisp,
-            this.vcActivityPanel,
-            this.vcButtonSection,
-            this.vcActivities,
-            this.scSmallAvatar,
-            this.vcWasHere,
-
-            // Title Bar
-            this.backForwardButtons,
-            this.titleBarTrailing,
-            this.upperToolbar,
-
-            // Profile Customizations
-            this.namePlate,
-            this.selfNamePlate,
-            this.dmEntry,
-            this.clanTagProfile,
-            this.clanTagChiplet,
-            this.clanTagChipletServer,
-            this.avatar,
-            this.avatarDecorationChat,
-            this.profileBadges,
-            this.profileBanner,
-            this.profileEffects,
-            this.profileGIF,
-            this.profileCollection,
-            this.profileWidgets,
-            this.profileWishlist,
-            this.profileCustomStatus,
-
-            // Miscellaneous
-            this.blockedGroup,
-            this.blockedIndicator,
-            this.shopArt,
-            this.profileUpsell,
-            this.txtPlaceholder,
-            this.profilePopover,
-            this.promotedQuest,
-            this.questPrompt,
-            this.dmDivider,
-            this.channelDivider,
-            this.iochevron,
-            this.typeGradient,
-            this.tagsBot,
-            this.badgeNew,
-            this.dmStatus,
-            this.dmlistStatus,
-            this.memberlistStatus
-        ] = this.api.Webpack.getBulk(
-            { filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
-            { filter: this.api.Webpack.Filters.byKeys('textArea', 'buttons') }, // Buttons Global
-
-            { filter: this.api.Webpack.Filters.byKeys('hoverBarButton') }, // Message Action Buttons
-            { filter: this.api.Webpack.Filters.byKeys('messageListItem', 'message', 'buttons') }, // Message Action Button
-            { filter: this.api.Webpack.Filters.byKeys('reactions', 'reactionBtn') }, // Message Add Reaction Button
-
-            { filter: this.api.Webpack.Filters.byKeys('privateChannels') }, // DM List
-            { filter: this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer') }, // DM Header
-            { filter: this.api.Webpack.Filters.byKeys('nowPlayingColumn') }, // Active Now Column
-            { filter: this.api.Webpack.Filters.byKeys('activitySection') }, // Active Now Cards
-            { filter: this.api.Webpack.Filters.byKeys('emptyCard') },  // Active Now Empty Card
-
-            { filter: this.api.Webpack.Filters.byKeys('tutorialContainer', 'listItem') }, // Add Server / Discover Button
-            { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop') }, // Server Unread Mentions Indicator: Top
-            { filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom') }, // Server Unread Mentions Indicator: Bottom
-            { filter: this.api.Webpack.Filters.byKeys('guilds', 'content') }, // Server Sidebar
-            { filter: this.api.Webpack.Filters.byKeys('container', 'contentContainer', 'progressContainer') }, // Server Boost Bar
-            { filter: this.api.Webpack.Filters.byKeys('inviteButton') }, // Header Invite Button
-            { filter: this.api.Webpack.Filters.byKeys('linkTop','children') }, // Channel List Invite Button
-            { filter: this.api.Webpack.Filters.byKeys('membersGroup') }, // Server Activity Section
-            { filter: this.api.Webpack.Filters.byKeys('container', 'usesCardRows') }, // Server Activity Section Cards
-            { filter: this.api.Webpack.Filters.byKeys('container', 'openOnHover') }, // Server Activity Section Cards
-            { filter: this.api.Webpack.Filters.byKeys('bannerVisible', 'animatedContainer') }, // Server Banner
-            { filter: this.api.Webpack.Filters.byKeys('refreshVoiceChannelsButton') }, // "Show All" Button
-            { filter: this.api.Webpack.Filters.byKeys('mentionsBar') }, // "Unread Mentions" Bar
-            { filter: this.api.Webpack.Filters.byKeys('unreadBar') }, // "Unread Messages" Bar
-
-            { filter: this.api.Webpack.Filters.byKeys('singleUserRoot') }, // Invite Placeholder
-            { filter: this.api.Webpack.Filters.byKeys('container', 'actionButtons') }, // VC Buttons
-            { filter: this.api.Webpack.Filters.byKeys('voiceButtonsContainer') }, // Krisp Button
-            { filter: this.api.Webpack.Filters.byKeys('activityPanel') }, // VC Activity Panel
-            { filter: this.api.Webpack.Filters.byKeys('buttonSection', 'buttonContainer') },
-            { filter: this.api.Webpack.Filters.byKeys('attachedCaretButtonContainer') },
-            { filter: this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall') }, // VC Server Channel Avatars
-            { filter: this.api.Webpack.Filters.byKeys('row', 'avatarWrapper') }, // VC Server Channel Was Here
-
-            { filter: this.api.Webpack.Filters.byKeys('backForwardButtons') }, // Back/Forward Buttons
-            { filter: this.api.Webpack.Filters.byKeys('trailing', 'title') }, // Title Buttons
-            { filter: this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar', 'iconWrapper') }, // Toolbar Buttons
-
-            { filter: this.api.Webpack.Filters.byKeys('nameplated','container') }, // Nameplates
-            { filter: this.api.Webpack.Filters.byKeys('container','fitInAccount') }, // Nameplates
-            { filter: this.api.Webpack.Filters.byKeys('interactive','interactiveSelected') }, // DM Entry Item
-            { filter: this.api.Webpack.Filters.byKeys('guildTagContainer') }, // Profile Clan Tag
-            { filter: this.api.Webpack.Filters.byKeys('clanTagChiplet') }, // Clan Tag Chiplet
-            { filter: this.api.Webpack.Filters.byKeys('chipletContainerInner','chipletContainerInline') }, // Clan Tag Chiplet in Server
-            { filter: this.api.Webpack.Filters.byKeys('avatarDecorationContainer') }, // Avatar Decoration
-            { filter: this.api.Webpack.Filters.byKeys('avatarDecoration','contents') }, // Avatar Decoration in Chat
-            { filter: this.api.Webpack.Filters.byKeys('tags','usernameRow') }, // Profile Badges
-            { filter: this.api.Webpack.Filters.byKeys('mask','banner') }, // Profile Badges
-            { filter: this.api.Webpack.Filters.byKeys('profileEffects') }, // Profile Effects
-            { filter: this.api.Webpack.Filters.byKeys('mask', 'gifTag') }, // Profile GIF Tag
-            { filter: this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer') }, // Profile Game Collection
-            { filter: this.api.Webpack.Filters.byKeys('widgetPreviews') }, // Profile Game Collection
-            { filter: this.api.Webpack.Filters.byKeys('wishlistBreadcrumb') }, // Popup Profile Wishlist
-            { filter: this.api.Webpack.Filters.byKeys('container', 'ring') }, // Popup Profile Custom Status
-
-            { filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
-            { filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
-            { filter: this.api.Webpack.Filters.byKeys('settingsPage') }, // Profile Shop Art
-            { filter: this.api.Webpack.Filters.byKeys('upsellOverlayContainer') }, // Per_Server Nitro Upsell
-            { filter: this.api.Webpack.Filters.byKeys('slateTextArea') }, // Placeholder Text
-            { filter: this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover') }, // Profile Status Popover
-            { filter: this.api.Webpack.Filters.byKeys('promotedTag') }, // Active Now Quests Promotion
-            { filter: this.api.Webpack.Filters.byKeys('utils', 'heading') }, // Active Now Quest Prompt
-            { filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
-            { filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
-            { filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
-            { filter: this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase') }, // Chat Input Gradient
-            { filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
-            { filter: this.api.Webpack.Filters.byKeys('newMemberBadge') }, // New User Badge
-            { filter: this.api.Webpack.Filters.byKeys('textXs') }, // DMs List User Status
-            { filter: this.api.Webpack.Filters.byKeys('activityStatusText') }, // DMs List User Status
-            { filter: this.api.Webpack.Filters.byKeys('subText', 'childContainer') } // Member List User Status
-        );
     }
 
     migrateConfig() {
@@ -1007,7 +846,167 @@ module.exports = class ChatButtonsBegone {
         this.api.Data.save('settings', this.settings);
     }
 
-    addStyles() {
+    async addStyles() {
+        [
+            // Chat Bar
+            this.attachButton,
+            this.chatBarButtons,
+
+            // Message Actions
+            this.messageActionButtons,
+            this.messageActionContainer,
+            this.messageReactionButton,
+
+            // Direct Messages
+            this.DMList,
+            this.DMHeader,
+            this.activeNowColumn,
+            this.activeNowCards,
+            this.activeNowEmpty,
+
+            // Servers & Channels
+            this.addServerDiscoverButton,
+            this.indicatorTop,
+            this.indicatorBottom,
+            this.serverSideBar,
+            this.boostBar,
+            this.headerInviteButton,
+            this.channelListButtons,
+            this.serverActivitySection,
+            this.serverActivitySectionCards,
+            this.serverActivityOnHover,
+            this.serverBanner,
+            this.showAllbutton,
+            this.umentionsBar,
+            this.umessagesBar,
+
+            // Voice
+            this.vcScreen,
+            this.vcButtons,
+            this.vcKrisp,
+            this.vcActivityPanel,
+            this.vcButtonSection,
+            this.vcActivities,
+            this.scSmallAvatar,
+
+            // Title Bar
+            this.backForwardButtons,
+            this.titleBarTrailing,
+            this.upperToolbar,
+
+            // Profile Customizations
+            this.namePlate,
+            this.selfNamePlate,
+            this.dmEntry,
+            this.clanTagProfile,
+            this.clanTagChiplet,
+            this.clanTagChipletServer,
+            this.avatar,
+            this.avatarDecorationChat,
+            this.profileBadges,
+            this.profileBanner,
+            this.profileEffects,
+            this.profileGIF,
+            this.profileCollection,
+            this.profileWidgets,
+            this.profileWishlist,
+            this.profileCustomStatus,
+
+            // Miscellaneous
+            this.blockedGroup,
+            this.blockedIndicator,
+            this.shopArt,
+            this.profileUpsell,
+            this.txtPlaceholder,
+            this.profilePopover,
+            this.promotedQuest,
+            this.questPrompt,
+            this.dmDivider,
+            this.channelDivider,
+            this.iochevron,
+            this.typeGradient,
+            this.tagsBot,
+            this.badgeNew,
+            this.dmStatus,
+            this.dmlistStatus,
+            this.memberlistStatus
+        ] = await this.waitForBulk(
+            this.api.Webpack.Filters.byKeys('attachWrapper'), // Attach Button
+            this.api.Webpack.Filters.byKeys('textArea', 'buttons'), // Buttons Global
+
+            this.api.Webpack.Filters.byKeys('hoverBarButton'), // Message Action Buttons
+            this.api.Webpack.Filters.byKeys('messageListItem', 'message', 'buttons'), // Message Action Button
+            this.api.Webpack.Filters.byKeys('reactions', 'reactionBtn'), // Message Add Reaction Button
+
+            this.api.Webpack.Filters.byKeys('privateChannels'), // DM List
+            this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer'), // DM Header
+            this.api.Webpack.Filters.byKeys('nowPlayingColumn'), // Active Now Column
+            this.api.Webpack.Filters.byKeys('activitySection'), // Active Now Cards
+            this.api.Webpack.Filters.byKeys('emptyCard'),  // Active Now Empty Card
+
+            this.api.Webpack.Filters.byKeys('tutorialContainer', 'listItem'), // Add Server / Discover Button
+            this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop'), // Server Unread Mentions Indicator: Top
+            this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom'), // Server Unread Mentions Indicator: Bottom
+            this.api.Webpack.Filters.byKeys('guilds', 'content'), // Server Sidebar
+            this.api.Webpack.Filters.byKeys('container', 'contentContainer', 'progressContainer'), // Server Boost Bar
+            this.api.Webpack.Filters.byKeys('inviteButton'), // Header Invite Button
+            this.api.Webpack.Filters.byKeys('linkTop','children'), // Channel List Invite Button
+            this.api.Webpack.Filters.byKeys('membersGroup'), // Server Activity Section
+            this.api.Webpack.Filters.byKeys('container', 'usesCardRows'), // Server Activity Section Cards
+            this.api.Webpack.Filters.byKeys('container', 'openOnHover'), // Server Activity Section Cards
+            this.api.Webpack.Filters.byKeys('bannerVisible', 'animatedContainer'), // Server Banner
+            this.api.Webpack.Filters.byKeys('refreshVoiceChannelsButton'), // "Show All" Button
+            this.api.Webpack.Filters.byKeys('mentionsBar'), // "Unread Mentions" Bar
+            this.api.Webpack.Filters.byKeys('unreadBar'), // "Unread Messages" Bar
+
+            this.api.Webpack.Filters.byKeys('singleUserRoot'), // Invite Placeholder
+            this.api.Webpack.Filters.byKeys('container', 'actionButtons'), // VC Buttons
+            this.api.Webpack.Filters.byKeys('voiceButtonsContainer'), // Krisp Button
+            this.api.Webpack.Filters.byKeys('activityPanel'), // VC Activity Panel
+            this.api.Webpack.Filters.byKeys('buttonSection', 'buttonContainer'),
+            this.api.Webpack.Filters.byKeys('attachedCaretButtonContainer'),
+            this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall'), // VC Server Channel Avatars
+
+            this.api.Webpack.Filters.byKeys('backForwardButtons'), // Back/Forward Buttons
+            this.api.Webpack.Filters.byKeys('trailing', 'title'), // Title Buttons
+            this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar', 'iconWrapper'), // Toolbar Buttons
+
+            this.api.Webpack.Filters.byKeys('nameplated','container'), // Nameplates
+            this.api.Webpack.Filters.byKeys('container','fitInAccount'), // Nameplates
+            this.api.Webpack.Filters.byKeys('interactive','interactiveSelected'), // DM Entry Item
+            this.api.Webpack.Filters.byKeys('guildTagContainer'), // Profile Clan Tag
+            this.api.Webpack.Filters.byKeys('clanTagChiplet'), // Clan Tag Chiplet
+            this.api.Webpack.Filters.byKeys('chipletContainerInner','chipletContainerInline'), // Clan Tag Chiplet in Server
+            this.api.Webpack.Filters.byKeys('avatarDecorationContainer'), // Avatar Decoration
+            this.api.Webpack.Filters.byKeys('avatarDecoration','contents'), // Avatar Decoration in Chat
+            this.api.Webpack.Filters.byKeys('tags','usernameRow'), // Profile Badges
+            this.api.Webpack.Filters.byKeys('mask','banner'), // Profile Badges
+            this.api.Webpack.Filters.byKeys('profileEffects'), // Profile Effects
+            this.api.Webpack.Filters.byKeys('mask', 'gifTag'), // Profile GIF Tag
+            this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer'), // Profile Game Collection
+            this.api.Webpack.Filters.byKeys('widgetPreviews'), // Profile Game Collection
+            this.api.Webpack.Filters.byKeys('wishlistBreadcrumb'), // Popup Profile Wishlist
+            this.api.Webpack.Filters.byKeys('container', 'ring'), // Popup Profile Custom Status
+
+            this.api.Webpack.Filters.byKeys('groupStart'), // Message Grouping Container
+            this.api.Webpack.Filters.byKeys('blockedSystemMessage'), // Blocked Message Indicator
+            this.api.Webpack.Filters.byKeys('settingsPage'), // Profile Shop Art
+            this.api.Webpack.Filters.byKeys('upsellOverlayContainer'), // Per_Server Nitro Upsell
+            this.api.Webpack.Filters.byKeys('slateTextArea'), // Placeholder Text
+            this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover'), // Profile Status Popover
+            this.api.Webpack.Filters.byKeys('promotedTag'), // Active Now Quests Promotion
+            this.api.Webpack.Filters.byKeys('utils', 'heading'), // Active Now Quest Prompt
+            this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider'), // DMs List Divider
+            this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider'), // Server Channel Divider
+            this.api.Webpack.Filters.byKeys('buttonChevron'), // I/O Chevrons
+            this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase'), // Chat Input Gradient
+            this.api.Webpack.Filters.byKeys('botText', 'botTag'), // APP/BOT Tags
+            this.api.Webpack.Filters.byKeys('newMemberBadge'), // New User Badge
+            this.api.Webpack.Filters.byKeys('textXs'), // DMs List User Status
+            this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List User Status
+            this.api.Webpack.Filters.byKeys('subText', 'childContainer') // Member List User Status
+        );
+
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.styler.add(`.${this.attachButton.attachWrapper}`);
         if (this.settings.chatbar.giftButton) {
@@ -1096,8 +1095,8 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.eventButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
         if (this.settings.servers.membersButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
         if (this.settings.servers.channelsAndRoles) this.styler.add('[id="channels"] li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
-        if (this.settings.servers.boostsButton) this.styler.add('[id="channels"] li:has(div[id*="skill-trees"])');
-        if (this.settings.servers.shopButton) this.styler.add('[id="channels"] li:has(> div > div[id^="shop-"])');
+        if (this.settings.servers.boostsButton) this.styler.add('li:has(div[id*="skill-trees"])');
+        if (this.settings.servers.shopButton) this.styler.add('div:has(> li > div > [id^="game-shop"])');
         if (this.settings.servers.inviteButton) {
             this.styler.add(`.${this.headerInviteButton.inviteButton}`);
             this.styler.add(`.${this.channelListButtons.children}>span:has(svg>path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])`);
@@ -1284,6 +1283,14 @@ module.exports = class ChatButtonsBegone {
                 { type: 'error', timeout: '5000' }
             );
         }
+    }
+
+    async waitForBulk(...filters) {
+        var out = []
+        for (var i = 0; i < filters.length; i++) {
+            out.push(this.api.Webpack.waitForModule(filters[i]))
+        }
+        return out;
     }
 
     stop() {
