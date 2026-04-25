@@ -1128,7 +1128,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.activitySection) {
             this.styler.add(`.{0}:has([role="button"])`, this.serverActivitySection, 'membersGroup');
             this.styler.add(`div > div .{0}`, this.serverActivitySectionCards, 'usesCardRows');
-            this.styler.add(`div > div .${this.serverActivityOnHover.container}.${this.serverActivityOnHover.openOnHover}`)
+            this.styler.add(`div > div .{0} .{1}`, this.serverActivityOnHover, 'container', this.serverActivityOnHover, 'openOnHover');
         }
 
         /// Voice ///
