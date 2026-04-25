@@ -15,8 +15,27 @@ class Styler {
         this.queue = [];
     }
 
-    add(selector) {
-        this.styles.push(selector);
+    async add(selector, ...modules) {
+        console.log("adding", selector, ...modules)
+        var mods = []
+        for (var i = 0; i < modules.length; i+=2) {
+            console.log("waiting for", modules[i]);
+            var result = await modules[i];
+            console.log("got", result)
+            mods.push(result[modules[i+1]])
+            console.log("queued", result[modules[i+1]])
+        }
+        this.styles.push(this.format(selector, ...mods));
+        console.log("formatted", this.format(selector, ...mods))
+        this.clear();
+        this.apply();
+    }
+
+        
+    format(str, ...args) {
+        return str.replace(/{(\d+)}/g, (match, number) => {
+            return typeof args[number] !== 'undefined' ? args[number] : match;
+        });
     }
 
     apply() {
@@ -26,6 +45,10 @@ class Styler {
     purge() {
         this.api.DOM.removeStyle(this.pluginName);
         this.styles = [];
+    }
+
+    clear() {
+        this.api.DOM.removeStyle(this.pluginName);
     }
 }
 
@@ -1008,12 +1031,13 @@ module.exports = class ChatButtonsBegone {
         );
 
         /// Chat Buttons ///
-        if (this.settings.chatbar.attachButton) this.styler.add(`.${this.attachButton.attachWrapper}`);
+        if (this.settings.chatbar.attachButton) this.styler.add(`.{0}`, this.attachButton, 'attachWrapper');
+        
         if (this.settings.chatbar.giftButton) {
             // New Implementation (Valentines Upsell)
-            this.styler.add(`.${this.chatBarButtons.buttons} div[class^="container"]:has(>.${this.chatBarButtons.button})`);
+            this.styler.add(`.{0} div[class^="container"]:has(>.{1})`, this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
             // Old Implementation
-            this.styler.add(`.${this.chatBarButtons.buttons} > .${this.chatBarButtons.button}:not(.expression-picker-chat-input-button)`);
+            this.styler.add(`.{0} > .{1}:not(.expression-picker-chat-input-button)`, this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
         }
         if (this.settings.chatbar.gifButton) this.styler.add(`.expression-picker-chat-input-button:not(:has(.${this.chatBarButtons.stickerButton}, .${this.chatBarButtons.emojiButton?.split(' ')[0]}))`);
         if (this.settings.chatbar.stickerButton) this.styler.add(`.expression-picker-chat-input-button:has(.${this.chatBarButtons.stickerButton})`);
