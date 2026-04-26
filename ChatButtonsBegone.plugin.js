@@ -871,8 +871,15 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.{0} div[class^="container"]:has(>.{1})`, this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
             // Old Implementation
             this.styler.add(`.{0} > .{1}:not(.expression-picker-chat-input-button)`, this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
+            // Quick DM
+            this.styler.add(`div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])`)
         }
-        if (this.settings.chatbar.gifButton) this.styler.add(`.expression-picker-chat-input-button:not(:has(.{0}, .{1}))`, this.chatBarButtons, 'stickerButton', this.emojiButton, 'emojiButton');
+        if (this.settings.chatbar.gifButton) {
+            // Chatbar
+            this.styler.add(`.expression-picker-chat-input-button:not(:has(.{0}, .{1}))`, this.chatBarButtons, 'stickerButton', this.emojiButton, 'emojiButton');
+            // Quick DM
+            this.styler.add(`div:has(> button svg path[d^=" M-7,-10 C-8.656999588012695,-10"])`)
+        }
         if (this.settings.chatbar.stickerButton) this.styler.add(`.expression-picker-chat-input-button:has(.{0})`, this.chatBarButtons, 'stickerButton');
         if (this.settings.chatbar.emojiButton) this.styler.add(`.expression-picker-chat-input-button:has(.{0})`, this.emojiButton, 'emojiButton');
         if (this.settings.chatbar.appLauncherButton) this.styler.add('.app-launcher-entrypoint');
@@ -1053,7 +1060,7 @@ module.exports = class ChatButtonsBegone {
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.styler.add(`.{0}`, this.profileUpsell, 'upsellOverlayContainer');
             // Profile Shop Button
-            this.styler.add(`[class^="profile"] [class^="profileButtons"] > span:first-of-type`);
+            this.styler.add(`[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])`);
             // "Add to Favorites" Right Click Menu Option and Separator
             this.styler.add(`div[role="separator"] + div > div[id$="context-favorite-channel"]`)
             this.styler.add(`div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])`)

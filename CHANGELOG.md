@@ -1,4 +1,13 @@
 # Changelog
+## v4.0.1
+### Changes
+- Remove Gift Button [Chat Bar] and Remove Gif Button [Chat Bar] also remove their respective buttons in the profile quick DM message area
+
+### Fixed
+- Modules are now fetched on plugin start instead of every time styles are applied
+    - This should reduce the amount of lag when enabling/disabling settings
+- Remove Nitro Advertising not removing profile gift button
+
 ## v4.0.0 - April 25th, 2026
 ### Added
 - Option to remove "Was Here" from VC in Server Channels List [Voice]
