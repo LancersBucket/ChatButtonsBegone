@@ -7,6 +7,7 @@
 - Modules are now fetched on plugin start instead of every time styles are applied
     - This should reduce the amount of lag when enabling/disabling settings
 - Remove Nitro Advertising not removing profile gift button
+- Remove APP/BOT Tags [Miscellaneous]
 
 ## v4.0.0 - April 25th, 2026
 ### Added

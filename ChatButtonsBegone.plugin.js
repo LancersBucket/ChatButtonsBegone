@@ -1115,7 +1115,7 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.{0}`, this.iochevron, 'buttonChevron');
         if (this.settings.miscellaneous.baseGradient) this.styler.add(`.{0}`, this.typeGradient, 'chatGradientBase');
-        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.{0}:not(.{0})`, this.tagsBot, 'botTagOP');
+        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.{0}`, this.tagsBot, 'botTag');
         if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.{0}`, this.badgeNew, 'newMemberBadge');
 
         // Remove Custom User Status
