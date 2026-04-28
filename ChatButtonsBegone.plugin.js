@@ -24,7 +24,6 @@ class Styler {
         this.clear();
         this.apply();
     }
-
         
     format(str, ...args) {
         return str.replace(/{(\d+)}/g, (match, number) => {
@@ -1060,7 +1059,7 @@ module.exports = class ChatButtonsBegone {
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.styler.add(`.{0}`, this.profileUpsell, 'upsellOverlayContainer');
             // Profile Shop Button
-            this.styler.add(`[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])`);
+            this.styler.add(`[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M2.63 4.19A3 3 0 0 1 5.53 2H7a1 1 0 0"])`);
             // "Add to Favorites" Right Click Menu Option and Separator
             this.styler.add(`div[role="separator"] + div > div[id$="context-favorite-channel"]`)
             this.styler.add(`div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])`)
