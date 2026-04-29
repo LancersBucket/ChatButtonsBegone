@@ -1,5 +1,11 @@
 # Changelog
-## v4.0.1
+## v4.0.2
+### Changes
+### Fixed
+- Remove Nameplates [Profile Customizations]
+    - Wasn't removing from Server Member List unless DMList was viewed first
+
+## v4.0.1 - April 28th, 2026
 ### Changes
 - Remove Gift Button [Chat Bar] and Remove Gif Button [Chat Bar] also remove their respective buttons in the profile quick DM message area
 

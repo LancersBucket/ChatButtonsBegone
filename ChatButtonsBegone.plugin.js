@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.0.1
+ * @version 4.0.2
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -48,7 +48,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.0.1',
+        version: '4.0.2',
     },
     defaultConfig: [
         {
@@ -1004,13 +1004,15 @@ module.exports = class ChatButtonsBegone {
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate == 'original') {
             // Server List / DM List
-            this.styler.add(`.{0} > [style*="linear-gradient"], .{1} > [style^="background: linear-gradient"]`, this.namePlate, 'nameplated', this.dmEntry, 'interactive');
+            this.styler.add(`.{0} > [style^="background: linear-gradient"]`, this.dmEntry, 'interactive');
+            this.styler.add(`.{0} > [style^="background: linear-gradient"]`, this.namePlate, 'nameplated');
         } else if (this.settings.profileCustomizations.namePlate == 'self') {
             // Self Avatar Area
             this.styler.add(`.{0}`, this.selfNamePlate, 'fitInAccount');
         } else if (this.settings.profileCustomizations.namePlate == 'global') {
             // Server List / DM List
-            this.styler.add(`.{0} > [style*="linear-gradient"], .{1} > [style^="background: linear-gradient"]`, this.namePlate, 'nameplated', this.dmEntry, 'interactive');
+            this.styler.add(`.{0} > [style^="background: linear-gradient"]`, this.dmEntry, 'interactive');
+            this.styler.add(`.{0} > [style^="background: linear-gradient"]`, this.namePlate, 'nameplated');
             // Self Avatar Area
             this.styler.add(`.{0}`, this.selfNamePlate, 'fitInAccount');
         }
