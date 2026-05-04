@@ -724,6 +724,13 @@ const config = {
                         { label: 'Remove in Server Member list', value: 'memberlist' },
                         { label: 'Remove', value: 'remove' },
                     ]
+                },
+                {
+                    type: 'switch',
+                    id: 'threadSuggestions',
+                    name: 'Remove "Create Thread" Suggestion',
+                    note: 'Removes the "Create Thread" suggestion that appears when having a chain of 3 replies.',
+                    value: false,
                 }
             ],
         },
@@ -1131,6 +1138,8 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.{0}`, this.memberlistStatus, 'subText');
         }
 
+        if (this.settings.miscellaneous.threadSuggestions) this.styler.add(`.{0}`, this.threadSuggestion, 'threadSuggestionBar');
+
         /// Compatibility ///
         if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`div:has(>.invisibleTypingButton)`);
 
@@ -1223,7 +1232,8 @@ module.exports = class ChatButtonsBegone {
             this.badgeNew,
             this.dmStatus,
             this.dmlistStatus,
-            this.memberlistStatus
+            this.memberlistStatus,
+            this.threadSuggestion,
         ] = await this.waitForBulk(
             this.api.Webpack.Filters.byKeys('attachWrapper'), // Attach Button
             this.api.Webpack.Filters.byKeys('textArea', 'buttons'), // Buttons Global
@@ -1299,7 +1309,8 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('newMemberBadge'), // New User Badge
             this.api.Webpack.Filters.byKeys('textXs'), // DMs List User Status
             this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List User Status
-            this.api.Webpack.Filters.byKeys('subText', 'childContainer') // Member List User Status
+            this.api.Webpack.Filters.byKeys('subText', 'childContainer'), // Member List User Status
+            this.api.Webpack.Filters.byKeys('threadSuggestionBar'), // Thread Suggestions
         );
 
         try {

@@ -1,6 +1,8 @@
 # Changelog
 ## v4.0.2
-### Changes
+### Added
+- Option to remove "Create Thread" suggestion when replying to a chain of 3 messages [Miscellaneous]
+
 ### Fixed
 - Remove Nameplates [Profile Customizations]
     - Wasn't removing from Server Member List unless DMList was viewed first
