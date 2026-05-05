@@ -2,6 +2,7 @@
 ## v4.0.2
 ### Added
 - Option to remove "Create Thread" suggestion when replying to a chain of 3 messages [Miscellaneous]
+- Option to remove "Send Message"/Insta-DM from Profile view [Profile Customizations]
 
 ### Fixed
 - Remove Nameplates [Profile Customizations]

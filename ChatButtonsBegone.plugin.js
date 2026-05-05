@@ -7,6 +7,7 @@
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
+
 class Styler {
     constructor(pluginName, api) {
         this.pluginName = pluginName;
@@ -24,7 +25,7 @@ class Styler {
         this.clear();
         this.apply();
     }
-        
+
     format(str, ...args) {
         return str.replace(/{(\d+)}/g, (match, number) => {
             return typeof args[number] !== 'undefined' ? args[number] : match;
@@ -600,6 +601,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'hideMessage',
+                    name: 'Remove Message Input',
+                    note: 'Removes the Send Message input area from user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'hideCollection',
                     name: 'Remove Profile Collection',
                     note: 'Removes the Game Collection from user profiles.',
@@ -799,7 +807,7 @@ module.exports = class ChatButtonsBegone {
                     } else {
                         config.profileCustomizations.avatarDecoration = false;
                     }
-                    
+
                     return config;
                 }
             },
@@ -811,7 +819,7 @@ module.exports = class ChatButtonsBegone {
                     } else {
                         config.profileCustomizations.namePlate = 'show';
                     }
-                    
+
                     return config;
                 }
             }
@@ -1050,6 +1058,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBanner) this.styler.add(`.{0}`, this.profileBanner, 'banner');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.{0} .{1}`, this.profileEffects, 'profileEffects', this.profileEffects, 'effect');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.{0}`, this.profileGIF, 'gifTag');
+        if (this.settings.profileCustomizations.hideMessage) this.styler.add(`.{0}`, this.hideMessage, 'inlineContainer');
         if (this.settings.profileCustomizations.hideCollection) {
             this.styler.add(`.{0}:has([class^="breadcrumb"])`, this.profileCollection, 'cardsList');
             this.styler.add(`.{0}`, this.profileWidgets, 'widgetPreviews');
@@ -1210,6 +1219,7 @@ module.exports = class ChatButtonsBegone {
             this.profileBanner,
             this.profileEffects,
             this.profileGIF,
+            this.hideMessage,
             this.profileCollection,
             this.profileWidgets,
             this.profileWishlist,
@@ -1288,6 +1298,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('mask','banner'), // Profile Badges
             this.api.Webpack.Filters.byKeys('profileEffects'), // Profile Effects
             this.api.Webpack.Filters.byKeys('mask', 'gifTag'), // Profile GIF Tag
+            this.api.Webpack.Filters.byKeys('channelTextArea', 'inlineContainer'), // Profile Send Message Input
             this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer'), // Profile Game Collection
             this.api.Webpack.Filters.byKeys('widgetPreviews'), // Profile Game Collection
             this.api.Webpack.Filters.byKeys('wishlistBreadcrumb'), // Popup Profile Wishlist
