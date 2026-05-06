@@ -5,6 +5,7 @@
 - Option to remove "Send Message"/Insta-DM from Profile view [Profile Customizations]
 
 ### Fixed
+- Remove 'Add Reaction' was removing message Stickers [Message Actions]
 - Remove Nameplates [Profile Customizations]
     - Wasn't removing from Server Member List unless DMList was viewed first
 

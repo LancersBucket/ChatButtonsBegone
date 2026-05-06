@@ -919,7 +919,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.forwardButton) this.styler.add(`.{0}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`, this.messageActionButtons, 'hoverBarButton');
         if (this.settings.messageActions.removeMore) this.styler.add(`.{0}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`, this.messageActionButtons, 'hoverBarButton');
 
-        if (this.settings.messageActions.addReactionButton) this.styler.add(`div[id^="message-accessories"] > div > span`);
+        if (this.settings.messageActions.addReactionButton) this.styler.add(`div[id^="message-accessories"] > div[class^="reactions"] > span:has(div[class^="reactionBtn"])`);
 
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.styler.add(`.{0} [class^="searchBar"]`, this.DMList, 'privateChannels');
