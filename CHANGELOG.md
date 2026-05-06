@@ -1,11 +1,11 @@
 # Changelog
-## v4.0.2
+## v4.0.2 - May 6th, 2026
 ### Added
 - Option to remove "Create Thread" suggestion when replying to a chain of 3 messages [Miscellaneous]
 - Option to remove "Send Message"/Insta-DM from Profile view [Profile Customizations]
 
 ### Fixed
-- Remove 'Add Reaction' was removing message Stickers [Message Actions]
+- Remove "Add Reaction" was removing message Stickers [Message Actions]
 - Remove Nameplates [Profile Customizations]
     - Wasn't removing from Server Member List unless DMList was viewed first
 
