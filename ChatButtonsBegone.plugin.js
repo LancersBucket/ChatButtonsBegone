@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.0.2
+ * @version 4.0.3
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -49,7 +49,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.0.2',
+        version: '4.0.3',
     },
     defaultConfig: [
         {
@@ -919,15 +919,16 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.messageActions.forwardButton) this.styler.add(`.{0}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`, this.messageActionButtons, 'hoverBarButton');
         if (this.settings.messageActions.removeMore) this.styler.add(`.{0}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`, this.messageActionButtons, 'hoverBarButton');
 
-        if (this.settings.messageActions.addReactionButton) this.styler.add(`div[id^="message-accessories"] > div[class^="reactions"] > span:has(div[class^="reactionBtn"])`);
+        if (this.settings.messageActions.addReactionButton) {
+            this.styler.add(`div[id^="message-accessories"] > div[class^="reactions"] > span:has(div[class^="reactionBtn"])`);
+            this.styler.add(`ol[data-list-id="chat-messages"] div[class^="reactButtons"] > span:has(div[class^="reactionBtn"])`);
+        }
 
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.styler.add(`.{0} [class^="searchBar"]`, this.DMList, 'privateChannels');
         if (this.settings.dms.friendsTab) this.styler.add('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.styler.add('li:has([href="/store"])');
-        if (this.settings.dms.discordShopTab) {
-            this.styler.add('li:has([href="/shop"])');
-        }
+        if (this.settings.dms.discordShopTab) this.styler.add('li:has([href="/shop"])');
 
         if (this.settings.dms.DMHeader == 'hideButton') {
             this.styler.add(`.{0}`, this.DMHeader, 'privateChannelRecipientsInviteButtonIconContainer');
