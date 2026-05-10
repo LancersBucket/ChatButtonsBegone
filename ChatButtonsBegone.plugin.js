@@ -1138,12 +1138,12 @@ module.exports = class ChatButtonsBegone {
 
         // Remove Custom User Status
         if (this.settings.miscellaneous.userStatus == 'dmlist') {
-            this.styler.add(`.{0}:has(.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
+            this.styler.add(`.{0}:has(.{1}>.{2})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText', this.dmlistText, 'containerWithoutTruncatedText');
         } else if (this.settings.miscellaneous.userStatus == 'memberlist') {
             this.styler.add(`.{0}`, this.memberlistStatus, 'subText');
         } else if (this.settings.miscellaneous.userStatus == 'remove') {
             // DM List
-            this.styler.add(`.{0}:has(.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
+            this.styler.add(`.{0}:has(.{1}>.{2})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText', this.dmlistText, 'containerWithoutTruncatedText');
             // Member List
             this.styler.add(`.{0}`, this.memberlistStatus, 'subText');
         }
@@ -1243,6 +1243,7 @@ module.exports = class ChatButtonsBegone {
             this.badgeNew,
             this.dmStatus,
             this.dmlistStatus,
+            this.dmlistText,
             this.memberlistStatus,
             this.threadSuggestion,
         ] = await this.waitForBulk(
@@ -1319,8 +1320,9 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase'), // Chat Input Gradient
             this.api.Webpack.Filters.byKeys('botText', 'botTag'), // APP/BOT Tags
             this.api.Webpack.Filters.byKeys('newMemberBadge'), // New User Badge
-            this.api.Webpack.Filters.byKeys('textXs'), // DMs List User Status
-            this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List User Status
+            this.api.Webpack.Filters.byKeys('textXs'), // DMs List Activity/Status Container
+            this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List Activity/Status Text
+            this.api.Webpack.Filters.byKeys('containerWithoutTruncatedText'), // DMs List Status Text
             this.api.Webpack.Filters.byKeys('subText', 'childContainer'), // Member List User Status
             this.api.Webpack.Filters.byKeys('threadSuggestionBar'), // Thread Suggestions
         );
