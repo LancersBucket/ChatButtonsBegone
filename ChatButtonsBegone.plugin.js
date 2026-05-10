@@ -1140,12 +1140,12 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.userStatus == 'dmlist') {
             this.styler.add(`.{0}:has(.{1}>.{2})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText', this.dmlistText, 'containerWithoutTruncatedText');
         } else if (this.settings.miscellaneous.userStatus == 'memberlist') {
-            this.styler.add(`.{0}`, this.memberlistStatus, 'subText');
+            this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         } else if (this.settings.miscellaneous.userStatus == 'remove') {
             // DM List
             this.styler.add(`.{0}:has(.{1}>.{2})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText', this.dmlistText, 'containerWithoutTruncatedText');
             // Member List
-            this.styler.add(`.{0}`, this.memberlistStatus, 'subText');
+            this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         }
 
         if (this.settings.miscellaneous.threadSuggestions) this.styler.add(`.{0}`, this.threadSuggestion, 'threadSuggestionBar');
@@ -1245,6 +1245,7 @@ module.exports = class ChatButtonsBegone {
             this.dmlistStatus,
             this.dmlistText,
             this.memberlistStatus,
+            this.memberStatusText,
             this.threadSuggestion,
         ] = await this.waitForBulk(
             this.api.Webpack.Filters.byKeys('attachWrapper'), // Attach Button
@@ -1323,7 +1324,8 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('textXs'), // DMs List Activity/Status Container
             this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List Activity/Status Text
             this.api.Webpack.Filters.byKeys('containerWithoutTruncatedText'), // DMs List Status Text
-            this.api.Webpack.Filters.byKeys('subText', 'childContainer'), // Member List User Status
+            this.api.Webpack.Filters.byKeys('subText', 'childContainer'), // Member List Activity/Status
+            this.api.Webpack.Filters.byKeys('truncated'), // Member List Status Text
             this.api.Webpack.Filters.byKeys('threadSuggestionBar'), // Thread Suggestions
         );
 
