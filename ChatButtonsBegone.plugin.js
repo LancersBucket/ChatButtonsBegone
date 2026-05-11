@@ -1138,12 +1138,12 @@ module.exports = class ChatButtonsBegone {
 
         // Remove Custom User Status
         if (this.settings.miscellaneous.userStatus == 'dmlist') {
-            this.styler.add(`.{0}:has(.{1}>.{2})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText', this.dmlistText, 'containerWithoutTruncatedText');
+            this.styler.add(`div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
         } else if (this.settings.miscellaneous.userStatus == 'memberlist') {
             this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         } else if (this.settings.miscellaneous.userStatus == 'remove') {
             // DM List
-            this.styler.add(`.{0}:has(.{1}>.{2})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText', this.dmlistText, 'containerWithoutTruncatedText');
+            this.styler.add(`div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
             // Member List
             this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         }
