@@ -1,4 +1,15 @@
 # Changelog
+## v4.1.0
+### Added
+- Option to remove Default, Custom, and Activity status from the friends list [Friends + Direct Messages]
+
+### Changed
+- Renamed 'Direct Messages' cateogry to 'Friends + Direct Messages'
+- Moved Remove Custom User Status and Remove User Activity Status to [Friends + Direct Messages]
+
+### Removed
+- Deprecated config migration support for versions older than v4.0.0
+
 ## v4.0.2 - May 6th, 2026
 ### Added
 - Option to remove "Create Thread" suggestion when replying to a chain of 3 messages [Miscellaneous]
