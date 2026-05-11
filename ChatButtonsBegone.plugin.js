@@ -631,6 +631,36 @@ const config = {
         },
         {
             type: 'category',
+            name: 'Friends Page',
+            id: 'friendPage',
+            collapsible: true,
+            shown: false,
+            settings: [
+                {
+                    type: 'switch',
+                    id: 'defaultFLStatus',
+                    name: 'Remove Default Status',
+                    note: 'Removes the Default Status sub-text from Users.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'customFLStatus',
+                    name: 'Remove Custom Status',
+                    note: 'Removes the Custom Status sub-text from Users.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'defaultFLActivity',
+                    name: 'Remove Activity Sub-Status',
+                    note: 'Removes the Activity sub-text from Users.',
+                    value: false,
+                },
+            ]
+        },
+        {
+            type: 'category',
             name: 'Miscellaneous',
             id: 'miscellaneous',
             collapsible: true,
@@ -1080,6 +1110,11 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.{0}`, this.profileWishlist, 'wishlistBreadcrumb');
         if (this.settings.profileCustomizations.hideStatus) this.styler.add(`.{0}`, this.profileCustomStatus, 'ring');
 
+        /// Friend Page ///
+        if (this.settings.friendPage.defaultFLStatus) this.styler.add(`.{0} .{1}:has(>[class^="text_"])`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext');
+        if (this.settings.friendPage.customFLStatus) this.styler.add(`.{0} .{1}:has(>.{2}>div)`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+        if (this.settings.friendPage.customFLStatus) this.styler.add(`.{0} .{1}:has(>.{2}>span>.{2})`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.{0}:has(.{1})`, this.blockedGroup, 'groupStart', this.blockedIndicator, 'blockedSystemMessage');
 
@@ -1251,6 +1286,10 @@ module.exports = class ChatButtonsBegone {
             this.profileWishlist,
             this.profileCustomStatus,
 
+            // Friends Page
+            this.friendInfo,
+            this.friendtextSm,
+
             // Miscellaneous
             this.blockedGroup,
             this.blockedIndicator,
@@ -1331,6 +1370,9 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('widgetPreviews'), // Profile Game Collection
             this.api.Webpack.Filters.byKeys('wishlistBreadcrumb'), // Popup Profile Wishlist
             this.api.Webpack.Filters.byKeys('container', 'ring'), // Popup Profile Custom Status
+
+            this.api.Webpack.Filters.byKeys('userInfo', 'text'), // Friends Page UserInfo Sub-Status
+            this.api.Webpack.Filters.byKeys('textSm'), // Friends Page UserInfo Sub-Text
 
             this.api.Webpack.Filters.byKeys('groupStart'), // Message Grouping Container
             this.api.Webpack.Filters.byKeys('blockedSystemMessage'), // Blocked Message Indicator
