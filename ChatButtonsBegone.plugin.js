@@ -163,7 +163,7 @@ const config = {
         },
         {
             type: 'category',
-            name: 'Direct Messages',
+            name: 'Friends + Direct Messages',
             id: 'dms',
             collapsible: true,
             shown: false,
@@ -222,6 +222,53 @@ const config = {
                         { label: "Simplify + Remove When Empty", value: 'simplifyempty' },
                         { label: "Remove", value: 'remove' },
                     ]
+                },
+                {
+                    type: 'dropdown',
+                    id: 'userStatus',
+                    name: 'Remove Custom User Status',
+                    note: 'Controls the visibility of custom User Status in DM and Server Member List. "Show" shows them, "Remove" removes them entirely.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show'},
+                        { label: 'Remove in DM list', value: 'dmlist' },
+                        { label: 'Remove in Server Member list', value: 'memberlist' },
+                        { label: 'Remove', value: 'remove' },
+                    ]
+                },
+                {
+                    type: 'dropdown',
+                    id: 'userActivity',
+                    name: 'Remove User Activity Status',
+                    note: 'Controls the visibility of User Activity Status in DM and Server Member List. "Show" shows them, "Remove" removes them entirely.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show'},
+                        { label: 'Remove in DM list', value: 'dmlist' },
+                        { label: 'Remove in Server Member list', value: 'memberlist' },
+                        { label: 'Remove', value: 'remove' },
+                    ]
+                },
+                {
+                    type: 'switch',
+                    id: 'defaultFLStatus',
+                    name: 'Remove Default Status',
+                    note: 'Removes the Default Status sub-text from Users.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'customFLStatus',
+                    name: 'Remove Custom Status',
+                    note: 'Removes the Custom Status sub-text from Users.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'defaultFLActivity',
+                    name: 'Remove Activity Sub-Status',
+                    note: 'Removes the Activity sub-text from Users.',
+                    value: false,
                 },
                 {
                     type: 'switch',
@@ -631,36 +678,6 @@ const config = {
         },
         {
             type: 'category',
-            name: 'Friends Page',
-            id: 'friendPage',
-            collapsible: true,
-            shown: false,
-            settings: [
-                {
-                    type: 'switch',
-                    id: 'defaultFLStatus',
-                    name: 'Remove Default Status',
-                    note: 'Removes the Default Status sub-text from Users.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'customFLStatus',
-                    name: 'Remove Custom Status',
-                    note: 'Removes the Custom Status sub-text from Users.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'defaultFLActivity',
-                    name: 'Remove Activity Sub-Status',
-                    note: 'Removes the Activity sub-text from Users.',
-                    value: false,
-                },
-            ]
-        },
-        {
-            type: 'category',
             name: 'Miscellaneous',
             id: 'miscellaneous',
             collapsible: true,
@@ -749,32 +766,6 @@ const config = {
                     name: 'Remove New User Badge',
                     note: 'Removes the New User badge from Chat usernames area.',
                     value: false,
-                },
-                {
-                    type: 'dropdown',
-                    id: 'userStatus',
-                    name: 'Remove Custom User Status',
-                    note: 'Controls the visibility of custom User Status in DM and Server Member List. "Show" shows them, "Remove" removes them entirely.',
-                    value: 'show',
-                    options: [
-                        { label: 'Show', value: 'show'},
-                        { label: 'Remove in DM list', value: 'dmlist' },
-                        { label: 'Remove in Server Member list', value: 'memberlist' },
-                        { label: 'Remove', value: 'remove' },
-                    ]
-                },
-                {
-                    type: 'dropdown',
-                    id: 'userActivity',
-                    name: 'Remove User Activity Status',
-                    note: 'Controls the visibility of User Activity Status in DM and Server Member List. "Show" shows them, "Remove" removes them entirely.',
-                    value: 'show',
-                    options: [
-                        { label: 'Show', value: 'show'},
-                        { label: 'Remove in DM list', value: 'dmlist' },
-                        { label: 'Remove in Server Member list', value: 'memberlist' },
-                        { label: 'Remove', value: 'remove' },
-                    ]
                 },
                 {
                     type: 'switch',
@@ -994,6 +985,37 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.{0}`, this.activeNowColumn, 'nowPlayingColumn');
         }
 
+        // Remove Custom User Status
+        if (this.settings.dms.userStatus == 'dmlist') {
+            this.styler.add(`div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
+        } else if (this.settings.dms.userStatus == 'memberlist') {
+            this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+        } else if (this.settings.dms.userStatus == 'remove') {
+            // DM List
+            this.styler.add(`div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
+            // Member List
+            this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+        }
+
+        // Remove User Activity Status
+        if (this.settings.dms.userActivity == 'dmlist') {
+            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>span>.{0}>.{1})`, this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+        } else if (this.settings.dms.userActivity == 'memberlist') {
+            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>span>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+        } else if (this.settings.dms.userActivity == 'remove') {
+            // DM List
+            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>span>.{0}>.{1})`, this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
+            // Member List
+            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>span>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
+        }
+
+        /// Friend Page ///
+        if (this.settings.dms.defaultFLStatus) this.styler.add(`.{0} .{1}:has(>[class^="text_"])`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext');
+        if (this.settings.dms.customFLStatus) this.styler.add(`.{0} .{1}:has(>.{2}>div)`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+        if (this.settings.dms.customFLStatus) this.styler.add(`.{0} .{1}:has(>.{2}>span>.{2})`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+
         if (this.settings.dms.libraryTab) this.styler.add('li:has([href="/library"])');
 
         /// Servers and Channels ///
@@ -1110,11 +1132,6 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.{0}`, this.profileWishlist, 'wishlistBreadcrumb');
         if (this.settings.profileCustomizations.hideStatus) this.styler.add(`.{0}`, this.profileCustomStatus, 'ring');
 
-        /// Friend Page ///
-        if (this.settings.friendPage.defaultFLStatus) this.styler.add(`.{0} .{1}:has(>[class^="text_"])`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext');
-        if (this.settings.friendPage.customFLStatus) this.styler.add(`.{0} .{1}:has(>.{2}>div)`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
-        if (this.settings.friendPage.customFLStatus) this.styler.add(`.{0} .{1}:has(>.{2}>span>.{2})`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
-
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.{0}:has(.{1})`, this.blockedGroup, 'groupStart', this.blockedIndicator, 'blockedSystemMessage');
 
@@ -1184,32 +1201,6 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.{0}`, this.tagsBot, 'botTag');
         if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.{0}`, this.badgeNew, 'newMemberBadge');
 
-        // Remove Custom User Status
-        if (this.settings.miscellaneous.userStatus == 'dmlist') {
-            this.styler.add(`div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
-        } else if (this.settings.miscellaneous.userStatus == 'memberlist') {
-            this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-        } else if (this.settings.miscellaneous.userStatus == 'remove') {
-            // DM List
-            this.styler.add(`div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
-            // Member List
-            this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-        }
-
-        // Remove User Activity Status
-        if (this.settings.miscellaneous.userActivity == 'dmlist') {
-            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>span>.{0}>.{1})`, this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-        } else if (this.settings.miscellaneous.userActivity == 'memberlist') {
-            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>span>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-        } else if (this.settings.miscellaneous.userActivity == 'remove') {
-            // DM List
-            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>span>.{0}>.{1})`, this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
-            // Member List
-            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>span>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
-        }
-
         if (this.settings.miscellaneous.threadSuggestions) this.styler.add(`.{0}`, this.threadSuggestion, 'threadSuggestionBar');
 
         /// Compatibility ///
@@ -1237,6 +1228,14 @@ module.exports = class ChatButtonsBegone {
             this.activeNowColumn,
             this.activeNowCards,
             this.activeNowEmpty,
+            this.dmStatus,
+            this.dmlistStatus,
+            this.dmlistText,
+            this.memberlistStatus,
+            this.memberStatusText,
+            this.multiActivity,
+            this.friendInfo,
+            this.friendtextSm,
 
             // Servers & Channels
             this.addServerDiscoverButton,
@@ -1288,10 +1287,6 @@ module.exports = class ChatButtonsBegone {
             this.profileWishlist,
             this.profileCustomStatus,
 
-            // Friends Page
-            this.friendInfo,
-            this.friendtextSm,
-
             // Miscellaneous
             this.blockedGroup,
             this.blockedIndicator,
@@ -1307,12 +1302,6 @@ module.exports = class ChatButtonsBegone {
             this.typeGradient,
             this.tagsBot,
             this.badgeNew,
-            this.dmStatus,
-            this.dmlistStatus,
-            this.dmlistText,
-            this.memberlistStatus,
-            this.memberStatusText,
-            this.multiActivity,
             this.threadSuggestion,
         ] = await this.waitForBulk(
             this.api.Webpack.Filters.byKeys('attachWrapper'), // Attach Button
@@ -1327,6 +1316,14 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('nowPlayingColumn'), // Active Now Column
             this.api.Webpack.Filters.byKeys('activitySection'), // Active Now Cards
             this.api.Webpack.Filters.byKeys('emptyCard'),  // Active Now Empty Card
+            this.api.Webpack.Filters.byKeys('textXs'), // DMs List Activity/Status Container
+            this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List Activity/Status Text
+            this.api.Webpack.Filters.byKeys('containerWithoutTruncatedText'), // DMs List Status Text
+            this.api.Webpack.Filters.byKeys('subText', 'childContainer'), // Member List Activity/Status
+            this.api.Webpack.Filters.byKeys('truncated'), // Member List Status Text
+            this.api.Webpack.Filters.byKeys('activityContainer'), // Multi-Activity Status Container
+            this.api.Webpack.Filters.byKeys('userInfo', 'text'), // Friends Page UserInfo Sub-Status
+            this.api.Webpack.Filters.byKeys('textSm'), // Friends Page UserInfo Sub-Text
 
             this.api.Webpack.Filters.byKeys('tutorialContainer', 'listItem'), // Add Server / Discover Button
             this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop'), // Server Unread Mentions Indicator: Top
@@ -1374,9 +1371,6 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('wishlistBreadcrumb'), // Popup Profile Wishlist
             this.api.Webpack.Filters.byKeys('container', 'ring'), // Popup Profile Custom Status
 
-            this.api.Webpack.Filters.byKeys('userInfo', 'text'), // Friends Page UserInfo Sub-Status
-            this.api.Webpack.Filters.byKeys('textSm'), // Friends Page UserInfo Sub-Text
-
             this.api.Webpack.Filters.byKeys('groupStart'), // Message Grouping Container
             this.api.Webpack.Filters.byKeys('blockedSystemMessage'), // Blocked Message Indicator
             this.api.Webpack.Filters.byKeys('settingsPage'), // Profile Shop Art
@@ -1391,12 +1385,6 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase'), // Chat Input Gradient
             this.api.Webpack.Filters.byKeys('botText', 'botTag'), // APP/BOT Tags
             this.api.Webpack.Filters.byKeys('newMemberBadge'), // New User Badge
-            this.api.Webpack.Filters.byKeys('textXs'), // DMs List Activity/Status Container
-            this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List Activity/Status Text
-            this.api.Webpack.Filters.byKeys('containerWithoutTruncatedText'), // DMs List Status Text
-            this.api.Webpack.Filters.byKeys('subText', 'childContainer'), // Member List Activity/Status
-            this.api.Webpack.Filters.byKeys('truncated'), // Member List Status Text
-            this.api.Webpack.Filters.byKeys('activityContainer'), // Multi-Activity Status Container
             this.api.Webpack.Filters.byKeys('threadSuggestionBar'), // Thread Suggestions
         );
 
