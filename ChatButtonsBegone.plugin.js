@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.0.3
+ * @version 4.1.0
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -49,7 +49,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.0.3',
+        version: '4.1.0',
     },
     defaultConfig: [
         {
@@ -810,49 +810,13 @@ module.exports = class ChatButtonsBegone {
     migrateConfig() {
         const migrations = [
             {
-                to: '3.1.0',
+                to: '4.1.0',
                 migrate: (config) => {
-                    config.voice.gameActivityPanel = config.miscellaneous.activityPanel;
-                    delete config.miscellaneous.activityPanel;
+                    config.dms.userStatus = config.miscellaneous.userStatus;
+                    delete config.miscellaneous.userStatus;
 
-                    config.servers.addServerButton = config.miscellaneous.addServerButton;
-                    delete config.miscellaneous.addServerButton;
-
-                    config.servers.discoverButton = config.miscellaneous.discoverButton;
-                    delete config.miscellaneous.discoverButton;
-
-                    return config;
-                }
-            },
-            {
-                to: '3.2.0',
-                migrate: (config) => {
-                    config.servers.channelsAndRoles = config.servers.channelsAndRoles || config.servers.browseChannels;
-                    delete config.servers.browseChannels;
-
-                    return config;
-                }
-            },
-            {
-                to: '3.3.0',
-                migrate: (config) => {
-                    if (config.profileCustomizations.avatarDecoration !== 'show') {
-                        config.profileCustomizations.avatarDecoration = true;
-                    } else {
-                        config.profileCustomizations.avatarDecoration = false;
-                    }
-
-                    return config;
-                }
-            },
-            {
-                to: '3.4.0',
-                migrate: (config) => {
-                    if (config.profileCustomizations.namePlate === true) {
-                        config.profileCustomizations.namePlate = 'original';
-                    } else {
-                        config.profileCustomizations.namePlate = 'show';
-                    }
+                    config.dms.userActivity = config.miscellaneous.userActivity;
+                    delete config.miscellaneous.userActivity;
 
                     return config;
                 }
