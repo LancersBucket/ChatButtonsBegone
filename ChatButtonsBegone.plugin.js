@@ -734,6 +734,19 @@ const config = {
                     ]
                 },
                 {
+                    type: 'dropdown',
+                    id: 'userActivity',
+                    name: 'Remove User Activity Status',
+                    note: 'Controls the visibility of User Activity Status in DM and Server Member List. "Show" shows them, "Remove" removes them entirely.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show'},
+                        { label: 'Remove in DM list', value: 'dmlist' },
+                        { label: 'Remove in Server Member list', value: 'memberlist' },
+                        { label: 'Remove', value: 'remove' },
+                    ]
+                },
+                {
                     type: 'switch',
                     id: 'threadSuggestions',
                     name: 'Remove "Create Thread" Suggestion',
@@ -1146,6 +1159,18 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
             // Member List
             this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+        }
+
+        // Remove User Activity Status
+        if (this.settings.miscellaneous.userActivity == 'dmlist') {
+            this.styler.add(`div:has(>.{0}>span>.{1}>.{2})`, this.dmStatus, 'textXs', this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
+        } else if (this.settings.miscellaneous.userActivity == 'memberlist') {
+            this.styler.add(`.{0}:has(>.{1}>span>.{2}>.{3})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+        } else if (this.settings.miscellaneous.userActivity == 'remove') {
+            // DM List
+            this.styler.add(`div:has(>.{0}>span>.{1}>.{2})`, this.dmStatus, 'textXs', this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
+            // Member List
+            this.styler.add(`.{0}:has(>.{1}>span>.{2}>.{3})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         }
 
         if (this.settings.miscellaneous.threadSuggestions) this.styler.add(`.{0}`, this.threadSuggestion, 'threadSuggestionBar');
