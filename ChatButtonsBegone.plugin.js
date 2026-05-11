@@ -1204,8 +1204,10 @@ module.exports = class ChatButtonsBegone {
         } else if (this.settings.miscellaneous.userActivity == 'remove') {
             // DM List
             this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>span>.{0}>.{1})`, this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
             // Member List
             this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>span>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
         }
 
         if (this.settings.miscellaneous.threadSuggestions) this.styler.add(`.{0}`, this.threadSuggestion, 'threadSuggestionBar');
@@ -1310,6 +1312,7 @@ module.exports = class ChatButtonsBegone {
             this.dmlistText,
             this.memberlistStatus,
             this.memberStatusText,
+            this.multiActivity,
             this.threadSuggestion,
         ] = await this.waitForBulk(
             this.api.Webpack.Filters.byKeys('attachWrapper'), // Attach Button
@@ -1393,6 +1396,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('containerWithoutTruncatedText'), // DMs List Status Text
             this.api.Webpack.Filters.byKeys('subText', 'childContainer'), // Member List Activity/Status
             this.api.Webpack.Filters.byKeys('truncated'), // Member List Status Text
+            this.api.Webpack.Filters.byKeys('activityContainer'), // Multi-Activity Status Container
             this.api.Webpack.Filters.byKeys('threadSuggestionBar'), // Thread Suggestions
         );
 
