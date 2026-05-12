@@ -252,22 +252,22 @@ const config = {
                 {
                     type: 'switch',
                     id: 'defaultFLStatus',
-                    name: 'Remove Default Status',
-                    note: 'Removes the Default Status sub-text from Users.',
+                    name: 'Remove Friends Default Status',
+                    note: 'Removes the Default Online Status sub-text from Friends.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'customFLStatus',
-                    name: 'Remove Custom Status',
-                    note: 'Removes the Custom Status sub-text from Users.',
+                    name: 'Remove Friends Custom Status',
+                    note: 'Removes the Custom Status sub-text from Friends.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'defaultFLActivity',
-                    name: 'Remove Activity Sub-Status',
-                    note: 'Removes the Activity sub-text from Users.',
+                    name: 'Remove Friends Activity Sub-Status',
+                    note: 'Removes the Activity sub-text from Friends.',
                     value: false,
                 },
                 {
