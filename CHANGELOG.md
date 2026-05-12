@@ -7,6 +7,9 @@
 - Renamed 'Direct Messages' cateogry to 'Friends + Direct Messages'
 - Moved Remove Custom User Status and Remove User Activity Status to [Friends + Direct Messages]
 
+### Fixed
+- Remove "Add Reaction" now applies to "React to Post" on Topic Posts
+
 ### Removed
 - Deprecated config migration support for versions older than v4.0.0
 
@@ -21,7 +24,7 @@
     - Wasn't removing from Server Member List unless DMList was viewed first
 
 ## v4.0.1 - April 28th, 2026
-### Changes
+### Changed
 - Remove Gift Button [Chat Bar] and Remove Gif Button [Chat Bar] also remove their respective buttons in the profile quick DM message area
 
 ### Fixed
