@@ -1090,7 +1090,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBanner) this.styler.add(`.{0}`, this.profileBanner, 'banner');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.{0} .{1}`, this.profileEffects, 'profileEffects', this.profileEffects, 'effect');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.{0}`, this.profileGIF, 'gifTag');
-        if (this.settings.profileCustomizations.hideMessage) this.styler.add(`.{0}`, this.hideMessage, 'inlineContainer');
+        if (this.settings.profileCustomizations.hideMessage) this.styler.add(`[class^="footer"]:has(.{0})`, this.hideMessage, 'inlineContainer');
         if (this.settings.profileCustomizations.hideCollection) {
             this.styler.add(`.{0}:has([class^="breadcrumb"])`, this.profileCollection, 'cardsList');
             this.styler.add(`.{0}`, this.profileWidgets, 'widgetPreviews');
