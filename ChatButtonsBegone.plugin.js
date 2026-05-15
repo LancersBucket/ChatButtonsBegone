@@ -939,11 +939,13 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.dms.activeNow == 'simplify') { 
             this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
             this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
+            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'gameSection');
         } else if (this.settings.dms.activeNow == 'empty') {
             this.styler.add(`.{0}:has(.{1})`, this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
         } else if (this.settings.dms.activeNow == 'simplifyempty') {
             this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
             this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
+            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'gameSection');
             this.styler.add(`.{0}:has(.{1})`, this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
         } else if (this.settings.dms.activeNow == 'remove') {
             this.styler.add(`.{0}`, this.activeNowColumn, 'nowPlayingColumn');
@@ -1278,7 +1280,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('privateChannels'), // DM List
             this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer'), // DM Header
             this.api.Webpack.Filters.byKeys('nowPlayingColumn'), // Active Now Column
-            this.api.Webpack.Filters.byKeys('activitySection'), // Active Now Cards
+            this.api.Webpack.Filters.byKeys('activitySection', 'gameSection'), // Active Now Activity Cards
             this.api.Webpack.Filters.byKeys('emptyCard'),  // Active Now Empty Card
             this.api.Webpack.Filters.byKeys('textXs'), // DMs List Activity/Status Container
             this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List Activity/Status Text
