@@ -1122,7 +1122,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(`.{0}`, this.questPrompt, 'wrapper');
         }
 
-        if (this.settings.miscellaneous.placeholderText) this.styler.add(`.{0}:has(+ .{1})`, this.txtPlaceholder, 'slateTextArea', this.txtPlaceholder, 'slateTextArea');
+        if (this.settings.miscellaneous.placeholderText) this.styler.add(`.{0}:not(.{1}) :has(+ .{2})`, this.hideMessage, 'channelTextArea', this.hideMessage, 'channelTextAreaDisabled', this.txtPlaceholder, 'slateTextArea');
         if (this.settings.miscellaneous.avatarPopover) this.styler.add(`.{0}`, this.profilePopover, 'statusPopover');
 
         let listSeparatorDm = [`.{0}`, this.dmDivider, 'sectionDivider'];
