@@ -761,11 +761,16 @@ const config = {
                     value: false,
                 },
                 {
-                    type: 'switch',
+                    type: 'dropdown',
                     id: 'tagsBotApp',
                     name: 'Remove APP/BOT Tags',
                     note: 'Removes the APP/Bot Tags from Bots in Memberslist/Messages.',
-                    value: false,
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show'},
+                        { label: 'Remove', value: 'remove' },
+                        { label: 'Keep Topic OP Tag', value: 'keepOP' },
+                    ]
                 },
                 {
                     type: 'switch',
@@ -1172,7 +1177,13 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.{0}`, this.iochevron, 'buttonChevron');
         if (this.settings.miscellaneous.baseGradient) this.styler.add(`.{0}`, this.typeGradient, 'chatGradientBase');
-        if (this.settings.miscellaneous.tagsBotApp) this.styler.add(`.{0}`, this.tagsBot, 'botTag');
+
+        if (this.settings.miscellaneous.tagsBotApp == 'remove') {
+            this.styler.add(`.{0}`, this.tagsBot, 'botTag');
+        } else if (this.settings.miscellaneous.tagsBotApp == 'keepOP') {
+            this.styler.add(`.{0}:not([class*="botTagOP"])`, this.tagsBot, 'botTag');
+        }
+
         if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.{0}`, this.badgeNew, 'newMemberBadge');
 
         if (this.settings.miscellaneous.threadSuggestions) this.styler.add(`.{0}`, this.threadSuggestion, 'threadSuggestionBar');
