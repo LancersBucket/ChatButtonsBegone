@@ -2,6 +2,7 @@
 ## v4.1.0
 ### Added
 - Option to remove Default, Custom, and Activity status from the friends list [Friends + Direct Messages]
+- Option to remove Edit Profile button from own profile view [Profile Customizations]
 
 ### Changed
 - Renamed 'Direct Messages' cateogry to 'Friends + Direct Messages'
@@ -9,6 +10,8 @@
 
 ### Fixed
 - Remove "Add Reaction" now applies to "React to Post" on Topic Posts
+- Remove Active Now's "Simplify" not removing every game detail
+- Remove Rlaceholder Text also removing default text if channel is disabled (hiding disabled information)
 
 ### Removed
 - Deprecated config migration support for versions older than v4.0.0

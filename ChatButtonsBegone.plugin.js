@@ -768,8 +768,8 @@ const config = {
                     value: 'show',
                     options: [
                         { label: 'Show', value: 'show'},
-                        { label: 'Remove', value: 'remove' },
                         { label: 'Keep Topic OP Tag', value: 'keepOP' },
+                        { label: 'Remove', value: 'remove' },
                     ]
                 },
                 {
@@ -824,11 +824,16 @@ module.exports = class ChatButtonsBegone {
             {
                 to: '4.1.0',
                 migrate: (config) => {
+                    // Migrate user status to DM settings
                     config.dms.userStatus = config.miscellaneous.userStatus;
                     delete config.miscellaneous.userStatus;
 
+                    // Migrate user activity to DM settings
                     config.dms.userActivity = config.miscellaneous.userActivity;
                     delete config.miscellaneous.userActivity;
+
+                    // Convert tagsBotApp to dropdown
+                    config.miscellaneous.tagsBotApp = config.miscellaneous.tagsBotApp ? 'show' : 'remove';
 
                     return config;
                 }
