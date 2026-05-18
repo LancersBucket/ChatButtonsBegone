@@ -7,6 +7,7 @@
 ### Changed
 - Renamed 'Direct Messages' cateogry to 'Friends + Direct Messages'
 - Moved Remove Custom User Status and Remove User Activity Status to [Friends + Direct Messages]
+- Remove Nitro Upsell now removed the billing settings in the settings context menu rather than the main settings
 
 ### Fixed
 - Remove "Add Reaction" now applies to "React to Post" on Topic Posts

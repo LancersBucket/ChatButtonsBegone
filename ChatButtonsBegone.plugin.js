@@ -1122,8 +1122,9 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.nitroUpsell) {
             // Settings "Edit Profile" Page
             this.styler.add(`.{0} div:has(>[class^="artContainer"])`, this.shopArt, 'settingsPage');
-            // Billing Settings
-            this.styler.add('[data-settings-sidebar-item="nitro_panel"], [data-settings-sidebar-item="premium_guild_subscriptions_panel"], [data-settings-sidebar-item="gift_panel"]');
+            // Billing Settings (Context Menu)
+            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-nitro_sidebar_item)', this.contextMenuNitro, 'menu')
+            this.styler.add('.{0} div[role="group"]:has(#settings-menu-nitro_sidebar_item)', this.contextMenuNitro, 'menu')
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.styler.add(`.{0}`, this.profileUpsell, 'upsellOverlayContainer');
             // Profile Shop Button
@@ -1281,6 +1282,7 @@ module.exports = class ChatButtonsBegone {
             this.blockedGroup,
             this.blockedIndicator,
             this.shopArt,
+            this.contextMenuNitro,
             this.profileUpsell,
             this.txtPlaceholder,
             this.profilePopover,
@@ -1364,6 +1366,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('groupStart'), // Message Grouping Container
             this.api.Webpack.Filters.byKeys('blockedSystemMessage'), // Blocked Message Indicator
             this.api.Webpack.Filters.byKeys('settingsPage'), // Profile Shop Art
+            this.api.Webpack.Filters.byKeys('menu', 'flexible'), // Nitro Context Menu
             this.api.Webpack.Filters.byKeys('upsellOverlayContainer'), // Per_Server Nitro Upsell
             this.api.Webpack.Filters.byKeys('slateTextArea'), // Placeholder Text
             this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover'), // Profile Status Popover
