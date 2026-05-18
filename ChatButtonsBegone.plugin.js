@@ -19,7 +19,7 @@ class Styler {
         var mods = [];
         for (var i = 0; i < modules.length; i+=2) {
             var result = await modules[i];
-            mods.push(result[modules[i+1]]);
+            mods.push(result[modules[i+1]].trim().replace(' ', '.'));
         }
         this.styles.push(this.format(selector, ...mods));
         this.clear();
@@ -1186,7 +1186,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.tagsBotApp == 'remove') {
             this.styler.add(`.{0}`, this.tagsBot, 'botTag');
         } else if (this.settings.miscellaneous.tagsBotApp == 'keepOP') {
-            this.styler.add(`.{0}:not([class*="botTagOP"])`, this.tagsBot, 'botTag');
+            this.styler.add(`.{0}:not(.{1})`, this.tagsBot, 'botTag', this.tagsBot, 'botTagOP');
         }
 
         if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.{0}`, this.badgeNew, 'newMemberBadge');
