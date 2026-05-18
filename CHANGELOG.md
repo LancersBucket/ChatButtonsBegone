@@ -3,11 +3,12 @@
 ### Added
 - Option to remove Default, Custom, and Activity status from the friends list [Friends + Direct Messages]
 - Option to remove Edit Profile button from own profile view [Profile Customizations]
+- Option to remove Activity section from Settings Context Menu [Miscellaneous]
 
 ### Changed
 - Renamed 'Direct Messages' cateogry to 'Friends + Direct Messages'
 - Moved Remove Custom User Status and Remove User Activity Status to [Friends + Direct Messages]
-- Remove Nitro Upsell now removed the billing settings in the settings context menu rather than the main settings
+- Remove Nitro Upsell now removed the billing settings in the settings context menu rather than the main settings [Miscellaneous]
 
 ### Fixed
 - Remove "Add Reaction" now applies to "React to Post" on Topic Posts
