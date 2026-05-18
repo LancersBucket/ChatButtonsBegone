@@ -713,6 +713,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'noActvityMenu',
+                    name: 'Remove Activity Context Section',
+                    note: 'Removes Activity related entries from Settings context Menu.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'placeholderText',
                     name: 'Remove Placeholder Text in message area',
                     note: 'Removes the placeholder text "Message ..." in the chat bar.',
@@ -1123,8 +1130,8 @@ module.exports = class ChatButtonsBegone {
             // Settings "Edit Profile" Page
             this.styler.add(`.{0} div:has(>[class^="artContainer"])`, this.shopArt, 'settingsPage');
             // Billing Settings (Context Menu)
-            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-nitro_sidebar_item)', this.contextMenuNitro, 'menu')
-            this.styler.add('.{0} div[role="group"]:has(#settings-menu-nitro_sidebar_item)', this.contextMenuNitro, 'menu')
+            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu')
+            this.styler.add('.{0} div[role="group"]:has(#settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu')
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.styler.add(`.{0}`, this.profileUpsell, 'upsellOverlayContainer');
             // Profile Shop Button
@@ -1139,6 +1146,12 @@ module.exports = class ChatButtonsBegone {
             // Active Now section
             this.styler.add(`.{0}`, this.promotedQuest, 'promotedTag');
             this.styler.add(`.{0}`, this.questPrompt, 'wrapper');
+        }
+
+        // Activity Settings (Context Menu)
+        if (this.settings.miscellaneous.noActvityMenu) {
+            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu')
+            this.styler.add('.{0} div[role="group"]:has(#settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu')
         }
 
         if (this.settings.miscellaneous.placeholderText) this.styler.add(`.{0}:not(.{1}) :has(+ .{2})`, this.hideMessage, 'channelTextArea', this.hideMessage, 'channelTextAreaDisabled', this.txtPlaceholder, 'slateTextArea');
@@ -1282,7 +1295,7 @@ module.exports = class ChatButtonsBegone {
             this.blockedGroup,
             this.blockedIndicator,
             this.shopArt,
-            this.contextMenuNitro,
+            this.contextSettingsMenu,
             this.profileUpsell,
             this.txtPlaceholder,
             this.profilePopover,
