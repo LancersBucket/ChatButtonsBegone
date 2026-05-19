@@ -1029,7 +1029,7 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.servers.serverBanner) {
             this.styler.add('.{0}', this.serverBanner, 'animatedContainer');
-            this.styler.add('div[#channels] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
+            this.styler.add('div#channels > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
         }
         if (this.settings.servers.boostBar) this.styler.add('.{0}', this.boostBar, 'container');
         if (this.settings.servers.stageNotice) this.styler.add('.{0}', this.liveNotice, 'channelNotice');
