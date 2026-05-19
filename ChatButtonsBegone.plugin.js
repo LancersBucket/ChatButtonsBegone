@@ -100,8 +100,8 @@ const config = {
                     name: 'Remove App Launcher Button',
                     note: 'Removes the App Launcher button from the chatbar.',
                     value: false,
-                }
-            ]
+                },
+            ],
         },
         {
             type: 'category',
@@ -158,8 +158,8 @@ const config = {
                     name: 'Remove "More" Button',
                     note: 'Removes the "More" (three dots) button from the message actions.',
                     value: false,
-                }
-            ]
+                },
+            ],
         },
         {
             type: 'category',
@@ -207,7 +207,7 @@ const config = {
                         { label: "Remove Button", value: 'hideButton' },
                         { label: "Remove Text", value: 'hideText' },
                         { label: "Remove", value: 'remove' },
-                    ]
+                    ],
                 },
                 {
                     type: 'dropdown',
@@ -221,7 +221,7 @@ const config = {
                         { label: "Remove When Empty", value: 'empty' },
                         { label: "Simplify + Remove When Empty", value: 'simplifyempty' },
                         { label: "Remove", value: 'remove' },
-                    ]
+                    ],
                 },
                 {
                     type: 'dropdown',
@@ -234,7 +234,7 @@ const config = {
                         { label: 'Remove in DM list', value: 'dmlist' },
                         { label: 'Remove in Server Member list', value: 'memberlist' },
                         { label: 'Remove', value: 'remove' },
-                    ]
+                    ],
                 },
                 {
                     type: 'dropdown',
@@ -247,7 +247,7 @@ const config = {
                         { label: 'Remove in DM list', value: 'dmlist' },
                         { label: 'Remove in Server Member list', value: 'memberlist' },
                         { label: 'Remove', value: 'remove' },
-                    ]
+                    ],
                 },
                 {
                     type: 'switch',
@@ -276,8 +276,8 @@ const config = {
                     name: 'Remove Library Tab',
                     note: 'Removes the Library tab from the DM list.',
                     value: false,
-                }
-            ]
+                },
+            ],
         },
         {
             type: 'category',
@@ -311,7 +311,7 @@ const config = {
                         { label: 'Remove Top', value: 'top' },
                         { label: 'Remove Bottom', value: 'bottom' },
                         { label: 'Remove Both', value: 'both' },
-                    ]
+                    ],
                 },
                 {
                     type: 'switch',
@@ -417,8 +417,8 @@ const config = {
                     name: 'Remove Activities Section',
                     note: 'Removes the Activities Section from the server member list.',
                     value: false,
-                }
-            ]
+                },
+            ],
         },
         {
             type: 'category',
@@ -496,8 +496,8 @@ const config = {
                     name: 'Remove Was Here from VC List',
                     note: 'Removes the Was Here/What You Missed in vc list.',
                     value: false,
-                }
-            ]
+                },
+            ],
         },
         {
             type: 'category',
@@ -582,8 +582,8 @@ const config = {
                     name: 'Remove Show/Hide Profile Button',
                     note: 'Removes Show/Hide User Profile from DMs button.',
                     value: false,
-                }
-            ]
+                },
+            ],
         },
         {
             type: 'category',
@@ -603,7 +603,7 @@ const config = {
                         { label: 'Remove in DMs/Members', value: 'original' },
                         { label: 'Remove in User Area', value: 'self' },
                         { label: 'Remove', value: 'global' },
-                    ]
+                    ],
                 },
                 {
                     type: 'dropdown',
@@ -616,7 +616,7 @@ const config = {
                         { label: 'Remove in Member List', value: 'memberlist' },
                         { label: 'Remove in Profile', value: 'profile' },
                         { label: 'Remove', value: 'global' },
-                    ]
+                    ],
                 },
                 {
                     type: 'switch',
@@ -687,8 +687,8 @@ const config = {
                     name: 'Remove Profile Custom Status',
                     note: 'Removes the Custom Status from user profiles.',
                     value: false,
-                }
-            ]
+                },
+            ],
         },
         {
             type: 'category',
@@ -751,7 +751,7 @@ const config = {
                         { label: 'Remove in Server Channel list', value: 'serverlist' },
                         { label: 'Semi-Smart Remove', value: 'smart' },
                         { label: 'Remove', value: 'remove' },
-                    ]
+                    ],
                 },
                 {
                     type: 'switch',
@@ -799,7 +799,7 @@ const config = {
                     name: 'Remove "Create Thread" Suggestion',
                     note: 'Removes the "Create Thread" suggestion that appears when having a chain of 3 replies.',
                     value: false,
-                }
+                },
             ],
         },
         {
@@ -815,10 +815,10 @@ const config = {
                     name: 'Remove Invisible Typing Button',
                     note: 'Removes the button added by Strencher\'s InvisibleTyping plugin from the chat.',
                     value: false,
-                }
-            ]
-        }
-    ]
+                },
+            ],
+        },
+    ],
 };
 
 module.exports = class ChatButtonsBegone {
@@ -850,8 +850,8 @@ module.exports = class ChatButtonsBegone {
                     config.miscellaneous.tagsBotApp = config.miscellaneous.tagsBotApp ? 'show' : 'remove';
 
                     return config;
-                }
-            }
+                },
+            },
         ];
 
         const compareVersions = function(a, b) {
@@ -915,13 +915,13 @@ module.exports = class ChatButtonsBegone {
             // Old Implementation
             this.styler.add('.{0} > .{1}:not(.expression-picker-chat-input-button)', this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
             // Quick DM
-            this.styler.add('div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])')
+            this.styler.add('div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])');
         }
         if (this.settings.chatbar.gifButton) {
             // Chatbar
             this.styler.add('.expression-picker-chat-input-button:not(:has(.{0}, .{1}))', this.chatBarButtons, 'stickerButton', this.emojiButton, 'emojiButton');
             // Quick DM
-            this.styler.add('div:has(> button svg path[d^=" M-7,-10 C-8.656999588012695,-10"])')
+            this.styler.add('div:has(> button svg path[d^=" M-7,-10 C-8.656999588012695,-10"])');
         }
         if (this.settings.chatbar.stickerButton) this.styler.add('.expression-picker-chat-input-button:has(.{0})', this.chatBarButtons, 'stickerButton');
         if (this.settings.chatbar.emojiButton) this.styler.add('.expression-picker-chat-input-button:has(.{0})', this.emojiButton, 'emojiButton');
@@ -1138,15 +1138,15 @@ module.exports = class ChatButtonsBegone {
             // Settings "Edit Profile" Page
             this.styler.add('.{0} div:has(> [class^="artContainer"])', this.shopArt, 'settingsPage');
             // Billing Settings (Context Menu)
-            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu')
-            this.styler.add('.{0} div[role="group"]:has(#settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu')
+            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu');
+            this.styler.add('.{0} div[role="group"]:has(#settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu');
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.styler.add('.{0}', this.profileUpsell, 'upsellOverlayContainer');
             // Profile Shop Button
             this.styler.add('[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M2.63 4.19A3 3 0 0 1 5.53 2H7a1 1 0 0"])');
             // "Add to Favorites" Right Click Menu Option and Separator
-            this.styler.add('div[role="separator"] + div > div[id$="context-favorite-channel"]')
-            this.styler.add('div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])')
+            this.styler.add('div[role="separator"] + div > div[id$="context-favorite-channel"]');
+            this.styler.add('div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])');
         }
 
         if (this.settings.miscellaneous.noQuests) {
@@ -1158,8 +1158,8 @@ module.exports = class ChatButtonsBegone {
 
         // Activity Settings (Context Menu)
         if (this.settings.miscellaneous.noActvityMenu) {
-            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu')
-            this.styler.add('.{0} div[role="group"]:has(#settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu')
+            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu');
+            this.styler.add('.{0} div[role="group"]:has(#settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu');
         }
 
         if (this.settings.miscellaneous.placeholderText) this.styler.add('.{0}:not(.{1}) :has(+ .{2})', this.hideMessage, 'channelTextArea', this.hideMessage, 'channelTextAreaDisabled', this.txtPlaceholder, 'slateTextArea');
