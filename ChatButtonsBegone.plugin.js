@@ -908,23 +908,23 @@ module.exports = class ChatButtonsBegone {
 
     async addStyles() {
         /// Chat Buttons ///
-        if (this.settings.chatbar.attachButton) this.styler.add(`.{0}`, this.attachButton, 'attachWrapper');
+        if (this.settings.chatbar.attachButton) this.styler.add('.{0}', this.attachButton, 'attachWrapper');
         if (this.settings.chatbar.giftButton) {
             // New Implementation (Valentines Upsell)
-            this.styler.add(`.{0} div[class^="container"]:has(>.{1})`, this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
+            this.styler.add('.{0} div[class^="container"]:has(> .{1})', this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
             // Old Implementation
-            this.styler.add(`.{0} > .{1}:not(.expression-picker-chat-input-button)`, this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
+            this.styler.add('.{0} > .{1}:not(.expression-picker-chat-input-button)', this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
             // Quick DM
-            this.styler.add(`div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])`)
+            this.styler.add('div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])')
         }
         if (this.settings.chatbar.gifButton) {
             // Chatbar
-            this.styler.add(`.expression-picker-chat-input-button:not(:has(.{0}, .{1}))`, this.chatBarButtons, 'stickerButton', this.emojiButton, 'emojiButton');
+            this.styler.add('.expression-picker-chat-input-button:not(:has(.{0}, .{1}))', this.chatBarButtons, 'stickerButton', this.emojiButton, 'emojiButton');
             // Quick DM
-            this.styler.add(`div:has(> button svg path[d^=" M-7,-10 C-8.656999588012695,-10"])`)
+            this.styler.add('div:has(> button svg path[d^=" M-7,-10 C-8.656999588012695,-10"])')
         }
-        if (this.settings.chatbar.stickerButton) this.styler.add(`.expression-picker-chat-input-button:has(.{0})`, this.chatBarButtons, 'stickerButton');
-        if (this.settings.chatbar.emojiButton) this.styler.add(`.expression-picker-chat-input-button:has(.{0})`, this.emojiButton, 'emojiButton');
+        if (this.settings.chatbar.stickerButton) this.styler.add('.expression-picker-chat-input-button:has(.{0})', this.chatBarButtons, 'stickerButton');
+        if (this.settings.chatbar.emojiButton) this.styler.add('.expression-picker-chat-input-button:has(.{0})', this.emojiButton, 'emojiButton');
         if (this.settings.chatbar.appLauncherButton) this.styler.add('.app-launcher-entrypoint');
 
         /// Message Actions ///
@@ -936,224 +936,224 @@ module.exports = class ChatButtonsBegone {
             this.settings.messageActions.forwardButton &&
             this.settings.messageActions.removeMore
         ) {
-            this.styler.add(`.{0} .{1}`, this.messageActionContainer, 'message', this.messageActionContainer, 'buttons');
+            this.styler.add('.{0} .{1}', this.messageActionContainer, 'message', this.messageActionContainer, 'buttons');
         }
         if (this.settings.messageActions.quickReactions) {
-            this.styler.add(`.{0}:has(>.{1}>[data-type="emoji"])`, this.messageActionButtons, 'hoverBarButton', this.messageActionButtons, 'icon');
-            this.styler.add(`.{0}`, this.messageActionButtons, 'separator');
+            this.styler.add('.{0}:has(> .{1} > [data-type="emoji"])', this.messageActionButtons, 'hoverBarButton', this.messageActionButtons, 'icon');
+            this.styler.add('.{0}', this.messageActionButtons, 'separator');
         }
-        if (this.settings.messageActions.reactionButton) this.styler.add(`.{0}:has(svg>path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])`, this.messageActionButtons, 'hoverBarButton');
-        if (this.settings.messageActions.editButton) this.styler.add(`.{0}:has(svg>path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])`, this.messageActionButtons, 'hoverBarButton');
-        if (this.settings.messageActions.replyButton) this.styler.add(`.{0}:has(svg>path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])`, this.messageActionButtons, 'hoverBarButton');
-        if (this.settings.messageActions.forwardButton) this.styler.add(`.{0}:has(svg>path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])`, this.messageActionButtons, 'hoverBarButton');
-        if (this.settings.messageActions.removeMore) this.styler.add(`.{0}:has(svg>path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])`, this.messageActionButtons, 'hoverBarButton');
+        if (this.settings.messageActions.reactionButton) this.styler.add('.{0}:has(svg > path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])', this.messageActionButtons, 'hoverBarButton');
+        if (this.settings.messageActions.editButton) this.styler.add('.{0}:has(svg > path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])', this.messageActionButtons, 'hoverBarButton');
+        if (this.settings.messageActions.replyButton) this.styler.add('.{0}:has(svg > path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])', this.messageActionButtons, 'hoverBarButton');
+        if (this.settings.messageActions.forwardButton) this.styler.add('.{0}:has(svg > path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])', this.messageActionButtons, 'hoverBarButton');
+        if (this.settings.messageActions.removeMore) this.styler.add('.{0}:has(svg > path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])', this.messageActionButtons, 'hoverBarButton');
 
         if (this.settings.messageActions.addReactionButton) {
-            this.styler.add(`div[id^="message-accessories"] > div[class^="reactions"] > span:has(div[class^="reactionBtn"])`);
-            this.styler.add(`ol[data-list-id="chat-messages"] div[class^="reactButtons"] > span:has(div[class^="reactionBtn"])`);
+            this.styler.add('div[id^="message-accessories"] > div[class^="reactions"] > span:has(div[class^="reactionBtn"])');
+            this.styler.add('ol[data-list-id="chat-messages"] div[class^="reactButtons"] > span:has(div[class^="reactionBtn"])');
         }
 
         /// Direct Messages ///
-        if (this.settings.dms.quickSwitcher) this.styler.add(`.{0} [class^="searchBar"]`, this.DMList, 'privateChannels');
+        if (this.settings.dms.quickSwitcher) this.styler.add('.{0} [class^="searchBar"]', this.DMList, 'privateChannels');
         if (this.settings.dms.friendsTab) this.styler.add('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.styler.add('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) this.styler.add('li:has([href="/shop"])');
 
         if (this.settings.dms.DMHeader == 'hideButton') {
-            this.styler.add(`.{0}`, this.DMHeader, 'privateChannelRecipientsInviteButtonIconContainer');
+            this.styler.add('.{0}', this.DMHeader, 'privateChannelRecipientsInviteButtonIconContainer');
         } else if (this.settings.dms.DMHeader == 'hideText') {
-            this.styler.add(`.{0}`, this.DMHeader, 'headerText');
+            this.styler.add('.{0}', this.DMHeader, 'headerText');
         } else if (this.settings.dms.DMHeader == 'remove') {
-            this.styler.add(`.{0}`, this.DMHeader, 'privateChannelsHeaderContainer');
+            this.styler.add('.{0}', this.DMHeader, 'privateChannelsHeaderContainer');
         }
 
         if (this.settings.dms.activeNow == 'simplify') { 
-            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
-            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
-            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'gameSection');
+            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
+            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
+            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'gameSection');
         } else if (this.settings.dms.activeNow == 'empty') {
-            this.styler.add(`.{0}:has(.{1})`, this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
+            this.styler.add('.{0}:has(.{1})', this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
         } else if (this.settings.dms.activeNow == 'simplifyempty') {
-            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
-            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
-            this.styler.add(`.{0}:has(.{1})`, this.activeNowCards, 'body', this.activeNowCards, 'gameSection');
-            this.styler.add(`.{0}:has(.{1})`, this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
+            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
+            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
+            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'gameSection');
+            this.styler.add('.{0}:has(.{1})', this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
         } else if (this.settings.dms.activeNow == 'remove') {
-            this.styler.add(`.{0}`, this.activeNowColumn, 'nowPlayingColumn');
+            this.styler.add('.{0}', this.activeNowColumn, 'nowPlayingColumn');
         }
 
         // Remove Custom User Status
         if (this.settings.dms.userStatus == 'dmlist') {
-            this.styler.add(`div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
+            this.styler.add('div[class^="subText"]:has(> .{0} > .{1})', this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
         } else if (this.settings.dms.userStatus == 'memberlist') {
-            this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add('.{0}:has(> .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         } else if (this.settings.dms.userStatus == 'remove') {
             // DM List
-            this.styler.add(`div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
+            this.styler.add('div[class^="subText"]:has(> .{0} > .{1})', this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
             // Member List
-            this.styler.add(`.{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add('.{0}:has(> .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         }
 
         // Remove User Activity Status
         if (this.settings.dms.userActivity == 'dmlist') {
-            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>span>.{0}>.{1})`, this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add('[class^="channel_"] div[class^="subText"]:has(> .{0} >span > .{0} > .{1})', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         } else if (this.settings.dms.userActivity == 'memberlist') {
-            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>span>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add('[class^="memberInner"] .{0}:has(> .{1} > span > .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         } else if (this.settings.dms.userActivity == 'remove') {
             // DM List
-            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>span>.{0}>.{1})`, this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-            this.styler.add(`[class^="channel_"] div[class^="subText"]:has(>.{0}>.{1})`, this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
+            this.styler.add('[class^="channel_"] div[class^="subText"]:has(> .{0} > span > .{0} > .{1})', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add('[class^="channel_"] div[class^="subText"]:has(> .{0} > .{1})', this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
             // Member List
-            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>span>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-            this.styler.add(`[class^="memberInner"] .{0}:has(>.{1}>.{2})`, this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
+            this.styler.add('[class^="memberInner"] .{0}:has(> .{1} > span > .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add('[class^="memberInner"] .{0}:has(> .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
         }
 
         /// Friend Page ///
-        if (this.settings.dms.defaultFLStatus) this.styler.add(`.{0} .{1}:has(>[class^="text_"])`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext');
-        if (this.settings.dms.customFLStatus) this.styler.add(`.{0} .{1}:has(>.{2}>div)`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
-        if (this.settings.dms.customFLStatus) this.styler.add(`.{0} .{1}:has(>.{2}>span>.{2})`, this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+        if (this.settings.dms.defaultFLStatus) this.styler.add('.{0} .{1}:has(> [class^="text_"])', this.friendInfo, 'userInfo', this.friendInfo, 'subtext');
+        if (this.settings.dms.customFLStatus) this.styler.add('.{0} .{1}:has(> .{2} > div)', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+        if (this.settings.dms.customFLStatus) this.styler.add('.{0} .{1}:has(> .{2} > span > .{2})', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
 
         if (this.settings.dms.libraryTab) this.styler.add('li:has([href="/library"])');
 
         /// Servers and Channels ///
-        if (this.settings.servers.addServerButton) this.styler.add(`.{0}`, this.addServerDiscoverButton, 'tutorialContainer');
-        if (this.settings.servers.discoverButton) this.styler.add(`.{0} + .{1}`, this.addServerDiscoverButton, 'tutorialContainer', this.addServerDiscoverButton, 'listItem');
+        if (this.settings.servers.addServerButton) this.styler.add('.{0}', this.addServerDiscoverButton, 'tutorialContainer');
+        if (this.settings.servers.discoverButton) this.styler.add('.{0} + .{1}', this.addServerDiscoverButton, 'tutorialContainer', this.addServerDiscoverButton, 'listItem');
 
         if (this.settings.servers.unreadIndicator == 'both') {
-            this.styler.add(`.{0}, .{1}`, this.indicatorTop, 'unreadMentionsIndicatorTop', this.indicatorBottom, 'unreadMentionsIndicatorBottom');
+            this.styler.add('.{0}, .{1}', this.indicatorTop, 'unreadMentionsIndicatorTop', this.indicatorBottom, 'unreadMentionsIndicatorBottom');
         } else if (this.settings.servers.unreadIndicator == 'top') {
-            this.styler.add(`.{0}`, this.indicatorTop, 'unreadMentionsIndicatorTop');
+            this.styler.add('.{0}', this.indicatorTop, 'unreadMentionsIndicatorTop');
         } else if (this.settings.servers.unreadIndicator == 'bottom') {
-            this.styler.add(`.{0}`, this.indicatorBottom, 'unreadMentionsIndicatorBottom');
+            this.styler.add('.{0}', this.indicatorBottom, 'unreadMentionsIndicatorBottom');
         }
 
         if (this.settings.servers.serverBanner) {
-            this.styler.add(`.{0}`, this.serverBanner, 'animatedContainer');
+            this.styler.add('.{0}', this.serverBanner, 'animatedContainer');
             this.styler.add('div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
         }
-        if (this.settings.servers.boostBar) this.styler.add(`.{0}`, this.boostBar, 'container');
-        if (this.settings.servers.stageNotice) this.styler.add(`.{0}`, this.liveNotice, 'channelNotice');
+        if (this.settings.servers.boostBar) this.styler.add('.{0}', this.boostBar, 'container');
+        if (this.settings.servers.stageNotice) this.styler.add('.{0}', this.liveNotice, 'channelNotice');
         if (this.settings.servers.serverGuide) this.styler.add('[id="channels"] li:has(div[id*="home-tab"])');
-        if (this.settings.servers.eventButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
-        if (this.settings.servers.membersButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
-        if (this.settings.servers.channelsAndRoles) this.styler.add('[id="channels"] li:has(svg>path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
+        if (this.settings.servers.eventButton) this.styler.add('[id="channels"] li:has(svg > path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
+        if (this.settings.servers.membersButton) this.styler.add('[id="channels"] li:has(svg > path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
+        if (this.settings.servers.channelsAndRoles) this.styler.add('[id="channels"] li:has(svg > path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
         if (this.settings.servers.boostsButton) this.styler.add('li:has(div[id*="skill-trees"])');
         if (this.settings.servers.shopButton) this.styler.add('[id="channels"] li:has(> div > [data-list-item-id*="shop"])');
         if (this.settings.servers.inviteButton) {
-            this.styler.add(`.{0}`, this.headerInviteButton, 'inviteButton');
-            this.styler.add(`.{0}>span:has(svg>path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])`, this.channelListButtons, 'children');
+            this.styler.add('.{0}', this.headerInviteButton, 'inviteButton');
+            this.styler.add('.{0} > span:has(svg > path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])', this.channelListButtons, 'children');
         }
-        if (this.settings.servers.showallButton) this.styler.add(`.{0}`, this.showAllbutton, 'refreshVoiceChannelsButton');
-        if (this.settings.servers.settingsButton) this.styler.add(`.{0}>span:has(svg>path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])`, this.channelListButtons, 'children');
-        if (this.settings.servers.unreadMentionsBar) this.styler.add(`.{0}`, this.umentionsBar, 'mentionsBar');
-        if (this.settings.servers.unreadMessagesBar) this.styler.add(`.{0}`, this.umessagesBar, 'unreadBar');
+        if (this.settings.servers.showallButton) this.styler.add('.{0}', this.showAllbutton, 'refreshVoiceChannelsButton');
+        if (this.settings.servers.settingsButton) this.styler.add('.{0} > span:has(svg > path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])', this.channelListButtons, 'children');
+        if (this.settings.servers.unreadMentionsBar) this.styler.add('.{0}', this.umentionsBar, 'mentionsBar');
+        if (this.settings.servers.unreadMessagesBar) this.styler.add('.{0}', this.umessagesBar, 'unreadBar');
         if (this.settings.servers.activitySection) {
-            this.styler.add(`.{0}:has([role="button"])`, this.serverActivitySection, 'membersGroup');
-            this.styler.add(`div > div .{0}`, this.serverActivitySectionCards, 'usesCardRows');
-            this.styler.add(`div > div .{0}.{1}`, this.serverActivityOnHover, 'container', this.serverActivityOnHover, 'openOnHover');
+            this.styler.add('.{0}:has([role="button"])', this.serverActivitySection, 'membersGroup');
+            this.styler.add('div > div .{0}', this.serverActivitySectionCards, 'usesCardRows');
+            this.styler.add('div > div .{0}.{1}', this.serverActivityOnHover, 'container', this.serverActivityOnHover, 'openOnHover');
         }
 
         /// Voice ///
-        if (this.settings.voice.invitePlaceholder) this.styler.add(`div[class^="row"]>div:has(.{0})`, this.vcScreen, 'singleUserRoot');
-        if (this.settings.voice.cameraPanelButton) this.styler.add(`.{0} > button:first-of-type`, this.vcButtons, 'actionButtons');
-        if (this.settings.voice.screensharePanelButton) this.styler.add(`.{0} > button:nth-of-type(2)`, this.vcButtons, 'actionButtons');
-        if (this.settings.voice.activityPanelButton) this.styler.add(`.{0} > button:nth-of-type(3)`, this.vcButtons, 'actionButtons');
-        if (this.settings.voice.soundboardPanelButton) this.styler.add(`.{0} span:has(svg)`, this.vcButtons, 'actionButtons');
-        if (this.settings.voice.krispButton) this.styler.add(`.{0} button:first-of-type`, this.vcKrisp, 'voiceButtonsContainer');
-        if (this.settings.voice.gameActivityPanel) this.styler.add(`.{0}`, this.vcActivityPanel, 'activityPanel');
-        if (this.settings.voice.gameActivityButton) this.styler.add(`.{0}:has(.{1})`, this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
-        if (this.settings.voice.voiceAvatars) this.styler.add(`.{0}`, this.scSmallAvatar, 'avatarSmall');
-        if (this.settings.voice.voiceWasHere) this.styler.add(`.{0}`, this.vcWasHere, 'row');
+        if (this.settings.voice.invitePlaceholder) this.styler.add('div[class^="row"] > div:has(.{0})', this.vcScreen, 'singleUserRoot');
+        if (this.settings.voice.cameraPanelButton) this.styler.add('.{0} > button:first-of-type', this.vcButtons, 'actionButtons');
+        if (this.settings.voice.screensharePanelButton) this.styler.add('.{0} > button:nth-of-type(2)', this.vcButtons, 'actionButtons');
+        if (this.settings.voice.activityPanelButton) this.styler.add('.{0} > button:nth-of-type(3)', this.vcButtons, 'actionButtons');
+        if (this.settings.voice.soundboardPanelButton) this.styler.add('.{0} span:has(svg)', this.vcButtons, 'actionButtons');
+        if (this.settings.voice.krispButton) this.styler.add('.{0} button:first-of-type', this.vcKrisp, 'voiceButtonsContainer');
+        if (this.settings.voice.gameActivityPanel) this.styler.add('.{0}', this.vcActivityPanel, 'activityPanel');
+        if (this.settings.voice.gameActivityButton) this.styler.add('.{0}:has(.{1})', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
+        if (this.settings.voice.voiceAvatars) this.styler.add('.{0}', this.scSmallAvatar, 'avatarSmall');
+        if (this.settings.voice.voiceWasHere) this.styler.add('.{0}', this.vcWasHere, 'row');
 
         /// Title Bar ///
-        if (this.settings.toolbar.navButtons) this.styler.add(`.{0}`, this.backForwardButtons, 'backForwardButtons');
-        if (this.settings.toolbar.locator) this.styler.add(`.{0}`, this.titleBarTrailing, 'title');
-        if (this.settings.toolbar.helpButton) this.styler.add(`:is(.{0}, .{1}) a[href="https://support.discord.com"]`, this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
-        if (this.settings.toolbar.inboxButton) this.styler.add(`:is(.{0}, .{1}) div:has(svg>path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])`, this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
+        if (this.settings.toolbar.navButtons) this.styler.add('.{0}', this.backForwardButtons, 'backForwardButtons');
+        if (this.settings.toolbar.locator) this.styler.add('.{0}', this.titleBarTrailing, 'title');
+        if (this.settings.toolbar.helpButton) this.styler.add(':is(.{0}, .{1}) a[href="https://support.discord.com"]', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
+        if (this.settings.toolbar.inboxButton) this.styler.add(':is(.{0}, .{1}) div:has(svg > path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
 
         /// Toolbar ///
-        if (this.settings.toolbar.threadsButton) this.styler.add(`.{0}:has(svg>path[d^="M12 2.81a1 1 0 0 1 0-1.41l.36-.36a1 1 0 0 1 1.41 0l9.2 9.2a1"]) `, this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.notifyButton) this.styler.add(`.{0}:has(>svg>path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) `, this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.pinnedButton) this.styler.add(`.{0}:has(>svg path[d^="M19.38 11.38a3 3 0 0 0 4.24 0l.03-.03a.5.5 0 0 0 0-.7L13.35.35a.5.5"]) `, this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.memberButton) this.styler.add(`.{0}:has(>svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"]) `, this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.voiceButton) this.styler.add(`.{0}:has(svg>path[d="M13 7a1 1 0 0 1 1-1 4 4 0 0 1 4 4 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 0 1-1-1Z"]) `, this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.videoButton) this.styler.add(`.{0}:has(>svg>path[d^="M4 4a3 3 0 0 0-3 3v10a3"])`, this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.profileButton) this.styler.add(`.{0}:has(>svg>path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54.54"]) `, this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.threadsButton) this.styler.add('.{0}:has(svg > path[d^="M12 2.81a1 1 0 0 1 0-1.41l.36-.36a1 1 0 0 1 1.41 0l9.2 9.2a1"]) ', this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.notifyButton) this.styler.add('.{0}:has(> svg > path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) ', this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.pinnedButton) this.styler.add('.{0}:has(> svg path[d^="M19.38 11.38a3 3 0 0 0 4.24 0l.03-.03a.5.5 0 0 0 0-.7L13.35.35a.5.5"]) ', this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.memberButton) this.styler.add('.{0}:has(> svg > path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"]) ', this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.voiceButton) this.styler.add('.{0}:has(svg > path[d="M13 7a1 1 0 0 1 1-1 4 4 0 0 1 4 4 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 0 1-1-1Z"]) ', this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.videoButton) this.styler.add('.{0}:has(> svg > path[d^="M4 4a3 3 0 0 0-3 3v10a3"])', this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.profileButton) this.styler.add('.{0}:has(> svg > path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54.54"]) ', this.upperToolbar, 'iconWrapper');
 
         /// Profile Customizations ///
         if (this.settings.profileCustomizations.namePlate == 'original') {
             // Server List / DM List
-            this.styler.add(`.{0} > [style^="background: linear-gradient"]`, this.dmEntry, 'interactive');
-            this.styler.add(`.{0} > [style^="background: linear-gradient"]`, this.namePlate, 'nameplated');
+            this.styler.add('.{0} > [style^="background: linear-gradient"]', this.dmEntry, 'interactive');
+            this.styler.add('.{0} > [style^="background: linear-gradient"]', this.namePlate, 'nameplated');
         } else if (this.settings.profileCustomizations.namePlate == 'self') {
             // Self Avatar Area
-            this.styler.add(`.{0}`, this.selfNamePlate, 'fitInAccount');
+            this.styler.add('.{0}', this.selfNamePlate, 'fitInAccount');
         } else if (this.settings.profileCustomizations.namePlate == 'global') {
             // Server List / DM List
-            this.styler.add(`.{0} > [style^="background: linear-gradient"]`, this.dmEntry, 'interactive');
-            this.styler.add(`.{0} > [style^="background: linear-gradient"]`, this.namePlate, 'nameplated');
+            this.styler.add('.{0} > [style^="background: linear-gradient"]', this.dmEntry, 'interactive');
+            this.styler.add('.{0} > [style^="background: linear-gradient"]', this.namePlate, 'nameplated');
             // Self Avatar Area
-            this.styler.add(`.{0}`, this.selfNamePlate, 'fitInAccount');
+            this.styler.add('.{0}', this.selfNamePlate, 'fitInAccount');
         }
 
         if (this.settings.profileCustomizations.clanTag == 'memberlist') {
-            this.styler.add(`.{0}`, this.dmEntry, 'clanTag');
-            this.styler.add(`.{0}`, this.clanTagChiplet, 'clanTagChiplet');
-            this.styler.add(`:not(.{0}, #guild-header-popout-guild-tag) > .{1}`, this.clanTagProfile, 'guildTagContainer', this.clanTagChipletServer, 'chipletContainerInner');
+            this.styler.add('.{0}', this.dmEntry, 'clanTag');
+            this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
+            this.styler.add(':not(.{0}, #guild-header-popout-guild-tag) > .{1}', this.clanTagProfile, 'guildTagContainer', this.clanTagChipletServer, 'chipletContainerInner');
         } else if (this.settings.profileCustomizations.clanTag == 'profile') {
-            this.styler.add(`.{0}`, this.clanTagProfile, 'guildTagContainer');
+            this.styler.add('.{0}', this.clanTagProfile, 'guildTagContainer');
         } else if (this.settings.profileCustomizations.clanTag == 'global') {
             // DM List
-            this.styler.add(`.{0}`, this.dmEntry, 'clanTag');
+            this.styler.add('.{0}', this.dmEntry, 'clanTag');
             // DMs
-            this.styler.add(`.{0}`, this.clanTagChiplet, 'clanTagChiplet');
+            this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
             // Server List
-            this.styler.add(`:not(#guild-header-popout-guild-tag) > .{0}`, this.clanTagChipletServer, 'chipletContainerInner');
+            this.styler.add(':not(#guild-header-popout-guild-tag) > .{0}', this.clanTagChipletServer, 'chipletContainerInner');
             // Profile
-            this.styler.add(`.{0}`, this.clanTagProfile, 'guildTagContainer');
+            this.styler.add('.{0}', this.clanTagProfile, 'guildTagContainer');
         }
 
         if (this.settings.profileCustomizations.avatarDecoration) {
-            this.styler.add(`.{0}`, this.avatar, 'avatarDecorationContainer');
-            this.styler.add(`.{0}`, this.avatarDecorationChat, 'avatarDecoration');
+            this.styler.add('.{0}', this.avatar, 'avatarDecorationContainer');
+            this.styler.add('.{0}', this.avatarDecorationChat, 'avatarDecoration');
         }
 
-        if (this.settings.profileCustomizations.hideBadges) this.styler.add(`div[class^="container"]:has(> a.{0} > img)`, this.profileBadges, 'anchor');
-        if (this.settings.profileCustomizations.hideBanner) this.styler.add(`.{0}`, this.profileBanner, 'banner');
-        if (this.settings.profileCustomizations.profileEffects) this.styler.add(`.{0} .{1}`, this.profileEffects, 'profileEffects', this.profileEffects, 'effect');
-        if (this.settings.profileCustomizations.profileGIF) this.styler.add(`.{0}`, this.profileGIF, 'gifTag');
-        if (this.settings.profileCustomizations.hideMessage) this.styler.add(`[class^="footer"]:has(.{0})`, this.hideMessage, 'inlineContainer');
-        if (this.settings.profileCustomizations.hideEditProfile) this.styler.add(`[data-is-self="true"] [class^="footer"]`);
+        if (this.settings.profileCustomizations.hideBadges) this.styler.add('div[class^="container"]:has(> a.{0} > img)', this.profileBadges, 'anchor');
+        if (this.settings.profileCustomizations.hideBanner) this.styler.add('.{0}', this.profileBanner, 'banner');
+        if (this.settings.profileCustomizations.profileEffects) this.styler.add('.{0} .{1}', this.profileEffects, 'profileEffects', this.profileEffects, 'effect');
+        if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
+        if (this.settings.profileCustomizations.hideMessage) this.styler.add('[class^="footer"]:has(.{0})', this.hideMessage, 'inlineContainer');
+        if (this.settings.profileCustomizations.hideEditProfile) this.styler.add('[data-is-self="true"] [class^="footer"]');
         if (this.settings.profileCustomizations.hideCollection) {
-            this.styler.add(`.{0}:has([class^="breadcrumb"])`, this.profileCollection, 'cardsList');
-            this.styler.add(`.{0}`, this.profileWidgets, 'widgetPreviews');
+            this.styler.add('.{0}:has([class^="breadcrumb"])', this.profileCollection, 'cardsList');
+            this.styler.add('.{0}', this.profileWidgets, 'widgetPreviews');
         }
-        if (this.settings.profileCustomizations.hideWishlist) this.styler.add(`.{0}`, this.profileWishlist, 'wishlistBreadcrumb');
-        if (this.settings.profileCustomizations.hideStatus) this.styler.add(`.{0}`, this.profileCustomStatus, 'ring');
+        if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0}', this.profileWishlist, 'wishlistBreadcrumb');
+        if (this.settings.profileCustomizations.hideStatus) this.styler.add('.{0}', this.profileCustomStatus, 'ring');
 
         /// Miscellaneous ///
-        if (this.settings.miscellaneous.blockedMessage) this.styler.add(`.{0}:has(.{1})`, this.blockedGroup, 'groupStart', this.blockedIndicator, 'blockedSystemMessage');
+        if (this.settings.miscellaneous.blockedMessage) this.styler.add('.{0}:has(.{1})', this.blockedGroup, 'groupStart', this.blockedIndicator, 'blockedSystemMessage');
 
         if (this.settings.miscellaneous.nitroUpsell) {
             // Settings "Edit Profile" Page
-            this.styler.add(`.{0} div:has(>[class^="artContainer"])`, this.shopArt, 'settingsPage');
+            this.styler.add('.{0} div:has(> [class^="artContainer"])', this.shopArt, 'settingsPage');
             // Billing Settings (Context Menu)
             this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu')
             this.styler.add('.{0} div[role="group"]:has(#settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu')
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
-            this.styler.add(`.{0}`, this.profileUpsell, 'upsellOverlayContainer');
+            this.styler.add('.{0}', this.profileUpsell, 'upsellOverlayContainer');
             // Profile Shop Button
-            this.styler.add(`[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M2.63 4.19A3 3 0 0 1 5.53 2H7a1 1 0 0"])`);
+            this.styler.add('[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M2.63 4.19A3 3 0 0 1 5.53 2H7a1 1 0 0"])');
             // "Add to Favorites" Right Click Menu Option and Separator
-            this.styler.add(`div[role="separator"] + div > div[id$="context-favorite-channel"]`)
-            this.styler.add(`div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])`)
+            this.styler.add('div[role="separator"] + div > div[id$="context-favorite-channel"]')
+            this.styler.add('div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])')
         }
 
         if (this.settings.miscellaneous.noQuests) {
             this.styler.add('li:has([href="/quest-home"])');
             // Active Now section
-            this.styler.add(`.{0}`, this.promotedQuest, 'promotedTag');
-            this.styler.add(`.{0}`, this.questPrompt, 'wrapper');
+            this.styler.add('.{0}', this.promotedQuest, 'promotedTag');
+            this.styler.add('.{0}', this.questPrompt, 'wrapper');
         }
 
         // Activity Settings (Context Menu)
@@ -1162,11 +1162,11 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0} div[role="group"]:has(#settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu')
         }
 
-        if (this.settings.miscellaneous.placeholderText) this.styler.add(`.{0}:not(.{1}) :has(+ .{2})`, this.hideMessage, 'channelTextArea', this.hideMessage, 'channelTextAreaDisabled', this.txtPlaceholder, 'slateTextArea');
-        if (this.settings.miscellaneous.avatarPopover) this.styler.add(`.{0}`, this.profilePopover, 'statusPopover');
+        if (this.settings.miscellaneous.placeholderText) this.styler.add('.{0}:not(.{1}) :has(+ .{2})', this.hideMessage, 'channelTextArea', this.hideMessage, 'channelTextAreaDisabled', this.txtPlaceholder, 'slateTextArea');
+        if (this.settings.miscellaneous.avatarPopover) this.styler.add('.{0}', this.profilePopover, 'statusPopover');
 
-        let listSeparatorDm = [`.{0}`, this.dmDivider, 'sectionDivider'];
-        let listSeparatorServer = [`.{0}`, this.channelDivider, 'sectionDivider'];
+        let listSeparatorDm = ['.{0}', this.dmDivider, 'sectionDivider'];
+        let listSeparatorServer = ['.{0}', this.channelDivider, 'sectionDivider'];
         if (this.settings.miscellaneous.listSeparator == 'dmlist') {
             this.styler.add(...listSeparatorDm);
         } else if (this.settings.miscellaneous.listSeparator == 'serverlist') {
@@ -1198,25 +1198,25 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.seasonalEvents) {
             this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
             // Checkpoint Button
-            this.styler.add(`:is(.{0}, .{1}) div:has(>svg>path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])`, this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
+            this.styler.add(':is(.{0}, .{1}) div:has(> svg > path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
             // Last Meadow Online
-            this.styler.add(`:is(.{0}, .{1}) div:has(>svg>path[fill^="url(#uid_"])`, this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
+            this.styler.add(':is(.{0}, .{1}) div:has(> svg > path[fill^="url(#uid_"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
         }
-        if (this.settings.miscellaneous.ioChevrons) this.styler.add(`.{0}`, this.iochevron, 'buttonChevron');
-        if (this.settings.miscellaneous.baseGradient) this.styler.add(`.{0}`, this.typeGradient, 'chatGradientBase');
+        if (this.settings.miscellaneous.ioChevrons) this.styler.add('.{0}', this.iochevron, 'buttonChevron');
+        if (this.settings.miscellaneous.baseGradient) this.styler.add('.{0}', this.typeGradient, 'chatGradientBase');
 
         if (this.settings.miscellaneous.tagsBotApp == 'remove') {
-            this.styler.add(`.{0}`, this.tagsBot, 'botTag');
+            this.styler.add('.{0}', this.tagsBot, 'botTag');
         } else if (this.settings.miscellaneous.tagsBotApp == 'keepOP') {
-            this.styler.add(`.{0}:not(.{1})`, this.tagsBot, 'botTag', this.tagsBot, 'botTagOP');
+            this.styler.add('.{0}:not(.{1})', this.tagsBot, 'botTag', this.tagsBot, 'botTagOP');
         }
 
-        if (this.settings.miscellaneous.badgeNewUser) this.styler.add(`.{0}`, this.badgeNew, 'newMemberBadge');
+        if (this.settings.miscellaneous.badgeNewUser) this.styler.add('.{0}', this.badgeNew, 'newMemberBadge');
 
-        if (this.settings.miscellaneous.threadSuggestions) this.styler.add(`.{0}`, this.threadSuggestion, 'threadSuggestionBar');
+        if (this.settings.miscellaneous.threadSuggestions) this.styler.add('.{0}', this.threadSuggestion, 'threadSuggestionBar');
 
         /// Compatibility ///
-        if (this.settings.compatibility.invisibleTypingButton) this.styler.add(`div:has(>.invisibleTypingButton)`);
+        if (this.settings.compatibility.invisibleTypingButton) this.styler.add('div:has(> .invisibleTypingButton)');
 
         this.styler.apply();
     }
