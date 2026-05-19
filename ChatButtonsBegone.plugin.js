@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.1.0
+ * @version 4.1.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -49,7 +49,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.1.0',
+        version: '4.1.1',
     },
     defaultConfig: [
         {
@@ -783,6 +783,7 @@ const config = {
                     options: [
                         { label: 'Show', value: 'show'},
                         { label: 'Keep Topic OP Tag', value: 'keepOP' },
+                        { label: 'Remove Only In Chats', value: 'chatOnly' },
                         { label: 'Remove', value: 'remove' },
                     ]
                 },
@@ -1209,6 +1210,8 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}', this.tagsBot, 'botTag');
         } else if (this.settings.miscellaneous.tagsBotApp == 'keepOP') {
             this.styler.add('.{0}:not(.{1})', this.tagsBot, 'botTag', this.tagsBot, 'botTagOP');
+        } else if (this.settings.miscellaneous.tagsBotApp == 'chatOnly') {
+            this.styler.add('[id^="message-username"] > .{0}', this.tagsBot, 'botTag');
         }
 
         if (this.settings.miscellaneous.badgeNewUser) this.styler.add('.{0}', this.badgeNew, 'newMemberBadge');

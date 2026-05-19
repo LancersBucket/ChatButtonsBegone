@@ -1,4 +1,8 @@
 # Changelog
+## v4.1.1
+### Added
+- Option to remove APP/BOT tags only in chat messages [Miscellaneous > Remove APP/BOT Tags]
+
 ## v4.1.0
 ### Added
 - Option to remove Default, Custom, and Activity status from the friends list [Friends + Direct Messages]
@@ -9,6 +13,8 @@
 - Renamed 'Direct Messages' cateogry to 'Friends + Direct Messages'
 - Moved Remove Custom User Status and Remove User Activity Status to [Friends + Direct Messages]
 - Remove Nitro Upsell now removed the billing settings in the settings context menu rather than the main settings [Miscellaneous]
+- Remove APP/BOT Tag now defaults to removing OP tag in threads as well
+    - To revert this behavior switch the dropdown from 'Remove' to 'Keep Topic OP Tag'
 
 ### Fixed
 - Remove "Add Reaction" now applies to "React to Post" on Topic Posts
