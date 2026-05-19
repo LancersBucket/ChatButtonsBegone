@@ -329,6 +329,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'stageNotice',
+                    name: 'Remove "Live Now" Notice',
+                    note: 'Removes the "Live Now" Notice from the channel list.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'serverGuide',
                     name: 'Remove Server Guide',
                     note: 'Removes the Server Guide button from the channel list.',
@@ -1025,6 +1032,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('div[id="channels"] > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
         }
         if (this.settings.servers.boostBar) this.styler.add(`.{0}`, this.boostBar, 'container');
+        if (this.settings.servers.stageNotice) this.styler.add(`.{0}`, this.liveNotice, 'channelNotice');
         if (this.settings.servers.serverGuide) this.styler.add('[id="channels"] li:has(div[id*="home-tab"])');
         if (this.settings.servers.eventButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
         if (this.settings.servers.membersButton) this.styler.add('[id="channels"] li:has(svg>path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
@@ -1247,6 +1255,7 @@ module.exports = class ChatButtonsBegone {
             this.indicatorBottom,
             this.serverSideBar,
             this.boostBar,
+            this.liveNotice,
             this.headerInviteButton,
             this.channelListButtons,
             this.serverActivitySection,
@@ -1335,6 +1344,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom'), // Server Unread Mentions Indicator: Bottom
             this.api.Webpack.Filters.byKeys('guilds', 'content'), // Server Sidebar
             this.api.Webpack.Filters.byKeys('container', 'contentContainer', 'progressContainer'), // Server Boost Bar
+            this.api.Webpack.Filters.byKeys('channelNotice'), // Stage/Live Notice
             this.api.Webpack.Filters.byKeys('inviteButton'), // Header Invite Button
             this.api.Webpack.Filters.byKeys('linkTop','children'), // Channel List Invite Button
             this.api.Webpack.Filters.byKeys('membersGroup'), // Server Activity Section
