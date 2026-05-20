@@ -2,6 +2,7 @@
 ## v4.1.1
 ### Added
 - Option to remove APP/BOT tags only in chat messages [Miscellaneous > Remove APP/BOT Tags]
+- Option to remove "Live Now" stage notification on Channels List [Servers and Channels]
 
 ## v4.1.0
 ### Added
