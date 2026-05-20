@@ -1,15 +1,15 @@
-# Chat Buttons Begone!
+# ChatButtonsBegone!
 Are you tired of all the needless clutter scattered around your client?
 
 Well look no further!
 
-From removing buttons on the Chat Bar, to the buttons/features no one ever uses, *or asked for*, Chat Buttons Begone has you covered!
+From removing buttons on the Chat Bar, to the buttons/features no one ever uses, *or asked for*, ChatButtonsBegone has you covered!
 
 ![thumbnail](https://github.com/LancersBucket/ChatButtonsBegone/blob/main/_meta/thumbnail.png)
 
-Why manage custom CSS that gets broken every update? Chat Buttons Begone leverages the BdApi to ensure class compatibility between updates for you!
+Why manage custom CSS that gets broken every update? ChatButtonsBegone leverages the BdApi to ensure class compatibility between updates for you!
 
-With over 70 settings, you can configure your client to remove or keep exactly what you want to, and make Discord your own.
+With over 90 toggleable settings, you can configure your client to remove or keep exactly what you want to, and make Discord your own.
 
 ![settings](https://github.com/LancersBucket/ChatButtonsBegone/blob/main/_meta/settings.png)
 
@@ -20,5 +20,5 @@ See [CHANGELOG.md](https://github.com/LancersBucket/ChatButtonsBegone/blob/main/
 
 ## Special Thanks
 Special thanks to the following people:
-- [Zacam](https://github.com/Zacam) for their work in a variety of ways for this plugin
+- [Zacam](https://github.com/Zacam) for being a colaborator on this plugin
 - [MisansProducts](https://github.com/MisansProducts)
