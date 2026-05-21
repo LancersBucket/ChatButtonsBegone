@@ -1148,6 +1148,11 @@ module.exports = class ChatButtonsBegone {
             // "Add to Favorites" Right Click Menu Option and Separator
             this.styler.add('div[role="separator"] + div > div[id$="context-favorite-channel"]');
             this.styler.add('div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])');
+			// Appearance Upsell
+			this.styler.add('div[data-nav-anchor-key="appearance_custom_themes_upsell"]');
+			// Nitro Rewards on Connections Page
+            this.styler.add('div[class^="stack"] div[class^="sectionHeader"]:has(+ div[class^="theme-"][class*="images-"])');
+            this.styler.add('div[class^="stack"] div[class^="theme-"][class*="images-"]');
         }
 
         if (this.settings.miscellaneous.noQuests) {
