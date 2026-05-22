@@ -1123,8 +1123,8 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBanner) this.styler.add('.{0}', this.profileBanner, 'banner');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add('.{0} .{1}', this.profileEffects, 'profileEffects', this.profileEffects, 'effect');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
-        if (this.settings.profileCustomizations.hideMessage) this.styler.add('[class^="footer"]:has(.{0})', this.hideMessage, 'inlineContainer');
-        if (this.settings.profileCustomizations.hideEditProfile) this.styler.add('[data-is-self="true"] [class^="footer"]');
+        if (this.settings.profileCustomizations.hideMessage) this.styler.add('.{0} [class^="footer"]:has(.{1})', this.profileAnim, 'animatorRight', this.hideMessage, 'inlineContainer');
+        if (this.settings.profileCustomizations.hideEditProfile) this.styler.add('.{0} [class^="footer"]:has(button)', this.profileAnim, 'animatorRight');
         if (this.settings.profileCustomizations.hideCollection) {
             this.styler.add('.{0}:has([class^="breadcrumb"])', this.profileCollection, 'cardsList');
             this.styler.add('.{0}', this.profileWidgets, 'widgetPreviews');
@@ -1148,9 +1148,9 @@ module.exports = class ChatButtonsBegone {
             // "Add to Favorites" Right Click Menu Option and Separator
             this.styler.add('div[role="separator"] + div > div[id$="context-favorite-channel"]');
             this.styler.add('div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])');
-			// Appearance Upsell
-			this.styler.add('div[data-nav-anchor-key="appearance_custom_themes_upsell"]');
-			// Nitro Rewards on Connections Page
+            // Appearance Upsell
+            this.styler.add('div[data-nav-anchor-key="appearance_custom_themes_upsell"]');
+            // Nitro Rewards on Connections Page
             this.styler.add('div[class^="stack"] div[class^="sectionHeader"]:has(+ div[class^="theme-"][class*="images-"])');
             this.styler.add('div[class^="stack"] div[class^="theme-"][class*="images-"]');
         }
@@ -1302,6 +1302,7 @@ module.exports = class ChatButtonsBegone {
             this.profileBanner,
             this.profileEffects,
             this.profileGIF,
+            this.profileAnim,
             this.hideMessage,
             this.profileCollection,
             this.profileWidgets,
@@ -1388,6 +1389,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('mask','banner'), // Profile Badges
             this.api.Webpack.Filters.byKeys('profileEffects'), // Profile Effects
             this.api.Webpack.Filters.byKeys('mask', 'gifTag'), // Profile GIF Tag
+            this.api.Webpack.Filters.byKeys('animatorRight'), // Profile Popout Animator Class
             this.api.Webpack.Filters.byKeys('channelTextArea', 'inlineContainer'), // Profile Send Message Input
             this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer'), // Profile Game Collection
             this.api.Webpack.Filters.byKeys('widgetPreviews'), // Profile Game Collection
