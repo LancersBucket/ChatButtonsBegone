@@ -16,9 +16,9 @@ class Styler {
     }
 
     async add(selector, ...modules) {
-        var mods = [];
-        for (var i = 0; i < modules.length; i+=2) {
-            var result = await modules[i];
+        let mods = [];
+        for (let i = 0; i < modules.length; i+=2) {
+            let result = await modules[i];
             mods.push(result[modules[i+1]].trim().replace(' ', '.'));
         }
         this.styles.push(this.format(selector, ...mods));
@@ -859,12 +859,12 @@ module.exports = class ChatButtonsBegone {
             if (a.includes('/')) a = a.split('/')[0];
             if (b.includes('/')) b = b.split('/')[0];
 
-            const aParts = a.split('.').map(Number);
-            const bParts = b.split('.').map(Number);
+            let aParts = a.split('.').map(Number);
+            let bParts = b.split('.').map(Number);
 
             for (let i = 0; i < Math.min(aParts.length, bParts.length); i++) {
-                const aPart = aParts[i] || 0;
-                const bPart = bParts[i] || 0;
+                let aPart = aParts[i] || 0;
+                let bPart = bParts[i] || 0;
                 if (aPart > bPart) return 1;
                 if (aPart < bPart) return -1;
             }
@@ -887,12 +887,12 @@ module.exports = class ChatButtonsBegone {
     }
 
     ensureDefaultSettings() {
-        for (const category of config.defaultConfig) {
+        for (let category of config.defaultConfig) {
             if (category.type === 'category') {
                 if (!(category.id in this.settings)) {
                     this.settings[category.id] = {};
                 }
-                for (const setting of category.settings) {
+                for (let setting of category.settings) {
                     if (!(setting.id in this.settings[category.id]) || this.settings[category.id][setting.id] == null) {
                         this.settings[category.id][setting.id] = setting.value;
                     }
@@ -1425,8 +1425,8 @@ module.exports = class ChatButtonsBegone {
     }
 
     async waitForBulk(...filters) {
-        var out = [];
-        for (var i = 0; i < filters.length; i++) {
+        let out = [];
+        for (let i = 0; i < filters.length; i++) {
             out.push(this.api.Webpack.waitForModule(filters[i]));
         }
         return out;
@@ -1437,7 +1437,7 @@ module.exports = class ChatButtonsBegone {
     }
 
     getSettingsPanel() {
-        const settings = JSON.parse(JSON.stringify(config.defaultConfig));
+        let settings = JSON.parse(JSON.stringify(config.defaultConfig));
         settings.forEach(setting => {
             if (setting.type === 'category') {
                 setting.settings.forEach(subSetting => {
