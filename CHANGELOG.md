@@ -1,8 +1,12 @@
 # Changelog
 ## v4.1.1
 ### Added
-- Option to remove APP/BOT tags only in chat messages [Miscellaneous > Remove APP/BOT Tags]
+- Option to remove APP/BOT/OP tags only in chat messages [Miscellaneous > Remove APP/BOT Tags]
 - Option to remove "Live Now" stage notification on Channels List [Servers and Channels]
+- Nitro Upsell now removes "Only with Nitro banner in Appearance and "Nitro Rewards" from connections [Miscellaneous]
+
+### Fixed
+- Remove Edit Profile button now works without Theme Attributes enabled
 
 ## v4.1.0
 ### Added
