@@ -1,4 +1,8 @@
 # Changelog
+## v4.1.2
+### Fixed
+- Remove Profile Custom Status also removing self status making editing it impossible
+
 ## v4.1.1
 ### Added
 - Option to remove APP/BOT/OP tags only in chat messages [Miscellaneous > Remove APP/BOT Tags]

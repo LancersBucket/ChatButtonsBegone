@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.1.1
+ * @version 4.1.2
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -49,7 +49,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.1.1',
+        version: '4.1.2',
     },
     defaultConfig: [
         {
@@ -1130,7 +1130,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}', this.profileWidgets, 'widgetPreviews');
         }
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0}', this.profileWishlist, 'wishlistBreadcrumb');
-        if (this.settings.profileCustomizations.hideStatus) this.styler.add('.{0}', this.profileCustomStatus, 'ring');
+        if (this.settings.profileCustomizations.hideStatus) this.styler.add('.{0}:not(.{1}) > .{2}', this.profileCustomStatus, 'container', this.profileCustomStatus, 'editable', this.profileCustomStatus, 'ring');
 
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add('.{0}:has(.{1})', this.blockedGroup, 'groupStart', this.blockedIndicator, 'blockedSystemMessage');
