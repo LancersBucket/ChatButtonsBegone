@@ -817,6 +817,13 @@ const config = {
                     note: 'Removes the button added by Strencher\'s InvisibleTyping plugin from the chat.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'newOldProfiles',
+                    name: 'New Old Profiles Compatibility',
+                    note: 'Enables compatibility with KingGamingYT\'s NewOlddProfiles plugin. Modifies Clan Tag and Badges toggles to support NewOldProfiles',
+                    value: true,
+                },
             ],
         },
     ],
@@ -908,6 +915,9 @@ module.exports = class ChatButtonsBegone {
     }
 
     async addStyles() {
+        // Check for NewOldProfiles by KingGamingYT
+        let newOldProfiles = this.settings.compatibility.newOldProfiles && this.api.Plugins.isEnabled('NewOldProfiles');
+
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.styler.add('.{0}', this.attachButton, 'attachWrapper');
         if (this.settings.chatbar.giftButton) {
@@ -1103,6 +1113,8 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(':not(.{0}, #guild-header-popout-guild-tag) > .{1}', this.clanTagProfile, 'guildTagContainer', this.clanTagChipletServer, 'chipletContainerInner');
         } else if (this.settings.profileCustomizations.clanTag == 'profile') {
             this.styler.add('.{0}', this.clanTagProfile, 'guildTagContainer');
+            
+            if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
         } else if (this.settings.profileCustomizations.clanTag == 'global') {
             // DM List
             this.styler.add('.{0}', this.dmEntry, 'clanTag');
@@ -1112,6 +1124,8 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(':not(#guild-header-popout-guild-tag) > .{0}', this.clanTagChipletServer, 'chipletContainerInner');
             // Profile
             this.styler.add('.{0}', this.clanTagProfile, 'guildTagContainer');
+            
+            if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
         }
 
         if (this.settings.profileCustomizations.avatarDecoration) {
@@ -1119,7 +1133,11 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}', this.avatarDecorationChat, 'avatarDecoration');
         }
 
-        if (this.settings.profileCustomizations.hideBadges) this.styler.add('div[class^="container"]:has(> a.{0} > img)', this.profileBadges, 'anchor');
+        if (this.settings.profileCustomizations.hideBadges) {
+            this.styler.add('div[class^="container"]:has(> a.{0} > img)', this.profileBadges, 'anchor');
+
+            if (newOldProfiles) this.styler.add('.badgeSection .profileBadges');
+        }
         if (this.settings.profileCustomizations.hideBanner) this.styler.add('.{0}', this.profileBanner, 'banner');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add('.{0} .{1}', this.profileEffects, 'profileEffects', this.profileEffects, 'effect');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
