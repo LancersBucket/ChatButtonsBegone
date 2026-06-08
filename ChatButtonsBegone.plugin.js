@@ -277,6 +277,13 @@ const config = {
                     note: 'Removes the Library tab from the DM list.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'pinDM',
+                    name: 'Remove "Pin" option from DM Context Menu',
+                    note: 'Removes the "Pin" option from the DM context menu.',
+                    value: false,
+                }
             ],
         },
         {
@@ -1019,12 +1026,18 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('[class^="memberInner"] .{0}:has(> .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
         }
 
-        /// Friend Page ///
+        // Friend Page
         if (this.settings.dms.defaultFLStatus) this.styler.add('.{0} .{1}:has(> [class^="text_"])', this.friendInfo, 'userInfo', this.friendInfo, 'subtext');
-        if (this.settings.dms.customFLStatus) this.styler.add('.{0} .{1}:has(> .{2} > div)', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
-        if (this.settings.dms.customFLStatus) this.styler.add('.{0} .{1}:has(> .{2} > span > .{2})', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+        if (this.settings.dms.customFLStatus) {
+            this.styler.add('.{0} .{1}:has(> .{2} > div)', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+            this.styler.add('.{0} .{1}:has(> .{2} > span > .{2})', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+        }
 
         if (this.settings.dms.libraryTab) this.styler.add('li:has([href="/library"])');
+        if (this.settings.dms.pinDM) {
+            this.styler.add('div[role="separator"] + div > div[id$="user-context-pin-dm"]');
+            this.styler.add('div[role="separator"]:has(+ div > div[id$="user-context-pin-dm"])');
+        }
 
         /// Servers and Channels ///
         if (this.settings.servers.addServerButton) this.styler.add('.{0}', this.addServerDiscoverButton, 'tutorialContainer');

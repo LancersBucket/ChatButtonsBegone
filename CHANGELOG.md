@@ -1,5 +1,8 @@
 # Changelog
 ## v4.1.2
+### Added
+- Option to remove Pin button from DM context menu [Friends + Direct Messages]
+
 ### Fixed
 - Remove Profile Custom Status also removing self status making editing it impossible
 
