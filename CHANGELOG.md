@@ -1,12 +1,13 @@
 # Changelog
-## v4.1.2
+## v4.2.0
 ### Added
 - Option to remove Pin button from DM context menu [Friends + Direct Messages]
+- Compatability support for NewOldProfiles
 
 ### Fixed
 - Remove Profile Custom Status also removing self status making editing it impossible
 
-## v4.1.1
+## v4.1.1 - May 28th, 2026
 ### Added
 - Option to remove APP/BOT/OP tags only in chat messages [Miscellaneous > Remove APP/BOT Tags]
 - Option to remove "Live Now" stage notification on Channels List [Servers and Channels]
@@ -15,7 +16,7 @@
 ### Fixed
 - Remove Edit Profile button now works without Theme Attributes enabled
 
-## v4.1.0
+## v4.1.0 - May 19th, 2026
 ### Added
 - Option to remove Default, Custom, and Activity status from the friends list [Friends + Direct Messages]
 - Option to remove Edit Profile button from own profile view [Profile Customizations]
