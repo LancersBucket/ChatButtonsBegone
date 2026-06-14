@@ -1126,7 +1126,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(':not(.{0}, #guild-header-popout-guild-tag) > .{1}', this.clanTagProfile, 'guildTagContainer', this.clanTagChipletServer, 'chipletContainerInner');
         } else if (this.settings.profileCustomizations.clanTag == 'profile') {
             this.styler.add('.{0}', this.clanTagProfile, 'guildTagContainer');
-            
+            // Profile - NewOldProfiles Plugin
             if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
         } else if (this.settings.profileCustomizations.clanTag == 'global') {
             // DM List
@@ -1137,7 +1137,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add(':not(#guild-header-popout-guild-tag) > .{0}', this.clanTagChipletServer, 'chipletContainerInner');
             // Profile
             this.styler.add('.{0}', this.clanTagProfile, 'guildTagContainer');
-            
+            // Profile - NewOldProfiles Plugin
             if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
         }
 
@@ -1148,7 +1148,7 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.profileCustomizations.hideBadges) {
             this.styler.add('div[class^="container"]:has(> a.{0} > img)', this.profileBadges, 'anchor');
-
+            // Profile - NewOldProfiles Plugin
             if (newOldProfiles) this.styler.add('.badgeSection .profileBadges');
         }
         if (this.settings.profileCustomizations.hideBanner) this.styler.add('.{0}', this.profileBanner, 'banner');
