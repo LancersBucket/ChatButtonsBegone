@@ -2,7 +2,10 @@
 ## v4.2.0
 ### Added
 - Option to remove Pin button from DM context menu [Friends + Direct Messages]
-- Compatability support for NewOldProfiles
+- Option to remove Bookmarks button (2026-03-message-bookmarks variant 2) [Toolbar]
+- Compatability support for NewOldProfiles. Supports:
+    - Clan Tag [Profile Customizations]
+    - Remove Profile Badges [Profile Customizations]
 
 ### Fixed
 - Remove Profile Custom Status also removing self status making editing it impossible

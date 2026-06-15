@@ -531,7 +531,7 @@ const config = {
                     type: 'switch',
                     id: 'bookmarkButton',
                     name: 'Remove Bookmarks Button',
-                    note: 'Removes the Bookmarks button.',
+                    note: 'Removes the Bookmarks button (added by experiment 2026-03-message-bookmarks variant 2)',
                     value: false,
                 },
                 {
