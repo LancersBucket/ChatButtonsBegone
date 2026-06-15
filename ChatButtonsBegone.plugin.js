@@ -529,6 +529,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'bookmarkButton',
+                    name: 'Remove Bookmarks Button',
+                    note: 'Removes the Bookmarks button.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'inboxButton',
                     name: 'Remove Inbox Button',
                     note: 'Removes the Inbox button.',
@@ -1093,6 +1100,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.toolbar.navButtons) this.styler.add('.{0}', this.backForwardButtons, 'backForwardButtons');
         if (this.settings.toolbar.locator) this.styler.add('.{0}', this.titleBarTrailing, 'title');
         if (this.settings.toolbar.helpButton) this.styler.add(':is(.{0}, .{1}) a[href="https://support.discord.com"]', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
+        if (this.settings.toolbar.bookmarkButton) this.styler.add(':is(.{0}, .{1}) div:has(svg > path[d="M4 5a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v16a1 1 0 0 1-1.67.74l-5.66-5.13a1 1 0 0 0-1.34 0l-5.66 5.13A1 1 0 0 1 4 20.99V5Z"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
         if (this.settings.toolbar.inboxButton) this.styler.add(':is(.{0}, .{1}) div:has(svg > path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
 
         /// Toolbar ///
