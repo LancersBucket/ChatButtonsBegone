@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.2.0
+ * @version 4.2.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -49,7 +49,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.2.0',
+        version: '4.2.1',
     },
     defaultConfig: [
         {
@@ -1157,7 +1157,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBadges) {
             this.styler.add('div[class^="container"]:has(> a.{0} > img)', this.profileBadges, 'anchor');
             // Profile - NewOldProfiles Plugin
-            if (newOldProfiles) this.styler.add('.badgeSection .profileBadges');
+            if (newOldProfiles) this.styler.add('.headerInfo .profileBadges');
         }
         if (this.settings.profileCustomizations.hideBanner) this.styler.add('.{0}', this.profileBanner, 'banner');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add('.{0} .{1}', this.profileEffects, 'profileEffects', this.profileEffects, 'effect');
