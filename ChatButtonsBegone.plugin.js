@@ -1395,7 +1395,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('inviteToGroupButton'), // Invite to Group Button
             this.api.Webpack.Filters.byKeys('nowPlayingColumn'), // Active Now Column
             this.api.Webpack.Filters.byKeys('activitySection', 'gameSection'), // Active Now Activity Cards
-            this.api.Webpack.Filters.byKeys('emptyCard'),  // Active Now Empty Card
+            this.api.Webpack.Filters.byKeys('emptyCard', 'emptyHeader'),  // Active Now Empty Card
             this.api.Webpack.Filters.byKeys('textXs'), // DMs List Activity/Status Container
             this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List Activity/Status Text
             this.api.Webpack.Filters.byKeys('containerWithoutTruncatedText'), // DMs List Status Text
