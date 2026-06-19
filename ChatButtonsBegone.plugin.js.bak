@@ -283,13 +283,6 @@ const config = {
                     name: 'Remove "Pin" option from DM Context Menu',
                     note: 'Removes the "Pin" option from the DM context menu.',
                     value: false,
-                },
-                {
-                    type: 'switch',
-                    id: 'groupDM',
-                    name: 'Remove "Invite to Group DM" Button',
-                    note: 'Removes the "Invite to Group DM" Button from existing Group DM MemberList area.',
-                    value: false,
                 }
             ],
         },
@@ -990,7 +983,6 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.dms.friendsTab) this.styler.add('li:has([href="/channels/@me"])');
         if (this.settings.dms.premiumTab) this.styler.add('li:has([href="/store"])');
         if (this.settings.dms.discordShopTab) this.styler.add('li:has([href="/shop"])');
-        if (this.settings.dms.groupDM) this.styler.add('.{0}', this.groupDM, 'inviteToGroupButton');
 
         if (this.settings.dms.DMHeader == 'hideButton') {
             this.styler.add('.{0}', this.DMHeader, 'privateChannelRecipientsInviteButtonIconContainer');
@@ -1292,7 +1284,6 @@ module.exports = class ChatButtonsBegone {
             // Direct Messages
             this.DMList,
             this.DMHeader,
-            this.groupDM,
             this.activeNowColumn,
             this.activeNowCards,
             this.activeNowEmpty,
@@ -1384,7 +1375,6 @@ module.exports = class ChatButtonsBegone {
 
             this.api.Webpack.Filters.byKeys('privateChannels'), // DM List
             this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer'), // DM Header
-            this.api.Webpack.Filters.byKeys('inviteToGroupButton'), // Invite to Group Button
             this.api.Webpack.Filters.byKeys('nowPlayingColumn'), // Active Now Column
             this.api.Webpack.Filters.byKeys('activitySection', 'gameSection'), // Active Now Activity Cards
             this.api.Webpack.Filters.byKeys('emptyCard'),  // Active Now Empty Card
