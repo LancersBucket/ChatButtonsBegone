@@ -1,4 +1,14 @@
 # Changelog
+## v4.2.1
+### Added
+- Option to remove Invite to Group DM button [Friends + Direct Messages]
+- Option to remove Soundboard button in full-screen VC's [Voice] 
+
+### Fixed
+- OldNewProfiles Remove Badges compatability
+- Voice VC buttons (above profile) not removing properly
+- Remove Activity Section "Remove when empty" not in fact removing when it is empty
+
 ## v4.2.0
 ### Added
 - Option to remove Pin button from DM context menu [Friends + Direct Messages]
