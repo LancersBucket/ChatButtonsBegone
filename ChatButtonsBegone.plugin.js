@@ -1404,7 +1404,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('unreadBar'), // "Unread Messages" Bar
 
             this.api.Webpack.Filters.byKeys('singleUserRoot'), // Invite Placeholder
-            this.api.Webpack.Filters.byKeys('container', 'actionButtons'), // VC Buttons
+            this.api.Webpack.Filters.byKeys('wrapper', 'container', 'actionButtons'), // VC Buttons
             this.api.Webpack.Filters.byKeys('voiceButtonsContainer'), // Krisp Button
             this.api.Webpack.Filters.byKeys('activityPanel'), // VC Activity Panel
             this.api.Webpack.Filters.byKeys('buttonSection', 'buttonContainer'),
