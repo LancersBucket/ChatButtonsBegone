@@ -499,6 +499,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'soundboardButton',
+                    name: 'Remove Soundboard Button',
+                    note: 'Removes the Soundboard Button from the bottom voice chat panel.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'voiceAvatars',
                     name: 'Remove Server Voice Chat Avatars',
                     note: 'Removes the avatars of users in voice chats in servers.',
@@ -1101,6 +1108,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.krispButton) this.styler.add('.{0} button:first-of-type', this.vcKrisp, 'voiceButtonsContainer');
         if (this.settings.voice.gameActivityPanel) this.styler.add('.{0}', this.vcActivityPanel, 'activityPanel');
         if (this.settings.voice.gameActivityButton) this.styler.add('.{0}:has(.{1})', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
+        if (this.settings.voice.soundboardButton)this.styler.add('.{0} > .{1} + .{2}', this.vcButtonSection, 'buttonSection', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
         if (this.settings.voice.voiceAvatars) this.styler.add('.{0}', this.scSmallAvatar, 'avatarSmall');
         if (this.settings.voice.voiceWasHere) this.styler.add('.{0}', this.vcWasHere, 'row');
 
