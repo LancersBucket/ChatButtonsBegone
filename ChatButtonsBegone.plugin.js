@@ -1051,8 +1051,8 @@ module.exports = class ChatButtonsBegone {
         // Friend Page
         if (this.settings.dms.defaultFLStatus) this.styler.add('.{0} .{1}:has(> [class^="text_"])', this.friendInfo, 'userInfo', this.friendInfo, 'subtext');
         if (this.settings.dms.customFLStatus) {
-            this.styler.add('.{0} .{1}:has(> .{2} > div)', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
-            this.styler.add('.{0} .{1}:has(> .{2} > span > .{2})', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendtextSm, 'textSm');
+            this.styler.add('.{0} .{1}:has(> .{2} > div)', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendTextSm, 'textSm');
+            this.styler.add('.{0} .{1}:has(> .{2} > span > .{2})', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendTextSm, 'textSm');
         }
 
         if (this.settings.dms.libraryTab) this.styler.add('li:has([href="/library"])');
@@ -1066,11 +1066,11 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.discoverButton) this.styler.add('.{0} + .{1}', this.addServerDiscoverButton, 'tutorialContainer', this.addServerDiscoverButton, 'listItem');
 
         if (this.settings.servers.unreadIndicator == 'both') {
-            this.styler.add('.{0}, .{1}', this.indicatorTop, 'unreadMentionsIndicatorTop', this.indicatorBottom, 'unreadMentionsIndicatorBottom');
+            this.styler.add('.{0}, .{1}', this.unreadIndicatorTop, 'unreadMentionsIndicatorTop', this.unreadIndicatorBottom, 'unreadMentionsIndicatorBottom');
         } else if (this.settings.servers.unreadIndicator == 'top') {
-            this.styler.add('.{0}', this.indicatorTop, 'unreadMentionsIndicatorTop');
+            this.styler.add('.{0}', this.unreadIndicatorTop, 'unreadMentionsIndicatorTop');
         } else if (this.settings.servers.unreadIndicator == 'bottom') {
-            this.styler.add('.{0}', this.indicatorBottom, 'unreadMentionsIndicatorBottom');
+            this.styler.add('.{0}', this.unreadIndicatorBottom, 'unreadMentionsIndicatorBottom');
         }
 
         if (this.settings.servers.serverBanner) {
@@ -1089,10 +1089,10 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}', this.headerInviteButton, 'inviteButton');
             this.styler.add('.{0} > span:has(svg > path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])', this.channelListButtons, 'children');
         }
-        if (this.settings.servers.showallButton) this.styler.add('.{0}', this.showAllbutton, 'refreshVoiceChannelsButton');
+        if (this.settings.servers.showallButton) this.styler.add('.{0}', this.vcShowAllButton, 'refreshVoiceChannelsButton');
         if (this.settings.servers.settingsButton) this.styler.add('.{0} > span:has(svg > path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])', this.channelListButtons, 'children');
-        if (this.settings.servers.unreadMentionsBar) this.styler.add('.{0}', this.umentionsBar, 'mentionsBar');
-        if (this.settings.servers.unreadMessagesBar) this.styler.add('.{0}', this.umessagesBar, 'unreadBar');
+        if (this.settings.servers.unreadMentionsBar) this.styler.add('.{0}', this.unreadMentionsBar, 'mentionsBar');
+        if (this.settings.servers.unreadMessagesBar) this.styler.add('.{0}', this.unreadMessagesBar, 'unreadBar');
         if (this.settings.servers.activitySection) {
             this.styler.add('.{0}:has([role="button"])', this.serverActivitySection, 'membersGroup');
             this.styler.add('div > div .{0}', this.serverActivitySectionCards, 'usesCardRows');
@@ -1109,7 +1109,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.gameActivityPanel) this.styler.add('.{0}', this.vcActivityPanel, 'activityPanel');
         if (this.settings.voice.gameActivityButton) this.styler.add('.{0}:has(.{1})', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
         if (this.settings.voice.soundboardButton)this.styler.add('.{0} > .{1} + .{2}', this.vcButtonSection, 'buttonSection', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
-        if (this.settings.voice.voiceAvatars) this.styler.add('.{0}', this.scSmallAvatar, 'avatarSmall');
+        if (this.settings.voice.voiceAvatars) this.styler.add('.{0}', this.vcSmallAvatar, 'avatarSmall');
         if (this.settings.voice.voiceWasHere) this.styler.add('.{0}', this.vcWasHere, 'row');
 
         /// Title Bar ///
@@ -1166,7 +1166,7 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.profileCustomizations.avatarDecoration) {
-            this.styler.add('.{0}', this.avatar, 'avatarDecorationContainer');
+            this.styler.add('.{0}', this.avatarDecorationContainer, 'avatarDecorationContainer');
             this.styler.add('.{0}', this.avatarDecorationChat, 'avatarDecoration');
         }
 
@@ -1263,8 +1263,8 @@ module.exports = class ChatButtonsBegone {
             // Last Meadow Online
             this.styler.add(':is(.{0}, .{1}) div:has(> svg > path[fill^="url(#uid_"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
         }
-        if (this.settings.miscellaneous.ioChevrons) this.styler.add('.{0}', this.iochevron, 'buttonChevron');
-        if (this.settings.miscellaneous.baseGradient) this.styler.add('.{0}', this.typeGradient, 'chatGradientBase');
+        if (this.settings.miscellaneous.ioChevrons) this.styler.add('.{0}', this.userAreaIOChevron, 'buttonChevron');
+        if (this.settings.miscellaneous.baseGradient) this.styler.add('.{0}', this.textAreaGradient, 'chatGradientBase');
 
         if (this.settings.miscellaneous.tagsBotApp == 'remove') {
             this.styler.add('.{0}', this.tagsBot, 'botTag');
@@ -1311,11 +1311,11 @@ module.exports = class ChatButtonsBegone {
             this.memberStatusText,
             this.multiActivity,
             this.friendInfo,
-            this.friendtextSm,
+            this.friendTextSm,
 
             // Servers & Channels
             this.addServerDiscoverButton,
-            this.indicatorTop,
+            this.unreadIndicatorTop,
             this.indicatorBottom,
             this.serverSideBar,
             this.boostBar,
@@ -1326,9 +1326,9 @@ module.exports = class ChatButtonsBegone {
             this.serverActivitySectionCards,
             this.serverActivityOnHover,
             this.serverBanner,
-            this.showAllbutton,
-            this.umentionsBar,
-            this.umessagesBar,
+            this.vcShowAllButton,
+            this.unreadMentionsBar,
+            this.unreadMessagesBar,
 
             // Voice
             this.vcScreen,
@@ -1337,7 +1337,7 @@ module.exports = class ChatButtonsBegone {
             this.vcActivityPanel,
             this.vcButtonSection,
             this.vcActivities,
-            this.scSmallAvatar,
+            this.vcSmallAvatar,
             this.vcWasHere,
 
             // Title Bar
@@ -1352,7 +1352,7 @@ module.exports = class ChatButtonsBegone {
             this.clanTagProfile,
             this.clanTagChiplet,
             this.clanTagChipletServer,
-            this.avatar,
+            this.avatarDecorationContainer,
             this.avatarDecorationChat,
             this.profileBadges,
             this.profileBanner,
@@ -1377,8 +1377,8 @@ module.exports = class ChatButtonsBegone {
             this.questPrompt,
             this.dmDivider,
             this.channelDivider,
-            this.iochevron,
-            this.typeGradient,
+            this.userAreaIOChevron,
+            this.textAreaGradient,
             this.tagsBot,
             this.badgeNew,
             this.threadSuggestion,
