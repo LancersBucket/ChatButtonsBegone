@@ -942,10 +942,8 @@ module.exports = class ChatButtonsBegone {
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.styler.add('.{0}', this.attachButton, 'attachWrapper');
         if (this.settings.chatbar.giftButton) {
-            // New Implementation (Valentines Upsell)
+            // Current Implementation
             this.styler.add('.{0} div[class^="container"]:has(> .{1})', this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
-            // Old Implementation
-            this.styler.add('.{0} > .{1}:not(.expression-picker-chat-input-button)', this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
             // Quick DM
             this.styler.add('div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])');
         }
