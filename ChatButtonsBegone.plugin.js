@@ -226,7 +226,7 @@ const config = {
                 {
                     type: 'dropdown',
                     id: 'userStatus',
-                    name: 'Remove Custom User Status',
+                    name: 'Custom User Status',
                     note: 'Controls the visibility of custom User Status in DM and Server Member List. "Show" shows them, "Remove" removes them entirely.',
                     value: 'show',
                     options: [
@@ -239,7 +239,7 @@ const config = {
                 {
                     type: 'dropdown',
                     id: 'userActivity',
-                    name: 'Remove User Activity Status',
+                    name: 'User Activity Status',
                     note: 'Controls the visibility of User Activity Status in DM and Server Member List. "Show" shows them, "Remove" removes them entirely.',
                     value: 'show',
                     options: [
@@ -252,21 +252,21 @@ const config = {
                 {
                     type: 'switch',
                     id: 'defaultFLStatus',
-                    name: 'Remove Friends Default Status',
+                    name: 'Remove Friends Tab Default Status',
                     note: 'Removes the Default Online Status sub-text from Friends.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'customFLStatus',
-                    name: 'Remove Friends Custom Status',
+                    name: 'Remove Friends Tab Custom Status',
                     note: 'Removes the Custom Status sub-text from Friends.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'defaultFLActivity',
-                    name: 'Remove Friends Activity Sub-Status',
+                    name: 'Remove Friends Tab Activity Sub-Status',
                     note: 'Removes the Activity sub-text from Friends.',
                     value: false,
                 },
@@ -420,16 +420,9 @@ const config = {
                 },
                 {
                     type: 'switch',
-                    id: 'unreadMessagesBar',
-                    name: 'Remove "Unread Messages" Notification',
-                    note: 'Removes the per-Server "Unread Messages" Notification.',
-                    value: false,
-                },
-                {
-                    type: 'switch',
                     id: 'activitySection',
                     name: 'Remove Activities Section',
-                    note: 'Removes the Activities Section from the server member list.',
+                    note: 'Removes the Activities section from the server member list.',
                     value: false,
                 },
             ],
@@ -538,7 +531,7 @@ const config = {
                     type: 'switch',
                     id: 'locator',
                     name: 'Remove Title Bar Text',
-                    note: 'Removes the "locator" text in the title bar that shows the current server/DM.',
+                    note: 'Removes the "locator" text in the title bar that shows the current server/DM (also removes the image).',
                     value: false,
                 },
                 {
@@ -819,7 +812,7 @@ const config = {
                     type: 'switch',
                     id: 'badgeNewUser',
                     name: 'Remove New User Badge',
-                    note: 'Removes the New User badge from Chat usernames area.',
+                    note: 'Removes the New User badge from chat usernames area.',
                     value: false,
                 },
                 {
