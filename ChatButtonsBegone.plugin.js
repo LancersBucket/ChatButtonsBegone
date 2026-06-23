@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.2.1
+ * @version 4.2.2
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -416,6 +416,13 @@ const config = {
                     id: 'unreadMentionsBar',
                     name: 'Remove "Unread Mentions" Notification',
                     note: 'Removes the per-Server "Unread Mentions" Notification.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'unreadMessagesBar',
+                    name: 'Remove "Unread Messages" Notification',
+                    note: 'Removes the per-Server "Unread Messages" Notification.',
                     value: false,
                 },
                 {
@@ -1057,11 +1064,11 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.servers.discoverButton) this.styler.add('.{0} + .{1}', this.addServerDiscoverButton, 'tutorialContainer', this.addServerDiscoverButton, 'listItem');
 
         if (this.settings.servers.unreadIndicator == 'both') {
-            this.styler.add('.{0}, .{1}', this.unreadIndicatorTop, 'unreadMentionsIndicatorTop', this.unreadIndicatorBottom, 'unreadMentionsIndicatorBottom');
+            this.styler.add('.{0}, .{1}', this.serverIndicatorTop, 'unreadMentionsIndicatorTop', this.serverIndicatorBottom, 'unreadMentionsIndicatorBottom');
         } else if (this.settings.servers.unreadIndicator == 'top') {
-            this.styler.add('.{0}', this.unreadIndicatorTop, 'unreadMentionsIndicatorTop');
+            this.styler.add('.{0}', this.serverIndicatorTop, 'unreadMentionsIndicatorTop');
         } else if (this.settings.servers.unreadIndicator == 'bottom') {
-            this.styler.add('.{0}', this.unreadIndicatorBottom, 'unreadMentionsIndicatorBottom');
+            this.styler.add('.{0}', this.serverIndicatorBottom, 'unreadMentionsIndicatorBottom');
         }
 
         if (this.settings.servers.serverBanner) {
@@ -1082,8 +1089,8 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.servers.showallButton) this.styler.add('.{0}', this.vcShowAllButton, 'refreshVoiceChannelsButton');
         if (this.settings.servers.settingsButton) this.styler.add('.{0} > span:has(svg > path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])', this.channelListButtons, 'children');
-        if (this.settings.servers.unreadMentionsBar) this.styler.add('.{0}', this.unreadMentionsBar, 'mentionsBar');
-        if (this.settings.servers.unreadMessagesBar) this.styler.add('.{0}', this.unreadMessagesBar, 'unreadBar');
+        if (this.settings.servers.unreadMentionsBar) this.styler.add('.{0}', this.channelMentionsBar, 'mentionsBar');
+        if (this.settings.servers.unreadMessagesBar) this.styler.add('.{0}', this.channelMessagesBar, 'unreadBar');
         if (this.settings.servers.activitySection) {
             this.styler.add('.{0}:has([role="button"])', this.serverActivitySection, 'membersGroup');
             this.styler.add('div > div .{0}', this.serverActivitySectionCards, 'usesCardRows');
@@ -1306,8 +1313,8 @@ module.exports = class ChatButtonsBegone {
 
             // Servers & Channels
             this.addServerDiscoverButton,
-            this.unreadIndicatorTop,
-            this.indicatorBottom,
+            this.serverIndicatorTop,
+            this.serverIndicatorBottom,
             this.serverSideBar,
             this.boostBar,
             this.liveNotice,
@@ -1318,8 +1325,8 @@ module.exports = class ChatButtonsBegone {
             this.serverActivityOnHover,
             this.serverBanner,
             this.vcShowAllButton,
-            this.unreadMentionsBar,
-            this.unreadMessagesBar,
+            this.channelMentionsBar,
+            this.channelMessagesBar,
 
             // Voice
             this.vcScreen,
@@ -1386,7 +1393,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('inviteToGroupButton'), // Invite to Group Button
             this.api.Webpack.Filters.byKeys('nowPlayingColumn'), // Active Now Column
             this.api.Webpack.Filters.byKeys('activitySection', 'gameSection'), // Active Now Activity Cards
-            this.api.Webpack.Filters.byKeys('emptyCard', 'emptyHeader'),  // Active Now Empty Card
+            this.api.Webpack.Filters.byKeys('emptyCard', 'emptyHeader'), // Active Now Empty Card
             this.api.Webpack.Filters.byKeys('textXs'), // DMs List Activity/Status Container
             this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List Activity/Status Text
             this.api.Webpack.Filters.byKeys('containerWithoutTruncatedText'), // DMs List Status Text
