@@ -415,14 +415,14 @@ const config = {
                     type: 'switch',
                     id: 'unreadMentionsBar',
                     name: 'Remove "Unread Mentions" Notification',
-                    note: 'Removes the per-Server "Unread Mentions" Notification.',
+                    note: 'Removes the per-Server/Channel List "Unread Mentions" Notification.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'unreadMessagesBar',
                     name: 'Remove "Unread Messages" Notification',
-                    note: 'Removes the per-Server "Unread Messages" Notification.',
+                    note: 'Removes the per-Server/Channel List "Unread Messages" Notification.',
                     value: false,
                 },
                 {
