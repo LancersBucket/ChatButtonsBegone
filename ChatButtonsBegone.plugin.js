@@ -49,7 +49,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.2.1',
+        version: '4.2.2',
     },
     defaultConfig: [
         {
@@ -849,8 +849,8 @@ const config = {
                     type: 'switch',
                     id: 'newOldProfiles',
                     name: 'New Old Profiles Compatibility',
-                    note: 'Enables compatibility with KingGamingYT\'s NewOlddProfiles plugin. Modifies Clan Tag and Badges toggles to support NewOldProfiles',
-                    value: true,
+                    note: 'Enables compatibility with KingGamingYT\'s NewOlddProfiles plugin. Modifies Clan Tag and Badges toggles to support NewOldProfiles.',
+                    value: false,
                 },
             ],
         },
@@ -943,8 +943,7 @@ module.exports = class ChatButtonsBegone {
     }
 
     async addStyles() {
-        // Check for NewOldProfiles by KingGamingYT
-        let newOldProfiles = this.settings.compatibility.newOldProfiles && this.api.Plugins.isEnabled('NewOldProfiles');
+        let newOldProfiles = this.settings.compatibility.newOldProfiles;
 
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.styler.add('.{0}', this.attachButton, 'attachWrapper');
@@ -1496,11 +1495,7 @@ module.exports = class ChatButtonsBegone {
         settings.forEach(setting => {
             if (setting.type === 'category') {
                 setting.settings.forEach(subSetting => {
-                    try {
-                        subSetting.value = this.settings[setting.id][subSetting.id];
-                    } catch (error) {
-                        this.api.Logger.error(error);
-                    }
+                    subSetting.value = this.settings[setting.id][subSetting.id];
                 });
             } else {
                 setting.value = this.settings[setting.id];

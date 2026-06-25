@@ -1,11 +1,16 @@
 # Changelog
+## v4.2.2
+### Fixed
+- NewOldProfiles compatability not working if no toggles are changed
+    - Compatability is now disabled by default
+
 ## v4.2.1
 ### Added
 - Option to remove Invite to Group DM button [Friends + Direct Messages]
 - Option to remove Soundboard button in full-screen VC's [Voice] 
 
 ### Fixed
-- OldNewProfiles Remove Badges compatability
+- NewOldProfiles Remove Badges compatability
 - Voice VC buttons (above profile) not removing properly
 - Remove Activity Section "Remove when empty" not in fact removing when it is empty
 
