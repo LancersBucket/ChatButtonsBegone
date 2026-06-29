@@ -1,6 +1,10 @@
 # Changelog
 ## v4.2.2
+### Added
+- Backend ability to add Custom CSS styling to removed elements
+
 ### Fixed
+- Remove I/O Chevrons now rounds the hard edge where the chevrons used to be
 - NewOldProfiles compatability not working if no toggles are changed
     - Compatability is now disabled by default
 
