@@ -13,6 +13,7 @@ class Styler {
         this.pluginName = pluginName;
         this.api = api;
         this.styles = [];
+        this.patches = [];
     }
 
     async add(selector, ...modules) {
@@ -26,6 +27,17 @@ class Styler {
         this.apply();
     }
 
+    async patch(cssPatch, selector, ...modules) {
+        let mods = [];
+        for (let i = 0; i < modules.length; i+=2) {
+            let result = await modules[i];
+            mods.push(result[modules[i+1]].trim().replace(' ', '.'));
+        }
+        this.patches.push([this.format(selector, ...mods), cssPatch]);
+        this.clear();
+        this.apply();
+    }
+
     format(str, ...args) {
         return str.replace(/{(\d+)}/g, (match, number) => {
             return typeof args[number] !== 'undefined' ? args[number] : match;
@@ -34,15 +46,20 @@ class Styler {
 
     apply() {
         this.api.DOM.addStyle(this.pluginName, `${this.styles.join(', ')} { display: none !important; }`);
+        this.api.DOM.addStyle(`${this.pluginName}-patches`, this.patches.map(p => `${p[0]} { ${p[1]} }`).join(' '));
     }
 
     purge() {
         this.api.DOM.removeStyle(this.pluginName);
         this.styles = [];
+
+        this.api.DOM.removeStyle(`${this.pluginName}-patches`);
+        this.patches = [];
     }
 
     clear() {
         this.api.DOM.removeStyle(this.pluginName);
+        this.api.DOM.removeStyle(`${this.pluginName}-patches`);
     }
 }
 
@@ -1260,7 +1277,16 @@ module.exports = class ChatButtonsBegone {
             // Last Meadow Online
             this.styler.add(':is(.{0}, .{1}) div:has(> svg > path[fill^="url(#uid_"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
         }
-        if (this.settings.miscellaneous.ioChevrons) this.styler.add('.{0}', this.userAreaIOChevron, 'buttonChevron');
+        if (this.settings.miscellaneous.ioChevrons) {
+            this.styler.add('.{0}', this.userAreaIOChevron, 'buttonChevron');
+            // Patch
+            this.styler.patch(
+                `border-end-end-radius: 8px;
+                 border-start-end-radius: 8px;`,
+                '.{0} .{1}',
+                this.userAreaIOChevron, 'audioButtonParent', this.userAreaIOChevron, 'audioButtonWithMenu'
+            )
+        }
         if (this.settings.miscellaneous.baseGradient) this.styler.add('.{0}', this.textAreaGradient, 'chatGradientBase');
 
         if (this.settings.miscellaneous.tagsBotApp == 'remove') {
