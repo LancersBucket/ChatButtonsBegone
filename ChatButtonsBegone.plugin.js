@@ -535,6 +535,13 @@ const config = {
                     note: 'Removes the Was Here/What You Missed in vc list.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'voiceSetCustomStatus',
+                    name: 'Remove Custom Status subtitle from VCs',
+                    note: 'Removes the Set Custom Status and Custom status subtitles from VC.',
+                    value: false,
+                },
             ],
         },
         {
@@ -1125,6 +1132,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.soundboardButton)this.styler.add('.{0} > .{1} + .{2}', this.vcButtonSection, 'buttonSection', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
         if (this.settings.voice.voiceAvatars) this.styler.add('.{0}', this.vcSmallAvatar, 'avatarSmall');
         if (this.settings.voice.voiceWasHere) this.styler.add('.{0}', this.vcWasHere, 'row');
+        if (this.settings.voice.voiceSetCustomStatus) this.styler.add('.{0}', this.vcSetCustomStatus, 'linkBottom');
 
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.styler.add('.{0}', this.backForwardButtons, 'backForwardButtons');
@@ -1362,6 +1370,7 @@ module.exports = class ChatButtonsBegone {
             this.vcActivities,
             this.vcSmallAvatar,
             this.vcWasHere,
+            this.vcSetCustomStatus,
 
             // Title Bar
             this.backForwardButtons,
@@ -1406,13 +1415,16 @@ module.exports = class ChatButtonsBegone {
             this.badgeNew,
             this.threadSuggestion,
         ] = await this.waitForBulk(
+            // Chat Bar
             this.api.Webpack.Filters.byKeys('attachWrapper'), // Attach Button
             this.api.Webpack.Filters.byKeys('textArea', 'buttons'), // Buttons Global
             this.api.Webpack.Filters.byKeys('emojiButtonNormal', 'emojiButton'), // Emoji Button
 
+            // Message Actions
             this.api.Webpack.Filters.byKeys('hoverBarButton'), // Message Action Buttons
             this.api.Webpack.Filters.byKeys('messageListItem', 'message', 'buttons'), // Message Action Button
 
+            // Direct Messages
             this.api.Webpack.Filters.byKeys('privateChannels'), // DM List
             this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer'), // DM Header
             this.api.Webpack.Filters.byKeys('inviteToGroupButton'), // Invite to Group Button
@@ -1428,6 +1440,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('userInfo', 'text'), // Friends Page UserInfo Sub-Status
             this.api.Webpack.Filters.byKeys('textSm'), // Friends Page UserInfo Sub-Text
 
+            // Servers & Channels
             this.api.Webpack.Filters.byKeys('tutorialContainer', 'listItem'), // Add Server / Discover Button
             this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop'), // Server Unread Mentions Indicator: Top
             this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom'), // Server Unread Mentions Indicator: Bottom
@@ -1444,6 +1457,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('mentionsBar'), // "Unread Mentions" Bar
             this.api.Webpack.Filters.byKeys('unreadBar'), // "Unread Messages" Bar
 
+            // Voice
             this.api.Webpack.Filters.byKeys('singleUserRoot'), // Invite Placeholder
             this.api.Webpack.Filters.byKeys('wrapper', 'container', 'actionButtons'), // VC Buttons
             this.api.Webpack.Filters.byKeys('voiceButtonsContainer'), // Krisp Button
@@ -1452,11 +1466,14 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('attachedCaretButtonContainer'),
             this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall'), // VC Server Channel Avatars
             this.api.Webpack.Filters.byKeys('row', 'avatarWrapper'), // VC Server Channel Was Here
+            this.api.Webpack.Filters.byKeys('subtitle', 'linkBottom'),
 
+            // Title Bar
             this.api.Webpack.Filters.byKeys('backForwardButtons'), // Back/Forward Buttons
             this.api.Webpack.Filters.byKeys('trailing', 'title'), // Title Buttons
             this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar', 'iconWrapper'), // Toolbar Buttons
 
+            // Profile Customizations
             this.api.Webpack.Filters.byKeys('nameplated','container'), // Nameplates
             this.api.Webpack.Filters.byKeys('container','fitInAccount'), // Nameplates
             this.api.Webpack.Filters.byKeys('interactive','interactiveSelected'), // DM Entry Item
@@ -1476,6 +1493,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('wishlistBreadcrumb'), // Popup Profile Wishlist
             this.api.Webpack.Filters.byKeys('container', 'ring'), // Popup Profile Custom Status
 
+            // Miscellaneous
             this.api.Webpack.Filters.byKeys('groupStart'), // Message Grouping Container
             this.api.Webpack.Filters.byKeys('blockedSystemMessage'), // Blocked Message Indicator
             this.api.Webpack.Filters.byKeys('settingsPage'), // Profile Shop Art
