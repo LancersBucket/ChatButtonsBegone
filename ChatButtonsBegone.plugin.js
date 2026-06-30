@@ -532,14 +532,21 @@ const config = {
                     type: 'switch',
                     id: 'voiceWasHere',
                     name: 'Remove Was Here from VC List',
-                    note: 'Removes the Was Here/What You Missed in vc list.',
+                    note: 'Removes the Was Here/What You Missed in VC list.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'voiceInviteToVoice',
+                    name: 'Remove Invite to Voice from VC List',
+                    note: 'Removes the Invite to Voice button that temporarily appears when joining a VC.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'voiceSetCustomStatus',
-                    name: 'Remove Custom Status subtitle from VCs',
-                    note: 'Removes the Set Custom Status and Custom status subtitles from VC.',
+                    name: 'Remove Custom Status Subtitle from VC List',
+                    note: 'Removes the Set Custom Status and Custom Status Subtitles from VC.',
                     value: false,
                 },
             ],
@@ -1132,6 +1139,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.soundboardButton)this.styler.add('.{0} > .{1} + .{2}', this.vcButtonSection, 'buttonSection', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
         if (this.settings.voice.voiceAvatars) this.styler.add('.{0}', this.vcSmallAvatar, 'avatarSmall');
         if (this.settings.voice.voiceWasHere) this.styler.add('.{0}', this.vcWasHere, 'row');
+        if (this.settings.voice.voiceInviteToVoice) this.styler.add('.{0}:has(>.{1})', this.vcInviteToVoice, 'animation', this.vcInviteToVoice, 'clickable');
         if (this.settings.voice.voiceSetCustomStatus) this.styler.add('.{0}', this.vcSetCustomStatus, 'linkBottom');
 
         /// Title Bar ///
@@ -1370,6 +1378,7 @@ module.exports = class ChatButtonsBegone {
             this.vcActivities,
             this.vcSmallAvatar,
             this.vcWasHere,
+            this.vcInviteToVoice,
             this.vcSetCustomStatus,
 
             // Title Bar
@@ -1466,7 +1475,8 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('attachedCaretButtonContainer'),
             this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall'), // VC Server Channel Avatars
             this.api.Webpack.Filters.byKeys('row', 'avatarWrapper'), // VC Server Channel Was Here
-            this.api.Webpack.Filters.byKeys('subtitle', 'linkBottom'),
+            this.api.Webpack.Filters.byKeys('animation', 'clickable'), // VC Server Channel Invite to Voice
+            this.api.Webpack.Filters.byKeys('subtitle', 'linkBottom'), // VC Server Channel Custom Status
 
             // Title Bar
             this.api.Webpack.Filters.byKeys('backForwardButtons'), // Back/Forward Buttons
