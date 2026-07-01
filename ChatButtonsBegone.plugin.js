@@ -955,18 +955,15 @@ module.exports = class ChatButtonsBegone {
     ensureDefaultSettings() {
         for (let category of config.defaultConfig) {
             if (category.type === 'category') {
-                if (!(category.id in this.settings)) {
-                    this.settings[category.id] = {};
-                }
+                if (!(category.id in this.settings)) this.settings[category.id] = {};
+
                 for (let setting of category.settings) {
                     if (!(setting.id in this.settings[category.id]) || this.settings[category.id][setting.id] == null) {
                         this.settings[category.id][setting.id] = setting.value;
                     }
                 }
             } else {
-                if (!(category.id in this.settings)) {
-                    this.settings[category.id] = category.value;
-                }
+                if (!(category.id in this.settings)) this.settings[category.id] = category.value;
             }
         }
 
@@ -1669,14 +1666,9 @@ module.exports = class ChatButtonsBegone {
                         // If the word has an alias, check all aliases for a match
                         if (aliases.getAliases(term)) {
                             for (const alias of aliases.getAliases(term)) {
-                                if (filters(alias)) {
-                                    return true;
-                                }
-                            } 
-                        } else {
-                            // Otherwise just check the term itself
-                            return filters(term);
-                        }
+                                if (filters(alias)) return true;
+                            }
+                        } else return filters(term); // Otherwise just check the term itself
                     });
 
                     // In filter mode, uncollapse all categories that have at least one setting
@@ -1688,7 +1680,7 @@ module.exports = class ChatButtonsBegone {
                 setFilteredSettings(filteredSettings.filter(category => category.settings.length > 0));
             };
 
-            let numSettings = Object.keys(config.defaultConfig).reduce((acc, category) => acc + config.defaultConfig[category].settings.length, 0);
+            const numSettings = Object.keys(config.defaultConfig).reduce((acc, category) => acc + config.defaultConfig[category].settings.length, 0);
             return this.api.React.createElement("div",
                 { id: "CBBSettingsPanel" },
                 this.api.React.createElement(this.api.Components.SearchInput,
@@ -1696,7 +1688,7 @@ module.exports = class ChatButtonsBegone {
                         className: "CBBSettingsSearch",
                         placeholder: `Search ${numSettings} settings...`,
                         onChange: (e) => filterSettings(e.target.value),
-                    }
+                    },
                 ),
                 createSettingsList(filteredSettings),
             );
