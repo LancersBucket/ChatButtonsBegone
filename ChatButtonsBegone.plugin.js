@@ -1615,6 +1615,34 @@ module.exports = class ChatButtonsBegone {
         }
 
         const SettingsPanel = () => {
+            class Aliases {
+                constructor() {
+                    this.aliases = [];
+                }
+                register(...aliasGroup) {
+                    aliasGroup.forEach((alias) => {
+                        alias.toLowerCase();
+                    });
+                    this.aliases.push(aliasGroup);
+                }
+                getAliases(id) {
+                    id = id.toLowerCase();
+                    for (const aliasGroup of this.aliases) {
+                        for (const alias of aliasGroup) {
+                            if (alias === id) {
+                                return aliasGroup;
+                            }
+                        }
+                    };
+                    return null;
+                }
+            }
+
+            const aliases = new Aliases();
+            aliases.register("voice", "vc", "vcs", "voice chat");
+            aliases.register("dm", "dms", "direct message", "direct messages");
+            aliases.register("gdm", "gdms", "group direct message", "group direct messages");
+
             const [filteredSettings, setFilteredSettings] = this.api.React.useState(settings);
 
             const filterSettings = (searchTerm) => {
@@ -1639,16 +1667,29 @@ module.exports = class ChatButtonsBegone {
                                 category.id.toLowerCase().includes(term.slice(1))
                             );
                         }
+
+                        let filters = (word) => {
+                            return (
+                                // If the name of the setting includes the term
+                                subSetting.name.toLowerCase().includes(word) ||
+                                // If the description of the setting includes the term
+                                subSetting.note.toLowerCase().includes(word) ||
+                                // If the name of the category includes the term
+                                category.name.toLowerCase().includes(word)
+                            );
+                        }
                         
-                        // Otherwise, include if any of the following is true
-                        return (
-                            // If the name of the setting includes the term
-                            subSetting.name.toLowerCase().includes(term) ||
-                            // If the description of the setting includes the term 
-                            subSetting.note.toLowerCase().includes(term) ||
-                            // If the name of the category includes the term
-                            category.name.toLowerCase().includes(term)
-                        );
+                        // If the word has an alias, check all aliases for a match
+                        if (aliases.getAliases(term)) {
+                            for (const alias of aliases.getAliases(term)) {
+                                if (filters(alias)) {
+                                    return true;
+                                }
+                            } 
+                        } else {
+                            // Otherwise just check the term itself
+                            return filters(term);
+                        }
                     });
 
                     category.shown = true;
