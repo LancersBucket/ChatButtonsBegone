@@ -1616,6 +1616,16 @@ module.exports = class ChatButtonsBegone {
                 const filteredSettings = JSON.parse(JSON.stringify(settings));
                 filteredSettings.forEach((category) => {
                     category.settings = category.settings.filter((subSetting) => {
+                        // If the search term starts with an underscore, search by ID
+                        if (term.startsWith("_")) {
+                            // Append the ID to the name for easier identification
+                            subSetting.name += ` [${subSetting.id}]`;
+                            return (
+                                subSetting.id.toLowerCase().includes(term.slice(1)) ||
+                                category.id.toLowerCase().includes(term.slice(1))
+                            );
+                        }
+                        
                         // Otherwise, include if any of the following is true
                         return (
                             // If the name of the setting includes the term
