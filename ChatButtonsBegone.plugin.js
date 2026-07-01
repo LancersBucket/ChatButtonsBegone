@@ -1545,19 +1545,19 @@ module.exports = class ChatButtonsBegone {
     }
 
     getSettingsPanel() {
+        // Clone default config
         let settings = JSON.parse(JSON.stringify(config.defaultConfig));
-        settings.forEach(setting => {
-            if (setting.type === 'category') {
-                setting.settings.forEach(subSetting => {
-                    subSetting.value = this.settings[setting.id][subSetting.id];
-                });
-            } else {
-                setting.value = this.settings[setting.id];
-            }
+        settings.forEach((category) => {
+            category.settings.forEach(subSetting => {
+                subSetting.value = this.settings[category.id][subSetting.id];
+            });
         });
 
+        // Default onChange function for settings
         let onChange = (category, id, value) => {
+            // Category is not null if setting is in a category
             if (category !== null) {
+                // Try to apply setting change, if category doesn't exist, create it and apply setting change
                 try {
                     this.settings[category][id] = value;
                 } catch {
@@ -1565,7 +1565,7 @@ module.exports = class ChatButtonsBegone {
                     this.settings[category][id] = value;
                 }
             } else {
-                this.settings[id] = value;
+                this.api.Logger.warn(`Setting ${id} is not in a category. onChange state: ${category}, ${id}, ${value}`);
             }
             this.api.Data.save('settings', this.settings);
 
@@ -1577,46 +1577,75 @@ module.exports = class ChatButtonsBegone {
             this.api.UI.showToast('Styles refreshed.', { type: 'info' });
         }
 
-        return this.api.React.createElement(this.api.Components.ErrorBoundary, { id: "CBBSettingsPanel" }, [
-            this.api.React.createElement(this.api.Components.SearchInput,
-                {
-                    placeholder: "Search settings...",
-                    onChange: (e) => {
-                        let searchTerm = e.target.value.toLowerCase();
-
-                        let filteredSettings = JSON.parse(JSON.stringify(settings))
-                        
-                        filteredSettings.forEach((category) => {
-                            category.settings = category.settings.filter((subSetting) => {
-                                return subSetting.name.toLowerCase().includes(searchTerm);
-                            });
-                            // category.settings.forEach((subSetting) => {
-                            //     console.log(subSetting);
-                            // });
+        let createSettingsList = (filteredSettings) => {
+            return this.api.React.createElement("div", { id: "CBBSettingsList" },
+                filteredSettings.map((setting) => {
+                    if (setting.type === "category") {
+                        return this.api.React.createElement(this.api.Components.SettingGroup, {
+                            key: `group-${setting.id}-${String(setting.shown)}`,
+                            ...setting,
+                            onChange: onChange,
+                            shown: setting.shown,
                         });
-                    },
-                }
-            ),
-            
-            settings.map((setting) => {
-                if (setting.type === "category") {
-                    const shownByDefault = setting.hasOwnProperty("shown") ? setting.shown : true;
-
-                    return this.api.React.createElement(this.api.Components.SettingGroup, {
-                        ...setting,
-                        onChange: onChange,
-                        shown: shownByDefault,
-                    });
-                }
-
-                return buildSetting({
-                    ...setting,
-                    onChange: (value) => {
-                        setting?.onChange?.(value);
-                        onChange(null, setting.id, value);
                     }
+
+                    return buildSetting({
+                        ...setting,
+                        onChange: (value) => {
+                            setting?.onChange?.(value);
+                            onChange(null, setting.id, value);
+                        }
+                    });
+                })
+            );
+        }
+
+        const SettingsPanel = () => {
+            const [filteredSettings, setFilteredSettings] = this.api.React.useState(settings);
+
+            const filterSettings = (searchTerm) => {
+                const term = searchTerm.trim().toLowerCase();
+
+                // If no searchterm is supplied, show default list
+                if (!term) {
+                    setFilteredSettings(settings);
+                    return;
+                }
+
+                // Otherwise filter the settings list based on the search term
+                const filteredSettings = JSON.parse(JSON.stringify(settings));
+                filteredSettings.forEach((category) => {
+                    category.settings = category.settings.filter((subSetting) => {
+                        // Otherwise, include if any of the following is true
+                        return (
+                            // If the name of the setting includes the term
+                            subSetting.name.toLowerCase().includes(term) ||
+                            // If the description of the setting includes the term 
+                            (subSetting.note.toLowerCase().includes(term)) ||
+                            // If the name of the category includes the term
+                            category.name.toLowerCase().includes(term)
+                        );
+                    });
+
+                    category.shown = true;
                 });
-            })
-        ]);
+
+                // Optionally, remove the filter to show collapsed categories that have nothing in it
+                // Trying to decide if this is better visually over an empty settings panel
+                setFilteredSettings(filteredSettings.filter(category => category.settings.length > 0));
+            };
+
+            return this.api.React.createElement("div", { id: "CBBSettingsPanel" }, [
+                this.api.React.createElement(this.api.Components.SearchInput,
+                    {
+                        placeholder: "Search settings...",
+                        onChange: (e) => filterSettings(e.target.value),
+                    }
+                ),
+                createSettingsList(filteredSettings),
+            ]);
+        };
+
+        return this.api.React.createElement(SettingsPanel);
     }
 };
