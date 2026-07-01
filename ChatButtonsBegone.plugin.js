@@ -1619,11 +1619,11 @@ module.exports = class ChatButtonsBegone {
 
         const SettingsPanel = () => {
             const aliases = new Aliases();
-            aliases.register("voice", "vc", "vcs", "voice chat");
+            aliases.register("voice", "vc", "vcs", "voice chat", "voice chats", "voice channel", "voice channels");
             aliases.register("dm", "dms", "direct message", "direct messages");
             aliases.register("gdm", "gdms", "group direct message", "group direct messages");
             aliases.register("chatbar", "chat bar", "typing area", "text area");
-            aliases.register("title and toolbar", "title bar", "toolbar");
+            aliases.register("title and toolbar", "title bar", "toolbar", "tool bar");
             aliases.register("servers and channels", "servers", "channels");
 
             const [filteredSettings, setFilteredSettings] = this.api.React.useState(settings);
