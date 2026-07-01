@@ -830,7 +830,7 @@ const config = {
                     type: 'switch',
                     id: 'baseGradient',
                     name: 'Remove Chat/Typing Now Gradient',
-                    note: 'Removes the grladient from the Chat Input/Now Typing area.',
+                    note: 'Removes the gradient from the Chat Input/Now Typing area.',
                     value: false,
                 },
                 {
@@ -1642,6 +1642,9 @@ module.exports = class ChatButtonsBegone {
             aliases.register("voice", "vc", "vcs", "voice chat");
             aliases.register("dm", "dms", "direct message", "direct messages");
             aliases.register("gdm", "gdms", "group direct message", "group direct messages");
+            aliases.register("chatbar", "chat bar", "typing area", "text area");
+            aliases.register("title and toolbar", "title bar", "toolbar");
+            aliases.register("servers and channels", "servers", "channels");
 
             const [filteredSettings, setFilteredSettings] = this.api.React.useState(settings);
 
@@ -1674,8 +1677,8 @@ module.exports = class ChatButtonsBegone {
                                 subSetting.name.toLowerCase().includes(word) ||
                                 // If the description of the setting includes the term
                                 subSetting.note.toLowerCase().includes(word) ||
-                                // If the name of the category includes the term
-                                category.name.toLowerCase().includes(word)
+                                // If the name of the category is equal to the term
+                                category.name.toLowerCase() === word
                             );
                         }
                         
