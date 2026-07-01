@@ -1556,28 +1556,47 @@ module.exports = class ChatButtonsBegone {
             }
         });
 
-        return this.api.UI.buildSettingsPanel({
-            settings,
-            onChange: (category, id, value) => {
-                if (category !== null) {
-                    try {
-                        this.settings[category][id] = value;
-                    } catch {
-                        this.settings[category] = {};
-                        this.settings[category][id] = value;
-                    }
-                } else {
-                    this.settings[id] = value;
+        let onChange = (category, id, value) => {
+            if (category !== null) {
+                try {
+                    this.settings[category][id] = value;
+                } catch {
+                    this.settings[category] = {};
+                    this.settings[category][id] = value;
                 }
-                this.api.Data.save('settings', this.settings);
-
-                // Don't refresh styles on core settings change
-                if (category === 'core') return;
-
-                this.styler.purge();
-                this.addStyles();
-                this.api.UI.showToast('Styles refreshed.', { type: 'info' });
+            } else {
+                this.settings[id] = value;
             }
-        });
+            this.api.Data.save('settings', this.settings);
+
+            // Don't refresh styles on core settings change
+            if (category === 'core') return;
+
+            this.styler.purge();
+            this.addStyles();
+            this.api.UI.showToast('Styles refreshed.', { type: 'info' });
+        }
+
+        return this.api.React.createElement(this.api.Components.ErrorBoundary, { id: "CBBSettingsPanel" }, [
+            settings.map((setting) => {
+                if (setting.type === "category") {
+                    const shownByDefault = setting.hasOwnProperty("shown") ? setting.shown : true;
+
+                    return this.api.React.createElement(this.api.Components.SettingGroup, {
+                        ...setting,
+                        onChange: onChange,
+                        shown: shownByDefault,
+                    });
+                }
+
+                return buildSetting({
+                    ...setting,
+                    onChange: (value) => {
+                        setting?.onChange?.(value);
+                        onChange(null, setting.id, value);
+                    }
+                });
+            })
+        ]);
     }
 };
