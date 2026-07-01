@@ -1578,6 +1578,26 @@ module.exports = class ChatButtonsBegone {
         }
 
         return this.api.React.createElement(this.api.Components.ErrorBoundary, { id: "CBBSettingsPanel" }, [
+            this.api.React.createElement(this.api.Components.SearchInput,
+                {
+                    placeholder: "Search settings...",
+                    onChange: (e) => {
+                        let searchTerm = e.target.value.toLowerCase();
+
+                        let filteredSettings = JSON.parse(JSON.stringify(settings))
+                        
+                        filteredSettings.forEach((category) => {
+                            category.settings = category.settings.filter((subSetting) => {
+                                return subSetting.name.toLowerCase().includes(searchTerm);
+                            });
+                            // category.settings.forEach((subSetting) => {
+                            //     console.log(subSetting);
+                            // });
+                        });
+                    },
+                }
+            ),
+            
             settings.map((setting) => {
                 if (setting.type === "category") {
                     const shownByDefault = setting.hasOwnProperty("shown") ? setting.shown : true;
