@@ -1546,6 +1546,27 @@ module.exports = class ChatButtonsBegone {
     }
 
     getSettingsPanel() {
+        // Aliases for setting filtering
+        class Aliases {
+            constructor() {
+                this.aliases = [];
+            }
+            register(...aliasGroup) {
+                aliasGroup.forEach((alias) => { alias.toLowerCase(); });
+                this.aliases.push(aliasGroup);
+            }
+            getAliases(id) {
+                id = id.toLowerCase();
+                for (const aliasGroup of this.aliases) {
+                    for (const alias of aliasGroup) {
+                        if (alias === id) return aliasGroup;
+                    }
+                };
+                return null;
+            }
+        }
+        
+        // Custom styles
         const styles = `
             .CBBSettingsSearch {
                 position: sticky;
@@ -1568,18 +1589,12 @@ module.exports = class ChatButtonsBegone {
         });
 
         // Default onChange function for settings
-        let onChange = (category, id, value) => {
-            // Category is not null if setting is in a category
-            if (category !== null) {
-                // Try to apply setting change, if category doesn't exist, create it and apply setting change
-                try {
-                    this.settings[category][id] = value;
-                } catch {
-                    this.settings[category] = {};
-                    this.settings[category][id] = value;
-                }
-            } else {
-                this.api.Logger.warn(`Setting ${id} is not in a category. onChange state: ${category}, ${id}, ${value}`);
+        const onChange = (category, id, value) => {
+            try {
+                this.settings[category][id] = value;
+            } catch {
+                this.settings[category] = {};
+                this.settings[category][id] = value;
             }
             this.api.Data.save('settings', this.settings);
 
@@ -1591,53 +1606,21 @@ module.exports = class ChatButtonsBegone {
             this.api.UI.showToast('Styles refreshed.', { type: 'info' });
         }
 
-        let createSettingsList = (filteredSettings) => {
-            return this.api.React.createElement("div", { id: "CBBSettingsList" },
+        const createSettingsList = (filteredSettings) => {
+            return this.api.React.createElement("div",
+                { id: "CBBSettingsList" },
                 filteredSettings.map((setting) => {
-                    if (setting.type === "category") {
-                        return this.api.React.createElement(this.api.Components.SettingGroup, {
-                            key: `group-${setting.id}-${String(setting.shown)}`,
-                            ...setting,
-                            onChange: onChange,
-                            shown: setting.shown,
-                        });
-                    }
-
-                    return buildSetting({
+                    return this.api.React.createElement(this.api.Components.SettingGroup, {
+                        key: `group-${setting.id}-${String(setting.shown)}`,
                         ...setting,
-                        onChange: (value) => {
-                            setting?.onChange?.(value);
-                            onChange(null, setting.id, value);
-                        }
+                        onChange: onChange,
+                        shown: setting.shown,
                     });
-                })
+                }),
             );
         }
 
         const SettingsPanel = () => {
-            class Aliases {
-                constructor() {
-                    this.aliases = [];
-                }
-                register(...aliasGroup) {
-                    aliasGroup.forEach((alias) => {
-                        alias.toLowerCase();
-                    });
-                    this.aliases.push(aliasGroup);
-                }
-                getAliases(id) {
-                    id = id.toLowerCase();
-                    for (const aliasGroup of this.aliases) {
-                        for (const alias of aliasGroup) {
-                            if (alias === id) {
-                                return aliasGroup;
-                            }
-                        }
-                    };
-                    return null;
-                }
-            }
-
             const aliases = new Aliases();
             aliases.register("voice", "vc", "vcs", "voice chat");
             aliases.register("dm", "dms", "direct message", "direct messages");
@@ -1663,7 +1646,7 @@ module.exports = class ChatButtonsBegone {
                     category.settings = category.settings.filter((subSetting) => {
                         // If the search term starts with an underscore, search by ID
                         if (term.startsWith("_")) {
-                            // Append the ID to the name for easier identification
+                            // Append the ID to the name in ID mode for easier identification
                             subSetting.name += ` [${subSetting.id}]`;
                             return (
                                 subSetting.id.toLowerCase().includes(term.slice(1)) ||
@@ -1671,7 +1654,8 @@ module.exports = class ChatButtonsBegone {
                             );
                         }
 
-                        let filters = (word) => {
+                        // Filters for the search to use
+                        const filters = (word) => {
                             return (
                                 // If the name of the setting includes the term
                                 subSetting.name.toLowerCase().includes(word) ||
@@ -1695,16 +1679,18 @@ module.exports = class ChatButtonsBegone {
                         }
                     });
 
-                    category.shown = true;
+                    // In filter mode, uncollapse all categories that have at least one setting
+                    if (category.settings.length > 0) category.shown = true;
                 });
 
-                // Optionally, remove the filter to show collapsed categories that have nothing in it
+                // TODO: Optionally, remove the filter to show collapsed categories that have nothing in it
                 // Trying to decide if this is better visually over an empty settings panel
                 setFilteredSettings(filteredSettings.filter(category => category.settings.length > 0));
             };
 
             let numSettings = Object.keys(config.defaultConfig).reduce((acc, category) => acc + config.defaultConfig[category].settings.length, 0);
-            return this.api.React.createElement("div", { id: "CBBSettingsPanel" }, [
+            return this.api.React.createElement("div",
+                { id: "CBBSettingsPanel" },
                 this.api.React.createElement(this.api.Components.SearchInput,
                     {
                         className: "CBBSettingsSearch",
@@ -1713,7 +1699,7 @@ module.exports = class ChatButtonsBegone {
                     }
                 ),
                 createSettingsList(filteredSettings),
-            ]);
+            );
         };
 
         return this.api.React.createElement(SettingsPanel);
