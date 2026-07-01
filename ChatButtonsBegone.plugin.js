@@ -1542,9 +1542,23 @@ module.exports = class ChatButtonsBegone {
 
     stop() {
         this.styler.purge();
+        this.api.DOM.removeStyle('ChatButtonsBegoneSettingsPanel');
     }
 
     getSettingsPanel() {
+        const styles = `
+            .CBBSettingsSearch {
+                position: sticky;
+                top: 0;
+                z-index: 1;
+                margin: 0 0 1rem 0;
+            }
+            .bd-settings-group~.bd-settings-group .bd-settings-title {
+                margin-top: 0px !important;
+            }
+        `;
+        this.api.DOM.addStyle('ChatButtonsBegoneSettingsPanel', styles);
+
         // Clone default config
         let settings = JSON.parse(JSON.stringify(config.defaultConfig));
         settings.forEach((category) => {
@@ -1606,7 +1620,7 @@ module.exports = class ChatButtonsBegone {
             const filterSettings = (searchTerm) => {
                 const term = searchTerm.trim().toLowerCase();
 
-                // If no searchterm is supplied, show default list
+                // If no search term is supplied, show default list
                 if (!term) {
                     setFilteredSettings(settings);
                     return;
@@ -1631,7 +1645,7 @@ module.exports = class ChatButtonsBegone {
                             // If the name of the setting includes the term
                             subSetting.name.toLowerCase().includes(term) ||
                             // If the description of the setting includes the term 
-                            (subSetting.note.toLowerCase().includes(term)) ||
+                            subSetting.note.toLowerCase().includes(term) ||
                             // If the name of the category includes the term
                             category.name.toLowerCase().includes(term)
                         );
@@ -1648,6 +1662,7 @@ module.exports = class ChatButtonsBegone {
             return this.api.React.createElement("div", { id: "CBBSettingsPanel" }, [
                 this.api.React.createElement(this.api.Components.SearchInput,
                     {
+                        className: "CBBSettingsSearch",
                         placeholder: "Search settings...",
                         onChange: (e) => filterSettings(e.target.value),
                     }
