@@ -1659,11 +1659,12 @@ module.exports = class ChatButtonsBegone {
                 setFilteredSettings(filteredSettings.filter(category => category.settings.length > 0));
             };
 
+            let numSettings = Object.keys(config.defaultConfig).reduce((acc, category) => acc + config.defaultConfig[category].settings.length, 0);
             return this.api.React.createElement("div", { id: "CBBSettingsPanel" }, [
                 this.api.React.createElement(this.api.Components.SearchInput,
                     {
                         className: "CBBSettingsSearch",
-                        placeholder: "Search settings...",
+                        placeholder: `Search ${numSettings} settings...`,
                         onChange: (e) => filterSettings(e.target.value),
                     }
                 ),
