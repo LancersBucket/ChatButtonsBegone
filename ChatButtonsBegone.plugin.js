@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.2.2
+ * @version 4.2.3
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -982,13 +982,13 @@ module.exports = class ChatButtonsBegone {
             // Current Implementation
             this.styler.add('.{0} div[class^="container"]:has(> .{1})', this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
             // Quick DM
-            this.styler.add('div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])');
+            this.styler.add('.{0} div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])', this.textArea, 'channelTextArea');
         }
         if (this.settings.chatbar.gifButton) {
             // Chatbar
             this.styler.add('.expression-picker-chat-input-button:not(:has(.{0}, .{1}))', this.chatBarButtons, 'stickerButton', this.emojiButton, 'emojiButton');
             // Quick DM
-            this.styler.add('div:has(> button svg path[d^=" M-7,-10 C-8.656999588012695,-10"])');
+            this.styler.add('.{0} div:has(> button svg path[d^=" M-7,-10 C-8.656999588012695,-10"])', this.textArea, 'channelTextArea');
         }
         if (this.settings.chatbar.stickerButton) this.styler.add('.expression-picker-chat-input-button:has(.{0})', this.chatBarButtons, 'stickerButton');
         if (this.settings.chatbar.emojiButton) this.styler.add('.expression-picker-chat-input-button:has(.{0})', this.emojiButton, 'emojiButton');
@@ -1328,6 +1328,7 @@ module.exports = class ChatButtonsBegone {
 
         [
             // Chat Bar
+            this.textArea,
             this.attachButton,
             this.chatBarButtons,
             this.emojiButton,
@@ -1425,6 +1426,7 @@ module.exports = class ChatButtonsBegone {
             this.threadSuggestion,
         ] = await this.waitForBulk(
             // Chat Bar
+            this.api.Webpack.Filters.byKeys('channelTextArea'), // Text Input Area
             this.api.Webpack.Filters.byKeys('attachWrapper'), // Attach Button
             this.api.Webpack.Filters.byKeys('textArea', 'buttons'), // Buttons Global
             this.api.Webpack.Filters.byKeys('emojiButtonNormal', 'emojiButton'), // Emoji Button
