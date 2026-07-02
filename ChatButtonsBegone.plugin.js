@@ -1274,7 +1274,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0} div[role="group"]:has(#settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu');
         }
 
-        if (this.settings.miscellaneous.placeholderText) this.styler.add('.{0}:not(.{1}) :has(+ .{2})', this.hideMessage, 'channelTextArea', this.hideMessage, 'channelTextAreaDisabled', this.txtPlaceholder, 'slateTextArea');
+        if (this.settings.miscellaneous.placeholderText) this.styler.add('.{0}:not(.{1}) :has(+ .{2})', this.textArea, 'channelTextArea', this.textArea, 'channelTextAreaDisabled', this.txtPlaceholder, 'slateTextArea');
         if (this.settings.miscellaneous.avatarPopover) this.styler.add('.{0}', this.profilePopover, 'statusPopover');
 
         let listSeparatorDm = ['.{0}', this.dmDivider, 'sectionDivider'];
