@@ -1215,7 +1215,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBanner) this.styler.add('.{0}', this.profileBanner, 'banner');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(':not(.{0} > div > div) > .{1}', this.avatarPreview, 'skuPreview', this.profileEffects, 'profileEffects');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
-        if (this.settings.profileCustomizations.hideMessage) this.styler.add('.{0} [class^="footer"]:has(.{1})', this.profileAnim, 'animatorRight', this.hideMessage, 'inlineContainer');
+        if (this.settings.profileCustomizations.hideMessage) this.styler.add('[class^="footer"]:has(.{0})', this.textArea, 'channelTextArea');
         if (this.settings.profileCustomizations.hideEditProfile) this.styler.add('.{0} [class^="footer"]:has(button)', this.profileAnim, 'animatorRight');
         if (this.settings.profileCustomizations.hideCollection)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList', this.profileCollection, 'breadcrumb');
         if (this.settings.profileCustomizations.hideProfileActivity) this.styler.add('.{0}:has(.{1} article)', this.profileCards, 'container', this.profileCards, 'cardsList');
@@ -1407,7 +1407,6 @@ module.exports = class ChatButtonsBegone {
             this.profileEffects,
             this.profileGIF,
             this.profileAnim,
-            this.hideMessage,
             this.profileCards,
             this.profileCollection,
             this.profileWishBody,
@@ -1506,7 +1505,6 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('mask','banner'), // Profile Badges
             this.api.Webpack.Filters.byKeys('profileEffects'), // Profile Effects
             this.api.Webpack.Filters.byKeys('mask', 'gifTag'), // Profile GIF Tag
-            this.api.Webpack.Filters.byKeys('animatorRight'), // Profile Popout Animator Class
             this.api.Webpack.Filters.byKeys('channelTextArea', 'inlineContainer'), // Profile Send Message Input
             this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer'), // Profile Cards List
             this.api.Webpack.Filters.byKeys('breadcrumb'), // Game Collection Breadcrumb
