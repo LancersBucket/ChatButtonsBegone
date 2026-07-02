@@ -1196,8 +1196,8 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.profileCustomizations.avatarDecoration) {
-            this.styler.add('.{0}', this.avatarDecorationContainer, 'avatarDecorationContainer');
-            this.styler.add('.{0}', this.avatarDecorationChat, 'avatarDecoration');
+            this.styler.add(':not(.{0} > div ) > .{1}', this.avatarPreview, 'skuPreview', this.avatarDecorationContainer, 'avatarDecorationContainer');
+            this.styler.add(':not(.{0} > div ) > .{1}', this.avatarPreview, 'skuPreview', this.avatarDecorationChat, 'avatarDecoration');
         }
 
         if (this.settings.profileCustomizations.hideBadges) {
@@ -1394,6 +1394,7 @@ module.exports = class ChatButtonsBegone {
             this.clanTagProfile,
             this.clanTagChiplet,
             this.clanTagChipletServer,
+            this.avatarPreview,
             this.avatarDecorationContainer,
             this.avatarDecorationChat,
             this.profileBadges,
@@ -1492,6 +1493,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('guildTagContainer'), // Profile Clan Tag
             this.api.Webpack.Filters.byKeys('clanTagChiplet'), // Clan Tag Chiplet
             this.api.Webpack.Filters.byKeys('chipletContainerInner','chipletContainerInline'), // Clan Tag Chiplet in Server
+            this.api.Webpack.Filters.byKeys('skuPreview'), // SKU Preview Exclusion
             this.api.Webpack.Filters.byKeys('avatarDecorationContainer'), // Avatar Decoration
             this.api.Webpack.Filters.byKeys('avatarDecoration','contents'), // Avatar Decoration in Chat
             this.api.Webpack.Filters.byKeys('anchor', 'anchorUnderlineOnHover'), // Profile Badges
