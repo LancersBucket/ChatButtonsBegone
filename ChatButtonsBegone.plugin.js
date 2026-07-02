@@ -754,6 +754,13 @@ const config = {
                     note: 'Removes the Custom Status from user profiles.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'frameDecoration',
+                    name: 'Remove Profile Frame Decoration',
+                    note: 'Removes the Frame Decoration from Profiles.',
+                    value: false,
+                },
             ],
         },
         {
@@ -1222,6 +1229,15 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
         if (this.settings.profileCustomizations.hideStatus) this.styler.add('.{0}:not(.{1}) > .{2}', this.profileCustomStatus, 'container', this.profileCustomStatus, 'editable', this.profileCustomStatus, 'ring');
 
+        if (this.settings.profileCustomizations.frameDecoration) {
+            this.styler.add('.{0} .{1}', this.frameDecoration, 'profileFrameContainer', this.frameDecoration, 'profileFrame');
+            // Patch out the resizing of the Profile to accommodate the Frame
+            this.styler.patch(
+                `--custom-profile-frame-container-width: unset !important;`,
+                '.custom-profile-frame'
+            )
+        }
+
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add('.{0}:has(.{1})', this.blockedGroup, 'groupStart', this.blockedIndicator, 'blockedSystemMessage');
 
@@ -1412,6 +1428,7 @@ module.exports = class ChatButtonsBegone {
             this.profileWishBody,
             this.profileWishlist,
             this.profileCustomStatus,
+            this.frameDecoration,
 
             // Miscellaneous
             this.blockedGroup,
@@ -1511,6 +1528,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('body', 'cards'), // Profile Activity/Wishlist Cards
             this.api.Webpack.Filters.byKeys('container', 'cardsContainer'), // Profile Wishlist
             this.api.Webpack.Filters.byKeys('container', 'ring'), // Popup Profile Custom Status
+            this.api.Webpack.Filters.byKeys('profileFrameContainer', 'profileFrame'), // Profile Frame Decoration
 
             // Miscellaneous
             this.api.Webpack.Filters.byKeys('groupStart'), // Message Grouping Container
