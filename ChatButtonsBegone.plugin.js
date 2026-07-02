@@ -1210,11 +1210,8 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
         if (this.settings.profileCustomizations.hideMessage) this.styler.add('.{0} [class^="footer"]:has(.{1})', this.profileAnim, 'animatorRight', this.hideMessage, 'inlineContainer');
         if (this.settings.profileCustomizations.hideEditProfile) this.styler.add('.{0} [class^="footer"]:has(button)', this.profileAnim, 'animatorRight');
-        if (this.settings.profileCustomizations.hideCollection) {
-            this.styler.add('.{0}:has([class^="breadcrumb"])', this.profileCollection, 'cardsList');
-            this.styler.add('.{0}', this.profileWidgets, 'widgetPreviews');
-        }
-        if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0}', this.profileWishlist, 'wishlistBreadcrumb');
+        if (this.settings.profileCustomizations.hideCollection)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList' , this.profileCollection, 'breadcrumb');
+        if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
         if (this.settings.profileCustomizations.hideStatus) this.styler.add('.{0}:not(.{1}) > .{2}', this.profileCustomStatus, 'container', this.profileCustomStatus, 'editable', this.profileCustomStatus, 'ring');
 
         /// Miscellaneous ///
@@ -1403,8 +1400,9 @@ module.exports = class ChatButtonsBegone {
             this.profileGIF,
             this.profileAnim,
             this.hideMessage,
+            this.profileCards,
             this.profileCollection,
-            this.profileWidgets,
+            this.profileWishBody,
             this.profileWishlist,
             this.profileCustomStatus,
 
@@ -1502,9 +1500,10 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('mask', 'gifTag'), // Profile GIF Tag
             this.api.Webpack.Filters.byKeys('animatorRight'), // Profile Popout Animator Class
             this.api.Webpack.Filters.byKeys('channelTextArea', 'inlineContainer'), // Profile Send Message Input
-            this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer'), // Profile Game Collection
-            this.api.Webpack.Filters.byKeys('widgetPreviews'), // Profile Game Collection
-            this.api.Webpack.Filters.byKeys('wishlistBreadcrumb'), // Popup Profile Wishlist
+            this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer'), // Profile Cards List
+            this.api.Webpack.Filters.byKeys('breadcrumb'), // Game Collection Breadcrumb
+            this.api.Webpack.Filters.byKeys('body', 'cards'), // Profile Wishlist
+            this.api.Webpack.Filters.byKeys('container', 'cardsContainer'), // Profile Wishlist
             this.api.Webpack.Filters.byKeys('container', 'ring'), // Popup Profile Custom Status
 
             // Miscellaneous
