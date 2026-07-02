@@ -66,7 +66,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.2.2',
+        version: '4.2.3',
     },
     defaultConfig: [
         {
@@ -1538,7 +1538,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('mask','banner'), // Profile Badges
             this.api.Webpack.Filters.byKeys('profileEffects'), // Profile Effects
             this.api.Webpack.Filters.byKeys('mask', 'gifTag'), // Profile GIF Tag
-            this.api.Webpack.Filters.byKeys('channelTextArea', 'inlineContainer'), // Profile Send Message Input
+            this.api.Webpack.Filters.byKeys('animatorRight'), // Profile Popout Animator Class
             this.api.Webpack.Filters.byKeys('container', 'cardsList', 'firstCardContainer'), // Profile Cards List
             this.api.Webpack.Filters.byKeys('breadcrumb'), // Game Collection Breadcrumb
             this.api.Webpack.Filters.byKeys('body', 'cards'), // Profile Activity/Wishlist Cards
