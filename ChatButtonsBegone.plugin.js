@@ -735,6 +735,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'hideProfileActivity',
+                    name: 'Remove Profile Activity Card',
+                    note: 'Removes the Activity card from user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'hideWishlist',
                     name: 'Remove Profile Wishlist',
                     note: 'Removes the Wishlist from user profiles.',
@@ -1210,7 +1217,8 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
         if (this.settings.profileCustomizations.hideMessage) this.styler.add('.{0} [class^="footer"]:has(.{1})', this.profileAnim, 'animatorRight', this.hideMessage, 'inlineContainer');
         if (this.settings.profileCustomizations.hideEditProfile) this.styler.add('.{0} [class^="footer"]:has(button)', this.profileAnim, 'animatorRight');
-        if (this.settings.profileCustomizations.hideCollection)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList' , this.profileCollection, 'breadcrumb');
+        if (this.settings.profileCustomizations.hideCollection)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList', this.profileCollection, 'breadcrumb');
+        if (this.settings.profileCustomizations.hideProfileActivity) this.styler.add('.{0}:has(.{1} article)', this.profileCards, 'container', this.profileCards, 'cardsList');
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
         if (this.settings.profileCustomizations.hideStatus) this.styler.add('.{0}:not(.{1}) > .{2}', this.profileCustomStatus, 'container', this.profileCustomStatus, 'editable', this.profileCustomStatus, 'ring');
 
@@ -1502,7 +1510,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('channelTextArea', 'inlineContainer'), // Profile Send Message Input
             this.api.Webpack.Filters.byKeys('cardsList', 'firstCardContainer'), // Profile Cards List
             this.api.Webpack.Filters.byKeys('breadcrumb'), // Game Collection Breadcrumb
-            this.api.Webpack.Filters.byKeys('body', 'cards'), // Profile Wishlist
+            this.api.Webpack.Filters.byKeys('body', 'cards'), // Profile Activity/Wishlist Cards
             this.api.Webpack.Filters.byKeys('container', 'cardsContainer'), // Profile Wishlist
             this.api.Webpack.Filters.byKeys('container', 'ring'), // Popup Profile Custom Status
 
