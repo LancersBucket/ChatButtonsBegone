@@ -20,6 +20,11 @@ class Styler {
         let mods = [];
         for (let i = 0; i < modules.length; i+=2) {
             let result = await modules[i];
+            if (typeof result[modules[i+1]] !== 'string') {
+                this.api.UI.showToast('Webpack Error. See Console.', { type: 'warning', timeout: '5000' });
+                this.api.Logger.warn(`Selector "${selector}" contains an invalid webpack for module ${i} (.${modules[i+1]})`);
+                return;
+            }
             mods.push(result[modules[i+1]].trim().replace(' ', '.'));
         }
         this.styles.push(this.format(selector, ...mods));
