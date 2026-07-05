@@ -855,7 +855,7 @@ const config = {
                     type: 'switch',
                     id: 'baseGradient',
                     name: 'Remove Chat/Typing Now Gradient',
-                    note: 'Removes the grladient from the Chat Input/Now Typing area.',
+                    note: 'Removes the gradient from the Chat Input/Now Typing area.',
                     value: false,
                 },
                 {
@@ -980,18 +980,15 @@ module.exports = class ChatButtonsBegone {
     ensureDefaultSettings() {
         for (let category of config.defaultConfig) {
             if (category.type === 'category') {
-                if (!(category.id in this.settings)) {
-                    this.settings[category.id] = {};
-                }
+                if (!(category.id in this.settings)) this.settings[category.id] = {};
+
                 for (let setting of category.settings) {
                     if (!(setting.id in this.settings[category.id]) || this.settings[category.id][setting.id] == null) {
                         this.settings[category.id][setting.id] = setting.value;
                     }
                 }
             } else {
-                if (!(category.id in this.settings)) {
-                    this.settings[category.id] = category.value;
-                }
+                if (!(category.id in this.settings)) this.settings[category.id] = category.value;
             }
         }
 
@@ -1590,42 +1587,156 @@ module.exports = class ChatButtonsBegone {
 
     stop() {
         this.styler.purge();
+        this.api.DOM.removeStyle('ChatButtonsBegoneSettingsPanel');
     }
 
     getSettingsPanel() {
-        let settings = JSON.parse(JSON.stringify(config.defaultConfig));
-        settings.forEach(setting => {
-            if (setting.type === 'category') {
-                setting.settings.forEach(subSetting => {
-                    subSetting.value = this.settings[setting.id][subSetting.id];
-                });
-            } else {
-                setting.value = this.settings[setting.id];
+        // Aliases for setting filtering
+        class Aliases {
+            constructor() {
+                this.aliases = [];
             }
-        });
-
-        return this.api.UI.buildSettingsPanel({
-            settings,
-            onChange: (category, id, value) => {
-                if (category !== null) {
-                    try {
-                        this.settings[category][id] = value;
-                    } catch {
-                        this.settings[category] = {};
-                        this.settings[category][id] = value;
+            register(...aliasGroup) {
+                aliasGroup.forEach(alias => alias.toLowerCase());
+                this.aliases.push(aliasGroup);
+            }
+            getAliases(id) {
+                id = id.toLowerCase();
+                for (const aliasGroup of this.aliases) {
+                    for (const alias of aliasGroup) {
+                        if (alias === id) return aliasGroup;
                     }
-                } else {
-                    this.settings[id] = value;
-                }
-                this.api.Data.save('settings', this.settings);
-
-                // Don't refresh styles on core settings change
-                if (category === 'core') return;
-
-                this.styler.purge();
-                this.addStyles();
-                this.api.UI.showToast('Styles refreshed.', { type: 'info' });
+                };
+                return null;
             }
+        }
+        
+        // Custom setting styles
+        const styles = `
+            .CBBSettingsSearch {
+                position: sticky;
+                top: 0;
+                z-index: 1;
+                margin: 0 0 1rem 0;
+            }
+            .bd-settings-group~.bd-settings-group .bd-settings-title {
+                margin-top: 0px !important;
+            }
+        `;
+        this.api.DOM.addStyle('ChatButtonsBegoneSettingsPanel', styles);
+
+        // Clone default config
+        let settings = JSON.parse(JSON.stringify(config.defaultConfig));
+        settings.forEach((category) => {
+            category.settings.forEach((subSetting) => {
+                subSetting.value = this.settings[category.id][subSetting.id];
+            });
         });
+
+        const createSettingsList = (filteredSettings) => {
+            return this.api.React.createElement("div",
+                { id: "CBBSettingsList" },
+                filteredSettings.map((setting) => {
+                    return this.api.React.createElement(this.api.Components.SettingGroup, {
+                        key: `group-${setting.id}-${String(setting.shown)}`,
+                        ...setting,
+                        shown: setting.shown,
+                        onChange: (category, id, value) => {
+                            try {
+                                this.settings[category][id] = value;
+                            } catch {
+                                this.settings[category] = {};
+                                this.settings[category][id] = value;
+                            }
+                            this.api.Data.save('settings', this.settings);
+
+                            // Don't refresh styles on core settings change
+                            if (category === 'core') return;
+
+                            this.styler.purge();
+                            this.addStyles();
+                            this.api.UI.showToast('Styles refreshed.', { type: 'info' });
+                        },
+                    });
+                }),
+            );
+        }
+
+        const SettingsPanel = () => {
+            const aliases = new Aliases();
+            aliases.register("voice", "vc", "vcs", "voice chat", "voice chats", "voice channel", "voice channels");
+            aliases.register("dm", "dms", "direct message", "direct messages");
+            aliases.register("gdm", "gdms", "group direct message", "group direct messages");
+            aliases.register("chatbar", "chat bar", "typing area", "text area");
+            aliases.register("title and toolbar", "title bar", "toolbar", "tool bar");
+            aliases.register("servers and channels", "servers", "channels");
+            aliases.register("profile", "profile customization", "profile customizations");
+
+            const [filteredSettings, setFilteredSettings] = this.api.React.useState(settings);
+
+            const filterSettings = (searchTerm) => {
+                const term = searchTerm.trim().toLowerCase();
+
+                // If no search term is supplied, show default list
+                if (!term) {
+                    setFilteredSettings(settings);
+                    return;
+                }
+
+                const filteredSettings = JSON.parse(JSON.stringify(settings));
+                filteredSettings.forEach((category) => {
+                    category.settings = category.settings.filter((subSetting) => {
+                        // If the search term starts with an underscore, search by ID instead
+                        if (term.startsWith("_")) {
+                            // Append the ID to the name in ID mode for easier identification
+                            subSetting.name += ` [${subSetting.id}]`;
+                            return (
+                                subSetting.id.toLowerCase().includes(term.slice(1)) ||
+                                category.id.toLowerCase().includes(term.slice(1))
+                            );
+                        }
+
+                        // Filters for the search to use
+                        const filters = (word) => {
+                            return (
+                                // If the name of the setting includes the term
+                                subSetting.name.toLowerCase().includes(word) ||
+                                // If the description of the setting includes the term
+                                subSetting.note.toLowerCase().includes(word) ||
+                                // If the name of the category is equal to the term
+                                category.name.toLowerCase() === word
+                            );
+                        }
+                        
+                        // If the word has an alias, check all aliases for a match
+                        if (aliases.getAliases(term)) {
+                            for (const alias of aliases.getAliases(term)) {
+                                if (filters(alias)) return true;
+                            }
+                        } else return filters(term); // Otherwise just check the term itself
+                    });
+
+                    // In filter mode, uncollapse all categories that have at least one setting
+                    if (category.settings.length > 0) category.shown = true;
+                });
+
+                setFilteredSettings(filteredSettings.filter(category => category.settings.length > 0));
+            };
+
+            const numSettings = Object.keys(config.defaultConfig).reduce((acc, category) => acc + config.defaultConfig[category].settings.length, 0);
+            return this.api.React.createElement("div",
+                { id: "CBBSettingsPanel" },
+                this.api.React.createElement(this.api.Components.SearchInput,
+                    {
+                        className: "CBBSettingsSearch",
+                        placeholder: `Search ${numSettings} settings...`,
+                        onChange: (e) => filterSettings(e.target.value),
+                    },
+                ),
+                createSettingsList(filteredSettings),
+            );
+        };
+
+        return this.api.React.createElement(SettingsPanel);
     }
 };
