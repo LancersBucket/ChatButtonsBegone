@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.2.3
+ * @version 4.3.0
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -71,7 +71,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.2.3',
+        version: '4.3.0',
     },
     defaultConfig: [
         {
@@ -904,7 +904,7 @@ const config = {
                 {
                     type: 'switch',
                     id: 'newOldProfiles',
-                    name: 'New Old Profiles Compatibility',
+                    name: 'NewOldProfiles Compatibility',
                     note: 'Enables compatibility with KingGamingYT\'s NewOlddProfiles plugin. Modifies Clan Tag and Badges toggles to support NewOldProfiles.',
                     value: false,
                 },

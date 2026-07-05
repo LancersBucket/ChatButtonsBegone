@@ -1,5 +1,18 @@
 # Changelog
-## v4.2.2
+## v4.3.0
+### Added
+- New settings menu with search bar
+- Option to remove Custom Status subtitle from the VC list [Voice]
+- Option to remove "Invite to Voice" from the VC list upon joining a VC [Voice]
+- Option to remove the Activity Card in Popup/DM Profile Views [Profile Customizations]
+- Option to remove Profile Frame Decorations from profiles [Profile Customizations]
+
+### Fixed
+- Remove Gift and Remove GIF impacting non-channelTextArea sections
+- Remove Avatar Decoration and Profile Effects removing Nitro Shop previews
+- Remove Message Input (Profile Popout) not removing input when opening profile from the member list
+
+## v4.2.2 - June 29th, 2026
 ### Added
 - Backend ability to add Custom CSS styling to removed elements
 
@@ -8,7 +21,7 @@
 - NewOldProfiles compatability not working if no toggles are changed
     - Compatability is now disabled by default
 
-## v4.2.1
+## v4.2.1 - June 20th, 2026
 ### Added
 - Option to remove Invite to Group DM button [Friends + Direct Messages]
 - Option to remove Soundboard button in full-screen VC's [Voice] 
@@ -18,7 +31,7 @@
 - Voice VC buttons (above profile) not removing properly
 - Remove Activity Section "Remove when empty" not in fact removing when it is empty
 
-## v4.2.0
+## v4.2.0 - June 15th, 2026
 ### Added
 - Option to remove Pin button from DM context menu [Friends + Direct Messages]
 - Option to remove Bookmarks button (2026-03-message-bookmarks variant 2) [Toolbar]
