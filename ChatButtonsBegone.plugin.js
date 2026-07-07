@@ -554,6 +554,19 @@ const config = {
                     note: 'Removes the Set Custom Status and Custom Status Subtitles from VC.',
                     value: false,
                 },
+                {
+                    type: 'dropdown',
+                    id: 'vcRTCpingWrap',
+                    name: 'Remove Ping/Connection Status',
+                    note: 'Removes the Ping and/or Connection Status indicators from Avatar Wrapper in VCs.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove Ping Button', value: 'rtcPing' },
+                        { label: 'Remove Status Label', value: 'rtcStatus' },
+                        { label: 'Remove Both', value: 'rtcPingStatus' },
+                    ],
+                },
             ],
         },
         {
@@ -1164,6 +1177,15 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.voiceInviteToVoice) this.styler.add('.{0}:has(>.{1})', this.vcInviteToVoice, 'animation', this.vcInviteToVoice, 'clickable');
         if (this.settings.voice.voiceSetCustomStatus) this.styler.add('.{0}', this.vcSetCustomStatus, 'linkBottom');
 
+        if (this.settings.voice.vcRTCpingWrap == 'rtcPing') {
+            this.styler.add('.{0}', this.vcRTCWrapper, 'clickablePing');
+        } else if (this.settings.voice.vcRTCpingWrap == 'rtcStatus') {
+            this.styler.add('.{0} > div[role="button"]', this.vcRTCWrapper, 'labelWrapper');
+        } else if (this.settings.voice.vcRTCpingWrap == 'rtcPingStatus') {
+            this.styler.add('.{0}', this.vcRTCWrapper, 'clickablePing');
+            this.styler.add('.{0} > div[role="button"]', this.vcRTCWrapper, 'labelWrapper');
+        }
+
         /// Title Bar ///
         if (this.settings.toolbar.navButtons) this.styler.add('.{0}', this.backForwardButtons, 'backForwardButtons');
         if (this.settings.toolbar.locator) this.styler.add('.{0}', this.titleBarTrailing, 'title');
@@ -1420,6 +1442,7 @@ module.exports = class ChatButtonsBegone {
             this.vcWasHere,
             this.vcInviteToVoice,
             this.vcSetCustomStatus,
+            this.vcRTCWrapper,
 
             // Title Bar
             this.backForwardButtons,
@@ -1520,6 +1543,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('row', 'avatarWrapper'), // VC Server Channel Was Here
             this.api.Webpack.Filters.byKeys('animation', 'clickable'), // VC Server Channel Invite to Voice
             this.api.Webpack.Filters.byKeys('subtitle', 'linkBottom'), // VC Server Channel Custom Status
+            this.api.Webpack.Filters.byKeys('rtcConnectionStatusWrapper'), // VC Ping/Status Indicator/Wrapper
 
             // Title Bar
             this.api.Webpack.Filters.byKeys('backForwardButtons'), // Back/Forward Buttons
