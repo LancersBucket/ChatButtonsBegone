@@ -9,7 +9,7 @@ From removing buttons on the Chat Bar, to the buttons/features no one ever uses,
 
 Why manage custom CSS that gets broken every update? ChatButtonsBegone leverages the BdApi to ensure class compatibility between updates for you!
 
-With over 90 toggleable settings, you can configure your client to remove or keep exactly what you want to, and make Discord your own.
+With over 100 toggleable settings, you can configure your client to remove or keep exactly what you want to, and make Discord your own.
 
 ![settings](https://github.com/LancersBucket/ChatButtonsBegone/blob/main/_meta/settings.png)
 
