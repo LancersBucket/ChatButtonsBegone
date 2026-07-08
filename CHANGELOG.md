@@ -11,6 +11,7 @@
 - Remove Gift and Remove GIF impacting non-channelTextArea sections
 - Remove Avatar Decoration and Profile Effects removing Nitro Shop previews
 - Remove Message Input (Profile Popout) not removing input when opening profile from the member list
+- Remove Edit Profile only working on Chat Profile popout, not MemberList Profile popou
 
 ## v4.2.2 - June 29th, 2026
 ### Added
