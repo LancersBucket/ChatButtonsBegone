@@ -1253,7 +1253,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(':not(.{0} > div > div) > .{1}', this.avatarPreview, 'skuPreview', this.profileEffects, 'profileEffects');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
         if (this.settings.profileCustomizations.hideMessage) this.styler.add('[class^="footer"]:has(.{0})', this.textArea, 'channelTextArea');
-        if (this.settings.profileCustomizations.hideEditProfile) this.styler.add('.{0} [class^="footer"]:has(button)', this.profileAnim, 'animatorRight');
+        if (this.settings.profileCustomizations.hideEditProfile) this.styler.add('.user-profile-popout [class^="footer"]:has(button)');
         if (this.settings.profileCustomizations.hideCollection)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList', this.profileCollection, 'breadcrumb');
 
         if (this.settings.profileCustomizations.hideProfileActivity == 'hpaDMs') {
@@ -1463,7 +1463,6 @@ module.exports = class ChatButtonsBegone {
             this.profileBanner,
             this.profileEffects,
             this.profileGIF,
-            this.profileAnim,
             this.profileCards,
             this.profileCollection,
             this.profileWishBody,
@@ -1564,7 +1563,6 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('mask','banner'), // Profile Badges
             this.api.Webpack.Filters.byKeys('profileEffects'), // Profile Effects
             this.api.Webpack.Filters.byKeys('mask', 'gifTag'), // Profile GIF Tag
-            this.api.Webpack.Filters.byKeys('animatorRight'), // Profile Popout Animator Class
             this.api.Webpack.Filters.byKeys('container', 'cardsList', 'firstCardContainer'), // Profile Cards List
             this.api.Webpack.Filters.byKeys('breadcrumb'), // Game Collection Breadcrumb
             this.api.Webpack.Filters.byKeys('body', 'cards'), // Profile Activity/Wishlist Cards
