@@ -1656,6 +1656,20 @@ module.exports = class ChatButtonsBegone {
         });
 
         const createSettingsList = (filteredSettings) => {
+            if (filteredSettings.length == 0) {
+                return this.api.React.createElement(this.api.Components.Text,
+                    { id: "CBBEmpty" },
+                    `No results found. Can't find what you're looking for? Want a feature? Let us know at: `,
+                    this.api.React.createElement('a',
+                        {
+                            href: `${config.info.github}/issues`,
+                            target: '_blank'
+                        },
+                        `${config.info.github}/issues`
+                    )
+                )
+            }
+            
             return this.api.React.createElement("div",
                 { id: "CBBSettingsList" },
                 filteredSettings.map((setting) => {
@@ -1741,7 +1755,6 @@ module.exports = class ChatButtonsBegone {
                     // In filter mode, uncollapse all categories that have at least one setting
                     if (category.settings.length > 0) category.shown = true;
                 });
-
                 setFilteredSettings(filteredSettings.filter(category => category.settings.length > 0));
             };
 
