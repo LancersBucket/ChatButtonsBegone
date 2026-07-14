@@ -435,6 +435,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'pinChannel',
+                    name: 'Remove "Pin" option from Channel Context Menu',
+                    note: 'Removes the "Pin Channel to Top" option from the channel context menu.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
                     id: 'unreadMentionsBar',
                     name: 'Remove "Unread Mentions" Notification',
                     note: 'Removes the per-Server/Channel List "Unread Mentions" Notification.',
@@ -1158,6 +1165,11 @@ module.exports = class ChatButtonsBegone {
         }
         if (this.settings.servers.showallButton) this.styler.add('.{0}', this.vcShowAllButton, 'refreshVoiceChannelsButton');
         if (this.settings.servers.settingsButton) this.styler.add('.{0} > span:has(svg > path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])', this.channelListButtons, 'children');
+        
+        if (this.settings.servers.pinChannel) {
+            this.styler.add('div[role="separator"] + div > div[id$="channel-context-pin-channel"]');
+        }
+        
         if (this.settings.servers.unreadMentionsBar) this.styler.add('.{0}', this.channelMentionsBar, 'mentionsBar');
         if (this.settings.servers.unreadMessagesBar) this.styler.add('.{0}', this.channelMessagesBar, 'unreadBar');
         if (this.settings.servers.activitySection) {
