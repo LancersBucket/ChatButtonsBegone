@@ -1120,8 +1120,12 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.dms.libraryTab) this.styler.add('li:has([href="/library"])');
         if (this.settings.dms.pinDM) {
+            // DMs
             this.styler.add('div[role="separator"] + div > div[id$="user-context-pin-dm"]');
             this.styler.add('div[role="separator"]:has(+ div > div[id$="user-context-pin-dm"])');
+            // GDMs
+            this.styler.add('div[role="separator"] + div > div[id$="gdm-context-pin-dm"]');
+            this.styler.add('div[role="separator"]:has(+ div > div[id$="gdm-context-pin-dm"])');
         }
 
         /// Servers and Channels ///
