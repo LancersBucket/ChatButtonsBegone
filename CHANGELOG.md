@@ -8,8 +8,9 @@
 
 ### Fixed
 - Remove "Pin" option from DM Context Menu not removing it from Group DMs as well
+- Ensured consistent setting name style
 
-## v4.3.0
+## v4.3.0 - July 10th, 2026
 ### Added
 - New settings menu with search bar
 - Option to remove Custom Status subtitle from the VC list [Voice]

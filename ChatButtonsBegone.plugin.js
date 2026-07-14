@@ -185,7 +185,7 @@ const config = {
         },
         {
             type: 'category',
-            name: 'Friends + Direct Messages',
+            name: 'Friends and Direct Messages',
             id: 'dms',
             collapsible: true,
             shown: false,
@@ -302,7 +302,7 @@ const config = {
                 {
                     type: 'switch',
                     id: 'pinDM',
-                    name: 'Remove "Pin" option from DM Context Menu',
+                    name: 'Remove "Pin" Option From DM Context Menu',
                     note: 'Removes the "Pin" option from the DM context menu.',
                     value: false,
                 },
@@ -436,7 +436,7 @@ const config = {
                 {
                     type: 'switch',
                     id: 'pinChannel',
-                    name: 'Remove "Pin" option from Channel Context Menu',
+                    name: 'Remove "Pin" Option From Channel Context Menu',
                     note: 'Removes the "Pin Channel to Top" option from the channel context menu.',
                     value: false,
                 },
@@ -543,21 +543,21 @@ const config = {
                 {
                     type: 'switch',
                     id: 'voiceWasHere',
-                    name: 'Remove Was Here from VC List',
+                    name: 'Remove Was Here From VC List',
                     note: 'Removes the Was Here/What You Missed in VC list.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'voiceInviteToVoice',
-                    name: 'Remove Invite to Voice from VC List',
+                    name: 'Remove Invite To Voice From VC List',
                     note: 'Removes the Invite to Voice button that temporarily appears when joining a VC.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'voiceSetCustomStatus',
-                    name: 'Remove Custom Status Subtitle from VC List',
+                    name: 'Remove Custom Status Subtitle From VC List',
                     note: 'Removes the Set Custom Status and Custom Status Subtitles from VC.',
                     value: false,
                 },
@@ -733,7 +733,7 @@ const config = {
                 {
                     type: 'switch',
                     id: 'profileGIF',
-                    name: 'Remove "GIF" from Profile Banner',
+                    name: 'Remove "GIF" From Profile Banner',
                     note: 'Removes the "GIF" tag from user profiles that have an animated banner.',
                     value: false,
                 },
@@ -832,7 +832,7 @@ const config = {
                 {
                     type: 'switch',
                     id: 'placeholderText',
-                    name: 'Remove Placeholder Text in message area',
+                    name: 'Remove Placeholder Text In Message Area',
                     note: 'Removes the placeholder text "Message ..." in the chat bar.',
                     value: false,
                 },
@@ -925,7 +925,7 @@ const config = {
                     type: 'switch',
                     id: 'newOldProfiles',
                     name: 'NewOldProfiles Compatibility',
-                    note: 'Enables compatibility with KingGamingYT\'s NewOlddProfiles plugin. Modifies Clan Tag and Badges toggles to support NewOldProfiles.',
+                    note: 'Enables compatibility with KingGamingYT\'s NewOldProfiles plugin. Modifies Clan Tag and Badges toggles to support NewOldProfiles.',
                     value: false,
                 },
             ],
