@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.3.0
+ * @version 4.3.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -71,7 +71,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.3.0',
+        version: '4.3.1',
     },
     defaultConfig: [
         {
@@ -1721,7 +1721,7 @@ module.exports = class ChatButtonsBegone {
             aliases.register("gdm", "gdms", "group direct message", "group direct messages");
             aliases.register("chatbar", "chat bar", "typing area", "text area");
             aliases.register("title and toolbar", "title bar", "toolbar", "tool bar");
-            aliases.register("servers and channels", "servers", "channels");
+            aliases.register("servers and channels", "servers", "channels", "server", "channel");
             aliases.register("profile", "profile customization", "profile customizations");
 
             const [filteredSettings, setFilteredSettings] = this.api.React.useState(settings);

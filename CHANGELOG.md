@@ -1,4 +1,14 @@
 # Changelog
+## v4.3.1
+### Added
+- Option to remove "Pin" option from Channel Context Menu [Servers and Channels]
+
+### Changed
+- Tweaked aliases for settings search
+
+### Fixed
+- Remove "Pin" option from DM Context Menu not removing it from Group DMs as well
+
 ## v4.3.0
 ### Added
 - New settings menu with search bar
