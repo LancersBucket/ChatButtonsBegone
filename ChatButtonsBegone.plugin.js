@@ -1315,6 +1315,8 @@ module.exports = class ChatButtonsBegone {
             // Nitro Rewards on Connections Page
             this.styler.add('div[class^="stack"] div[class^="sectionHeader"]:has(+ div[class^="theme-"][class*="images-"])');
             this.styler.add('div[class^="stack"] div[class^="theme-"][class*="images-"]');
+            // Profile Popup "Edit Profile" Sidebar
+            this.styler.add('div[class^="floatingFooter"]:has(> .{0})', this.profilePopupUpsell, 'nitro-pink'); 
         }
 
         if (this.settings.miscellaneous.noQuests) {
@@ -1492,6 +1494,7 @@ module.exports = class ChatButtonsBegone {
             this.shopArt,
             this.contextSettingsMenu,
             this.profileUpsell,
+            this.profilePopupUpsell,
             this.txtPlaceholder,
             this.profilePopover,
             this.promotedQuest,
@@ -1592,6 +1595,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('settingsPage'), // Profile Shop Art
             this.api.Webpack.Filters.byKeys('menu', 'flexible'), // Nitro Context Menu
             this.api.Webpack.Filters.byKeys('upsellOverlayContainer'), // Per_Server Nitro Upsell
+            this.api.Webpack.Filters.byKeys('nitro-pink'), // Profile Popup Nitro Sidebar
             this.api.Webpack.Filters.byKeys('slateTextArea'), // Placeholder Text
             this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover'), // Profile Status Popover
             this.api.Webpack.Filters.byKeys('promotedTag'), // Active Now Quests Promotion
