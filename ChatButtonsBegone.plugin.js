@@ -1508,7 +1508,7 @@ module.exports = class ChatButtonsBegone {
             this.threadSuggestion,
         ] = await this.waitForBulk(
             // Chat Bar
-            this.api.Webpack.Filters.byKeys('channelTextArea'), // Text Input Area
+            this.api.Webpack.Filters.byKeys('channelTextArea', 'channelTextAreaDisabled'), // Text Input Area
             this.api.Webpack.Filters.byKeys('attachWrapper'), // Attach Button
             this.api.Webpack.Filters.byKeys('textArea', 'buttons'), // Buttons Global
             this.api.Webpack.Filters.byKeys('emojiButtonNormal', 'emojiButton'), // Emoji Button
