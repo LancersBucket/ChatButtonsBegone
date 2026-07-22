@@ -21,8 +21,11 @@ class Styler {
         for (let i = 0; i < modules.length; i+=2) {
             let result = await modules[i];
             if (typeof result[modules[i+1]] !== 'string') {
-                this.api.UI.showToast('Webpack Error. See Console.', { type: 'warning', timeout: '5000' });
-                this.api.Logger.warn(`Selector "${selector}" contains an invalid webpack for module ${i} (.${modules[i+1]})`);
+                this.api.UI.showToast('ChatButtonsBegone encountered an invalid webpack. Check the console for more information.', { type: 'warning', timeout: '5000' });
+                this.api.Logger.warn(
+                    `Invalid webpack detected. Please report the following warning to ${config.info.github}/issues:` + 
+                    `\n\nSelector "${selector}" contains an invalid webpack for module ${i} (.${modules[i+1]})`
+                );
                 return;
             }
             mods.push(result[modules[i+1]].trim().replace(' ', '.'));
@@ -1686,8 +1689,8 @@ module.exports = class ChatButtonsBegone {
                             target: '_blank'
                         },
                         `${config.info.github}/issues`
-                    )
-                )
+                    ),
+                );
             }
             
             return this.api.React.createElement("div",
