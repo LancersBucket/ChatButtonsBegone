@@ -9,6 +9,7 @@
 ### Fixed
 - Remove "Pin" option from DM Context Menu not removing it from Group DMs as well
 - Ensured consistent setting name style
+- Remove Placeholder Text In Message Area not removing properly
 
 ## v4.3.0 - July 10th, 2026
 ### Added
