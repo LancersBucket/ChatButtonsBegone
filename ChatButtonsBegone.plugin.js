@@ -808,6 +808,13 @@ const config = {
                     note: 'Removes the Frame Decoration from Profiles.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'hideClips',
+                    name: 'Remove "Clips" from Status Menu',
+                    note: 'Removes the "Clips" option from Profile Status menu.',
+                    value: false,
+                },
             ],
         },
         {
@@ -1320,6 +1327,8 @@ module.exports = class ChatButtonsBegone {
             );
         }
 
+        if (this.settings.profileCustomizations.hideClips) this.styler.add('.{0} .{1}:has(svg path[d^="M15.74 5.74a.5.5 0 0 0 .54.7l5.01-.88a.5.5 0 0 0 .4-.58l-.26-1.47a3 3 0 0 0-3.2-2.47.46.46 0 0 0-.37.26l-2.12 4.44ZM15.13"])', this.profileMenu, 'menuOverlay', this.profileMenu, 'menuItem');
+
         /// Miscellaneous ///
         if (this.settings.miscellaneous.blockedMessage) this.styler.add('.{0}:has(.{1})', this.blockedGroup, 'groupStart', this.blockedIndicator, 'blockedSystemMessage');
 
@@ -1513,6 +1522,7 @@ module.exports = class ChatButtonsBegone {
             this.profileWishlist,
             this.profileCustomStatus,
             this.frameDecoration,
+            this.profileMenu,
 
             // Miscellaneous
             this.blockedGroup,
@@ -1614,6 +1624,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('container', 'cardsContainer'), // Profile Wishlist
             this.api.Webpack.Filters.byKeys('container', 'ring'), // Popup Profile Custom Status
             this.api.Webpack.Filters.byKeys('profileFrameContainer', 'profileFrame'), // Profile Frame Decoration
+            this.api.Webpack.Filters.byKeys('menuOverlay', 'menuItem'), // Self Profile Menu
 
             // Miscellaneous
             this.api.Webpack.Filters.byKeys('groupStart'), // Message Grouping Container
