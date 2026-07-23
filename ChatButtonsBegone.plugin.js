@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord clients.
- * @version 4.3.1
+ * @version 4.3.2
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -74,7 +74,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.3.1',
+        version: '4.3.2',
     },
     defaultConfig: [
         {
@@ -775,6 +775,19 @@ const config = {
                     ],
                 },
                 {
+                    type: 'dropdown',
+                    id: 'hideProfileStats',
+                    name: 'Remove Profile Stats Card',
+                    note: 'Removes the Stats card from user profiles.',
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove in DMs Viev Profile', value: 'hpsDMs' },
+                        { label: 'Remove in Popout Profile', value: 'hpsPopout' },
+                        { label: 'Remove', value: 'hpsGlobal' },
+                    ],
+                },
+                {
                     type: 'switch',
                     id: 'hideWishlist',
                     name: 'Remove Profile Wishlist',
@@ -1285,6 +1298,16 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}:has(.{1} article)', this.profileCards, 'container', this.profileCards, 'cardsList');
         }
 
+        if (this.settings.profileCustomizations.hideProfileStats == 'hpsDMs') {
+            this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
+        }
+        else if (this.settings.profileCustomizations.hideProfileStats == 'hpsPopout') {
+            this.styler.add(':not(.{0}) > .{1} .{2} div:has( > .{3})', this.profileWishBody, 'cards', this.profileCards, 'container', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
+        }
+        else if (this.settings.profileCustomizations.hideProfileStats == 'hpsGlobal') {
+            this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileCards, 'container', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
+        }
+
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
         if (this.settings.profileCustomizations.hideStatus) this.styler.add('.{0}:not(.{1}) > .{2}', this.profileCustomStatus, 'container', this.profileCustomStatus, 'editable', this.profileCustomStatus, 'ring');
 
@@ -1294,7 +1317,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.patch(
                 `--custom-profile-frame-container-width: unset !important;`,
                 '.custom-profile-frame'
-            )
+            );
         }
 
         /// Miscellaneous ///
@@ -1383,7 +1406,7 @@ module.exports = class ChatButtonsBegone {
                  border-start-end-radius: 8px;`,
                 '.{0} .{1}',
                 this.userAreaIOChevron, 'audioButtonParent', this.userAreaIOChevron, 'audioButtonWithMenu'
-            )
+            );
         }
         if (this.settings.miscellaneous.baseGradient) this.styler.add('.{0}', this.textAreaGradient, 'chatGradientBase');
 
