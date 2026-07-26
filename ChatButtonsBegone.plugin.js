@@ -1131,14 +1131,12 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.dms.userActivity == 'dmlist') {
             this.styler.add('[class^="channel_"] div[class^="subText"]:has(> .{0} >span > .{0} > .{1})', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         } else if (this.settings.dms.userActivity == 'memberlist') {
-            this.styler.add('[class^="memberInner"] .{0}:has(> .{1} > span > .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
+            this.styler.add('[class^="memberInner"] .{0}:has(.{1} .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         } else if (this.settings.dms.userActivity == 'remove') {
             // DM List
             this.styler.add('[class^="channel_"] div[class^="subText"]:has(> .{0} > span > .{0} > .{1})', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-            this.styler.add('[class^="channel_"] div[class^="subText"]:has(> .{0} > .{1})', this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
             // Member List
-            this.styler.add('[class^="memberInner"] .{0}:has(> .{1} > span > .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-            this.styler.add('[class^="memberInner"] .{0}:has(> .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.multiActivity, 'activityContainer');
+            this.styler.add('[class^="memberInner"] .{0}:has(.{1} .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
         }
 
         // Friend Page
