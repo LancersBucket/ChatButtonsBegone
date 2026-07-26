@@ -1,4 +1,8 @@
 # Changelog
+## v4.3.2
+### Added
+- Option to remove "Clips" menu item from User Profile Status Menu [Profile Customizations]
+
 ## v4.3.1
 ### Added
 - Option to remove "Pin" option from Channel Context Menu [Servers and Channels]
