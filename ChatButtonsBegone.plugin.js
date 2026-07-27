@@ -15,6 +15,12 @@ class Styler {
         this.patches = [];
     }
 
+    /**
+     * Queue a style for the ChatButtonsBegone stylesheet. The style will be added when the webpack is loaded.
+     * @param {string} selector CSS selector for the removal
+     * @param {...any} modules A list of modules in the form [[webpack, property],...]
+     * @returns 
+     */
     async add(selector, ...modules) {
         let mods = [];
         for (let i = 0; i < modules.length; i+=2) {
@@ -35,6 +41,12 @@ class Styler {
         this.apply();
     }
 
+    /**
+     * Queue a patch for the ChatButtonsBegone stylesheet. The style will be added when the webpack is loaded.
+     * @param {string} cssPatch CSS changes
+     * @param {string} selector CSS selector for the removal
+     * @param {...any} modules A list of modules in the form [[webpack, property],...]
+     */
     async patch(cssPatch, selector, ...modules) {
         let mods = [];
         for (let i = 0; i < modules.length; i+=2) {
@@ -46,17 +58,29 @@ class Styler {
         this.apply();
     }
 
+    /**
+     * Format a selector containing {n} tags and map them to to a provided list of modules.
+     * @param {string} str A string containing {n} tags
+     * @param {...any} args A list of modules in the form [[webpack, property],...] 
+     * @returns {string} The formatted string
+     */
     format(str, ...args) {
         return str.replace(/{(\d+)}/g, (match, number) => {
             return typeof args[number] !== 'undefined' ? args[number] : match;
         });
     }
 
+    /**
+     * Apply the styles and patches.
+     */
     apply() {
         this.api.DOM.addStyle('ChatButtonsBegone', `${this.styles.join(', ')} { display: none !important; }`);
         this.api.DOM.addStyle('ChatButtonsBegone-patches', this.patches.map(p => `${p[0]} { ${p[1]} }`).join(' '));
     }
 
+    /**
+     * Remove the styles and patches, and clear the buffers.
+     */
     purge() {
         this.api.DOM.removeStyle('ChatButtonsBegone');
         this.styles = [];
@@ -65,6 +89,9 @@ class Styler {
         this.patches = [];
     }
 
+    /**
+     * Remove the styles and patches, without clearing the buffers.
+     */
     clear() {
         this.api.DOM.removeStyle('ChatButtonsBegone');
         this.api.DOM.removeStyle('ChatButtonsBegone-patches');
@@ -1676,14 +1703,23 @@ module.exports = class ChatButtonsBegone {
             constructor() {
                 this.aliases = [];
             }
+            /**
+             * Register an alias grouping of similar strings.
+             * @param  {...string} aliasGroup A list of strings to be aliased
+             */
             register(...aliasGroup) {
                 this.aliases.push(aliasGroup.map(alias => alias.toLowerCase()));
             }
-            getAliases(id) {
-                id = id.toLowerCase();
+            /**
+             * Return a list of aliases related to the provided term.
+             * @param {string} term A search term
+             * @returns {string[]|null} An alias grouping or null if no results are found
+             */
+            getAliases(term) {
+                term = term.toLowerCase();
                 for (const aliasGroup of this.aliases) {
                     for (const alias of aliasGroup) {
-                        if (alias === id) return aliasGroup;
+                        if (alias === term) return aliasGroup;
                     }
                 };
                 return null;
