@@ -2,6 +2,10 @@
 ## v4.3.2
 ### Added
 - Option to remove "Clips" menu item from User Profile Status Menu [Profile Customizations]
+- Option to remove the Stats card from User Profiles [Profile Customizations]
+
+### Fixed
+- Remove User Activity Status not correctly applying for all cases when "Remove in Server Member list" is set
 
 ## v4.3.1
 ### Added
