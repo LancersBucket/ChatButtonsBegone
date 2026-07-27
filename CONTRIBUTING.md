@@ -6,7 +6,7 @@ Thank you for contributing to ChatButtonsBegone! Your help improves the plugin f
 When opening an issue, prefix the title with a descriptive tag in brackets (for example, [Bug], [Feature]):
 - **Bug**: Include clear steps to reproduce, expected vs. actual behavior, and any relevant console errors or screenshots.
 - **Feature**: Describe the requested feature along with your proposed solution.
-    - Features that prevent core client functionality (for example, removing the User Settings button) are not permitted.
+    - Features that prevent core client functionality (for example, removing the User Settings button) will not be added.
 
 ## Developing
 
@@ -23,22 +23,41 @@ To contribute to ChatButtonsBegone:
 ### Style Guide
 
 #### JavaScript Standards
-- **Strings**: Use single quotes. Use backticks for template literals that perform interpolation.
+- **Strings**: Use single quotes for regular strings. 
 - **Semicolons**: Always include semicolons at the end of statements.
 - **Indentation**: Use 4 spaces per indentation level.
 
 #### CSS Selector Standards
-- **Prefer Webpacks**: Use `BdApi.Webpack.Filters.byKeys` where possible. If a selector cannot be created with Webpacks alone, use minimal CSS to select the correct element
+- **Prefer Webpacks**: Create a new Webpack filter using `BdApi.Webpack.Filters.byKeys` where possible. If a selector cannot be created with Webpacks alone, use minimal CSS to select the correct element.
+    - When using an attribute selector, avoid using `*=`, and instead use `^=` or `$=`.
+        - Example: `div[class^="container"]`
 - **Avoid `aria-` and `id` attributes**: When creating a selector, avoid using `aria-` and `id` attribute selectors.
-- **Quoting**: Any attribute selector matching a specific value must use double quotes.
+- **Quoting**: Use double quotes for attribute selector values.
     - Example: `[style="height: 84px;"]`
 
+##### CSS Rule Examples
+```javascript
+// Good: Webpack-based selector
+this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'gameSection');
+
+// Acceptable: Minimal CSS selector
+this.styler.add('div[class^="row"] > div:has(.{0})', this.vcScreen, 'singleUserRoot');
+
+// Bad: Overly general or using aria attributes
+this.styler.add('[aria-label="Attach a File"]');
+```
+
 #### ChatButtonsBegone Settings Standards
-- **Default State**: All settings should be disabled by default, except for Nitro-related buttons and features.
+- **Default State**: All settings should be disabled by default.
 - **Setting IDs**:
     - Use camelCase.
     - Include the name of the target.
-    - Suffix with `Button` when the setting corresponds to a button.
+    - Suffix with `Button` when the setting corresponds to a specific button.
+    - Examples:
+        - `attachButton` (specific button)
+        - `giftButton` (Nitro gift button)
+        - `messageActions` (broader category)
+        - `quickReactions` (feature/behavior)
 
 #### Versioning
 Pull requests should not increment the project version unless a maintainer explicitly requests it.
