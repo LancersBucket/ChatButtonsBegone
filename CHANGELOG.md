@@ -1,5 +1,5 @@
 # Changelog
-## v4.3.2
+## v4.4.0
 ### Added
 - Option to remove "Clips" menu item from User Profile Status Menu [Profile Customizations]
 - Option to remove the Stats card from User Profiles [Profile Customizations]

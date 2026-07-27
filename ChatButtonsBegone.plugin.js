@@ -1,16 +1,15 @@
 /**
  * @name ChatButtonsBegone
  * @author LancersBucket
- * @description Remove annoying stuff from your Discord clients.
- * @version 4.3.2
+ * @description Remove annoying stuff from your Discord client.
+ * @version 4.4.0
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
 
 class Styler {
-    constructor(pluginName, api) {
-        this.pluginName = pluginName;
+    constructor(api) {
         this.api = api;
         this.styles = [];
         this.patches = [];
@@ -19,11 +18,12 @@ class Styler {
     async add(selector, ...modules) {
         let mods = [];
         for (let i = 0; i < modules.length; i+=2) {
-            let result = await modules[i];
+            const result = await modules[i];
             if (typeof result[modules[i+1]] !== 'string') {
-                this.api.UI.showToast('ChatButtonsBegone encountered an invalid webpack. Check the console for more information.', { type: 'warning', timeout: '5000' });
+                this.api.UI.showToast('ChatButtonsBegone detected an invalid webpack. Check the console for more information.', { type: 'warning', timeout: '5000' });
                 this.api.Logger.warn(
-                    `Invalid webpack detected. Please report the following warning to ${config.info.github}/issues:` + 
+                    `Invalid webpack detected. This may impact functionality of a setting you have enabled. ` + 
+                    `Please report the following warning to ${config.info.github}/issues:` + 
                     `\n\nSelector "${selector}" contains an invalid webpack for module ${i} (.${modules[i+1]})`
                 );
                 return;
@@ -38,7 +38,7 @@ class Styler {
     async patch(cssPatch, selector, ...modules) {
         let mods = [];
         for (let i = 0; i < modules.length; i+=2) {
-            let result = await modules[i];
+            const result = await modules[i];
             mods.push(result[modules[i+1]].trim().replace(' ', '.'));
         }
         this.patches.push([this.format(selector, ...mods), cssPatch]);
@@ -53,28 +53,28 @@ class Styler {
     }
 
     apply() {
-        this.api.DOM.addStyle(this.pluginName, `${this.styles.join(', ')} { display: none !important; }`);
-        this.api.DOM.addStyle(`${this.pluginName}-patches`, this.patches.map(p => `${p[0]} { ${p[1]} }`).join(' '));
+        this.api.DOM.addStyle('ChatButtonsBegone', `${this.styles.join(', ')} { display: none !important; }`);
+        this.api.DOM.addStyle('ChatButtonsBegone-patches', this.patches.map(p => `${p[0]} { ${p[1]} }`).join(' '));
     }
 
     purge() {
-        this.api.DOM.removeStyle(this.pluginName);
+        this.api.DOM.removeStyle('ChatButtonsBegone');
         this.styles = [];
 
-        this.api.DOM.removeStyle(`${this.pluginName}-patches`);
+        this.api.DOM.removeStyle('ChatButtonsBegone-patches');
         this.patches = [];
     }
 
     clear() {
-        this.api.DOM.removeStyle(this.pluginName);
-        this.api.DOM.removeStyle(`${this.pluginName}-patches`);
+        this.api.DOM.removeStyle('ChatButtonsBegone');
+        this.api.DOM.removeStyle('ChatButtonsBegone-patches');
     }
 }
 
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.3.2',
+        version: '4.4.0',
     },
     defaultConfig: [
         {
@@ -959,7 +959,7 @@ const config = {
 module.exports = class ChatButtonsBegone {
     constructor(meta) {
         this.api = new BdApi(meta.name);
-        this.styler = new Styler(meta.name, this.api);
+        this.styler = new Styler(this.api);
         this.settings = this.api.Data.load('settings') || {};
 
         this.settingVersion = this.api.Data.load('settingVersion') || '0.0.0';
@@ -989,30 +989,33 @@ module.exports = class ChatButtonsBegone {
             },
         ];
 
-        const compareVersions = function(a, b) {
-            if (a.includes('/')) a = a.split('/')[0];
-            if (b.includes('/')) b = b.split('/')[0];
-
-            let aParts = a.split('.').map(Number);
-            let bParts = b.split('.').map(Number);
+        const compareVersions = (a, b) => {
+            const aParts = a.split('.').map(Number);
+            const bParts = b.split('.').map(Number);
 
             for (let i = 0; i < Math.min(aParts.length, bParts.length); i++) {
-                let aPart = aParts[i] || 0;
-                let bPart = bParts[i] || 0;
-                if (aPart > bPart) return 1;
-                if (aPart < bPart) return -1;
+                if (aParts[i] > bParts[i]) return 1;
+                if (aParts[i] < bParts[i]) return -1;
             }
+            
+            if (aParts.length !== bParts.length) {
+                if (aParts.length > bParts.length) return 1;
+                if (aParts.length < bParts.length) return -1;
+            }
+            
             return 0;
         }
 
         let currentVersion = this.settingVersion;
-        migrations.forEach(migration => {
+        let migrated = false;
+        migrations.forEach((migration) => {
             if (compareVersions(currentVersion, migration.to) < 0) {
                 this.settings = migration.migrate(this.settings);
                 currentVersion = migration.to;
+                migrated = true;
             }
         });
-        this.api.Data.save('settings', this.settings);
+        if (migrated) this.api.Data.save('settings', this.settings);
 
         if (compareVersions(this.settingVersion, config.info.version) <= 0) {
             this.settingVersion = config.info.version;
@@ -1039,7 +1042,7 @@ module.exports = class ChatButtonsBegone {
     }
 
     async addStyles() {
-        let newOldProfiles = this.settings.compatibility.newOldProfiles;
+        const newOldProfiles = this.settings.compatibility.newOldProfiles;
 
         /// Chat Buttons ///
         if (this.settings.chatbar.attachButton) this.styler.add('.{0}', this.attachButton, 'attachWrapper');
@@ -1372,8 +1375,8 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.miscellaneous.placeholderText) this.styler.add('.{0}:not(.{1}) :has(+ .{2})', this.textArea, 'channelTextArea', this.textArea, 'channelTextAreaDisabled', this.txtPlaceholder, 'slateTextArea');
         if (this.settings.miscellaneous.avatarPopover) this.styler.add('.{0}', this.profilePopover, 'statusPopover');
 
-        let listSeparatorDm = ['.{0}', this.dmDivider, 'sectionDivider'];
-        let listSeparatorServer = ['.{0}', this.channelDivider, 'sectionDivider'];
+        const listSeparatorDm = ['.{0}', this.dmDivider, 'sectionDivider'];
+        const listSeparatorServer = ['.{0}', this.channelDivider, 'sectionDivider'];
         if (this.settings.miscellaneous.listSeparator == 'dmlist') {
             this.styler.add(...listSeparatorDm);
         } else if (this.settings.miscellaneous.listSeparator == 'serverlist') {
@@ -1659,16 +1662,12 @@ module.exports = class ChatButtonsBegone {
     }
 
     async waitForBulk(...filters) {
-        let out = [];
-        for (let i = 0; i < filters.length; i++) {
-            out.push(this.api.Webpack.waitForModule(filters[i]));
-        }
-        return out;
+        return filters.map(filter => this.api.Webpack.waitForModule(filter));
     }
 
     stop() {
         this.styler.purge();
-        this.api.DOM.removeStyle('ChatButtonsBegoneSettingsPanel');
+        this.api.DOM.removeStyle('ChatButtonsBegone-settings-panel');
     }
 
     getSettingsPanel() {
@@ -1678,8 +1677,7 @@ module.exports = class ChatButtonsBegone {
                 this.aliases = [];
             }
             register(...aliasGroup) {
-                aliasGroup.forEach(alias => alias.toLowerCase());
-                this.aliases.push(aliasGroup);
+                this.aliases.push(aliasGroup.map(alias => alias.toLowerCase()));
             }
             getAliases(id) {
                 id = id.toLowerCase();
@@ -1694,17 +1692,17 @@ module.exports = class ChatButtonsBegone {
         
         // Custom setting styles
         const styles = `
-            .CBBSettingsSearch {
+            .ChatButtonsBegone-settings-search {
                 position: sticky;
                 top: 0;
                 z-index: 1;
                 margin: 0 0 1rem 0;
             }
-            .bd-settings-group~.bd-settings-group .bd-settings-title {
+            #ChatButtonsBegone-settings-panel .bd-settings-group~.bd-settings-group .bd-settings-title {
                 margin-top: 0px !important;
             }
         `;
-        this.api.DOM.addStyle('ChatButtonsBegoneSettingsPanel', styles);
+        this.api.DOM.addStyle('ChatButtonsBegone-settings-panel', styles);
 
         // Clone default config
         let settings = JSON.parse(JSON.stringify(config.defaultConfig));
@@ -1715,7 +1713,7 @@ module.exports = class ChatButtonsBegone {
         });
 
         const createSettingsList = (filteredSettings) => {
-            if (filteredSettings.length == 0) {
+            if (filteredSettings.length === 0) {
                 return this.api.React.createElement(this.api.Components.Text,
                     { id: "CBBEmpty" },
                     `No results found. Can't find what you're looking for? Want a feature? Let us know at: `,
@@ -1730,7 +1728,7 @@ module.exports = class ChatButtonsBegone {
             }
             
             return this.api.React.createElement("div",
-                { id: "CBBSettingsList" },
+                { id: "ChatButtonsBegone-settings-list" },
                 filteredSettings.map((setting) => {
                     return this.api.React.createElement(this.api.Components.SettingGroup, {
                         key: `group-${setting.id}-${String(setting.shown)}`,
@@ -1819,12 +1817,12 @@ module.exports = class ChatButtonsBegone {
 
             const numSettings = Object.keys(config.defaultConfig).reduce((acc, category) => acc + config.defaultConfig[category].settings.length, 0);
             return this.api.React.createElement("div",
-                { id: "CBBSettingsPanel" },
+                { id: "ChatButtonsBegone-settings-panel" },
                 this.api.React.createElement(this.api.Components.SearchInput,
                     {
-                        className: "CBBSettingsSearch",
+                        className: "ChatButtonsBegone-settings-search",
                         placeholder: `Search ${numSettings} settings...`,
-                        onChange: (e) => filterSettings(e.target.value),
+                        onChange: e => filterSettings(e.target.value),
                     },
                 ),
                 createSettingsList(filteredSettings),
