@@ -1317,13 +1317,18 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBadges) {
             this.styler.add('div[class^="container"]:has(> a.{0} > img)', this.profileBadges, 'anchor');
             // Profile - NewOldProfiles Plugin
-            if (newOldProfiles) this.styler.add('.badgeSection .profileBadges');
+            if (newOldProfiles) this.styler.add('.headerInfo .profileBadges');
         }
         if (this.settings.profileCustomizations.hideBanner) this.styler.add('.{0}', this.profileBanner, 'banner');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(':not(.{0} > div > div) > .{1}', this.avatarPreview, 'skuPreview', this.profileEffects, 'profileEffects');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
         if (this.settings.profileCustomizations.hideMessage) this.styler.add('[class^="footer"]:has(.{0})', this.textArea, 'channelTextArea');
-        if (this.settings.profileCustomizations.hideEditProfile) this.styler.add('.user-profile-popout [class^="footer"]:has(button)');
+        if (this.settings.profileCustomizations.hideEditProfile) {
+            this.styler.add('.user-profile-popout [class^="footer"]:has(button)');
+            // Profile - NewOldProfiles Plugin
+            if (newOldProfiles) this.styler.add('.profileButtons > button:has(svg>path[d="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2 2 0 0 0 0-2.82l-3.18-3.18a2 2 0 0 0-2.82 0l-1.38 1.38a1 1 0 0 0 0 1.42ZM2.11 20.16l.73-4.22a3 3 0 0 1 .83-1.61l7.87-7.87a1 1 0 0 1 1.42 0l4.58 4.58a1 1 0 0 1 0 1.42l-7.87 7.87a3 3 0 0 1-1.6.83l-4.23.73a1.5 1.5 0 0 1-1.73-1.73Z"])');
+        }
+
         if (this.settings.profileCustomizations.hideCollection)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList', this.profileCollection, 'breadcrumb');
 
         if (this.settings.profileCustomizations.hideProfileActivity == 'hpaDMs') {
