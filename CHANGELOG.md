@@ -3,9 +3,11 @@
 ### Added
 - Option to remove "Clips" menu item from User Profile Status Menu [Profile Customizations]
 - Option to remove the Stats card from User Profiles [Profile Customizations]
+- Remove "Edit Profile" now has Compatibility option for use with NewOldProfiles [Profile Customizations]
 
 ### Fixed
 - Remove User Activity Status not correctly applying for all cases when "Remove in Server Member list" is set
+- Remove Badges not correctly applying in Compatibility with NewOldProfiles [Profile Customizations]
 
 ## v4.3.1
 ### Added
