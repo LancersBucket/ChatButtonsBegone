@@ -1051,6 +1051,7 @@ module.exports = class ChatButtonsBegone {
     }
 
     ensureDefaultSettings() {
+        const oldConfig = JSON.stringify(this.settings);
         for (let category of config.defaultConfig) {
             if (category.type === 'category') {
                 if (!(category.id in this.settings)) this.settings[category.id] = {};
@@ -1065,7 +1066,9 @@ module.exports = class ChatButtonsBegone {
             }
         }
 
-        this.api.Data.save('settings', this.settings);
+        if (oldConfig !== JSON.stringify(this.settings)) {
+            this.api.Data.save('settings', this.settings);
+        }
     }
 
     async addStyles() {
