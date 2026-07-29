@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord client.
- * @version 4.4.0
+ * @version 4.4.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -101,7 +101,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.4.0',
+        version: '4.4.1',
     },
     defaultConfig: [
         {
@@ -255,10 +255,10 @@ const config = {
                     note: 'Controls the visibility of the DM header. "Show" shows the header, "Remove Button" removes the \'Create DM\' button, "Remove Text" removes the header text, "Remove" removes the entire header.',
                     value: 'show',
                     options: [
-                        { label: "Show", value: 'show' },
-                        { label: "Remove Button", value: 'hideButton' },
-                        { label: "Remove Text", value: 'hideText' },
-                        { label: "Remove", value: 'remove' },
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove Button', value: 'hideButton' },
+                        { label: 'Remove Text', value: 'hideText' },
+                        { label: 'Remove', value: 'remove' },
                     ],
                 },
                 {
@@ -268,11 +268,11 @@ const config = {
                     note: 'Controls the visibility of the "Active Now" section in the Friends tab. "Remove" removes the section, "Simplify" removes Twitch and Rich Presence blocks.',
                     value: 'show',
                     options: [
-                        { label: "Show", value: 'show' },
-                        { label: "Simplify", value: 'simplify' },
-                        { label: "Remove When Empty", value: 'empty' },
-                        { label: "Simplify + Remove When Empty", value: 'simplifyempty' },
-                        { label: "Remove", value: 'remove' },
+                        { label: 'Show', value: 'show' },
+                        { label: 'Simplify', value: 'simplify' },
+                        { label: 'Remove When Empty', value: 'empty' },
+                        { label: 'Simplify + Remove When Empty', value: 'simplifyempty' },
+                        { label: 'Remove', value: 'remove' },
                     ],
                 },
                 {
