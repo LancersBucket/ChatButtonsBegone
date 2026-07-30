@@ -19,7 +19,7 @@ This plugin is based on the work of, and expands upon, [QbDesu](https://github.c
 See [CHANGELOG.md](https://github.com/LancersBucket/ChatButtonsBegone/blob/main/CHANGELOG.md) for details on version history.
 
 ## Contributing
-Looking to contribute to Chat Buttons Begone? Check out our contributing guidelines here: [CONTRIBUTING.md](./CONTRIBUTING.md)
+Looking to contribute to ChatButtonsBegone? Check out our contributing guidelines here: [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Special Thanks
 Special thanks to the following people:
