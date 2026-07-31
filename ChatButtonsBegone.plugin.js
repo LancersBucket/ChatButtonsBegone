@@ -1399,6 +1399,8 @@ module.exports = class ChatButtonsBegone {
             // Active Now section
             this.styler.add('.{0}', this.promotedQuest, 'promotedTag');
             this.styler.add('.{0}', this.questPrompt, 'wrapper');
+            // MemberList Profile Popout Card Prompt
+            this.styler.add('div[id^="popout"]:has(.{0})', this.mlQuestPrompt, 'wrapper');
         }
 
         // Activity Settings (Context Menu)
@@ -1575,6 +1577,7 @@ module.exports = class ChatButtonsBegone {
             this.profilePopover,
             this.promotedQuest,
             this.questPrompt,
+            this.mlQuestPrompt,
             this.dmDivider,
             this.channelDivider,
             this.userAreaIOChevron,
@@ -1677,6 +1680,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover'), // Profile Status Popover
             this.api.Webpack.Filters.byKeys('promotedTag'), // Active Now Quests Promotion
             this.api.Webpack.Filters.byKeys('utils', 'heading'), // Active Now Quest Prompt
+            this.api.Webpack.Filters.byKeys('wrapper', 'container', 'top'), // MemberList Profile Popout Card Prompt
             this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider'), // DMs List Divider
             this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider'), // Server Channel Divider
             this.api.Webpack.Filters.byKeys('buttonChevron'), // I/O Chevrons
