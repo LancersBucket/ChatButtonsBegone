@@ -1317,7 +1317,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.profileCustomizations.hideBadges) {
             this.styler.add('div[class^="container"]:has(> a.{0} > img)', this.profileBadges, 'anchor');
             // Profile - NewOldProfiles Plugin
-            if (newOldProfiles) this.styler.add('.headerInfo .profileBadges');
+            if (newOldProfiles) this.styler.add('.headerInfo .profileBadges .profileBadgeWrapper:not(:has(.profileBadgeBirthday))');
         }
         if (this.settings.profileCustomizations.hideBanner) this.styler.add('.{0}', this.profileBanner, 'banner');
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(':not(.{0} > div > div) > .{1}', this.avatarPreview, 'skuPreview', this.profileEffects, 'profileEffects');
