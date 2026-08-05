@@ -1655,7 +1655,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('clanTagChiplet'), // Clan Tag Chiplet
             this.api.Webpack.Filters.byKeys('chipletContainerInner','chipletContainerInline'), // Clan Tag Chiplet in Server
             this.api.Webpack.Filters.byKeys('skuPreview'), // SKU Preview Exclusion
-            this.api.Webpack.Filters.byKeys('avatarDecorationContainer'), // Avatar Decoration
+            this.api.Webpack.Filters.byKeys('avatar', 'avatarDecorationContainer'), // Avatar Decoration
             this.api.Webpack.Filters.byKeys('avatarDecoration','contents'), // Avatar Decoration in Chat
             this.api.Webpack.Filters.byKeys('anchor', 'anchorUnderlineOnHover'), // Profile Badges
             this.api.Webpack.Filters.byKeys('mask','banner'), // Profile Badges
