@@ -1,4 +1,10 @@
 # Changelog
+## v4.4.1
+### Fixed
+- Remove Quests now removes new popup when users are clicked in server memberlists
+- Remove Badges (NewOldProfiles compatability) also erronerously removing Arven's[CakeDay](https://betterdiscord.app/plugins/CakeDay) badge 
+- Remove Avatar Decoration removing the avatar decoration inconsistently
+
 ## v4.4.0
 ### Added
 - Option to remove "Clips" menu item from User Profile Status Menu [Profile Customizations]

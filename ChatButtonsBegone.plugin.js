@@ -735,7 +735,7 @@ const config = {
                 {
                     type: 'switch',
                     id: 'avatarDecoration',
-                    name: 'Avatar Decoration',
+                    name: 'Remove Avatar Decoration',
                     note: 'Controls the visibility of avatar decorations.',
                     value: false,
                 },
