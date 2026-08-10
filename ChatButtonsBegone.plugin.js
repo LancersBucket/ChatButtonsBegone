@@ -18,7 +18,7 @@ class Styler {
     /**
      * Queue a style for the ChatButtonsBegone stylesheet. The style will be added when the webpack is loaded.
      * @param {string} selector CSS selector for the removal
-     * @param {...any} modules A list of modules in the form [[webpack, property],...]
+     * @param {...any} modules A list of modules in the form [webpack1, property1, webpack2, property2,...]
      * @returns 
      */
     async add(selector, ...modules) {
@@ -45,7 +45,7 @@ class Styler {
      * Queue a patch for the ChatButtonsBegone stylesheet. The style will be added when the webpack is loaded.
      * @param {string} cssPatch CSS changes
      * @param {string} selector CSS selector for the removal
-     * @param {...any} modules A list of modules in the form [[webpack, property],...]
+     * @param {...any} modules A list of modules in the form [webpack1, property1, webpack2, property2,...]
      */
     async patch(cssPatch, selector, ...modules) {
         let mods = [];
@@ -61,7 +61,7 @@ class Styler {
     /**
      * Format a selector containing {n} tags and map them to to a provided list of modules.
      * @param {string} str A string containing {n} tags
-     * @param {...any} args A list of modules in the form [[webpack, property],...] 
+     * @param {...any} args A list of modules in the form [webpack1, property1, webpack2, property2,...] 
      * @returns {string} The formatted string
      */
     format(str, ...args) {
