@@ -1763,14 +1763,14 @@ module.exports = class ChatButtonsBegone {
         const createSettingsList = (filteredSettings) => {
             if (filteredSettings.length === 0) {
                 return this.api.React.createElement(this.api.Components.Text,
-                    { id: "CBBEmpty" },
+                    { id: "ChatButtonsBegone-empty" },
                     `No results found. Can't find what you're looking for? Want a feature? Let us know at: `,
                     this.api.React.createElement('a',
                         {
                             href: `${config.info.github}/issues`,
-                            target: '_blank'
+                            target: '_blank',
                         },
-                        `${config.info.github}/issues`
+                        `${config.info.github}/issues`,
                     ),
                 );
             }

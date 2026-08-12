@@ -23,5 +23,4 @@ Looking to contribute to ChatButtonsBegone? Check out our contributing guideline
 
 ## Special Thanks
 Special thanks to the following people:
-- [Zacam](https://github.com/Zacam) for being a colaborator on this plugin
-- [MisansProducts](https://github.com/MisansProducts)
+- [Zacam](https://github.com/Zacam) for being a colaborator on this plugin (make sure to check out their theme [PurpleOnyx](https://betterdiscord.app/themes/PurpleOnyx)!)
