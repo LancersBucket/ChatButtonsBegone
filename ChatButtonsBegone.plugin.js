@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord client.
- * @version 4.4.1
+ * @version 4.4.2
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -101,7 +101,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.4.1',
+        version: '4.4.2',
     },
     defaultConfig: [
         {
@@ -1391,7 +1391,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('div[class^="stack"] div[class^="sectionHeader"]:has(+ div[class^="theme-"][class*="images-"])');
             this.styler.add('div[class^="stack"] div[class^="theme-"][class*="images-"]');
             // Profile Popup "Edit Profile" Sidebar
-            this.styler.add('div[class^="floatingFooter"]:has(> .{0})', this.profilePopupUpsell, 'nitro-pink'); 
+            this.styler.add('div:has(> .{0})', this.profilePopupUpsell, 'nitro-pink'); 
         }
 
         if (this.settings.miscellaneous.noQuests) {
