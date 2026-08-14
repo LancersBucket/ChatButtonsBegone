@@ -1302,7 +1302,7 @@ module.exports = class ChatButtonsBegone {
             // DMs
             this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
             // Server List
-            this.styler.add(':not(#guild-header-popout-guild-tag) > .{0}', this.clanTagChipletServer, 'chipletContainerInner');
+            this.styler.add(':not(.{0}, #guild-header-popout-guild-tag) > .{1}', this.clanTagProfile, 'guildTagContainer', this.clanTagChipletServer, 'chipletContainerInner');
             // Profile
             this.styler.add('.{0}', this.clanTagProfile, 'guildTagContainer');
             // Profile - NewOldProfiles Plugin
