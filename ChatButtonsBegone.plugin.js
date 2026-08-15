@@ -1289,22 +1289,22 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.profileCustomizations.clanTag == 'memberlist') {
-            this.styler.add('.{0}', this.dmEntry, 'clanTag');
-            this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
-            this.styler.add(':not(.{0}, #guild-header-popout-guild-tag) > .{1}', this.clanTagProfile, 'guildTagContainer', this.clanTagChipletServer, 'chipletContainerInner');
+            this.styler.add('.{0}', this.mlTagEntry, 'clanTag');
+            this.styler.add('.{0}', this.dmTagEntry, 'clanTag');
         } else if (this.settings.profileCustomizations.clanTag == 'profile') {
-            this.styler.add('.{0}', this.clanTagProfile, 'guildTagContainer');
+            this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
+            this.styler.add('.{0}', this.clanTagProfile, 'guildTag');
             // Profile - NewOldProfiles Plugin
             if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
         } else if (this.settings.profileCustomizations.clanTag == 'global') {
+            // Member List
+            this.styler.add('.{0}', this.mlTagEntry, 'clanTag');
             // DM List
             this.styler.add('.{0}', this.dmEntry, 'clanTag');
-            // DMs
+            // Chat
             this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
-            // Server List
-            this.styler.add(':not(.{0}, #guild-header-popout-guild-tag) > .{1}', this.clanTagProfile, 'guildTagContainer', this.clanTagChipletServer, 'chipletContainerInner');
             // Profile
-            this.styler.add('.{0}', this.clanTagProfile, 'guildTagContainer');
+            this.styler.add('.{0}', this.clanTagProfile, 'guildTag');
             // Profile - NewOldProfiles Plugin
             if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
         }
@@ -1548,9 +1548,10 @@ module.exports = class ChatButtonsBegone {
             this.namePlate,
             this.selfNamePlate,
             this.dmEntry,
+            this.mlTagEntry,
+            this.dmTagEntry,
             this.clanTagProfile,
             this.clanTagChiplet,
-            this.clanTagChipletServer,
             this.avatarPreview,
             this.avatarDecorationContainer,
             this.avatarDecorationChat,
@@ -1651,9 +1652,10 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('nameplated','container'), // Nameplates
             this.api.Webpack.Filters.byKeys('container','fitInAccount'), // Nameplates
             this.api.Webpack.Filters.byKeys('interactive','interactiveSelected'), // DM Entry Item
-            this.api.Webpack.Filters.byKeys('guildTagContainer'), // Profile Clan Tag
+            this.api.Webpack.Filters.byKeys('memberInner','clanTag'), // Member List clanTag
+            this.api.Webpack.Filters.byKeys('overflowTooltip','clanTag'), // DM List claTag
+            this.api.Webpack.Filters.byKeys('guildTag', 'clickable'), // Profile Clan Tag
             this.api.Webpack.Filters.byKeys('clanTagChiplet'), // Clan Tag Chiplet
-            this.api.Webpack.Filters.byKeys('chipletContainerInner','chipletContainerInline'), // Clan Tag Chiplet in Server
             this.api.Webpack.Filters.byKeys('skuPreview'), // SKU Preview Exclusion
             this.api.Webpack.Filters.byKeys('avatar', 'avatarDecorationContainer'), // Avatar Decoration
             this.api.Webpack.Filters.byKeys('avatarDecoration','contents'), // Avatar Decoration in Chat
