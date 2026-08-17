@@ -1353,7 +1353,15 @@ module.exports = class ChatButtonsBegone {
             // Profile - NewOldProfiles Plugin
             if (newOldProfiles) this.styler.add('.headerInfo .profileBadges .profileBadgeWrapper:not(:has(.profileBadgeBirthday))');
         }
-        if (this.settings.profileCustomizations.hideBanner) this.styler.add('.{0}', this.profileBanner, 'banner');
+
+        if (this.settings.profileCustomizations.hideBanner) {
+            this.styler.patch(
+                `background-image: unset !important;`,
+                '.{0} .{1}',
+                this.profileBanner, 'banner', this.profileBanner, 'fill'
+            );
+        }
+
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(':not(.{0} > div > div) > .{1}', this.avatarPreview, 'skuPreview', this.profileEffects, 'profileEffects');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
         if (this.settings.profileCustomizations.hideMessage) this.styler.add('[class^="footer"]:has(.{0})', this.textArea, 'channelTextArea');
@@ -1694,7 +1702,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('avatar', 'avatarDecorationContainer'), // Avatar Decoration
             this.api.Webpack.Filters.byKeys('avatarDecoration','contents'), // Avatar Decoration in Chat
             this.api.Webpack.Filters.byKeys('anchor', 'anchorUnderlineOnHover'), // Profile Badges
-            this.api.Webpack.Filters.byKeys('mask','banner'), // Profile Badges
+            this.api.Webpack.Filters.byKeys('banner', 'fill'), // Profile Banner
             this.api.Webpack.Filters.byKeys('profileEffects'), // Profile Effects
             this.api.Webpack.Filters.byKeys('mask', 'gifTag'), // Profile GIF Tag
             this.api.Webpack.Filters.byKeys('container', 'cardsList', 'firstCardContainer'), // Profile Cards List
