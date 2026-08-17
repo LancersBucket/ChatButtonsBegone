@@ -826,26 +826,26 @@ const config = {
                 {
                     type: 'dropdown',
                     id: 'hideProfileActivity',
-                    name: 'Remove Profile Activity Card',
+                    name: 'Profile Activity Card',
                     note: 'Removes the Activity card from user profiles.',
                     value: 'show',
                     options: [
                         { label: 'Show', value: 'show' },
                         { label: 'Remove in Popout Profile', value: 'hpaPopout' },
-                        { label: 'Remove in DMs Viev Profile', value: 'hpaDMs' },
+                        { label: 'Remove in DMs View Profile', value: 'hpaDMs' },
                         { label: 'Remove', value: 'hpaGlobal' },
                     ],
                 },
                 {
                     type: 'dropdown',
                     id: 'hideProfileStats',
-                    name: 'Remove Profile Stats Card',
+                    name: 'Profile Stats Card',
                     note: 'Removes the Stats card from user profiles.',
                     value: 'show',
                     options: [
                         { label: 'Show', value: 'show' },
                         { label: 'Remove in Popout Profile', value: 'hpsPopout' },
-                        { label: 'Remove in DMs Viev Profile', value: 'hpsDMs' },
+                        { label: 'Remove in DMs View Profile', value: 'hpsDMs' },
                         { label: 'Remove', value: 'hpsGlobal' },
                     ],
                 },
@@ -859,13 +859,13 @@ const config = {
                 {
                     type: 'dropdown',
                     id: 'hideStatus',
-                    name: 'Remove Profile Custom Status',
+                    name: 'Profile Custom Status',
                     note: 'Removes the Custom Status from user profiles.',
                     value: 'show',
                     options: [
                         { label: 'Show', value: 'show' },
                         { label: 'Remove in Popout Profile', value: 'hcsPopout' },
-                        { label: 'Remove in DMs Viev Profile', value: 'hcsDMs' },
+                        { label: 'Remove in DMs View Profile', value: 'hcsDMs' },
                         { label: 'Remove', value: 'hcsGlobal' },
                     ],
                 },
@@ -1054,6 +1054,15 @@ module.exports = class ChatButtonsBegone {
 
                     return config;
                 },
+            },
+            {
+                to: '4.5.0',
+                migrate: (config) => {
+                    // Convert hideStatus to a dropdown
+                    config.profileCustomizations.hideStatus = onfig.profileCustomizations.hideStatus ? 'show' : 'hcsGlobal';
+
+                    return config;
+                }
             },
         ];
 
@@ -1288,7 +1297,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.krispButton) this.styler.add('.{0} button:first-of-type', this.vcKrisp, 'voiceButtonsContainer');
         if (this.settings.voice.gameActivityPanel) this.styler.add('.{0}', this.vcActivityPanel, 'activityPanel');
         if (this.settings.voice.gameActivityButton) this.styler.add('.{0}:has(.{1})', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
-        if (this.settings.voice.soundboardButton)this.styler.add('.{0} > .{1} + .{2}', this.vcButtonSection, 'buttonSection', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
+        if (this.settings.voice.soundboardButton) this.styler.add('.{0} > .{1} + .{2}', this.vcButtonSection, 'buttonSection', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
         if (this.settings.voice.voiceAvatars) this.styler.add('.{0}', this.vcSmallAvatar, 'avatarSmall');
         if (this.settings.voice.voiceWasHere) this.styler.add('.{0}', this.vcWasHere, 'row');
         if (this.settings.voice.voiceInviteToVoice) this.styler.add('.{0}:has(>.{1})', this.vcInviteToVoice, 'animation', this.vcInviteToVoice, 'clickable');

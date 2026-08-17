@@ -6,11 +6,19 @@
     - Remove "Create Reminder" Button
     - Remove "Apps" Button
     - Remove "Speak Message" Button
+- Option to remove avatar cutouts (over background image) from user profiles [Profile Customizations]
+
+### Changed
+- Remove Profile Banner now displays a stock background color when removed rather than removing it entirely
+- Changed Remove Profile Custom Status into a dropdown
+    - Now supports removing it in just the popout profile, just the DM View Profile, or globally
 
 ### Fixed
 - Nitro Upsell not removing properly
 - Clan Tag not removing properly on specific removals
 - Remove Quests not removing the Active Now quest prompt
+- Remove Profile Stats Card "Remove in Popup Profile" also removing profile activity
+- Remove Profile Custom Status not removing properly
 
 ## v4.4.1
 ### Fixed
