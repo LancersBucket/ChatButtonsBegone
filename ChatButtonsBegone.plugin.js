@@ -1715,7 +1715,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('slateTextArea'), // Placeholder Text
             this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover'), // Profile Status Popover
             this.api.Webpack.Filters.byKeys('promotedTag'), // Active Now Quests Promotion
-            this.api.Webpack.Filters.byKeys('wrapper', 'foreground', 'ctap'), // Active Now Quest Prompt
+            this.api.Webpack.Filters.byKeys('wrapper', 'foreground', 'ctas'), // Active Now Quest Prompt
             this.api.Webpack.Filters.byKeys('wrapper', 'container', 'top'), // MemberList Profile Popout Card Prompt
             this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider'), // DMs List Divider
             this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider'), // Server Channel Divider
