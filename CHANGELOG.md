@@ -1,4 +1,17 @@
 # Changelog
+## v4.5.0
+### Added
+- Options to remove items from message context menus [Message Actions]
+    - Remove "Bookmark Message" Button
+    - Remove "Create Reminder" Button
+    - Remove "Apps" Button
+    - Remove "Speak Message" Button
+
+### Fixed
+- Nitro Upsell not removing properly
+- Clan Tag not removing properly on specific removals
+- Remove Quests not removing the Active Now quest prompt
+
 ## v4.4.1
 ### Fixed
 - Remove Quests now removes new popup when users are clicked in server memberlists
