@@ -211,6 +211,34 @@ const config = {
                     note: 'Removes the "More" (three dots) button from the message actions.',
                     value: false,
                 },
+                {
+                    type: 'switch',
+                    id: 'removeBookmarkMessage',
+                    name: 'Remove "Bookmark Message" Button',
+                    note: 'Removes the "Bookmark Message" button from the message context menu.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'removeCreateReminder',
+                    name: 'Remove "Create Reminder" Button',
+                    note: 'Removes the "Create Reminder" button from the message context menu.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'removeAppsContext',
+                    name: 'Remove "Apps" Button',
+                    note: 'Removes the "Apps" button from the message context menu.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'removeSpeakMessage',
+                    name: 'Remove "Speak Message" Button',
+                    note: 'Removes the "Speak Message" button from the message context menu.',
+                    value: false,
+                },
             ],
         },
         {
@@ -1117,6 +1145,12 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('div[id^="message-accessories"] > div[class^="reactions"] > span:has(div[class^="reactionBtn"])');
             this.styler.add('ol[data-list-id="chat-messages"] div[class^="reactButtons"] > span:has(div[class^="reactionBtn"])');
         }
+
+        // Context Menu Actions
+        if (this.settings.messageActions.removeBookmarkMessage) this.styler.add('div[role="menuitem"][id="message-bookmark"]');
+        if (this.settings.messageActions.removeCreateReminder) this.styler.add('div[role="menuitem"][id="message-reminder"]');
+        if (this.settings.messageActions.removeAppsContext) this.styler.add('div:has(> div[role="menuitem"][id="message-apps"])');
+        if (this.settings.messageActions.removeSpeakMessage) this.styler.add('div[role="menuitem"][id="message-tts"]');
 
         /// Direct Messages ///
         if (this.settings.dms.quickSwitcher) this.styler.add('.{0} [class^="searchBar"]', this.DMList, 'privateChannels');
