@@ -785,7 +785,7 @@ const config = {
                     type: 'switch',
                     id: 'removeCutout',
                     name: 'Remove Profile Cutout',
-                    note: 'Removes the Avatar cutout from the banner image/background from user profiles.',
+                    note: 'Removes the Avatar cutout in the banner image/background from user profiles.',
                     value: false,
                 },
                 {
