@@ -1404,7 +1404,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
         }
         else if (this.settings.profileCustomizations.hideProfileStats == 'hpsPopout') {
-            this.styler.add(':not(.{0}) > .{1} .{2} div:has( > .{3})', this.profileWishBody, 'cards', this.profileCards, 'container', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
+            this.styler.add(':not(.{0}) > .{1} .{2}:has( > div)', this.profileWishBody, 'cards', this.profileCards, 'container', this.profileCards, 'firstCardContainer');
         }
         else if (this.settings.profileCustomizations.hideProfileStats == 'hpsGlobal') {
             this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileCards, 'container', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
