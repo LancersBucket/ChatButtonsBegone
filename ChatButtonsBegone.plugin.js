@@ -1411,7 +1411,11 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
-        if (this.settings.profileCustomizations.hideStatus) this.styler.add('.{0}:not(.{1}) > .{2}', this.profileCustomStatus, 'container', this.profileCustomStatus, 'editable', this.profileCustomStatus, 'ring');
+
+        if (this.settings.profileCustomizations.hideStatus) {
+            this.styler.add('.{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
+            this.styler.add('.{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
+        }
 
         if (this.settings.profileCustomizations.frameDecoration) {
             this.styler.add('.{0} .{1}', this.frameDecoration, 'profileFrameContainer', this.frameDecoration, 'profileFrame');
@@ -1726,7 +1730,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('breadcrumb'), // Game Collection Breadcrumb
             this.api.Webpack.Filters.byKeys('body', 'cards'), // Profile Activity/Wishlist Cards
             this.api.Webpack.Filters.byKeys('container', 'cardsContainer'), // Profile Wishlist
-            this.api.Webpack.Filters.byKeys('container', 'ring'), // Popup Profile Custom Status
+            this.api.Webpack.Filters.byKeys('referenceContainer', 'container'), // Profile Custom Status
             this.api.Webpack.Filters.byKeys('profileFrameContainer', 'profileFrame'), // Profile Frame Decoration
             this.api.Webpack.Filters.byKeys('menuOverlay', 'menuItem'), // Self Profile Menu
 
