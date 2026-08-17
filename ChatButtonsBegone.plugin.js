@@ -370,7 +370,7 @@ const config = {
                     name: 'Remove "Invite to Group DM" Button',
                     note: 'Removes the "Invite to Group DM" Button from existing Group DM MemberList area.',
                     value: false,
-                }
+                },
             ],
         },
         {
@@ -779,6 +779,13 @@ const config = {
                     id: 'hideBanner',
                     name: 'Remove Profile Banner',
                     note: 'Removes the banner image from user profiles.',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'removeCutout',
+                    name: 'Remove Profile Cutout',
+                    note: 'Removes the Avatar cutout from the banner image/background from user profiles.',
                     value: false,
                 },
                 {
@@ -1362,6 +1369,16 @@ module.exports = class ChatButtonsBegone {
             );
         }
 
+        if (this.settings.profileCustomizations.removeCutout) {
+            this.styler.patch(
+                `--custom-cutout-radius: 0px !important;
+                --custom-cutout-x: unset !important;
+                --custom-cutout-y: unset !important;`,
+                '.{0} .{1}',
+                this.profileBanner, 'banner', this.profileBanner, 'fill'
+            );
+        }
+
         if (this.settings.profileCustomizations.profileEffects) this.styler.add(':not(.{0} > div > div) > .{1}', this.avatarPreview, 'skuPreview', this.profileEffects, 'profileEffects');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
         if (this.settings.profileCustomizations.hideMessage) this.styler.add('[class^="footer"]:has(.{0})', this.textArea, 'channelTextArea');
@@ -1818,7 +1835,7 @@ module.exports = class ChatButtonsBegone {
                     ),
                 );
             }
-            
+
             return this.api.React.createElement("div",
                 { id: "ChatButtonsBegone-settings-list" },
                 filteredSettings.map((setting) => {
@@ -1892,7 +1909,7 @@ module.exports = class ChatButtonsBegone {
                                 category.name.toLowerCase() === word
                             );
                         }
-                        
+
                         // If the word has an alias, check all aliases for a match
                         if (aliases.getAliases(term)) {
                             for (const alias of aliases.getAliases(term)) {
