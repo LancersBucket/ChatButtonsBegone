@@ -831,8 +831,8 @@ const config = {
                     value: 'show',
                     options: [
                         { label: 'Show', value: 'show' },
-                        { label: 'Remove in DMs Viev Profile', value: 'hpaDMs' },
                         { label: 'Remove in Popout Profile', value: 'hpaPopout' },
+                        { label: 'Remove in DMs Viev Profile', value: 'hpaDMs' },
                         { label: 'Remove', value: 'hpaGlobal' },
                     ],
                 },
@@ -844,8 +844,8 @@ const config = {
                     value: 'show',
                     options: [
                         { label: 'Show', value: 'show' },
-                        { label: 'Remove in DMs Viev Profile', value: 'hpsDMs' },
                         { label: 'Remove in Popout Profile', value: 'hpsPopout' },
+                        { label: 'Remove in DMs Viev Profile', value: 'hpsDMs' },
                         { label: 'Remove', value: 'hpsGlobal' },
                     ],
                 },
@@ -857,11 +857,17 @@ const config = {
                     value: false,
                 },
                 {
-                    type: 'switch',
+                    type: 'dropdown',
                     id: 'hideStatus',
                     name: 'Remove Profile Custom Status',
                     note: 'Removes the Custom Status from user profiles.',
-                    value: false,
+                    value: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove in Popout Profile', value: 'hcsPopout' },
+                        { label: 'Remove in DMs Viev Profile', value: 'hcsDMs' },
+                        { label: 'Remove', value: 'hcsGlobal' },
+                    ],
                 },
                 {
                     type: 'switch',
@@ -1390,21 +1396,21 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.profileCustomizations.hideCollection)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList', this.profileCollection, 'breadcrumb');
 
-        if (this.settings.profileCustomizations.hideProfileActivity == 'hpaDMs') {
-            this.styler.add('.{0}:has(.{1} > article)', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer');
-        }
-        else if (this.settings.profileCustomizations.hideProfileActivity == 'hpaPopout') {
+        if (this.settings.profileCustomizations.hideProfileActivity == 'hpaPopout') {
             this.styler.add(':not(.{0}) > .{1} .{2}:has( > article)', this.profileWishBody, 'cards', this.profileCards, 'container', this.profileCards, 'firstCardContainer');
+        }
+        else if (this.settings.profileCustomizations.hideProfileActivity == 'hpaDMs') {
+            this.styler.add('.{0}:has(.{1} > article)', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer');
         }
         else if (this.settings.profileCustomizations.hideProfileActivity == 'hpaGlobal') {
             this.styler.add('.{0}:has(.{1} article)', this.profileCards, 'container', this.profileCards, 'cardsList');
         }
 
-        if (this.settings.profileCustomizations.hideProfileStats == 'hpsDMs') {
-            this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
-        }
-        else if (this.settings.profileCustomizations.hideProfileStats == 'hpsPopout') {
+        if (this.settings.profileCustomizations.hideProfileStats == 'hpsPopout') {
             this.styler.add(':not(.{0}) > .{1} .{2}:has( > div)', this.profileWishBody, 'cards', this.profileCards, 'container', this.profileCards, 'firstCardContainer');
+        }
+        else if (this.settings.profileCustomizations.hideProfileStats == 'hpsDMs') {
+            this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
         }
         else if (this.settings.profileCustomizations.hideProfileStats == 'hpsGlobal') {
             this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileCards, 'container', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
@@ -1412,7 +1418,15 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
 
-        if (this.settings.profileCustomizations.hideStatus) {
+        if (this.settings.profileCustomizations.hideStatus == 'hcsPopout') {
+            this.styler.add('.user-profile-popout .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
+            this.styler.add('.user-profile-popout .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
+        }
+        else if (this.settings.profileCustomizations.hideStatus == 'hcsDMs') {
+            this.styler.add('.user-profile-sidebar .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
+            this.styler.add('.user-profile-sidebar .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
+        }
+        else if (this.settings.profileCustomizations.hideStatus == 'hcsGlobal') {
             this.styler.add('.{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
             this.styler.add('.{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
         }
