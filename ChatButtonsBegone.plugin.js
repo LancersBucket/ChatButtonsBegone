@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord client.
- * @version 4.5.0
+ * @version 4.5.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -101,7 +101,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.5.0',
+        version: '4.5.1',
     },
     defaultConfig: [
         {
@@ -1887,7 +1887,9 @@ module.exports = class ChatButtonsBegone {
         let settings = JSON.parse(JSON.stringify(config.defaultConfig));
         settings.forEach((category) => {
             category.settings.forEach((subSetting) => {
-                subSetting.defaultValue = this.settings[category.id][subSetting.id];
+                // Replace with this when BD PR https://github.com/BetterDiscord/BetterDiscord/pull/2205 is merged
+                // subSetting.defaultValue = this.settings[category.id][subSetting.id];
+                subSetting.value = this.settings[category.id][subSetting.id];
             });
         });
 

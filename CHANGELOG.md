@@ -1,4 +1,8 @@
 # Changelog
+## v4.5.1
+### Fixed
+- Settings menu not properly displaying config state
+
 ## v4.5.0
 ### Added
 - Options to remove items from message context menus [Message Actions]
