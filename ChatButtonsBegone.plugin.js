@@ -1073,7 +1073,7 @@ module.exports = class ChatButtonsBegone {
                 to: '4.5.0',
                 migrate: (config) => {
                     // Convert hideStatus to a dropdown
-                    config.profileCustomizations.hideStatus = onfig.profileCustomizations.hideStatus ? 'show' : 'hcsGlobal';
+                    config.profileCustomizations.hideStatus = config.profileCustomizations.hideStatus ? 'show' : 'hcsGlobal';
 
                     return config;
                 }
