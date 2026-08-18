@@ -735,9 +735,23 @@ const config = {
             shown: false,
             settings: [
                 {
+                    type: 'switch',
+                    id: 'profileNoNitro',
+                    name: 'Disable Nitro Theme',
+                    note: 'Disables all Nitro Theme elements from a Proflie (Popup, Full, and Sideber (DMs))',
+                    value: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'profileDisableAll',
+                    name: 'Disable All Profile Customizations',
+                    note: 'Disables (Global) All following "(+)" Profile Customizations: Nameplates, ClanTag, Avatar/Frame Decorations, Badges, Banners, Profile Effects As well as Removes Collections, Activities, Stats, Wishlist, Custom Status',
+                    value: false,
+                },
+                {
                     type: 'dropdown',
                     id: 'namePlate',
-                    name: 'Remove Nameplates',
+                    name: 'Remove Nameplates (+)',
                     note: 'Removes nameplates from members in the member list.',
                     value: 'show',
                     options: [
@@ -750,7 +764,7 @@ const config = {
                 {
                     type: 'dropdown',
                     id: 'clanTag',
-                    name: 'Clan Tag',
+                    name: 'Clan Tag (+)',
                     note: 'Controls the visibility of the Clan Tags. "Remove in Member List" removes it in member lists (Server/DM and messages), "Remove in Profile" removes it in profiles, "Remove" removes it everywhere.',
                     value: 'show',
                     options: [
@@ -763,21 +777,21 @@ const config = {
                 {
                     type: 'switch',
                     id: 'avatarDecoration',
-                    name: 'Remove Avatar Decoration',
+                    name: 'Remove Avatar Decoration (+)',
                     note: 'Controls the visibility of avatar decorations.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'hideBadges',
-                    name: 'Remove Profile Badges',
+                    name: 'Remove Profile Badges (+)',
                     note: 'Removes the badges from user profiles.',
                     value: false,
                 },
                 {
                     type: 'switch',
                     id: 'hideBanner',
-                    name: 'Remove Profile Banner',
+                    name: 'Remove Profile Banner (+)',
                     note: 'Removes the banner image from user profiles.',
                     value: false,
                 },
@@ -791,7 +805,7 @@ const config = {
                 {
                     type: 'switch',
                     id: 'profileEffects',
-                    name: 'Remove Profile Effects',
+                    name: 'Remove Profile Effects (+)',
                     note: 'Removes profile effects (Animated Overlays) from user profiles.',
                     value: false,
                 },
@@ -819,14 +833,14 @@ const config = {
                 {
                     type: 'switch',
                     id: 'hideCollection',
-                    name: 'Remove Profile Collection',
+                    name: 'Remove Profile Collection (+)',
                     note: 'Removes the Game Collection from user profiles.',
                     value: false,
                 },
                 {
                     type: 'dropdown',
                     id: 'hideProfileActivity',
-                    name: 'Profile Activity Card',
+                    name: 'Profile Activity Card (+)',
                     note: 'Removes the Activity card from user profiles.',
                     value: 'show',
                     options: [
@@ -839,7 +853,7 @@ const config = {
                 {
                     type: 'dropdown',
                     id: 'hideProfileStats',
-                    name: 'Profile Stats Card',
+                    name: 'Profile Stats Card (+)',
                     note: 'Removes the Stats card from user profiles.',
                     value: 'show',
                     options: [
@@ -852,14 +866,14 @@ const config = {
                 {
                     type: 'switch',
                     id: 'hideWishlist',
-                    name: 'Remove Profile Wishlist',
+                    name: 'Remove Profile Wishlist (+)',
                     note: 'Removes the Wishlist from user profiles.',
                     value: false,
                 },
                 {
                     type: 'dropdown',
                     id: 'hideStatus',
-                    name: 'Profile Custom Status',
+                    name: 'Profile Custom Status (+)',
                     note: 'Removes the Custom Status from user profiles.',
                     value: 'show',
                     options: [
@@ -872,7 +886,7 @@ const config = {
                 {
                     type: 'switch',
                     id: 'frameDecoration',
-                    name: 'Remove Profile Frame Decoration',
+                    name: 'Remove Profile Frame Decoration (+)',
                     note: 'Removes the Frame Decoration from Profiles.',
                     value: false,
                 },
@@ -1329,6 +1343,25 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.toolbar.profileButton) this.styler.add('.{0}:has(> svg > path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54.54"]) ', this.upperToolbar, 'iconWrapper');
 
         /// Profile Customizations ///
+        if (this.settings.profileCustomizations.profileNoNitro) {
+            this.styler.patch(
+                `--profile-gradient-primary-color: var(--background-surface-high) !important;
+                --profile-gradient-secondary-color: var(--background-surface-high) !important;
+                --profile-gradient-overlay-color: rgba(0, 0, 0, 0) !important;
+                --profile-gradient-button-color: var(--background-mod-subtle) !important;
+                --profile-gradient-modal-background-color: var(--background-base-lower) !important;
+                --custom-theme-base-color-amount: unset !important;
+                --custom-theme-text-color-amount: unset !important;
+                --custom-theme-base-color-light-hsl: unset !important;
+                --custom-theme-base-color-light: unset !important;
+                --custom-theme-text-color-light: unset !important;
+                --custom-theme-base-color-dark-hsl: unset !important;
+                --custom-theme-base-color-dark: unset !important;
+                --custom-theme-text-color-dark: unset !important;`,
+                '[class*="custom-user-profile-theme"]'
+            );
+        }
+
         if (this.settings.profileCustomizations.namePlate == 'original') {
             // Server List / DM List
             this.styler.add('.{0} > [style^="background: linear-gradient"]', this.dmEntry, 'interactive');
@@ -1336,7 +1369,7 @@ module.exports = class ChatButtonsBegone {
         } else if (this.settings.profileCustomizations.namePlate == 'self') {
             // Self Avatar Area
             this.styler.add('.{0}', this.selfNamePlate, 'fitInAccount');
-        } else if (this.settings.profileCustomizations.namePlate == 'global') {
+        } else if (this.settings.profileCustomizations.namePlate == 'global' || this.settings.profileCustomizations.profileDisableAll) {
             // Server List / DM List
             this.styler.add('.{0} > [style^="background: linear-gradient"]', this.dmEntry, 'interactive');
             this.styler.add('.{0} > [style^="background: linear-gradient"]', this.namePlate, 'nameplated');
@@ -1352,7 +1385,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}', this.clanTagProfile, 'guildTag');
             // Profile - NewOldProfiles Plugin
             if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
-        } else if (this.settings.profileCustomizations.clanTag == 'global') {
+        } else if (this.settings.profileCustomizations.clanTag == 'global' || this.settings.profileCustomizations.profileDisableAll) {
             // Member List
             this.styler.add('.{0}', this.mlTagEntry, 'clanTag');
             // DM List
@@ -1365,18 +1398,18 @@ module.exports = class ChatButtonsBegone {
             if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
         }
 
-        if (this.settings.profileCustomizations.avatarDecoration) {
+        if (this.settings.profileCustomizations.avatarDecoration || this.settings.profileCustomizations.profileDisableAll) {
             this.styler.add(':not(.{0} > div ) > .{1}', this.avatarPreview, 'skuPreview', this.avatarDecorationContainer, 'avatarDecorationContainer');
             this.styler.add(':not(.{0} > div ) > .{1}', this.avatarPreview, 'skuPreview', this.avatarDecorationChat, 'avatarDecoration');
         }
 
-        if (this.settings.profileCustomizations.hideBadges) {
+        if (this.settings.profileCustomizations.hideBadges || this.settings.profileCustomizations.profileDisableAll) {
             this.styler.add('div[class^="container"]:has(> a.{0} > img)', this.profileBadges, 'anchor');
             // Profile - NewOldProfiles Plugin
             if (newOldProfiles) this.styler.add('.headerInfo .profileBadges .profileBadgeWrapper:not(:has(.profileBadgeBirthday))');
         }
 
-        if (this.settings.profileCustomizations.hideBanner) {
+        if (this.settings.profileCustomizations.hideBanner || this.settings.profileCustomizations.profileDisableAll) {
             this.styler.patch(
                 `background-image: unset !important;`,
                 '.{0} .{1}',
@@ -1394,7 +1427,7 @@ module.exports = class ChatButtonsBegone {
             );
         }
 
-        if (this.settings.profileCustomizations.profileEffects) this.styler.add(':not(.{0} > div > div) > .{1}', this.avatarPreview, 'skuPreview', this.profileEffects, 'profileEffects');
+        if (this.settings.profileCustomizations.profileEffects || this.settings.profileCustomizations.profileDisableAll) this.styler.add(':not(.{0} > div > div) > .{1}', this.avatarPreview, 'skuPreview', this.profileEffects, 'profileEffects');
         if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
         if (this.settings.profileCustomizations.hideMessage) this.styler.add('[class^="footer"]:has(.{0})', this.textArea, 'channelTextArea');
         if (this.settings.profileCustomizations.hideEditProfile) {
@@ -1403,7 +1436,7 @@ module.exports = class ChatButtonsBegone {
             if (newOldProfiles) this.styler.add('.profileButtons > button:has(svg>path[d="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2 2 0 0 0 0-2.82l-3.18-3.18a2 2 0 0 0-2.82 0l-1.38 1.38a1 1 0 0 0 0 1.42ZM2.11 20.16l.73-4.22a3 3 0 0 1 .83-1.61l7.87-7.87a1 1 0 0 1 1.42 0l4.58 4.58a1 1 0 0 1 0 1.42l-7.87 7.87a3 3 0 0 1-1.6.83l-4.23.73a1.5 1.5 0 0 1-1.73-1.73Z"])');
         }
 
-        if (this.settings.profileCustomizations.hideCollection)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList', this.profileCollection, 'breadcrumb');
+        if (this.settings.profileCustomizations.hideCollection || this.settings.profileCustomizations.profileDisableAll)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList', this.profileCollection, 'breadcrumb');
 
         if (this.settings.profileCustomizations.hideProfileActivity == 'hpaPopout') {
             this.styler.add(':not(.{0}) > .{1} .{2}:has( > article)', this.profileWishBody, 'cards', this.profileCards, 'container', this.profileCards, 'firstCardContainer');
@@ -1411,7 +1444,7 @@ module.exports = class ChatButtonsBegone {
         else if (this.settings.profileCustomizations.hideProfileActivity == 'hpaDMs') {
             this.styler.add('.{0}:has(.{1} > article)', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer');
         }
-        else if (this.settings.profileCustomizations.hideProfileActivity == 'hpaGlobal') {
+        else if (this.settings.profileCustomizations.hideProfileActivity == 'hpaGlobal' || this.settings.profileCustomizations.profileDisableAll) {
             this.styler.add('.{0}:has(.{1} article)', this.profileCards, 'container', this.profileCards, 'cardsList');
         }
 
@@ -1421,11 +1454,11 @@ module.exports = class ChatButtonsBegone {
         else if (this.settings.profileCustomizations.hideProfileStats == 'hpsDMs') {
             this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
         }
-        else if (this.settings.profileCustomizations.hideProfileStats == 'hpsGlobal') {
+        else if (this.settings.profileCustomizations.hideProfileStats == 'hpsGlobal' || this.settings.profileCustomizations.profileDisableAll) {
             this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileCards, 'container', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
         }
 
-        if (this.settings.profileCustomizations.hideWishlist) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
+        if (this.settings.profileCustomizations.hideWishlist || this.settings.profileCustomizations.profileDisableAll) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
 
         if (this.settings.profileCustomizations.hideStatus == 'hcsPopout') {
             this.styler.add('.user-profile-popout .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
@@ -1435,12 +1468,12 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.user-profile-sidebar .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
             this.styler.add('.user-profile-sidebar .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
         }
-        else if (this.settings.profileCustomizations.hideStatus == 'hcsGlobal') {
+        else if (this.settings.profileCustomizations.hideStatus == 'hcsGlobal' || this.settings.profileCustomizations.profileDisableAll) {
             this.styler.add('.{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
             this.styler.add('.{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
         }
 
-        if (this.settings.profileCustomizations.frameDecoration) {
+        if (this.settings.profileCustomizations.frameDecoration || this.settings.profileCustomizations.profileDisableAll) {
             this.styler.add('.{0} .{1}', this.frameDecoration, 'profileFrameContainer', this.frameDecoration, 'profileFrame');
             // Patch out the resizing of the Profile to accommodate the Frame
             this.styler.patch(
