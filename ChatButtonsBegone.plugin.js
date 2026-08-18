@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord client.
- * @version 4.5.1
+ * @version 4.5.2
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -101,7 +101,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.5.1',
+        version: '4.5.2',
     },
     defaultConfig: [
         {
@@ -1083,6 +1083,17 @@ module.exports = class ChatButtonsBegone {
                     config.profileCustomizations.hideStatus = config.profileCustomizations.hideStatus ? 'show' : 'hcsGlobal';
 
                     return config;
+                }
+            },
+            {
+                to: '4.5.2',
+                migrate: (config) => {
+                    // Correct migrations by disabling both settings
+                    config.profileCustomizations.hideStatus = 'show';
+                    config.miscellaneous.tagsBotApp = 'show';
+
+                    return config;
+
                 }
             },
         ];

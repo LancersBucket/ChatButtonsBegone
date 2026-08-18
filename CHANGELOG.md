@@ -1,4 +1,9 @@
 # Changelog
+## v4.5.2
+### Fixed
+- Set Remove APP/BOT Tags and Profile Custom Status to disabled when updating to correct for a migration issue enabling them by default. If you need these settings you can re-enable again.
+- Profile Custom Status removing edit status from profile popup
+
 ## v4.5.1
 ### Fixed
 - Settings menu not properly displaying config state
