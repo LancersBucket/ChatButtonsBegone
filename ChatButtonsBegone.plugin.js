@@ -701,7 +701,7 @@ const config = {
                     type: 'switch',
                     id: 'memberButton',
                     name: 'Remove Show/Hide Members Button',
-                    note: 'Removes Show/Hide Members button. Also affects the DMs "Add Friend"',
+                    note: 'Removes Show/Hide Members button. Also affects the DMs "Add to DM"',
                     defaultValue: false,
                 },
                 {
@@ -981,6 +981,13 @@ const config = {
                     id: 'baseGradient',
                     name: 'Remove Chat/Typing Now Gradient',
                     note: 'Removes the gradient from the Chat Input/Now Typing area.',
+                    defaultValue: false,
+                },
+                {
+                    type: 'switch',
+                    id: 'noTypingDots',
+                    name: 'Remove Chat/Typing Now animated "Dots"',
+                    note: 'Removes the animated Dots from the Now Typing area.',
                     defaultValue: false,
                 },
                 {
@@ -1579,6 +1586,7 @@ module.exports = class ChatButtonsBegone {
             );
         }
         if (this.settings.miscellaneous.baseGradient) this.styler.add('.{0}', this.textAreaGradient, 'chatGradientBase');
+        if (this.settings.miscellaneous.noTypingDots) this.styler.add('.{0} > svg.{1}', this.typingAnimDots, 'typingDots', this.typingAnimDots, 'ellipsis');
 
         if (this.settings.miscellaneous.tagsBotApp == 'remove') {
             this.styler.add('.{0}', this.tagsBot, 'botTag');
@@ -1702,6 +1710,7 @@ module.exports = class ChatButtonsBegone {
             this.channelDivider,
             this.userAreaIOChevron,
             this.textAreaGradient,
+            this.typingAnimDots,
             this.tagsBot,
             this.badgeNew,
             this.threadSuggestion,
@@ -1806,6 +1815,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider'), // Server Channel Divider
             this.api.Webpack.Filters.byKeys('buttonChevron'), // I/O Chevrons
             this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase'), // Chat Input Gradient
+            this.api.Webpack.Filters.byKeys('typing', 'typingDots'), // Animated Typing Dots
             this.api.Webpack.Filters.byKeys('botText', 'botTag'), // APP/BOT Tags
             this.api.Webpack.Filters.byKeys('newMemberBadge'), // New User Badge
             this.api.Webpack.Filters.byKeys('threadSuggestionBar'), // Thread Suggestions
