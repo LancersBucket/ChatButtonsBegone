@@ -7,6 +7,9 @@
     - Remove "Apps" Button
     - Remove "Speak Message" Button
 - Option to remove avatar cutouts (over background image) from user profiles [Profile Customizations]
+- Option to disable Profile Custom Theme on profiles [Profile Customizations]
+- Option to remove all profile customizations (marked with a (+)) [Profile Customizations]
+- Option to remove Chat/Typing Now animated "Dots" [Miscellaneous]
 
 ### Changed
 - Remove Profile Banner now displays a stock background color when removed rather than removing it entirely
@@ -19,14 +22,15 @@
 - Remove Quests not removing the Active Now quest prompt
 - Remove Profile Stats Card "Remove in Popup Profile" also removing profile activity
 - Remove Profile Custom Status not removing properly
+- Fixed settings menu in anticipation of an upstream component update
 
-## v4.4.1
+## v4.4.1 - August 7th, 2026
 ### Fixed
 - Remove Quests now removes new popup when users are clicked in server memberlists
 - Remove Badges (NewOldProfiles compatability) also erronerously removing Arven's [CakeDay](https://betterdiscord.app/plugins/CakeDay) badge 
 - Remove Avatar Decoration removing the avatar decoration inconsistently
 
-## v4.4.0
+## v4.4.0 - July 28th, 2026
 ### Added
 - Option to remove "Clips" menu item from User Profile Status Menu [Profile Customizations]
 - Option to remove the Stats card from User Profiles [Profile Customizations]
@@ -36,7 +40,7 @@
 - Remove User Activity Status not correctly applying for all cases when "Remove in Server Member list" is set
 - Remove Badges not correctly applying in Compatibility with NewOldProfiles [Profile Customizations]
 
-## v4.3.1
+## v4.3.1 - July 22nd, 2026
 ### Added
 - Option to remove "Pin" option from Channel Context Menu [Servers and Channels]
 
