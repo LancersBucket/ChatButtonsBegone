@@ -1467,17 +1467,13 @@ module.exports = class ChatButtonsBegone {
 
         if (this.settings.profileCustomizations.hideWishlist || this.settings.profileCustomizations.profileDisableAll) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
 
-        if (this.settings.profileCustomizations.hideStatus == 'hcsPopout') {
-            this.styler.add('.user-profile-popout .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
-            this.styler.add('.user-profile-popout .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
+        if (this.settings.profileCustomizations.hideStatus == 'hcsPopout' || this.settings.profileCustomizations.hideStatus == 'hcsGlobal' || this.settings.profileCustomizations.profileDisableAll) {
+            this.styler.add(':not([class^="previewContainer"]) > .user-profile-popout .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
+            this.styler.add(':not([class^="previewContainer"]) > .user-profile-popout .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
         }
-        else if (this.settings.profileCustomizations.hideStatus == 'hcsDMs') {
+        if (this.settings.profileCustomizations.hideStatus == 'hcsDMs' || this.settings.profileCustomizations.hideStatus == 'hcsGlobal' || this.settings.profileCustomizations.profileDisableAll) {
             this.styler.add('.user-profile-sidebar .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
             this.styler.add('.user-profile-sidebar .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
-        }
-        else if (this.settings.profileCustomizations.hideStatus == 'hcsGlobal' || this.settings.profileCustomizations.profileDisableAll) {
-            this.styler.add('.{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
-            this.styler.add('.{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
         }
 
         if (this.settings.profileCustomizations.frameDecoration || this.settings.profileCustomizations.profileDisableAll) {
