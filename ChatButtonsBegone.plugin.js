@@ -736,9 +736,9 @@ const config = {
             settings: [
                 {
                     type: 'switch',
-                    id: 'profileNoNitro',
-                    name: 'Disable Nitro Theme',
-                    note: 'Disables all Nitro Theme elements from a Proflie (Popup, Full, and Sideber (DMs))',
+                    id: 'profileNoCustom',
+                    name: 'Disable Profile Custom Theme',
+                    note: 'Disables all Custom Theme elements from a Proflie (Popup, Full, and Sideber (DMs))',
                     value: false,
                 },
                 {
@@ -1343,7 +1343,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.toolbar.profileButton) this.styler.add('.{0}:has(> svg > path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54.54"]) ', this.upperToolbar, 'iconWrapper');
 
         /// Profile Customizations ///
-        if (this.settings.profileCustomizations.profileNoNitro) {
+        if (this.settings.profileCustomizations.profileNoCustom) {
             this.styler.patch(
                 `--profile-gradient-primary-color: var(--background-surface-high) !important;
                 --profile-gradient-secondary-color: var(--background-surface-high) !important;
