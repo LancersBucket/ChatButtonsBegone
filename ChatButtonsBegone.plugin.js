@@ -1353,7 +1353,12 @@ module.exports = class ChatButtonsBegone {
 
         /// Toolbar ///
         if (this.settings.toolbar.threadsButton) this.styler.add('.{0}:has(svg > path[d^="M12 2.81a1 1 0 0 1 0-1.41l.36-.36a1 1 0 0 1 1.41 0l9.2 9.2a1"]) ', this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.notifyButton) this.styler.add('.{0}:has(> svg > path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) ', this.upperToolbar, 'iconWrapper');
+        if (this.settings.toolbar.notifyButton) {
+            // Strike Through Bell
+            this.styler.add('.{0}:has(> svg > path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) ', this.upperToolbar, 'iconWrapper');
+            // Regular Bell
+            this.styler.add('.{0}:has(> svg > path[d^="M9.7 2.89c.18-.07.32-.24.37-.43a2"]) ', this.upperToolbar, 'iconWrapper');
+        }
         if (this.settings.toolbar.pinnedButton) this.styler.add('.{0}:has(> svg path[d^="M19.38 11.38a3 3 0 0 0 4.24 0l.03-.03a.5.5 0 0 0 0-.7L13.35.35a.5.5"]) ', this.upperToolbar, 'iconWrapper');
         if (this.settings.toolbar.memberButton) this.styler.add('.{0}:has(> svg > path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"]) ', this.upperToolbar, 'iconWrapper');
         if (this.settings.toolbar.voiceButton) this.styler.add('.{0}:has(svg > path[d="M13 7a1 1 0 0 1 1-1 4 4 0 0 1 4 4 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 0 1-1-1Z"]) ', this.upperToolbar, 'iconWrapper');
