@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord client.
- * @version 4.5.2
+ * @version 4.5.3
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -101,7 +101,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.5.2',
+        version: '4.5.3',
     },
     defaultConfig: [
         {
@@ -1395,19 +1395,15 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}', this.selfNamePlate, 'fitInAccount');
         }
 
-        if (this.settings.profileCustomizations.clanTag == 'memberlist') {
-            this.styler.add('.{0}', this.mlTagEntry, 'clanTag');
-            this.styler.add('.{0}', this.dmTagEntry, 'clanTag');
-        } else if (this.settings.profileCustomizations.clanTag == 'profile') {
-            this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
-            this.styler.add('.{0}', this.clanTagProfile, 'guildTag');
-            // Profile - NewOldProfiles Plugin
-            if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
-        } else if (this.settings.profileCustomizations.clanTag == 'global' || this.settings.profileCustomizations.profileDisableAll) {
+        if (this.settings.profileCustomizations.clanTag == 'memberlist' || this.settings.profileCustomizations.clanTag == 'global' || this.settings.profileCustomizations.profileDisableAll) {
             // Member List
             this.styler.add('.{0}', this.mlTagEntry, 'clanTag');
             // DM List
-            this.styler.add('.{0}', this.dmEntry, 'clanTag');
+            this.styler.add('.{0}', this.dmTagEntry, 'clanTag');
+            // VC Users List
+            this.styler.add('.{0} .{1}', this.vcSmallAvatar, 'userSmall', this.containerChiplet, 'chipletParent');
+        }
+        if (this.settings.profileCustomizations.clanTag == 'profile' || this.settings.profileCustomizations.clanTag == 'global' || this.settings.profileCustomizations.profileDisableAll) {
             // Chat
             this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
             // Profile
@@ -1686,6 +1682,7 @@ module.exports = class ChatButtonsBegone {
             this.dmTagEntry,
             this.clanTagProfile,
             this.clanTagChiplet,
+            this.containerChiplet,
             this.avatarPreview,
             this.avatarDecorationContainer,
             this.avatarDecorationChat,
@@ -1791,6 +1788,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('overflowTooltip','clanTag'), // DM List claTag
             this.api.Webpack.Filters.byKeys('guildTag', 'clickable'), // Profile Clan Tag
             this.api.Webpack.Filters.byKeys('clanTagChiplet'), // Clan Tag Chiplet
+            this.api.Webpack.Filters.byKeys('container', 'chipletContainer'), // Clan Tag Chiplet Container
             this.api.Webpack.Filters.byKeys('skuPreview'), // SKU Preview Exclusion
             this.api.Webpack.Filters.byKeys('avatar', 'avatarDecorationContainer'), // Avatar Decoration
             this.api.Webpack.Filters.byKeys('avatarDecoration','contents'), // Avatar Decoration in Chat
