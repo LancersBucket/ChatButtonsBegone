@@ -1921,7 +1921,8 @@ module.exports = class ChatButtonsBegone {
                 filteredSettings.map((category) => {
                     return this.api.React.createElement(this.api.Components.SettingGroup, {
                         key: `group-${category.id}-${String(category.shown)}`,
-                        settings: [],
+                        name: category.name,
+                        collapsible: true,
                         shown: category.shown,
                         children: category.settings.map((subSetting) => {
                             let type;
@@ -1947,14 +1948,14 @@ module.exports = class ChatButtonsBegone {
                                         this.api.Data.save('settings', this.settings);
 
                                         // Don't refresh styles on core settings change
-                                        if (category === 'core') return;
+                                        if (category.id === 'core') return;
 
                                         this.styler.purge();
                                         this.addStyles();
                                         this.api.UI.showToast('Styles refreshed.', { type: 'info' });
-                                    }
-                                })
-                            })
+                                    },
+                                }),
+                            });
                         }),
                     });
                 }),
