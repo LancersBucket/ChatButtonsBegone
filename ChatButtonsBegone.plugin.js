@@ -1918,27 +1918,44 @@ module.exports = class ChatButtonsBegone {
 
             return this.api.React.createElement("div",
                 { id: "ChatButtonsBegone-settings-list" },
-                filteredSettings.map((setting) => {
+                filteredSettings.map((category) => {
                     return this.api.React.createElement(this.api.Components.SettingGroup, {
-                        key: `group-${setting.id}-${String(setting.shown)}`,
-                        ...setting,
-                        shown: setting.shown,
-                        onChange: (category, id, value) => {
-                            try {
-                                this.settings[category][id] = value;
-                            } catch {
-                                this.settings[category] = {};
-                                this.settings[category][id] = value;
-                            }
-                            this.api.Data.save('settings', this.settings);
+                        key: `group-${category.id}-${String(category.shown)}`,
+                        settings: [],
+                        shown: category.shown,
+                        children: category.settings.map((subSetting) => {
+                            let type;
+                            if (subSetting.type === 'switch') type = this.api.Components.SwitchInput;
+                            else if (subSetting.type === 'dropdown') return;//type = this.api.Components.DropdownInput;
+                            else this.api.Logger.warn(`Unknown setting type: ${subSetting.type}`);
+                            
+                            return this.api.React.createElement(this.api.Components.SettingItem, {
+                                key: `settingcontainer-${category.id}-${subSetting.id}`,
+                                name: subSetting.name,
+                                note: subSetting.note,
+                                inline: true,
+                                children: this.api.React.createElement(type, {
+                                    key: `setting-${category.id}-${subSetting.id}`,
+                                    value: subSetting.value,
+                                    onChange: (value) => {
+                                        try {
+                                            this.settings[category.id][subSetting.id] = value;
+                                        } catch {
+                                            this.settings[category.id] = {};
+                                            this.settings[category.id][subSetting.id] = value;
+                                        }
+                                        this.api.Data.save('settings', this.settings);
 
-                            // Don't refresh styles on core settings change
-                            if (category === 'core') return;
+                                        // Don't refresh styles on core settings change
+                                        if (category === 'core') return;
 
-                            this.styler.purge();
-                            this.addStyles();
-                            this.api.UI.showToast('Styles refreshed.', { type: 'info' });
-                        },
+                                        this.styler.purge();
+                                        this.addStyles();
+                                        this.api.UI.showToast('Styles refreshed.', { type: 'info' });
+                                    }
+                                })
+                            })
+                        }),
                     });
                 }),
             );
