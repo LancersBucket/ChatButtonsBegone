@@ -748,8 +748,18 @@ const config = {
                     note: 'Disables (Global) All following "(+)" Profile Customizations: Nameplates, ClanTag, Avatar/Frame Decorations, Badges, Banners, Profile Effects As well as Removes Collections, Activities, Stats, Wishlist, Custom Status',
                     defaultValue: false,
                     controls: [
+                        'namePlate',
+                        'clanTag',
                         'avatarDecoration',
                         'hideBadges',
+                        'hideBanner',
+                        'profileEffects',
+                        'hideCollection',
+                        'hideProfileActivity',
+                        'hideProfileStats',
+                        'hideWishlist',
+                        'hideStatus',
+                        'frameDecoration',
                     ],
                 },
                 {
@@ -1961,7 +1971,7 @@ module.exports = class ChatButtonsBegone {
                         children: category.settings.map((subSetting) => {
                             let type;
                             if (subSetting.type === 'switch') type = this.api.Components.SwitchInput;
-                            else if (subSetting.type === 'dropdown') return;//type = this.api.Components.DropdownInput;
+                            else if (subSetting.type === 'dropdown') type = this.api.Components.DropdownInput;
                             else this.api.Logger.warn(`Unknown setting type: ${subSetting.type}`);
                             
                             return this.api.React.createElement(this.api.Components.SettingItem, {
@@ -1973,9 +1983,15 @@ module.exports = class ChatButtonsBegone {
                                     key: `setting-${category.id}-${subSetting.id}-${String(subSetting.value)}-${String(subSetting.disabled)}`,
                                     value: subSetting.value,
                                     disabled: subSetting.disabled,
+                                    options: subSetting.options,
                                     onChange: (value) => {
                                         setFilteredSettings2((prevFilteredSettings) => {
+                                            subSetting.value = value;
+
                                             if (subSetting.controls?.length > 0) {
+                                                if (typeof value !== 'boolean') {
+                                                    this.api.Logger.warn('Warning: the "control"s key is only supported on switches');
+                                                }
                                                 for (const controlId of subSetting.controls) {
                                                     for (const prevCategory of filteredSettings) {
                                                         for (const prevSubSetting of prevCategory.settings) {
