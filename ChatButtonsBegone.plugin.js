@@ -1916,20 +1916,6 @@ module.exports = class ChatButtonsBegone {
         });
 
         const createSettingsList = (filteredSettings) => {
-            if (filteredSettings.length === 0) {
-                return this.api.React.createElement(this.api.Components.Text,
-                    { id: "ChatButtonsBegone-empty" },
-                    `No results found. Can't find what you're looking for? Want a feature? Let us know at: `,
-                    this.api.React.createElement('a',
-                        {
-                            href: `${config.info.github}/issues`,
-                            target: '_blank',
-                        },
-                        `${config.info.github}/issues`,
-                    ),
-                );
-            }
-
             // Add disabled key to all settings
             filteredSettings.forEach((category) => {
                 category.settings.forEach((subSetting) => {
@@ -1958,76 +1944,104 @@ module.exports = class ChatButtonsBegone {
 
             const [filteredSettings2, setFilteredSettings2] = this.api.React.useState(settings);
 
-            return this.api.React.createElement("div",
-                { id: "ChatButtonsBegone-settings-list" },
-                filteredSettings.map((category) => {
-                    return this.api.React.createElement(this.api.Components.SettingGroup, {
-                        key: `group-${category.id}-${String(category.shown)}`,
-                        name: category.name,
-                        collapsible: true,
-                        shown: category.shown,
-                        children: category.settings.map((subSetting) => {
-                            let type;
-                            if (subSetting.type === 'switch') type = this.api.Components.SwitchInput;
-                            else if (subSetting.type === 'dropdown') type = this.api.Components.DropdownInput;
-                            else this.api.Logger.warn(`Unknown setting type: ${subSetting.type}`);
-                            
-                            return this.api.React.createElement(this.api.Components.SettingItem, {
-                                key: `settingcontainer-${category.id}-${subSetting.id}`,
-                                name: subSetting.name,
-                                note: subSetting.note,
-                                inline: true,
-                                children: this.api.React.createElement(type, {
-                                    key: `setting-${category.id}-${subSetting.id}-${String(subSetting.value)}-${String(subSetting.disabled)}`,
-                                    value: subSetting.value,
-                                    disabled: subSetting.disabled,
-                                    options: subSetting.options,
-                                    onChange: (value) => {
-                                        setFilteredSettings2((prevFilteredSettings) => {
-                                            subSetting.value = value;
+            if (filteredSettings.length === 0) {
+                // If empty, generate default message
+                return this.api.React.createElement(this.api.Components.Text,
+                    { id: "ChatButtonsBegone-empty" },
+                    `No results found. Can't find what you're looking for? Want a feature? Let us know at: `,
+                    this.api.React.createElement('a',
+                        {
+                            href: `${config.info.github}/issues`,
+                            target: '_blank',
+                        },
+                        `${config.info.github}/issues`,
+                    ),
+                );
+            } else {
+                // Otherwise generate the settings list
+                return this.api.React.createElement("div",
+                    { id: "ChatButtonsBegone-settings-list" },
+                    // For each cateogry, create a settings group
+                    filteredSettings.map((category) => {
+                        return this.api.React.createElement(this.api.Components.SettingGroup, {
+                            key: `group-${category.id}-${String(category.shown)}`,
+                            name: category.name,
+                            collapsible: true,
+                            shown: category.shown,
+                            // Generate the settings within each cateogry
+                            children: category.settings.map((subSetting) => {
+                                // Determine the type of setting to render
+                                let type;
+                                if (subSetting.type === 'switch') type = this.api.Components.SwitchInput;
+                                else if (subSetting.type === 'dropdown') type = this.api.Components.DropdownInput;
+                                else {
+                                    // If unknown, skip generating this setting
+                                    this.api.Logger.warn(`Unknown setting type: ${subSetting.type}`);
+                                    return;
+                                }
+                                
+                                // Setting item container
+                                return this.api.React.createElement(this.api.Components.SettingItem, {
+                                    key: `settingcontainer-${category.id}-${subSetting.id}`,
+                                    name: subSetting.name,
+                                    note: subSetting.note,
+                                    inline: true,
+                                    // Specific setting with the type
+                                    children: this.api.React.createElement(type, {
+                                        key: `setting-${category.id}-${subSetting.id}-${String(subSetting.value)}-${String(subSetting.disabled)}`,
+                                        value: subSetting.value,
+                                        disabled: subSetting.disabled,
+                                        options: subSetting.options,
+                                        onChange: (value) => {
+                                            // When the setting is changed, update the value and update disabled status of any controlled settings
+                                            setFilteredSettings2((prevFilteredSettings) => {
+                                                subSetting.value = value;
 
-                                            if (subSetting.controls?.length > 0) {
-                                                if (typeof value !== 'boolean') {
-                                                    this.api.Logger.warn('Warning: the "control"s key is only supported on switches');
-                                                }
-                                                for (const controlId of subSetting.controls) {
-                                                    for (const prevCategory of filteredSettings) {
-                                                        for (const prevSubSetting of prevCategory.settings) {
-                                                            if (prevSubSetting.id === controlId) {
-                                                                prevSubSetting.disabled = value;
+                                                if (subSetting.controls?.length > 0) {
+                                                    if (typeof value !== 'boolean') {
+                                                        this.api.Logger.warn('Warning: The control key is only supported on switches.');
+                                                        // Force value to be false to prevent corrupting the disabled key
+                                                        value = false;
+                                                    }
+                                                    for (const controlId of subSetting.controls) {
+                                                        for (const prevCategory of filteredSettings) {
+                                                            for (const prevSubSetting of prevCategory.settings) {
+                                                                if (prevSubSetting.id === controlId) {
+                                                                    prevSubSetting.disabled = value;
+                                                                }
                                                             }
                                                         }
                                                     }
                                                 }
+
+                                                return [...prevFilteredSettings];
+                                            });
+
+                                            // Replay the changes on the condensed settings to save to disk
+                                            try {
+                                                this.settings[category.id][subSetting.id] = value;
+                                            } catch {
+                                                this.settings[category.id] = {};
+                                                this.settings[category.id][subSetting.id] = value;
                                             }
 
-                                            return [...prevFilteredSettings];
-                                        });
+                                            // Save settings to disk
+                                            this.api.Data.save('settings', this.settings);
 
-                                        // Play the changes on to the previous settings for rendering the settings panel
-                                        try {
-                                            this.settings[category.id][subSetting.id] = value;
-                                        } catch {
-                                            this.settings[category.id] = {};
-                                            this.settings[category.id][subSetting.id] = value;
-                                        }
+                                            // Don't refresh styles on core settings change
+                                            if (category.id === 'core') return;
 
-                                        // Save settings to disk
-                                        this.api.Data.save('settings', this.settings);
-
-                                        // Don't refresh styles on core settings change
-                                        if (category.id === 'core') return;
-
-                                        this.styler.purge();
-                                        this.addStyles();
-                                        this.api.UI.showToast('Styles refreshed.', { type: 'info' });
-                                    },
-                                }),
-                            });
-                        }),
-                    });
-                }),
-            );
+                                            this.styler.purge();
+                                            this.addStyles();
+                                            this.api.UI.showToast('Styles refreshed.', { type: 'info' });
+                                        },
+                                    }),
+                                });
+                            }),
+                        });
+                    }),
+                );
+            }
         }
 
         const SettingsPanel = () => {
