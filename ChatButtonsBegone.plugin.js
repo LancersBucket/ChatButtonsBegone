@@ -747,6 +747,20 @@ const config = {
                     name: 'Disable All Profile Customizations',
                     note: 'Disables (Global) All following "(+)" Profile Customizations: Nameplates, ClanTag, Avatar/Frame Decorations, Badges, Banners, Profile Effects As well as Removes Collections, Activities, Stats, Wishlist, Custom Status',
                     defaultValue: false,
+                    controls: [
+                        'namePlate',
+                        'clanTag',
+                        'avatarDecoration',
+                        'hideBadges',
+                        'hideBanner',
+                        'profileEffects',
+                        'hideCollection',
+                        'hideProfileActivity',
+                        'hideProfileStats',
+                        'hideWishlist',
+                        'hideStatus',
+                        'frameDecoration',
+                    ],
                 },
                 {
                     type: 'dropdown',
@@ -1904,7 +1918,36 @@ module.exports = class ChatButtonsBegone {
         });
 
         const createSettingsList = (filteredSettings) => {
+            // Add disabled key to all settings
+            filteredSettings.forEach((category) => {
+                category.settings.forEach((subSetting) => {
+                    if (!('disabled' in subSetting)) {
+                        subSetting.disabled = false;
+                    }
+                });
+            });
+
+            // Set disabled flag based on the disablers
+            filteredSettings.forEach((category) => {
+                category.settings.forEach((subSetting) => {
+                    if (subSetting.controls?.length > 0) {
+                        for (const controlId of subSetting.controls) {
+                            for (const prevCategory of filteredSettings) {
+                                for (const prevSubSetting of prevCategory.settings) {
+                                    if (prevSubSetting.id === controlId) {
+                                        prevSubSetting.disabled = subSetting.value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+
+            const [filteredSettings2, setFilteredSettings2] = this.api.React.useState(settings);
+
             if (filteredSettings.length === 0) {
+                // If empty, generate default message
                 return this.api.React.createElement(this.api.Components.Text,
                     { id: "ChatButtonsBegone-empty" },
                     `No results found. Can't find what you're looking for? Want a feature? Let us know at: `,
@@ -1916,34 +1959,91 @@ module.exports = class ChatButtonsBegone {
                         `${config.info.github}/issues`,
                     ),
                 );
+            } else {
+                // Otherwise generate the settings list
+                return this.api.React.createElement("div",
+                    { id: "ChatButtonsBegone-settings-list" },
+                    // For each cateogry, create a settings group
+                    filteredSettings.map((category) => {
+                        return this.api.React.createElement(this.api.Components.SettingGroup, {
+                            key: `group-${category.id}-${String(category.shown)}`,
+                            name: category.name,
+                            collapsible: true,
+                            shown: category.shown,
+                            // Generate the settings within each cateogry
+                            children: category.settings.map((subSetting) => {
+                                // Determine the type of setting to render
+                                let type;
+                                if (subSetting.type === 'switch') type = this.api.Components.SwitchInput;
+                                else if (subSetting.type === 'dropdown') type = this.api.Components.DropdownInput;
+                                else {
+                                    // If unknown, skip generating this setting
+                                    this.api.Logger.warn(`Unknown setting type: ${subSetting.type}`);
+                                    return;
+                                }
+                                
+                                // Setting item container
+                                return this.api.React.createElement(this.api.Components.SettingItem, {
+                                    key: `settingcontainer-${category.id}-${subSetting.id}`,
+                                    name: subSetting.name,
+                                    note: subSetting.note,
+                                    inline: true,
+                                    // Specific setting with the type
+                                    children: this.api.React.createElement(type, {
+                                        key: `setting-${category.id}-${subSetting.id}-${String(subSetting.value)}-${String(subSetting.disabled)}`,
+                                        value: subSetting.value,
+                                        disabled: subSetting.disabled,
+                                        options: subSetting.options,
+                                        onChange: (value) => {
+                                            // When the setting is changed, update the value and update disabled status of any controlled settings
+                                            setFilteredSettings2((prevFilteredSettings) => {
+                                                subSetting.value = value;
+
+                                                if (subSetting.controls?.length > 0) {
+                                                    if (typeof value !== 'boolean') {
+                                                        this.api.Logger.warn('Warning: The control key is only supported on switches.');
+                                                        // Force value to be false to prevent corrupting the disabled key
+                                                        value = false;
+                                                    }
+                                                    for (const controlId of subSetting.controls) {
+                                                        for (const prevCategory of filteredSettings) {
+                                                            for (const prevSubSetting of prevCategory.settings) {
+                                                                if (prevSubSetting.id === controlId) {
+                                                                    prevSubSetting.disabled = value;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                return [...prevFilteredSettings];
+                                            });
+
+                                            // Replay the changes on the condensed settings to save to disk
+                                            try {
+                                                this.settings[category.id][subSetting.id] = value;
+                                            } catch {
+                                                this.settings[category.id] = {};
+                                                this.settings[category.id][subSetting.id] = value;
+                                            }
+
+                                            // Save settings to disk
+                                            this.api.Data.save('settings', this.settings);
+
+                                            // Don't refresh styles on core settings change
+                                            if (category.id === 'core') return;
+
+                                            this.styler.purge();
+                                            this.addStyles();
+                                            this.api.UI.showToast('Styles refreshed.', { type: 'info' });
+                                        },
+                                    }),
+                                });
+                            }),
+                        });
+                    }),
+                );
             }
-
-            return this.api.React.createElement("div",
-                { id: "ChatButtonsBegone-settings-list" },
-                filteredSettings.map((setting) => {
-                    return this.api.React.createElement(this.api.Components.SettingGroup, {
-                        key: `group-${setting.id}-${String(setting.shown)}`,
-                        ...setting,
-                        shown: setting.shown,
-                        onChange: (category, id, value) => {
-                            try {
-                                this.settings[category][id] = value;
-                            } catch {
-                                this.settings[category] = {};
-                                this.settings[category][id] = value;
-                            }
-                            this.api.Data.save('settings', this.settings);
-
-                            // Don't refresh styles on core settings change
-                            if (category === 'core') return;
-
-                            this.styler.purge();
-                            this.addStyles();
-                            this.api.UI.showToast('Styles refreshed.', { type: 'info' });
-                        },
-                    });
-                }),
-            );
         }
 
         const SettingsPanel = () => {
