@@ -747,6 +747,10 @@ const config = {
                     name: 'Disable All Profile Customizations',
                     note: 'Disables (Global) All following "(+)" Profile Customizations: Nameplates, ClanTag, Avatar/Frame Decorations, Badges, Banners, Profile Effects As well as Removes Collections, Activities, Stats, Wishlist, Custom Status',
                     defaultValue: false,
+                    controls: [
+                        'avatarDecoration',
+                        'hideBadges',
+                    ],
                 },
                 {
                     type: 'dropdown',
@@ -1918,6 +1922,34 @@ module.exports = class ChatButtonsBegone {
                 );
             }
 
+            // Add disabled key to all settings
+            filteredSettings.forEach((category) => {
+                category.settings.forEach((subSetting) => {
+                    if (!('disabled' in subSetting)) {
+                        subSetting.disabled = false;
+                    }
+                });
+            });
+
+            // Set disabled flag based on the disablers
+            filteredSettings.forEach((category) => {
+                category.settings.forEach((subSetting) => {
+                    if (subSetting.controls?.length > 0) {
+                        for (const controlId of subSetting.controls) {
+                            for (const prevCategory of filteredSettings) {
+                                for (const prevSubSetting of prevCategory.settings) {
+                                    if (prevSubSetting.id === controlId) {
+                                        prevSubSetting.disabled = subSetting.value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+
+            const [filteredSettings2, setFilteredSettings2] = this.api.React.useState(settings);
+
             return this.api.React.createElement("div",
                 { id: "ChatButtonsBegone-settings-list" },
                 filteredSettings.map((category) => {
@@ -1938,15 +1970,35 @@ module.exports = class ChatButtonsBegone {
                                 note: subSetting.note,
                                 inline: true,
                                 children: this.api.React.createElement(type, {
-                                    key: `setting-${category.id}-${subSetting.id}`,
+                                    key: `setting-${category.id}-${subSetting.id}-${String(subSetting.value)}-${String(subSetting.disabled)}`,
                                     value: subSetting.value,
+                                    disabled: subSetting.disabled,
                                     onChange: (value) => {
+                                        setFilteredSettings2((prevFilteredSettings) => {
+                                            if (subSetting.controls?.length > 0) {
+                                                for (const controlId of subSetting.controls) {
+                                                    for (const prevCategory of filteredSettings) {
+                                                        for (const prevSubSetting of prevCategory.settings) {
+                                                            if (prevSubSetting.id === controlId) {
+                                                                prevSubSetting.disabled = value;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            return [...prevFilteredSettings];
+                                        });
+
+                                        // Play the changes on to the previous settings for rendering the settings panel
                                         try {
                                             this.settings[category.id][subSetting.id] = value;
                                         } catch {
                                             this.settings[category.id] = {};
                                             this.settings[category.id][subSetting.id] = value;
                                         }
+
+                                        // Save settings to disk
                                         this.api.Data.save('settings', this.settings);
 
                                         // Don't refresh styles on core settings change
