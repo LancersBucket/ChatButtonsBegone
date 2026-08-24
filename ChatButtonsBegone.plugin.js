@@ -1865,35 +1865,7 @@ module.exports = class ChatButtonsBegone {
     }
 
     getSettingsPanel() {
-        // Aliases for setting filtering
-        class Aliases {
-            constructor() {
-                this.aliases = [];
-            }
-            /**
-             * Register an alias grouping of similar strings.
-             * @param  {...string} aliasGroup A list of strings to be aliased
-             */
-            register(...aliasGroup) {
-                this.aliases.push(aliasGroup.map(alias => alias.toLowerCase()));
-            }
-            /**
-             * Return a list of aliases related to the provided term.
-             * @param {string} term A search term
-             * @returns {string[]|null} An alias grouping or null if no results are found
-             */
-            getAliases(term) {
-                term = term.toLowerCase();
-                for (const aliasGroup of this.aliases) {
-                    for (const alias of aliasGroup) {
-                        if (alias === term) return aliasGroup;
-                    }
-                };
-                return null;
-            }
-        }
-        
-        // Custom setting styles
+        // Panel setup
         const styles = `
             .ChatButtonsBegone-settings-search {
                 position: sticky;
@@ -1907,25 +1879,21 @@ module.exports = class ChatButtonsBegone {
         `;
         this.api.DOM.addStyle('ChatButtonsBegone-settings-panel', styles);
 
-        // Clone default config
         let settings = JSON.parse(JSON.stringify(config.defaultConfig));
         settings.forEach((category) => {
             category.settings.forEach((subSetting) => {
-                subSetting.defaultValue = this.settings[category.id][subSetting.id];
+                subSetting.value = this.settings[category.id][subSetting.id];
             });
         });
 
-        const createSettingsList = (filteredSettings) => {
-            // Add disabled key to all settings
+        // Setting state helpers
+        const setControlledSettings = (filteredSettings) => {
             filteredSettings.forEach((category) => {
                 category.settings.forEach((subSetting) => {
-                    if (!('disabled' in subSetting)) {
-                        subSetting.disabled = false;
-                    }
+                    if (!('disabled' in subSetting)) subSetting.disabled = false;
                 });
             });
 
-            // Set disabled flag based on the disablers
             filteredSettings.forEach((category) => {
                 category.settings.forEach((subSetting) => {
                     if (subSetting.controls?.length > 0) {
@@ -1941,11 +1909,79 @@ module.exports = class ChatButtonsBegone {
                     }
                 });
             });
+        };
 
-            const [filteredSettings2, setFilteredSettings2] = this.api.React.useState(settings);
+        const saveSetting = (category, subSetting, value) => {
+            try {
+                this.settings[category.id][subSetting.id] = value;
+            } catch {
+                this.settings[category.id] = {};
+                this.settings[category.id][subSetting.id] = value;
+            }
+
+            this.api.Data.save('settings', this.settings);
+
+            if (category.id === 'core') return;
+
+            this.styler.purge();
+            this.addStyles();
+            this.api.UI.showToast('Styles refreshed.', { type: 'info' });
+        };
+
+        const createSetting = (category, subSetting, filteredSettings, setFilteredSettings) => {
+            let type;
+            if (subSetting.type === 'switch') type = this.api.Components.SwitchInput;
+            else if (subSetting.type === 'dropdown') type = this.api.Components.DropdownInput;
+            else {
+                this.api.Logger.warn(`Unknown setting type: ${subSetting.type}`);
+                return;
+            }
+
+            const onChange = (value) => {
+                setFilteredSettings((prevFilteredSettings) => {
+                    subSetting.value = value;
+
+                    if (subSetting.controls?.length > 0) {
+                        if (typeof value !== 'boolean') {
+                            this.api.Logger.warn('Warning: The control key is only supported on switches.');
+                            value = false;
+                        }
+                        for (const controlId of subSetting.controls) {
+                            for (const prevCategory of filteredSettings) {
+                                for (const prevSubSetting of prevCategory.settings) {
+                                    if (prevSubSetting.id === controlId) prevSubSetting.disabled = value;
+                                }
+                            }
+                        }
+                    }
+
+                    return [...prevFilteredSettings];
+                });
+
+                saveSetting(category, subSetting, value);
+            };
+
+            return this.api.React.createElement(this.api.Components.SettingItem, {
+                key: `settingcontainer-${category.id}-${subSetting.id}`,
+                name: subSetting.name,
+                note: subSetting.note,
+                inline: true,
+                children: this.api.React.createElement(type, {
+                    key: `setting-${category.id}-${subSetting.id}-${String(subSetting.value)}-${String(subSetting.disabled)}`,
+                    value: subSetting.value,
+                    disabled: subSetting.disabled,
+                    options: subSetting.options,
+                    onChange,
+                }),
+            });
+        };
+
+        const createSettingsList = (filteredSettings) => {
+            setControlledSettings(filteredSettings);
+
+            const [, refreshSettings] = this.api.React.useState(settings);
 
             if (filteredSettings.length === 0) {
-                // If empty, generate default message
                 return this.api.React.createElement(this.api.Components.Text,
                     { id: "ChatButtonsBegone-empty" },
                     `No results found. Can't find what you're looking for? Want a feature? Let us know at: `,
@@ -1957,109 +1993,37 @@ module.exports = class ChatButtonsBegone {
                         `${config.info.github}/issues`,
                     ),
                 );
-            } else {
-                // Otherwise generate the settings list
-                return this.api.React.createElement("div",
-                    { id: "ChatButtonsBegone-settings-list" },
-                    // For each cateogry, create a settings group
-                    filteredSettings.map((category) => {
-                        return this.api.React.createElement(this.api.Components.SettingGroup, {
-                            key: `group-${category.id}-${String(category.shown)}`,
-                            name: category.name,
-                            collapsible: true,
-                            shown: category.shown,
-                            // Generate the settings within each cateogry
-                            children: category.settings.map((subSetting) => {
-                                // Determine the type of setting to render
-                                let type;
-                                if (subSetting.type === 'switch') type = this.api.Components.SwitchInput;
-                                else if (subSetting.type === 'dropdown') type = this.api.Components.DropdownInput;
-                                else {
-                                    // If unknown, skip generating this setting
-                                    this.api.Logger.warn(`Unknown setting type: ${subSetting.type}`);
-                                    return;
-                                }
-                                
-                                // Setting item container
-                                return this.api.React.createElement(this.api.Components.SettingItem, {
-                                    key: `settingcontainer-${category.id}-${subSetting.id}`,
-                                    name: subSetting.name,
-                                    note: subSetting.note,
-                                    inline: true,
-                                    // Specific setting with the type
-                                    children: this.api.React.createElement(type, {
-                                        key: `setting-${category.id}-${subSetting.id}-${String(subSetting.value)}-${String(subSetting.disabled)}`,
-                                        value: subSetting.value,
-                                        disabled: subSetting.disabled,
-                                        options: subSetting.options,
-                                        onChange: (value) => {
-                                            // When the setting is changed, update the value and update disabled status of any controlled settings
-                                            setFilteredSettings2((prevFilteredSettings) => {
-                                                subSetting.value = value;
-
-                                                if (subSetting.controls?.length > 0) {
-                                                    if (typeof value !== 'boolean') {
-                                                        this.api.Logger.warn('Warning: The control key is only supported on switches.');
-                                                        // Force value to be false to prevent corrupting the disabled key
-                                                        value = false;
-                                                    }
-                                                    for (const controlId of subSetting.controls) {
-                                                        for (const prevCategory of filteredSettings) {
-                                                            for (const prevSubSetting of prevCategory.settings) {
-                                                                if (prevSubSetting.id === controlId) {
-                                                                    prevSubSetting.disabled = value;
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-
-                                                return [...prevFilteredSettings];
-                                            });
-
-                                            // Replay the changes on the condensed settings to save to disk
-                                            try {
-                                                this.settings[category.id][subSetting.id] = value;
-                                            } catch {
-                                                this.settings[category.id] = {};
-                                                this.settings[category.id][subSetting.id] = value;
-                                            }
-
-                                            // Save settings to disk
-                                            this.api.Data.save('settings', this.settings);
-
-                                            // Don't refresh styles on core settings change
-                                            if (category.id === 'core') return;
-
-                                            this.styler.purge();
-                                            this.addStyles();
-                                            this.api.UI.showToast('Styles refreshed.', { type: 'info' });
-                                        },
-                                    }),
-                                });
-                            }),
-                        });
-                    }),
-                );
             }
+
+            return this.api.React.createElement("div",
+                { id: "ChatButtonsBegone-settings-list" },
+                filteredSettings.map((category) => this.api.React.createElement(this.api.Components.SettingGroup, {
+                    key: `group-${category.id}-${String(category.shown)}`,
+                    name: category.name,
+                    collapsible: true,
+                    shown: category.shown,
+                    children: category.settings.map((subSetting) => createSetting(category, subSetting, filteredSettings, refreshSettings)),
+                })),
+            );
         }
 
+        // Search aliases
         const SettingsPanel = () => {
-            const aliases = new Aliases();
-            aliases.register("voice", "vc", "vcs", "voice chat", "voice chats", "voice channel", "voice channels");
-            aliases.register("dm", "dms", "direct message", "direct messages");
-            aliases.register("gdm", "gdms", "group direct message", "group direct messages");
-            aliases.register("chatbar", "chat bar", "typing area", "text area");
-            aliases.register("title and toolbar", "title bar", "toolbar", "tool bar");
-            aliases.register("servers and channels", "servers", "channels", "server", "channel");
-            aliases.register("profile", "profile customization", "profile customizations");
+            const aliases = [
+                ["voice", "vc", "vcs", "voice chat", "voice chats", "voice channel", "voice channels"],
+                ["dm", "dms", "direct message", "direct messages"],
+                ["gdm", "gdms", "group direct message", "group direct messages"],
+                ["chatbar", "chat bar", "typing area", "text area"],
+                ["title and toolbar", "title bar", "toolbar", "tool bar"],
+                ["servers and channels", "servers", "channels", "server", "channel"],
+                ["profile", "profile customization", "profile customizations"],
+            ].map(aliasGroup => aliasGroup.map(alias => alias.toLowerCase()));
 
             const [filteredSettings, setFilteredSettings] = this.api.React.useState(settings);
 
             const filterSettings = (searchTerm) => {
                 const term = searchTerm.trim().toLowerCase();
 
-                // If no search term is supplied, show default list
                 if (!term) {
                     setFilteredSettings(settings);
                     return;
@@ -2068,9 +2032,7 @@ module.exports = class ChatButtonsBegone {
                 const filteredSettings = JSON.parse(JSON.stringify(settings));
                 filteredSettings.forEach((category) => {
                     category.settings = category.settings.filter((subSetting) => {
-                        // If the search term starts with an underscore, search by ID instead
                         if (term.startsWith("_")) {
-                            // Append the ID to the name in ID mode for easier identification
                             subSetting.name += ` [${subSetting.id}]`;
                             return (
                                 subSetting.id.toLowerCase().includes(term.slice(1)) ||
@@ -2078,27 +2040,22 @@ module.exports = class ChatButtonsBegone {
                             );
                         }
 
-                        // Filters for the search to use
                         const filters = (word) => {
                             return (
-                                // If the name of the setting includes the term
                                 subSetting.name.toLowerCase().includes(word) ||
-                                // If the description of the setting includes the term
                                 subSetting.note.toLowerCase().includes(word) ||
-                                // If the name of the category is equal to the term
                                 category.name.toLowerCase() === word
                             );
                         }
 
-                        // If the word has an alias, check all aliases for a match
-                        if (aliases.getAliases(term)) {
-                            for (const alias of aliases.getAliases(term)) {
+                        const aliasGroup = aliases.find(aliasGroup => aliasGroup.includes(term));
+                        if (aliasGroup) {
+                            for (const alias of aliasGroup) {
                                 if (filters(alias)) return true;
                             }
-                        } else return filters(term); // Otherwise just check the term itself
+                        } else return filters(term);
                     });
 
-                    // In filter mode, uncollapse all categories that have at least one setting
                     if (category.settings.length > 0) category.shown = true;
                 });
                 setFilteredSettings(filteredSettings.filter(category => category.settings.length > 0));
