@@ -2033,7 +2033,7 @@ module.exports = class ChatButtonsBegone {
                 filteredSettings.forEach((category) => {
                     category.settings = category.settings.filter((subSetting) => {
                         if (term.startsWith("_")) {
-                            subSetting.name += ` [${subSetting.id}]`;
+                            subSetting.name += ` [${category.id}.${subSetting.id}]`;
                             return (
                                 subSetting.id.toLowerCase().includes(term.slice(1)) ||
                                 category.id.toLowerCase().includes(term.slice(1))
