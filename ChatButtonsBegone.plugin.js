@@ -74,8 +74,8 @@ class Styler {
      * Apply the styles and patches.
      */
     apply() {
-        this.api.DOM.addStyle('ChatButtonsBegone-styles', `${this.styles.join(', ')} { display: none !important; }`);
-        this.api.DOM.addStyle('ChatButtonsBegone-patches', this.patches.map(p => `${p[0]} { ${p[1]} }`).join(' '));
+        if (this.styles.length > 0) this.api.DOM.addStyle('ChatButtonsBegone-styles', `${this.styles.join(', ')} { display: none !important; }`);
+        if (this.patches.length > 0) this.api.DOM.addStyle('ChatButtonsBegone-patches', this.patches.map(p => `${p[0]} { ${p[1]} }`).join(' '));
     }
 
     /**

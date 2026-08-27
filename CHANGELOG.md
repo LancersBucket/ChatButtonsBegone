@@ -1,4 +1,11 @@
 # Changelog
+## v4.5.3
+### Fixed
+- Settings menu not properly displaying config state
+- Settings not being applied if a "patch" is not present
+- Clan Tag not removing all cases where it could be present
+- Remove Notify Button not removing in threads as well
+
 ## v4.5.2
 ### Fixed
 - Set Remove APP/BOT Tags and Profile Custom Status to disabled when updating to correct for a migration issue enabling them by default. If you need these settings you can re-enable again.
