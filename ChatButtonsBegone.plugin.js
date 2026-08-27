@@ -74,7 +74,7 @@ class Styler {
      * Apply the styles and patches.
      */
     apply() {
-        this.api.DOM.addStyle('ChatButtonsBegone', `${this.styles.join(', ')} { display: none !important; }`);
+        this.api.DOM.addStyle('ChatButtonsBegone-styles', `${this.styles.join(', ')} { display: none !important; }`);
         this.api.DOM.addStyle('ChatButtonsBegone-patches', this.patches.map(p => `${p[0]} { ${p[1]} }`).join(' '));
     }
 
@@ -82,7 +82,7 @@ class Styler {
      * Remove the styles and patches, and clear the buffers.
      */
     purge() {
-        this.api.DOM.removeStyle('ChatButtonsBegone');
+        this.api.DOM.removeStyle('ChatButtonsBegone-styles');
         this.styles = [];
 
         this.api.DOM.removeStyle('ChatButtonsBegone-patches');
@@ -93,7 +93,7 @@ class Styler {
      * Remove the styles and patches, without clearing the buffers.
      */
     clear() {
-        this.api.DOM.removeStyle('ChatButtonsBegone');
+        this.api.DOM.removeStyle('ChatButtonsBegone-styles');
         this.api.DOM.removeStyle('ChatButtonsBegone-patches');
     }
 }
