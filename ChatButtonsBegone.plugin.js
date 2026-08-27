@@ -1525,7 +1525,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('div[class^="stack"] div[class^="sectionHeader"]:has(+ div[class^="theme-"][class*="images-"])');
             this.styler.add('div[class^="stack"] div[class^="theme-"][class*="images-"]');
             // Profile Popup "Edit Profile" Sidebar
-            this.styler.add('div:has(> .{0}, > .{1})', this.profilePopupUpsell, 'nitro-pink', this.profilePopupUpsell, 'pink'); 
+            this.styler.add('div:has(> .{0}, > .{1})', this.profilePopupUpsell, 'nitro-pink', this.profilePopupUpsell, 'pink');
         }
 
         if (this.settings.miscellaneous.noQuests) {
@@ -1742,12 +1742,12 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('activitySection', 'gameSection'), // Active Now Activity Cards
             this.api.Webpack.Filters.byKeys('emptyCard', 'emptyHeader'), // Active Now Empty Card
             this.api.Webpack.Filters.byKeys('textXs'), // DMs List Activity/Status Container
-            this.api.Webpack.Filters.byKeys('activityStatusText'), // DMs List Activity/Status Text
+            this.api.Webpack.Filters.byKeys('interactive', 'activityStatusText'), // DMs List Activity/Status Text
             this.api.Webpack.Filters.byKeys('containerWithoutTruncatedText'), // DMs List Status Text
             this.api.Webpack.Filters.byKeys('subText', 'childContainer'), // Member List Activity/Status
             this.api.Webpack.Filters.byKeys('truncated'), // Member List Status Text
             this.api.Webpack.Filters.byKeys('activityContainer'), // Multi-Activity Status Container
-            this.api.Webpack.Filters.byKeys('userInfo', 'text'), // Friends Page UserInfo Sub-Status
+            this.api.Webpack.Filters.byKeys('userInfo', 'text', 'discordTag'), // Friends Page UserInfo Sub-Status
             this.api.Webpack.Filters.byKeys('textSm'), // Friends Page UserInfo Sub-Text
 
             // Servers & Channels
