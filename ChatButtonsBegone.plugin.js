@@ -2011,7 +2011,7 @@ module.exports = class ChatButtonsBegone {
                     {
                         className: "ChatButtonsBegone-settings-search",
                         placeholder: `Search ${numSettings} settings...`,
-                        onChange: e => filterSettings(e.target.value),
+                        onChange: e => filterSettings(e),
                     },
                 ),
                 createSettingsList(filteredSettings),

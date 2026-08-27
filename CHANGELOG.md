@@ -6,6 +6,7 @@
 - Clan Tag not removing all cases where it could be present
 - Remove Notify Button not removing in threads as well
 - DMs List Activity/Status Text and Friends Page User Info Sub-Status not removing properly
+- Settings not searching
 
 ## v4.5.2
 ### Fixed
