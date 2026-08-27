@@ -1158,7 +1158,7 @@ module.exports = class ChatButtonsBegone {
                     }
                 }
             } else {
-                if (!(category.id in this.settings)) this.settings[category.id] = category.value;
+                if (!(category.id in this.settings)) this.settings[category.id] = category.defaultValue;
             }
         }
 
@@ -1882,7 +1882,7 @@ module.exports = class ChatButtonsBegone {
         let settings = JSON.parse(JSON.stringify(config.defaultConfig));
         settings.forEach((category) => {
             category.settings.forEach((subSetting) => {
-                subSetting.value = this.settings[category.id][subSetting.id];
+                subSetting.defaultValue = this.settings[category.id][subSetting.id];
             });
         });
 
@@ -1901,7 +1901,7 @@ module.exports = class ChatButtonsBegone {
                             for (const prevCategory of filteredSettings) {
                                 for (const prevSubSetting of prevCategory.settings) {
                                     if (prevSubSetting.id === controlId) {
-                                        prevSubSetting.disabled = subSetting.value;
+                                        prevSubSetting.disabled = subSetting.defaultValue;
                                     }
                                 }
                             }
@@ -1911,12 +1911,12 @@ module.exports = class ChatButtonsBegone {
             });
         };
 
-        const saveSetting = (category, subSetting, value) => {
+        const saveSetting = (category, subSetting, defaultValue) => {
             try {
-                this.settings[category.id][subSetting.id] = value;
+                this.settings[category.id][subSetting.id] = defaultValue;
             } catch {
                 this.settings[category.id] = {};
-                this.settings[category.id][subSetting.id] = value;
+                this.settings[category.id][subSetting.id] = defaultValue;
             }
 
             this.api.Data.save('settings', this.settings);
@@ -1937,19 +1937,19 @@ module.exports = class ChatButtonsBegone {
                 return;
             }
 
-            const onChange = (value) => {
+            const onChange = (defaultValue) => {
                 setFilteredSettings((prevFilteredSettings) => {
-                    subSetting.value = value;
+                    subSetting.defaultValue = defaultValue;
 
                     if (subSetting.controls?.length > 0) {
-                        if (typeof value !== 'boolean') {
+                        if (typeof defaultValue !== 'boolean') {
                             this.api.Logger.warn('Warning: The control key is only supported on switches.');
-                            value = false;
+                            defaultValue = false;
                         }
                         for (const controlId of subSetting.controls) {
                             for (const prevCategory of filteredSettings) {
                                 for (const prevSubSetting of prevCategory.settings) {
-                                    if (prevSubSetting.id === controlId) prevSubSetting.disabled = value;
+                                    if (prevSubSetting.id === controlId) prevSubSetting.disabled = defaultValue;
                                 }
                             }
                         }
@@ -1958,7 +1958,7 @@ module.exports = class ChatButtonsBegone {
                     return [...prevFilteredSettings];
                 });
 
-                saveSetting(category, subSetting, value);
+                saveSetting(category, subSetting, defaultValue);
             };
 
             return this.api.React.createElement(this.api.Components.SettingItem, {
@@ -1967,8 +1967,8 @@ module.exports = class ChatButtonsBegone {
                 note: subSetting.note,
                 inline: true,
                 children: this.api.React.createElement(type, {
-                    key: `setting-${category.id}-${subSetting.id}-${String(subSetting.value)}-${String(subSetting.disabled)}`,
-                    value: subSetting.value,
+                    key: `setting-${category.id}-${subSetting.id}-${String(subSetting.defaultValue)}-${String(subSetting.disabled)}`,
+                    defaultValue: subSetting.defaultValue,
                     disabled: subSetting.disabled,
                     options: subSetting.options,
                     onChange,
