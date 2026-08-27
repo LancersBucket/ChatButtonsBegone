@@ -1525,7 +1525,7 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('div[class^="stack"] div[class^="sectionHeader"]:has(+ div[class^="theme-"][class*="images-"])');
             this.styler.add('div[class^="stack"] div[class^="theme-"][class*="images-"]');
             // Profile Popup "Edit Profile" Sidebar
-            this.styler.add('div:has(> .{0})', this.profilePopupUpsell, 'nitro-pink'); 
+            this.styler.add('div:has(> .{0}, > .{1})', this.profilePopupUpsell, 'nitro-pink', this.profilePopupUpsell, 'pink'); 
         }
 
         if (this.settings.miscellaneous.noQuests) {
@@ -1815,7 +1815,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('settingsPage'), // Profile Shop Art
             this.api.Webpack.Filters.byKeys('menu', 'flexible'), // Nitro Context Menu
             this.api.Webpack.Filters.byKeys('upsellOverlayContainer'), // Per_Server Nitro Upsell
-            this.api.Webpack.Filters.byKeys('nitro-pink'), // Profile Popup Nitro Sidebar
+            this.api.Webpack.Filters.byKeys('nitro-pink', 'pink'), // Profile Popup Nitro Sidebar
             this.api.Webpack.Filters.byKeys('slateTextArea'), // Placeholder Text
             this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover'), // Profile Status Popover
             this.api.Webpack.Filters.byKeys('promotedTag'), // Active Now Quests Promotion
@@ -1897,9 +1897,7 @@ module.exports = class ChatButtonsBegone {
         let settings = JSON.parse(JSON.stringify(config.defaultConfig));
         settings.forEach((category) => {
             category.settings.forEach((subSetting) => {
-                // Replace with this when BD PR https://github.com/BetterDiscord/BetterDiscord/pull/2205 is merged
-                // subSetting.defaultValue = this.settings[category.id][subSetting.id];
-                subSetting.value = this.settings[category.id][subSetting.id];
+                subSetting.defaultValue = this.settings[category.id][subSetting.id];
             });
         });
 
