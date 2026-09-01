@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord client.
- * @version 4.5.3
+ * @version 4.5.4
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -101,7 +101,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
-        version: '4.5.3',
+        version: '4.5.4',
     },
     defaultConfig: [
         {
@@ -1407,6 +1407,8 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}', this.dmTagEntry, 'clanTag');
             // VC Users List
             this.styler.add('.{0} .{1}', this.vcSmallAvatar, 'userSmall', this.containerChiplet, 'chipletParent');
+            // Friends List
+            this.styler.add('.{0}.{1}', this.clanTagFriendsList, 'chipletContainerInner', this.clanTagFriendsList, 'noTooltip');
         }
         if (this.settings.profileCustomizations.clanTag == 'profile' || this.settings.profileCustomizations.clanTag == 'global' || this.settings.profileCustomizations.profileDisableAll) {
             // Chat
@@ -1688,6 +1690,7 @@ module.exports = class ChatButtonsBegone {
             this.clanTagProfile,
             this.clanTagChiplet,
             this.containerChiplet,
+            this.clanTagFriendsList,
             this.avatarPreview,
             this.avatarDecorationContainer,
             this.avatarDecorationChat,
@@ -1794,6 +1797,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('guildTag', 'clickable'), // Profile Clan Tag
             this.api.Webpack.Filters.byKeys('clanTagChiplet'), // Clan Tag Chiplet
             this.api.Webpack.Filters.byKeys('container', 'chipletContainer'), // Clan Tag Chiplet Container
+            this.api.Webpack.Filters.byKeys('chipletContainerInner', 'noTooltip'), // Friends List Clan Tag
             this.api.Webpack.Filters.byKeys('skuPreview'), // SKU Preview Exclusion
             this.api.Webpack.Filters.byKeys('avatar', 'avatarDecorationContainer'), // Avatar Decoration
             this.api.Webpack.Filters.byKeys('avatarDecoration','contents'), // Avatar Decoration in Chat

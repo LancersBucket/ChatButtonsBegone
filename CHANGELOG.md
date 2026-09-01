@@ -1,4 +1,8 @@
 # Changelog
+## v4.5.4
+### Fixed
+- Clan Tag not removing from friends list when 'Remove in Member List' or 'Remove' is selected
+
 ## v4.5.3
 ### Fixed
 - Settings menu not properly displaying config state
