@@ -15,6 +15,21 @@ With over 100 toggleable settings, you can configure your client to remove or ke
 
 This plugin is based on the work of, and expands upon, [QbDesu](https://github.com/QbDesu)'s [RemoveChatButtons](https://github.com/BleedingBD/plugin-RemoveChatButtons) plugin.
 
+## Compatibility
+ChatButtonsBegone has support for a variety of other plugins that modify the UI. The following plugins are currently supported:
+- [InvisibleTyping](https://betterdiscord.app/plugins/InvisibleTyping) by Strencher:
+    - Compatibility:
+        - Remove Invisible Typing Button
+- [NewOldProfiles](https://betterdiscord.app/plugins/NewOldProfiles) by KingGamingYT (requires enabling "NewOldProfiles Compatibility" under Compatibility):
+    - Profile Customizations:
+        - Clan Tag
+        - Remove Profile Badges
+        - Remove Edit Profile
+- BetterSettings by Skamt
+    - Miscellaneous:
+        - Nitro Upsell (Removes Billing Tab)
+- [OldTitlebar](https://betterdiscord.app/plugins/OldTitlebar) by DevilBro
+
 ## Changelog
 See [CHANGELOG.md](https://github.com/LancersBucket/ChatButtonsBegone/blob/main/CHANGELOG.md) for details on version history.
 
