@@ -1514,6 +1514,8 @@ module.exports = class ChatButtonsBegone {
             // Billing Settings (Context Menu)
             this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu');
             this.styler.add('.{0} div[role="group"]:has(#settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu');
+            // Billing Settings (Context Menu / BetterSettings Plugin)
+            this.styler.add('.{0} div:has(> #settings-menu-Billing)', this.contextSettingsMenu, 'menu');
             // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
             this.styler.add('.{0}', this.profileUpsell, 'upsellOverlayContainer');
             // Profile Shop Button
