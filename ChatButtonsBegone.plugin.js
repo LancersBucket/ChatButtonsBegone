@@ -1415,6 +1415,8 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
             // Profile
             this.styler.add('.{0}', this.clanTagProfile, 'guildTag');
+            // DM's "Show Profile"
+            this.styler.add('.{0}', this.clanTagProfile, 'guildTagPill');
             // Profile - NewOldProfiles Plugin
             if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
         }
