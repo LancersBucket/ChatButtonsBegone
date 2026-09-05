@@ -25,7 +25,7 @@ ChatButtonsBegone has support for a variety of other plugins that modify the UI.
         - Clan Tag
         - Remove Profile Badges
         - Remove Edit Profile
-- BetterSettings by Skamt
+- [BetterSettings](https://github.com/Skamt/BDAddons/tree/main/BetterSettings) by Skamt
     - Miscellaneous:
         - Nitro Upsell (Removes Billing Tab)
 - [OldTitlebar](https://betterdiscord.app/plugins/OldTitlebar) by DevilBro
