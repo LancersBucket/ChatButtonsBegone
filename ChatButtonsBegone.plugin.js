@@ -1325,7 +1325,7 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.cameraPanelButton) this.styler.add('.{0} > button:first-of-type', this.vcButtons, 'actionButtons');
         if (this.settings.voice.screensharePanelButton) this.styler.add('.{0} > button:nth-of-type(2)', this.vcButtons, 'actionButtons');
         if (this.settings.voice.activityPanelButton) this.styler.add('.{0} > button:nth-of-type(3)', this.vcButtons, 'actionButtons');
-        if (this.settings.voice.soundboardPanelButton) this.styler.add('.{0} span:has(svg)', this.vcButtons, 'actionButtons');
+        if (this.settings.voice.soundboardPanelButton) this.styler.add('.{0} div:has(> button svg)', this.vcButtons, 'actionButtons');
         if (this.settings.voice.krispButton) this.styler.add('.{0} button:first-of-type', this.vcKrisp, 'voiceButtonsContainer');
         if (this.settings.voice.gameActivityPanel) this.styler.add('.{0}', this.vcActivityPanel, 'activityPanel');
         if (this.settings.voice.gameActivityButton) this.styler.add('.{0}:has(.{1})', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
