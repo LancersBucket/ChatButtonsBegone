@@ -2,6 +2,7 @@
 ## v4.5.4
 ### Fixed
 - Clan Tag not removing from friends list when 'Remove in Member List' or 'Remove' is selected
+- Clan Tag not removing from DM's Profile View when 'Remove in Profiles" or 'Remove' is selected
 - Soundboard Panel Button not removing properly
 
 ## v4.5.3
