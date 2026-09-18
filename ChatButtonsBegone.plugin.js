@@ -1541,6 +1541,8 @@ module.exports = class ChatButtonsBegone {
             this.styler.add('.{0}', this.questPrompt, 'wrapper');
             // MemberList Profile Popout Card Prompt
             this.styler.add('div[id^="popout"]:has(.{0})', this.mlQuestPrompt, 'wrapper');
+            // Avatar Wrapper
+            this.styler.add('div:has(>div[data-testid="quest-bar-container"])');
         }
 
         // Activity Settings (Context Menu)
