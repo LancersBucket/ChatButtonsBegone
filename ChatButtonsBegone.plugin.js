@@ -1332,7 +1332,10 @@ module.exports = class ChatButtonsBegone {
         if (this.settings.voice.soundboardButton) this.styler.add('.{0} > .{1} + .{2}', this.vcButtonSection, 'buttonSection', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
         if (this.settings.voice.voiceAvatars) this.styler.add('.{0}', this.vcSmallAvatar, 'avatarSmall');
         if (this.settings.voice.voiceWasHere) this.styler.add('.{0}', this.vcWasHere, 'row');
-        if (this.settings.voice.voiceInviteToVoice) this.styler.add('.{0}:has(>.{1})', this.vcInviteToVoice, 'animation', this.vcInviteToVoice, 'clickable');
+        if (this.settings.voice.voiceInviteToVoice) {
+            this.styler.add('.{0}:has(>.{1})', this.vcInviteToVoice, 'animation', this.vcInviteToVoice, 'clickable');
+            this.styler.add('.{0} .{1}', this.vcOnCallInvite, 'bottomControls', this.vcOnCallInvite, 'edgeControls');
+        }
         if (this.settings.voice.voiceSetCustomStatus) this.styler.add('.{0}', this.vcSetCustomStatus, 'linkBottom');
 
         if (this.settings.voice.vcRTCpingWrap == 'rtcPing') {
@@ -1679,6 +1682,7 @@ module.exports = class ChatButtonsBegone {
             this.vcSmallAvatar,
             this.vcWasHere,
             this.vcInviteToVoice,
+            this.vcOnCallInvite,
             this.vcSetCustomStatus,
             this.vcRTCWrapper,
 
@@ -1786,6 +1790,7 @@ module.exports = class ChatButtonsBegone {
             this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall'), // VC Server Channel Avatars
             this.api.Webpack.Filters.byKeys('row', 'avatarWrapper'), // VC Server Channel Was Here
             this.api.Webpack.Filters.byKeys('animation', 'clickable'), // VC Server Channel Invite to Voice
+            this.api.Webpack.Filters.byKeys('videoControls', 'controlSection'), // VC On-Call Invite to Voice
             this.api.Webpack.Filters.byKeys('subtitle', 'linkBottom'), // VC Server Channel Custom Status
             this.api.Webpack.Filters.byKeys('rtcConnectionStatusWrapper'), // VC Ping/Status Indicator/Wrapper
 

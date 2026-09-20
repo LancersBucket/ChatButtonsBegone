@@ -2,6 +2,7 @@
 ## v4.5.5
 ### Fixed
 - noQuests - Remove Quest attached to Avatar Wrapper area
+- VC - Invite to Voice: also remove the in-call floating edge Invite control
 
 ## v4.5.4
 ### Fixed
