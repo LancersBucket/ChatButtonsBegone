@@ -446,6 +446,9 @@ const config = {
                     name: 'Remove Friends Tab Activity Sub-Status',
                     note: 'Removes the Activity sub-text from Friends.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        // Missing?
+                    },
                 },
                 {
                     type: 'switch',
@@ -1479,6 +1482,9 @@ const config = {
                     name: 'NewOldProfiles Compatibility',
                     note: 'Enables compatibility with KingGamingYT\'s NewOldProfiles plugin. Modifies Clan Tag and Badges toggles to support NewOldProfiles.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        // Skip. Does not change anything on its own.
+                    }
                 },
             ],
         },
@@ -1594,8 +1600,6 @@ module.exports = class ChatButtonsBegone {
     }
 
     async addStyles() {
-        const newOldProfiles = this.settings.compatibility.newOldProfiles;
-
         let settingList = config.defaultConfig;
 
         for (let category in settingList) {
@@ -1606,26 +1610,26 @@ module.exports = class ChatButtonsBegone {
                 let props = undefined
                 try {
                     props = setting.getRules(this.settings, this.modules);
-                } catch {}
-                if (typeof props !== 'undefined') {
-                    for (let prop in props) {
-                        let currentProp = props[prop]
+                } catch {
+                    this.api.Logger.warn(`Warning: ${setting.name} has an invalid getRules. Skipping...`);
+                    continue;
+                }
 
-                        if ('type' in currentProp) {
-                            if (currentProp['type'] === 'patch') {
-                                if ('mods' in currentProp) {
-                                    this.styler.patch(currentProp.content, currentProp.selector, ...currentProp.mods)
-                                } else {
-                                    this.styler.patch(currentProp.content, currentProp.selector)
-                                }
-                            }
+                for (let prop in props) {
+                    let currentProp = props[prop];
+
+                    if ('type' in currentProp && currentProp['type'] === 'patch') {
+                        if ('mods' in currentProp) {
+                            this.styler.patch(currentProp.content, currentProp.selector, ...currentProp.mods);
                         } else {
-                            if ('mods' in currentProp) {
-                                this.styler.add(currentProp.selector, ...currentProp.mods);
-                            } else {
-                                this.styler.add(currentProp.selector)
-                            }
-                        }                   
+                            this.styler.patch(currentProp.content, currentProp.selector);
+                        }
+                    } else {
+                        if ('mods' in currentProp) {
+                            this.styler.add(currentProp.selector, ...currentProp.mods);
+                        } else {
+                            this.styler.add(currentProp.selector);
+                        }
                     }
                 }
             }
