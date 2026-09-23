@@ -118,14 +118,10 @@ const config = {
                     note: 'Removes the Attach button from the chatbar.',
                     defaultValue: false,
                     getRules: (s, m) => {
-                        // console.log(s)
-                        if (s.chatbar.attachButton) {
-                            return [ { 
-                                selector: '.{0}',
-                                mods: [ m.attachButton, 'attachWrapper' ]
-                            } ]
-                        }
-                    }
+                        if (s.chatbar.attachButton) return [
+                        { selector: '.{0}', mods: [ m.attachButton, 'attachWrapper' ] }
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -133,6 +129,14 @@ const config = {
                     name: 'Remove Gift/Boost Button',
                     note: 'Removes the Gift Nitro/Boost Server button from the chatbar.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.chatbar.giftButton) return [
+                        // Current Implementation
+                        { selector: '.{0} div[class^="container"]:has(> .{1})', mods: [ m.chatBarButtons, 'buttons', m.chatBarButtons, 'button' ] },
+                        // Quick DM
+                        { selector: '.{0} div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])', mods: [ m.textArea, 'channelTextArea' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -140,6 +144,14 @@ const config = {
                     name: 'Remove GIF Button',
                     note: 'Removes the GIF button from the chatbar.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.chatbar.gifButton) return [
+                        // Chatbar
+                        { selector: '.expression-picker-chat-input-button:not(:has(.{0}, .{1}))', mods: [ m.chatBarButtons, 'stickerButton', m.emojiButton, 'emojiButton' ] },
+                        // Quick DM
+                        { selector: '.{0} div:has(> button svg path[d^=" M-7,-10 C-8.656999588012695,-10"])', mods: [ m.textArea, 'channelTextArea' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -147,6 +159,7 @@ const config = {
                     name: 'Remove Sticker Button',
                     note: 'Removes the Sticker button from the chatbar.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.chatbar.stickerButton) return [ { selector: '.expression-picker-chat-input-button:has(.{0})', mods: [ m.chatBarButtons, 'stickerButton' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -154,6 +167,7 @@ const config = {
                     name: 'Remove Emoji Button',
                     note: 'Removes the Emoji button from the chatbar.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.chatbar.emojiButton) return [ { selector: '.expression-picker-chat-input-button:has(.{0})', mods: [ m.emojiButton, 'emojiButton' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -161,6 +175,7 @@ const config = {
                     name: 'Remove App Launcher Button',
                     note: 'Removes the App Launcher button from the chatbar.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.chatbar.appLauncherButton) return [ { selector: '.app-launcher-entrypoint' } ]; },
                 },
             ],
         },
@@ -177,6 +192,15 @@ const config = {
                     name: 'Remove Quick Reactions',
                     note: 'Removes the quick reactions from the message actions.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        const rules = [];
+                        if (s.messageActions.quickReactions && s.messageActions.reactionButton && s.messageActions.editButton && s.messageActions.replyButton && s.messageActions.forwardButton && s.messageActions.removeMore) rules.push({ selector: '.{0} .{1}', mods: [ m.messageActionContainer, 'message', m.messageActionContainer, 'buttons' ] });
+                        if (s.messageActions.quickReactions) return rules.concat([
+                            { selector: '.{0}:has(> .{1} > [data-type="emoji"])', mods: [ m.messageActionButtons, 'hoverBarButton', m.messageActionButtons, 'icon' ] },
+                            { selector: '.{0}', mods: [ m.messageActionButtons, 'separator' ] },
+                        ]);
+                        return rules;
+                    },
                 },
                 {
                     type: 'switch',
@@ -184,6 +208,7 @@ const config = {
                     name: 'Remove Reaction Button',
                     note: 'Removes the "Add Reaction" button from the message actions.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.messageActions.reactionButton) return [ { selector: '.{0}:has(svg > path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])', mods: [ m.messageActionButtons, 'hoverBarButton' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -191,6 +216,7 @@ const config = {
                     name: 'Remove Edit Button',
                     note: 'Removes the "Edit" button from the message actions.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.messageActions.editButton) return [ { selector: '.{0}:has(svg > path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])', mods: [ m.messageActionButtons, 'hoverBarButton' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -198,6 +224,7 @@ const config = {
                     name: 'Remove Reply Button',
                     note: 'Removes the "Reply" button from the message actions.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.messageActions.replyButton) return [ { selector: '.{0}:has(svg > path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])', mods: [ m.messageActionButtons, 'hoverBarButton' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -205,6 +232,7 @@ const config = {
                     name: 'Remove Forward Button',
                     note: 'Removes the "Forward" button from the message actions.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.messageActions.forwardButton) return [ { selector: '.{0}:has(svg > path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])', mods: [ m.messageActionButtons, 'hoverBarButton' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -212,6 +240,12 @@ const config = {
                     name: 'Remove "Add Reaction" Button On Messages',
                     note: 'Removes the "Add Reaction" button that appears next to messages that already has reactions.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.messageActions.addReactionButton) return [
+                        { selector: 'div[id^="message-accessories"] > div[class^="reactions"] > span:has(div[class^="reactionBtn"])' },
+                        { selector: 'ol[data-list-id="chat-messages"] div[class^="reactButtons"] > span:has(div[class^="reactionBtn"])' },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -219,6 +253,7 @@ const config = {
                     name: 'Remove "More" Button',
                     note: 'Removes the "More" (three dots) button from the message actions.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.messageActions.removeMore) return [ { selector: '.{0}:has(svg > path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])', mods: [ m.messageActionButtons, 'hoverBarButton' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -226,6 +261,7 @@ const config = {
                     name: 'Remove "Bookmark Message" Button',
                     note: 'Removes the "Bookmark Message" button from the message context menu.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.messageActions.removeBookmarkMessage) return [ { selector: 'div[role="menuitem"][id="message-bookmark"]' } ]; },
                 },
                 {
                     type: 'switch',
@@ -233,6 +269,7 @@ const config = {
                     name: 'Remove "Create Reminder" Button',
                     note: 'Removes the "Create Reminder" button from the message context menu.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.messageActions.removeCreateReminder) return [ { selector: 'div[role="menuitem"][id="message-reminder"]' } ]; },
                 },
                 {
                     type: 'switch',
@@ -240,6 +277,7 @@ const config = {
                     name: 'Remove "Apps" Button',
                     note: 'Removes the "Apps" button from the message context menu.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.messageActions.removeAppsContext) return [ { selector: 'div:has(> div[role="menuitem"][id="message-apps"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -247,6 +285,7 @@ const config = {
                     name: 'Remove "Speak Message" Button',
                     note: 'Removes the "Speak Message" button from the message context menu.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.messageActions.removeSpeakMessage) return [ { selector: 'div[role="menuitem"][id="message-tts"]' } ]; },
                 },
             ],
         },
@@ -263,6 +302,7 @@ const config = {
                     name: 'Remove Quick Switcher',
                     note: 'Removes the quick switcher ("Find or start a conversation") from the DM list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.dms.quickSwitcher) return [ { selector: '.{0} [class^="searchBar"]', mods: [ m.DMList, 'privateChannels' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -270,6 +310,7 @@ const config = {
                     name: 'Remove Friends Tab',
                     note: 'Removes the friends tab from the DM list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.dms.friendsTab) return [ { selector: 'li:has([href="/channels/@me"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -277,6 +318,7 @@ const config = {
                     name: 'Remove Nitro Tab',
                     note: 'Removes the Nitro tab from the DM list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.dms.premiumTab) return [ { selector: 'li:has([href="/store"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -284,6 +326,7 @@ const config = {
                     name: 'Remove Shop Tab',
                     note: 'Removes the Shop tab from the DM list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.dms.discordShopTab) return [ { selector: 'li:has([href="/shop"])' } ]; },
                 },
                 {
                     type: 'dropdown',
@@ -297,6 +340,11 @@ const config = {
                         { label: 'Remove Text', value: 'hideText' },
                         { label: 'Remove', value: 'remove' },
                     ],
+                    getRules: (s, m) => {
+                        if (s.dms.DMHeader === 'hideButton') return [ { selector: '.{0}', mods: [ m.DMHeader, 'privateChannelRecipientsInviteButtonIconContainer' ] } ];
+                        else if (s.dms.DMHeader === 'hideText') return [ { selector: '.{0}', mods: [ m.DMHeader, 'headerText' ] } ];
+                        else if (s.dms.DMHeader === 'remove') return [ { selector: '.{0}', mods: [ m.DMHeader, 'privateChannelsHeaderContainer' ] } ];
+                    },
                 },
                 {
                     type: 'dropdown',
@@ -311,6 +359,19 @@ const config = {
                         { label: 'Simplify + Remove When Empty', value: 'simplifyempty' },
                         { label: 'Remove', value: 'remove' },
                     ],
+                    getRules: (s, m) => {
+                        if (s.dms.activeNow === 'simplify' || s.dms.activeNow === 'simplifyempty') {
+                            const rules = [
+                                { selector: '.{0}:has(.{1})', mods: [ m.activeNowCards, 'body', m.activeNowCards, 'twitchSectionPreview' ] },
+                                { selector: '.{0}:has(.{1})', mods: [ m.activeNowCards, 'body', m.activeNowCards, 'activitySection' ] },
+                                { selector: '.{0}:has(.{1})', mods: [ m.activeNowCards, 'body', m.activeNowCards, 'gameSection' ] },
+                            ];
+                            if (s.dms.activeNow === 'simplifyempty') rules.push({ selector: '.{0}:has(.{1})', mods: [ m.activeNowColumn, 'nowPlayingColumn', m.activeNowEmpty, 'emptyCard' ] });
+                            return rules;
+                        }
+                        if (s.dms.activeNow === 'empty') return [ { selector: '.{0}:has(.{1})', mods: [ m.activeNowColumn, 'nowPlayingColumn', m.activeNowEmpty, 'emptyCard' ] } ];
+                        if (s.dms.activeNow === 'remove') return [ { selector: '.{0}', mods: [ m.activeNowColumn, 'nowPlayingColumn' ] } ];
+                    },
                 },
                 {
                     type: 'dropdown',
@@ -324,6 +385,15 @@ const config = {
                         { label: 'Remove in Server Member list', value: 'memberlist' },
                         { label: 'Remove', value: 'remove' },
                     ],
+                    getRules: (s, m) => {
+                        // DM List
+                        const dm = { selector: 'div[class^="subText"]:has(> .{0} > .{1})', mods: [ m.dmStatus, 'textXs', m.dmlistStatus, 'activityStatusText' ] };
+                        // Member List
+                        const member = { selector: '.{0}:has(> .{1} > .{2})', mods: [ m.memberlistStatus, 'subText', m.dmStatus, 'textXs', m.memberStatusText, 'truncated' ] };
+                        if (s.dms.userStatus === 'dmlist') return [ dm ];
+                        if (s.dms.userStatus === 'memberlist') return [ member ];
+                        if (s.dms.userStatus === 'remove') return [ dm, member ];
+                    },
                 },
                 {
                     type: 'dropdown',
@@ -337,6 +407,15 @@ const config = {
                         { label: 'Remove in Server Member list', value: 'memberlist' },
                         { label: 'Remove', value: 'remove' },
                     ],
+                    getRules: (s, m) => {
+                        // DM List
+                        const dm = { selector: '[class^="channel_"] div[class^="subText"]:has(> .{0} > span > .{0} > .{1})', mods: [ m.dmStatus, 'textXs', m.memberStatusText, 'truncated' ] };
+                        // Member List
+                        const member = { selector: '[class^="memberInner"] .{0}:has(.{1} .{1} > .{2})', mods: [ m.memberlistStatus, 'subText', m.dmStatus, 'textXs', m.memberStatusText, 'truncated' ] };
+                        if (s.dms.userActivity === 'dmlist') return [ dm ];
+                        if (s.dms.userActivity === 'memberlist') return [ member ];
+                        if (s.dms.userActivity === 'remove') return [ dm, member ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -344,6 +423,9 @@ const config = {
                     name: 'Remove Friends Tab Default Status',
                     note: 'Removes the Default Online Status sub-text from Friends.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.dms.defaultFLStatus) return [ { selector: '.{0} .{1}:has(> [class^="text_"])', mods: [ m.friendInfo, 'userInfo', m.friendInfo, 'subtext' ] } ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -351,6 +433,12 @@ const config = {
                     name: 'Remove Friends Tab Custom Status',
                     note: 'Removes the Custom Status sub-text from Friends.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.dms.customFLStatus) return [
+                        { selector: '.{0} .{1}:has(> .{2} > div)', mods: [ m.friendInfo, 'userInfo', m.friendInfo, 'subtext', m.friendTextSm, 'textSm' ] },
+                        { selector: '.{0} .{1}:has(> .{2} > span > .{2})', mods: [ m.friendInfo, 'userInfo', m.friendInfo, 'subtext', m.friendTextSm, 'textSm' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -365,6 +453,7 @@ const config = {
                     name: 'Remove Library Tab',
                     note: 'Removes the Library tab from the DM list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.dms.libraryTab) return [ { selector: 'li:has([href="/library"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -372,6 +461,16 @@ const config = {
                     name: 'Remove "Pin" Option From DM Context Menu',
                     note: 'Removes the "Pin" option from the DM context menu.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.dms.pinDM) return [
+                        // DMs
+                        { selector: 'div[role="separator"] + div > div[id$="user-context-pin-dm"]' },
+                        { selector: 'div[role="separator"]:has(+ div > div[id$="user-context-pin-dm"])' },
+                        // GDMs
+                        { selector: 'div[role="separator"] + div > div[id$="gdm-context-pin-dm"]' },
+                        { selector: 'div[role="separator"]:has(+ div > div[id$="gdm-context-pin-dm"])' },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -379,6 +478,7 @@ const config = {
                     name: 'Remove "Invite to Group DM" Button',
                     note: 'Removes the "Invite to Group DM" Button from existing Group DM MemberList area.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.dms.groupDM) return [ { selector: '.{0}', mods: [ m.groupDM, 'inviteToGroupButton' ] } ]; },
                 },
             ],
         },
@@ -395,6 +495,7 @@ const config = {
                     name: 'Remove "Add a Server" Button',
                     note: 'Removes the "Add a Server" button from the server list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.addServerButton) return [ { selector: '.{0}', mods: [ m.addServerDiscoverButton, 'tutorialContainer' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -402,6 +503,7 @@ const config = {
                     name: 'Remove Discover Button',
                     note: 'Removes the "Discover" button from the server list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.discoverButton) return [ { selector: '.{0} + .{1}', mods: [ m.addServerDiscoverButton, 'tutorialContainer', m.addServerDiscoverButton, 'listItem' ] } ]; },
                 },
                 {
                     type: 'dropdown',
@@ -415,6 +517,11 @@ const config = {
                         { label: 'Remove Bottom', value: 'bottom' },
                         { label: 'Remove Both', value: 'both' },
                     ],
+                    getRules: (s, m) => {
+                        if (s.servers.unreadIndicator === 'both') return [ { selector: '.{0}, .{1}', mods: [ m.serverIndicatorTop, 'unreadMentionsIndicatorTop', m.serverIndicatorBottom, 'unreadMentionsIndicatorBottom' ] } ];
+                        else if (s.servers.unreadIndicator === 'top') return [ { selector: '.{0}', mods: [ m.serverIndicatorTop, 'unreadMentionsIndicatorTop' ] } ];
+                        else if (s.servers.unreadIndicator === 'bottom') return [ { selector: '.{0}', mods: [ m.serverIndicatorBottom, 'unreadMentionsIndicatorBottom' ] } ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -422,6 +529,12 @@ const config = {
                     name: 'Remove Server Banner',
                     note: 'Removes the Server Banner Image/Container from the channel list.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.servers.serverBanner) return [
+                        { selector: '.{0}', mods: [ m.serverBanner, 'animatedContainer' ] },
+                        { selector: 'div#channels > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])' },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -429,6 +542,7 @@ const config = {
                     name: 'Remove Boost Bar',
                     note: 'Removes the boost progress bar from the channel list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.boostBar) return [ { selector: '.{0}', mods: [ m.boostBar, 'container' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -436,6 +550,7 @@ const config = {
                     name: 'Remove "Live Now" Notice',
                     note: 'Removes the "Live Now" Notice from the channel list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.stageNotice) return [ { selector: '.{0}', mods: [ m.liveNotice, 'channelNotice' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -443,6 +558,7 @@ const config = {
                     name: 'Remove Server Guide',
                     note: 'Removes the Server Guide button from the channel list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.serverGuide) return [ { selector: '#channels li:has(div[id*="home-tab"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -450,6 +566,7 @@ const config = {
                     name: 'Remove Event Button',
                     note: 'Removes the Event button from the channel list. Note: Does not remove any events that are "Happening Now."',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.eventButton) return [ { selector: '#channels li:has(svg > path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -457,6 +574,7 @@ const config = {
                     name: 'Remove Members Button',
                     note: 'Removes the Members button from the channel list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.membersButton) return [ { selector: '#channels li:has(svg > path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -464,6 +582,7 @@ const config = {
                     name: 'Remove Channels / Roles Button',
                     note: 'Removes the Channels / Roles button from the channel list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.channelsAndRoles) return [ { selector: '#channels li:has(svg > path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -471,6 +590,7 @@ const config = {
                     name: 'Remove Server Boosts Button',
                     note: 'Removes the Server Boosts button from the channel list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.boostsButton) return [ { selector: 'li:has(div[id*="skill-trees"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -478,6 +598,7 @@ const config = {
                     name: 'Remove Shop Button',
                     note: 'Removes the Server Shop button from the channel list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.shopButton) return [ { selector: '#channels li:has(> div > [data-list-item-id*="shop"])' } ]; },
                 },
                 {
                     type: 'switch',
@@ -485,6 +606,12 @@ const config = {
                     name: 'Remove Invite Button',
                     note: 'Removes the invite button when hovering over channel list entries.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.servers.inviteButton) return [
+                        { selector: '.{0}', mods: [ m.headerInviteButton, 'inviteButton' ] },
+                        { selector: '.{0} > span:has(svg > path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])', mods: [ m.channelListButtons, 'children' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -492,6 +619,7 @@ const config = {
                     name: 'Remove "Show All" Button',
                     note: 'Removes the VC "Show All" button.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.showallButton) return [ { selector: '.{0}', mods: [ m.vcShowAllButton, 'refreshVoiceChannelsButton' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -499,6 +627,7 @@ const config = {
                     name: 'Remove Settings Button',
                     note: 'Removes the settings button when hovering over channel list entries.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.settingsButton) return [ { selector: '.{0} > span:has(svg > path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])', mods: [ m.channelListButtons, 'children' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -506,6 +635,7 @@ const config = {
                     name: 'Remove "Pin" Option From Channel Context Menu',
                     note: 'Removes the "Pin Channel to Top" option from the channel context menu.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.pinChannel) return [ { selector: 'div[role="separator"] + div > div[id$="channel-context-pin-channel"]' } ]; },
                 },
                 {
                     type: 'switch',
@@ -513,6 +643,7 @@ const config = {
                     name: 'Remove "Unread Mentions" Notification',
                     note: 'Removes the per-Server/Channel List "Unread Mentions" Notification.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.unreadMentionsBar) return [ { selector: '.{0}', mods: [ m.channelMentionsBar, 'mentionsBar' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -520,6 +651,7 @@ const config = {
                     name: 'Remove "Unread Messages" Notification',
                     note: 'Removes the per-Server/Channel List "Unread Messages" Notification.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.servers.unreadMessagesBar) return [ { selector: '.{0}', mods: [ m.channelMessagesBar, 'unreadBar' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -527,6 +659,13 @@ const config = {
                     name: 'Remove Activities Section',
                     note: 'Removes the Activities section from the server member list.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.servers.activitySection) return [
+                        { selector: '.{0}:has([role="button"])', mods: [ m.serverActivitySection, 'membersGroup' ] },
+                        { selector: 'div > div .{0}', mods: [ m.serverActivitySectionCards, 'usesCardRows' ] },
+                        { selector: 'div > div .{0}.{1}', mods: [ m.serverActivityOnHover, 'container', m.serverActivityOnHover, 'openOnHover' ] },
+                        ];
+                    },
                 },
             ],
         },
@@ -543,6 +682,7 @@ const config = {
                     name: 'Remove Solo Invite Panel',
                     note: 'Removes the Invite/Activites Panel when only user in Voice.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.invitePlaceholder) return [ { selector: 'div[class^="row"] > div:has(.{0})', mods: [ m.vcScreen, 'singleUserRoot' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -550,6 +690,7 @@ const config = {
                     name: 'Remove Camera Panel Button',
                     note: 'Removes the camera button from the voice chat panel in the bottom left.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.cameraPanelButton) return [ { selector: '.{0} > button:first-of-type', mods: [ m.vcButtons, 'actionButtons' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -557,6 +698,7 @@ const config = {
                     name: 'Remove Screenshare Panel Button',
                     note: 'Removes the screenshare button from the voice chat panel in the bottom left.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.screensharePanelButton) return [ { selector: '.{0} > button:nth-of-type(2)', mods: [ m.vcButtons, 'actionButtons' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -564,6 +706,7 @@ const config = {
                     name: 'Remove Activity Panel Button',
                     note: 'Removes the activity button from the voice chat panel in the bottom left.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.activityPanelButton) return [ { selector: '.{0} > button:nth-of-type(3)', mods: [ m.vcButtons, 'actionButtons' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -571,6 +714,7 @@ const config = {
                     name: 'Remove Soundboard Panel Button',
                     note: 'Removes the soundboard button from the voice chat panel in the bottom left.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.soundboardPanelButton) return [ { selector: '.{0} div:has(> button svg)', mods: [ m.vcButtons, 'actionButtons' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -578,6 +722,7 @@ const config = {
                     name: 'Remove Noise Suppression (Krisp) Button',
                     note: 'Removes the noise supression button from the user voice chat panel.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.krispButton) return [ { selector: '.{0} button:first-of-type', mods: [ m.vcKrisp, 'voiceButtonsContainer' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -585,6 +730,7 @@ const config = {
                     name: 'Remove Game Activity Panel',
                     note: 'Removes the current game activity panel from the user voice chat panel.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.gameActivityPanel) return [ { selector: '.{0}', mods: [ m.vcActivityPanel, 'activityPanel' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -592,6 +738,7 @@ const config = {
                     name: 'Remove Game Activity Button',
                     note: 'Removes the suggested activities button from bottom voice chat panel.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.gameActivityButton) return [ { selector: '.{0}:has(.{1})', mods: [ m.vcButtonSection, 'buttonContainer', m.vcActivities, 'attachedCaretButtonContainer' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -599,6 +746,7 @@ const config = {
                     name: 'Remove Soundboard Button',
                     note: 'Removes the Soundboard Button from the bottom voice chat panel.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.soundboardButton) return [ { selector: '.{0} > .{1} + .{2}', mods: [ m.vcButtonSection, 'buttonSection', m.vcButtonSection, 'buttonContainer', m.vcActivities, 'attachedCaretButtonContainer' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -606,6 +754,7 @@ const config = {
                     name: 'Remove Server Voice Chat Avatars',
                     note: 'Removes the avatars of users in voice chats in servers.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.voiceAvatars) return [ { selector: '.{0}', mods: [ m.vcSmallAvatar, 'avatarSmall' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -613,6 +762,7 @@ const config = {
                     name: 'Remove Was Here From VC List',
                     note: 'Removes the Was Here/What You Missed in VC list.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.voiceWasHere) return [ { selector: '.{0}', mods: [ m.vcWasHere, 'row' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -620,6 +770,12 @@ const config = {
                     name: 'Remove Invite To Voice From VC List',
                     note: 'Removes the Invite to Voice button that temporarily appears when joining a VC.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.voice.voiceInviteToVoice) return [
+                        { selector: '.{0}:has(>.{1})', mods: [ m.vcInviteToVoice, 'animation', m.vcInviteToVoice, 'clickable' ] },
+                        { selector: '.{0} .{1}', mods: [ m.vcOnCallInvite, 'bottomControls', m.vcOnCallInvite, 'edgeControls' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -627,6 +783,7 @@ const config = {
                     name: 'Remove Custom Status Subtitle From VC List',
                     note: 'Removes the Set Custom Status and Custom Status Subtitles from VC.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.voice.voiceSetCustomStatus) return [ { selector: '.{0}', mods: [ m.vcSetCustomStatus, 'linkBottom' ] } ]; },
                 },
                 {
                     type: 'dropdown',
@@ -640,6 +797,11 @@ const config = {
                         { label: 'Remove Status Label', value: 'rtcStatus' },
                         { label: 'Remove Both', value: 'rtcPingStatus' },
                     ],
+                    getRules: (s, m) => {
+                        if (s.voice.vcRTCpingWrap === 'rtcPing') return [ { selector: '.{0}', mods: [ m.vcRTCWrapper, 'clickablePing' ] } ];
+                        else if (s.voice.vcRTCpingWrap === 'rtcStatus') return [ { selector: '.{0} > div[role="button"]', mods: [ m.vcRTCWrapper, 'labelWrapper' ] } ];
+                        else if (s.voice.vcRTCpingWrap === 'rtcPingStatus') return [ { selector: '.{0}', mods: [ m.vcRTCWrapper, 'clickablePing' ] }, { selector: '.{0} > div[role="button"]', mods: [ m.vcRTCWrapper, 'labelWrapper' ] } ];
+                    },
                 },
             ],
         },
@@ -656,6 +818,7 @@ const config = {
                     name: 'Remove Navigation Buttons',
                     note: 'Removes the forward/back navigation buttons from the top left of the title bar.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.navButtons) return [ { selector: '.{0}', mods: [ m.backForwardButtons, 'backForwardButtons' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -663,6 +826,7 @@ const config = {
                     name: 'Remove Title Bar Text',
                     note: 'Removes the "locator" text in the title bar that shows the current server/DM (also removes the image).',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.locator) return [ { selector: '.{0}', mods: [ m.titleBarTrailing, 'title' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -670,6 +834,7 @@ const config = {
                     name: 'Remove Bookmarks Button',
                     note: 'Removes the Bookmarks button (added by experiment 2026-03-message-bookmarks variant 2)',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.bookmarkButton) return [ { selector: ':is(.{0}, .{1}) div:has(svg > path[d="M4 5a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v16a1 1 0 0 1-1.67.74l-5.66-5.13a1 1 0 0 0-1.34 0l-5.66 5.13A1 1 0 0 1 4 20.99V5Z"])', mods: [ m.titleBarTrailing, 'trailing', m.upperToolbar, 'toolbar' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -677,6 +842,7 @@ const config = {
                     name: 'Remove Inbox Button',
                     note: 'Removes the Inbox button.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.inboxButton) return [ { selector: ':is(.{0}, .{1}) div:has(svg > path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])', mods: [ m.titleBarTrailing, 'trailing', m.upperToolbar, 'toolbar' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -684,6 +850,7 @@ const config = {
                     name: 'Remove Help Button',
                     note: 'Removes the Help button.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.helpButton) return [ { selector: ':is(.{0}, .{1}) a[href="https://support.discord.com"]', mods: [ m.titleBarTrailing, 'trailing', m.upperToolbar, 'toolbar' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -691,6 +858,7 @@ const config = {
                     name: 'Remove Threads Button',
                     note: 'Removes Threads button.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.threadsButton) return [ { selector: '.{0}:has(svg > path[d^="M12 2.81a1 1 0 0 1 0-1.41l.36-.36a1 1 0 0 1 1.41 0l9.2 9.2a1"])', mods: [ m.upperToolbar, 'iconWrapper' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -698,6 +866,14 @@ const config = {
                     name: 'Remove Notify Button',
                     note: 'Removes Notification Bell button.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.toolbar.notifyButton) return [
+                        // Strike Through Bell
+                        { selector: '.{0}:has(> svg > path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) ', mods: [ m.upperToolbar, 'iconWrapper' ] },
+                        // Regular Bell
+                        { selector: '.{0}:has(> svg > path[d^="M9.7 2.89c.18-.07.32-.24.37-.43a2"]) ', mods: [ m.upperToolbar, 'iconWrapper' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -705,6 +881,7 @@ const config = {
                     name: 'Remove Pins Button',
                     note: 'Removes Pinned Messages button.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.pinnedButton) return [ { selector: '.{0}:has(> svg path[d^="M19.38 11.38a3 3 0 0 0 4.24 0l.03-.03a.5.5 0 0 0 0-.7L13.35.35a.5 0.5"]) ', mods: [ m.upperToolbar, 'iconWrapper' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -712,6 +889,7 @@ const config = {
                     name: 'Remove Show/Hide Members Button',
                     note: 'Removes Show/Hide Members button. Also affects the DMs "Add to DM"',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.memberButton) return [ { selector: '.{0}:has(> svg > path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"]) ', mods: [ m.upperToolbar, 'iconWrapper' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -719,6 +897,7 @@ const config = {
                     name: 'Remove Voice Call Button',
                     note: 'Removes Start Voice Call button.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.voiceButton) return [ { selector: '.{0}:has(svg > path[d="M13 7a1 1 0 0 1 1-1 4 4 0 0 1 4 4 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 0 1-1-1Z"])', mods: [ m.upperToolbar, 'iconWrapper' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -726,6 +905,7 @@ const config = {
                     name: 'Remove Video Call Button',
                     note: 'Removes Start Video Call button.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.videoButton) return [ { selector: '.{0}:has(> svg > path[d^="M4 4a3 3 0 0 0-3 3v10a3"])', mods: [ m.upperToolbar, 'iconWrapper' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -733,6 +913,7 @@ const config = {
                     name: 'Remove Show/Hide Profile Button',
                     note: 'Removes Show/Hide User Profile from DMs button.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.toolbar.profileButton) return [ { selector: '.{0}:has(> svg > path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54 0.54"])', mods: [ m.upperToolbar, 'iconWrapper' ] } ]; },
                 },
             ],
         },
@@ -749,6 +930,31 @@ const config = {
                     name: 'Disable Profile Custom Theme',
                     note: 'Disables all Custom Theme elements from a Proflie (Popup, Full, and Sideber (DMs))',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.profileNoCustom) {
+                            return [
+                                {
+                                    type: 'patch',
+                                    selector: '[class*="custom-user-profile-theme"]',
+                                    content:
+                                        `--profile-gradient-primary-color: var(--background-surface-high) !important;
+                                        --profile-gradient-secondary-color: var(--background-surface-high) !important;
+                                        --profile-gradient-overlay-color: rgba(0, 0, 0, 0) !important;
+                                        --profile-gradient-button-color: var(--background-mod-subtle) !important;
+                                        --profile-gradient-modal-background-color: var(--background-base-lower) !important;
+                                        --custom-theme-base-color-amount: unset !important;
+                                        --custom-theme-text-color-amount: unset !important;
+                                        --custom-theme-base-color-light-hsl: unset !important;
+                                        --custom-theme-base-color-light: unset !important;
+                                        --custom-theme-text-color-light: unset !important;
+                                        --custom-theme-base-color-dark-hsl: unset !important;
+                                        --custom-theme-base-color-dark: unset !important;
+                                        --custom-theme-text-color-dark: unset !important;`,
+                                    mods: [],
+                                }
+                            ]
+                        }
+                    }
                 },
                 {
                     type: 'switch',
@@ -756,6 +962,9 @@ const config = {
                     name: 'Disable All Profile Customizations',
                     note: 'Disables (Global) All following "(+)" Profile Customizations: Nameplates, ClanTag, Avatar/Frame Decorations, Badges, Banners, Profile Effects As well as Removes Collections, Activities, Stats, Wishlist, Custom Status',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        // See Related (+) rules
+                    }
                 },
                 {
                     type: 'dropdown',
@@ -769,6 +978,16 @@ const config = {
                         { label: 'Remove in User Area', value: 'self' },
                         { label: 'Remove', value: 'global' },
                     ],
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.namePlate === 'original' || s.profileCustomizations.namePlate === 'global' || s.profileCustomizations.profileDisableAll) {
+                            const rules = [
+                                { selector: '.{0} > [style^="background: linear-gradient"]', mods: [ m.dmEntry, 'interactive' ] },
+                                { selector: '.{0} > [style^="background: linear-gradient"]', mods: [ m.namePlate, 'nameplated' ] },
+                            ];
+                            if (s.profileCustomizations.namePlate === 'global' || s.profileCustomizations.profileDisableAll) rules.push({ selector: '.{0}', mods: [ m.selfNamePlate, 'fitInAccount' ] });
+                            return rules;
+                        } else if (s.profileCustomizations.namePlate === 'self') return [ { selector: '.{0}', mods: [ m.selfNamePlate, 'fitInAccount' ] } ];
+                    },
                 },
                 {
                     type: 'dropdown',
@@ -782,6 +1001,32 @@ const config = {
                         { label: 'Remove in Profile', value: 'profile' },
                         { label: 'Remove', value: 'global' },
                     ],
+                    getRules: (s, m) => {
+                        const member = [
+                            // Member List
+                            { selector: '.{0}', mods: [ m.mlTagEntry, 'clanTag' ] },
+                            // DM List
+                            { selector: '.{0}', mods: [ m.dmTagEntry, 'clanTag' ] },
+                            // VC Users List
+                            { selector: '.{0} .{1}', mods: [ m.vcSmallAvatar, 'userSmall', m.containerChiplet, 'chipletParent' ] },
+                            // Friends List
+                            { selector: '.{0}.{1}', mods: [ m.clanTagFriendsList, 'chipletContainerInner', m.clanTagFriendsList, 'noTooltip' ] },
+                        ];
+                        const profile = [
+                            // Chat
+                            { selector: '.{0}', mods: [ m.clanTagChiplet, 'clanTagChiplet' ] },
+                            // Profile
+                            { selector: '.{0}', mods: [ m.clanTagProfile, 'guildTag' ] },
+                            // DM's "Show Profile"
+                            { selector: '.{0}', mods: [ m.clanTagProfile, 'guildTagPill' ] },
+                        ];
+                        if (s.profileCustomizations.clanTag === 'memberlist') return member;
+                        if (s.profileCustomizations.clanTag === 'profile') return profile;
+                        if (s.profileCustomizations.clanTag === 'global' || s.profileCustomizations.profileDisableAll) {
+                            if (s.compatibility.newOldProfiles) return member.concat(profile, [ { selector: '.badgeSection .clanTagContainer, .badgeSection .divider' } ]);
+                            return member.concat(profile);
+                        }
+                    },
                 },
                 {
                     type: 'switch',
@@ -789,6 +1034,12 @@ const config = {
                     name: 'Remove Avatar Decoration (+)',
                     note: 'Controls the visibility of avatar decorations.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.avatarDecoration || s.profileCustomizations.profileDisableAll) return [
+                        { selector: ':not(.{0} > div ) > .{1}', mods: [ m.avatarPreview, 'skuPreview', m.avatarDecorationContainer, 'avatarDecorationContainer' ] },
+                        { selector: ':not(.{0} > div ) > .{1}', mods: [ m.avatarPreview, 'skuPreview', m.avatarDecorationChat, 'avatarDecoration' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -796,6 +1047,13 @@ const config = {
                     name: 'Remove Profile Badges (+)',
                     note: 'Removes the badges from user profiles.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.hideBadges || s.profileCustomizations.profileDisableAll) {
+                            const rules = [ { selector: 'div[class^="container"]:has(> a.{0} > img)', mods: [ m.profileBadges, 'anchor' ] } ];
+                            if (s.compatibility.newOldProfiles) rules.push({ selector: '.headerInfo .profileBadges .profileBadgeWrapper:not(:has(.profileBadgeBirthday))' });
+                            return rules;
+                        }
+                    },
                 },
                 {
                     type: 'switch',
@@ -803,6 +1061,18 @@ const config = {
                     name: 'Remove Profile Banner (+)',
                     note: 'Removes the banner image from user profiles.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.hideBanner || s.profileCustomizations.profileDisableAll) {
+                            return [
+                                {
+                                    type: 'patch',
+                                    selector: '.{0} .{1}',
+                                    content: `background-image: unset !important;`,
+                                    mods: [ m.profileBanner, 'banner', m.profileBanner, 'fill' ],
+                                }
+                            ]
+                        }
+                    }
                 },
                 {
                     type: 'switch',
@@ -810,6 +1080,21 @@ const config = {
                     name: 'Remove Profile Cutout',
                     note: 'Removes the Avatar cutout in the banner image/background from user profiles.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.removeCutout || s.profileCustomizations.profileDisableAll) {
+                            return [
+                                {
+                                    type: 'patch',
+                                    selector: '.{0} .{1}',
+                                    content:
+                                    `--custom-cutout-radius: 0px !important;
+                                    --custom-cutout-x: unset !important;
+                                    --custom-cutout-y: unset !important;`,
+                                    mods: [ m.profileBanner, 'banner', m.profileBanner, 'fill' ],
+                                }
+                            ]
+                        }
+                    }
                 },
                 {
                     type: 'switch',
@@ -817,6 +1102,7 @@ const config = {
                     name: 'Remove Profile Effects (+)',
                     note: 'Removes profile effects (Animated Overlays) from user profiles.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.profileCustomizations.profileEffects || s.profileCustomizations.profileDisableAll) return [ { selector: ':not(.{0} > div > div) > .{1}', mods: [ m.avatarPreview, 'skuPreview', m.profileEffects, 'profileEffects' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -824,6 +1110,7 @@ const config = {
                     name: 'Remove "GIF" From Profile Banner',
                     note: 'Removes the "GIF" tag from user profiles that have an animated banner.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.profileCustomizations.profileGIF) return [ { selector: '.{0}', mods: [ m.profileGIF, 'gifTag' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -831,6 +1118,7 @@ const config = {
                     name: 'Remove Message Input',
                     note: 'Removes the Send Message input area from user profiles.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.profileCustomizations.hideMessage) return [ { selector: '[class^="footer"]:has(.{0})', mods: [ m.textArea, 'channelTextArea' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -838,6 +1126,13 @@ const config = {
                     name: 'Remove Edit Profile',
                     note: 'Removes Edit Profile from Self Profile popup.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.hideEditProfile) {
+                            const rules = [ { selector: '.user-profile-popout [class^="footer"]:has(button)' } ];
+                            if (s.compatibility.newOldProfiles) rules.push({ selector: '.profileButtons > button:has(svg>path[d="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2 2 0 0 0 0-2.82l-3.18-3.18a2 2 0 0 0-2.82 0l-1.38 1.38a1 1 0 0 0 0 1.42ZM2.11 20.16l.73-4.22a3 3 0 0 1 .83-1.61l7.87-7.87a1 1 0 0 1 1.42 0l4.58 4.58a1 1 0 0 1 0 1.42l-7.87 7.87a3 3 0 0 1-1.6.83l-4.23.73a1.5 1.5 0 0 1-1.73-1.73Z"])' });
+                            return rules;
+                        }
+                    },
                 },
                 {
                     type: 'switch',
@@ -845,6 +1140,7 @@ const config = {
                     name: 'Remove Profile Collection (+)',
                     note: 'Removes the Game Collection from user profiles.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.profileCustomizations.hideCollection || s.profileCustomizations.profileDisableAll) return [ { selector: '.{0} .{1}', mods: [ m.profileCards, 'cardsList', m.profileCollection, 'breadcrumb' ] } ]; },
                 },
                 {
                     type: 'dropdown',
@@ -858,6 +1154,11 @@ const config = {
                         { label: 'Remove in DMs View Profile', value: 'hpaDMs' },
                         { label: 'Remove', value: 'hpaGlobal' },
                     ],
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.hideProfileActivity === 'hpaPopout') return [ { selector: ':not(.{0}) > .{1} .{2}:has( > article)', mods: [ m.profileWishBody, 'cards', m.profileCards, 'container', m.profileCards, 'firstCardContainer' ] } ];
+                        else if (s.profileCustomizations.hideProfileActivity === 'hpaDMs') return [ { selector: '.{0}:has(.{1} > article)', mods: [ m.profileWishBody, 'cards', m.profileCards, 'firstCardContainer' ] } ];
+                        else if (s.profileCustomizations.hideProfileActivity === 'hpaGlobal' || s.profileCustomizations.profileDisableAll) return [ { selector: '.{0}:has(.{1} article)', mods: [ m.profileCards, 'container', m.profileCards, 'cardsList' ] } ];
+                    },
                 },
                 {
                     type: 'dropdown',
@@ -871,6 +1172,11 @@ const config = {
                         { label: 'Remove in DMs View Profile', value: 'hpsDMs' },
                         { label: 'Remove', value: 'hpsGlobal' },
                     ],
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.hideProfileStats === 'hpsPopout') return [ { selector: ':not(.{0}) > .{1} .{2}:has( > div)', mods: [ m.profileWishBody, 'cards', m.profileCards, 'container', m.profileCards, 'firstCardContainer' ] } ];
+                        else if (s.profileCustomizations.hideProfileStats === 'hpsDMs') return [ { selector: '.{0} .{1} > div:has( > .{2})', mods: [ m.profileWishBody, 'cards', m.profileCards, 'firstCardContainer', m.profileCards, 'card' ] } ];
+                        else if (s.profileCustomizations.hideProfileStats === 'hpsGlobal' || s.profileCustomizations.profileDisableAll) return [ { selector: '.{0} .{1} > div:has( > .{2})', mods: [ m.profileCards, 'container', m.profileCards, 'firstCardContainer', m.profileCards, 'card' ] } ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -878,6 +1184,7 @@ const config = {
                     name: 'Remove Profile Wishlist (+)',
                     note: 'Removes the Wishlist from user profiles.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.profileCustomizations.hideWishlist || s.profileCustomizations.profileDisableAll) return [ { selector: '.{0} .{1}', mods: [ m.profileWishBody, 'cards', m.profileWishlist, 'container' ] } ]; },
                 },
                 {
                     type: 'dropdown',
@@ -891,6 +1198,19 @@ const config = {
                         { label: 'Remove in DMs View Profile', value: 'hcsDMs' },
                         { label: 'Remove', value: 'hcsGlobal' },
                     ],
+                    getRules: (s, m) => {
+                        const popout = [
+                            { selector: ':not([class^="previewContainer"]) > .user-profile-popout .{0}:has(.{1} > span.{2})', mods: [ m.profileCustomStatus, 'referenceContainer', m.profileCustomStatus, 'outer', m.profileCustomStatus, 'inner' ] },
+                            { selector: ':not([class^="previewContainer"]) > .user-profile-popout .{0}:has(.{1} > span.{2})', mods: [ m.profileCustomStatus, 'container', m.profileCustomStatus, 'outer', m.profileCustomStatus, 'inner' ] },
+                        ];
+                        const dms = [
+                            { selector: '.user-profile-sidebar .{0}:has(.{1} > span.{2})', mods: [ m.profileCustomStatus, 'referenceContainer', m.profileCustomStatus, 'outer', m.profileCustomStatus, 'inner' ] },
+                            { selector: '.user-profile-sidebar .{0}:has(.{1} > span.{2})', mods: [ m.profileCustomStatus, 'container', m.profileCustomStatus, 'outer', m.profileCustomStatus, 'inner' ] },
+                        ];
+                        if (s.profileCustomizations.hideStatus === 'hcsPopout') return popout;
+                        if (s.profileCustomizations.hideStatus === 'hcsDMs') return dms;
+                        if (s.profileCustomizations.hideStatus === 'hcsGlobal' || s.profileCustomizations.profileDisableAll) return popout.concat(dms);
+                    },
                 },
                 {
                     type: 'switch',
@@ -898,6 +1218,19 @@ const config = {
                     name: 'Remove Profile Frame Decoration (+)',
                     note: 'Removes the Frame Decoration from Profiles.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.profileCustomizations.frameDecoration || s.profileCustomizations.profileDisableAll) {
+                        return [ 
+                            { selector: '.{0} .{1}', mods: [ m.frameDecoration, 'profileFrameContainer', m.frameDecoration, 'profileFrame' ] },
+                            // Patch out the resizing of the Profile to accommodate the Frame
+                            {
+                                type: 'patch',
+                                selector: '.custom-profile-frame',
+                                content: `--custom-profile-frame-container-width: unset !important;`,
+                                mods: [],
+                            }
+                        ]; 
+                    }
+                },
                 },
                 {
                     type: 'switch',
@@ -905,6 +1238,13 @@ const config = {
                     name: 'Remove "Clips" from Status Menu',
                     note: 'Removes the "Clips" option from Profile Status menu.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.profileCustomizations.hideClips) return [
+                        { selector: '.{0} .{1}:has(svg path[d^="M15.74 5.74a.5.5 0 0 0 .54.7l5.01-.88a.5.5 0 0 0 .4-.58l-.26-1.47a3.0 0 0 0 0-3.2-2.47.46.46 0 0 0-.37.26l-2.12 4.44ZM15.13"])', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
+                        // Remove the Divider Gap from Status Select
+                        { selector: '.{0} .{1}:has(+ .{1} svg path[d^="M15.74 5.74a.5.5 0 0 0 .54.7l5.01-.88a.5.5 0 0 0-.4-.58l-.26-1.47a3.0 0 0 0 0-3.2-2.47.46.46 0 0 0-.37.26l-2.12 4.44ZM15.13"])::after', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
+                        ];
+                    },
                 },
             ],
         },
@@ -921,6 +1261,7 @@ const config = {
                     name: 'Remove Blocked Messages Indicator',
                     note: 'Removes the "blocked message(s)" insert in Chat',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.miscellaneous.blockedMessage) return [ { selector: '.{0}:has(.{1})', mods: [ m.blockedGroup, 'groupStart', m.blockedIndicator, 'blockedSystemMessage' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -928,6 +1269,31 @@ const config = {
                     name: 'Remove Nitro Advertising',
                     note: 'Removes Nitro advertising thoughout various parts of Discord. Note: May not remove all of them.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.miscellaneous.nitroUpsell) return [
+                        // Settings "Edit Profile" Page
+                        { selector: '.{0} div:has(> [class^="artContainer"])', mods: [ m.shopArt, 'settingsPage' ] },
+                        // Billing Settings (Context Menu)
+                        { selector: '.{0} div[role="separator"]:has(+ div > #settings-menu-nitro_sidebar_item)', mods: [ m.contextSettingsMenu, 'menu' ] },
+                        { selector: '.{0} div[role="group"]:has(#settings-menu-nitro_sidebar_item)', mods: [ m.contextSettingsMenu, 'menu' ] },
+                        // Billing Settings (Context Menu / BetterSettings Plugin)
+                        { selector: '.{0} div:has(> #settings-menu-Billing)', mods: [ m.contextSettingsMenu, 'menu' ] },
+                        // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
+                        { selector: '.{0}', mods: [ m.profileUpsell, 'upsellOverlayContainer' ] },
+                        // Profile Shop Button
+                        { selector: 'div[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M2.63 4.19A3A3 0 0 1 5.53 2H7a1 1 0 0"])' },
+                        // "Add to Favorites" Right Click Menu Option and Separator
+                        { selector: 'div[role="separator"] + div > div[id$="context-favorite-channel"]' },
+                        { selector: 'div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])' },
+                        // Appearance Upsell
+                        { selector: 'div[data-nav-anchor-key="appearance_custom_themes_upsell"]' },
+                        // Nitro Rewards on Connections Page
+                        { selector: 'div[class^="stack"] div[class^="sectionHeader"]:has(+ div[class^="theme-"][class*="images-"])' },
+                        { selector: 'div[class^="stack"] div[class^="theme-"][class*="images-"]' },
+                        // Profile Popup "Edit Profile" Sidebar
+                        { selector: 'div:has(> .{0}, > .{1})', mods: [ m.profilePopupUpsell, 'nitro-pink', m.profilePopupUpsell, 'pink' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -935,6 +1301,18 @@ const config = {
                     name: 'Remove Quests',
                     note: 'Removes Quest related popups and interactions.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.miscellaneous.noQuests) return [
+                        { selector: 'li:has([href="/quest-home"])' },
+                        // Active Now section
+                        { selector: '.{0}', mods: [ m.promotedQuest, 'promotedTag' ] },
+                        { selector: '.{0}', mods: [ m.questPrompt, 'wrapper' ] },
+                        // MemberList Profile Popout Card Prompt
+                        { selector: 'div[id^="popout"]:has(.{0})', mods: [ m.mlQuestPrompt, 'wrapper' ] },
+                        // Avatar Wrapper
+                        { selector: 'div:has(>div[data-testid="quest-bar-container"])' },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -942,6 +1320,12 @@ const config = {
                     name: 'Remove Activity Context Section',
                     note: 'Removes Activity related entries from Settings context Menu.',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.miscellaneous.noActvityMenu) return [
+                        { selector: '.{0} div[role="separator"]:has(+ div > #settings-menu-activity_privacy_sidebar_item)', mods: [ m.contextSettingsMenu, 'menu' ] },
+                        { selector: '.{0} div[role="group"]:has(#settings-menu-activity_privacy_sidebar_item)', mods: [ m.contextSettingsMenu, 'menu' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -949,6 +1333,7 @@ const config = {
                     name: 'Remove Placeholder Text In Message Area',
                     note: 'Removes the placeholder text "Message ..." in the chat bar.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.miscellaneous.placeholderText) return [ { selector: '.{0}:not(.{1}) :has(+ .{2})', mods: [ m.textArea, 'channelTextArea', m.textArea, 'channelTextAreaDisabled', m.txtPlaceholder, 'slateTextArea' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -956,6 +1341,7 @@ const config = {
                     name: 'Remove Status Reply/React Popover',
                     note: 'Removes the buttons when you hover over a user\'s status.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.miscellaneous.avatarPopover) return [ { selector: '.{0}', mods: [ m.profilePopover, 'statusPopover' ] } ]; },
                 },
                 {
                     type: 'dropdown',
@@ -970,6 +1356,17 @@ const config = {
                         { label: 'Semi-Smart Remove', value: 'smart' },
                         { label: 'Remove', value: 'remove' },
                     ],
+                    getRules: (s, m) => {
+                        if (s.miscellaneous.listSeparator === 'dmlist') return [ { selector: '.{0}', mods: [ m.dmDivider, 'sectionDivider' ] } ];
+                        else if (s.miscellaneous.listSeparator === 'serverlist') return [ { selector: '.{0}', mods: [ m.channelDivider, 'sectionDivider' ] } ];
+                        else if (s.miscellaneous.listSeparator === 'remove') return [ { selector: '.{0}', mods: [ m.dmDivider, 'sectionDivider' ] }, { selector: '.{0}', mods: [ m.channelDivider, 'sectionDivider' ] } ];
+                        else if (s.miscellaneous.listSeparator === 'smart') {
+                            const rules = [];
+                            if (s.dms.friendsTab && s.dms.premiumTab && s.dms.discordShopTab && s.miscellaneous.noQuests) rules.push({ selector: '.{0}', mods: [ m.dmDivider, 'sectionDivider' ] });
+                            if (s.servers.serverGuide && s.servers.eventButton && s.servers.membersButton && s.servers.channelsAndRoles && s.servers.boostsButton && s.servers.shopButton) rules.push({ selector: '.{0}', mods: [ m.channelDivider, 'sectionDivider' ] });
+                            return rules;
+                        }
+                    },
                 },
                 {
                     type: 'switch',
@@ -977,6 +1374,15 @@ const config = {
                     name: 'Remove Seasonal Events',
                     note: 'Removes seasonal event tabs and buttons (i.e. Snowsgiving, Discord\'s Birthday, etc.).',
                     defaultValue: false,
+                    getRules: (s, m) => {
+                        if (s.miscellaneous.seasonalEvents) return [
+                        { selector: '[href="//discord.com/snowsgiving"], [href="/activities"]' },
+                        // Checkpoint Button
+                        { selector: ':is(.{0}, .{1}) div:has(> svg > path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])', mods: [ m.titleBarTrailing, 'trailing', m.upperToolbar, 'toolbar' ] },
+                        // Last Meadow Online
+                        { selector: ':is(.{0}, .{1}) div:has(> svg > path[fill^="url(#uid_)"])', mods: [ m.titleBarTrailing, 'trailing', m.upperToolbar, 'toolbar' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -984,6 +1390,21 @@ const config = {
                     name: 'Remove I/O Chevrons',
                     note: 'Removes the chevrons (arrows) from the I/O buttons in the user panel.',
                     defaultValue: false,
+                    getRules: (s, m) => { 
+                        if (s.miscellaneous.ioChevrons) {
+                            return [ 
+                                { selector: '.{0}', mods: [ m.userAreaIOChevron, 'buttonChevron' ] },
+                                {
+                                    type: 'patch',
+                                    selector: '.{0} .{1}',
+                                    content: 
+                                        `border-end-end-radius: 8px;
+                                        border-start-end-radius: 8px;`,
+                                    mods: [ m.userAreaIOChevron, 'audioButtonParent', m.userAreaIOChevron, 'audioButtonWithMenu' ],
+                                }
+                            ]; 
+                        }
+                    },
                 },
                 {
                     type: 'switch',
@@ -991,6 +1412,7 @@ const config = {
                     name: 'Remove Chat/Typing Now Gradient',
                     note: 'Removes the gradient from the Chat Input/Now Typing area.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.miscellaneous.baseGradient) return [ { selector: '.{0}', mods: [ m.textAreaGradient, 'chatGradientBase' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -998,6 +1420,7 @@ const config = {
                     name: 'Remove Chat/Typing Now animated "Dots"',
                     note: 'Removes the animated Dots from the Now Typing area.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.miscellaneous.noTypingDots) return [ { selector: '.{0} > svg.{1}', mods: [ m.typingAnimDots, 'typingDots', m.typingAnimDots, 'ellipsis' ] } ]; },
                 },
                 {
                     type: 'dropdown',
@@ -1010,7 +1433,12 @@ const config = {
                         { label: 'Keep Topic OP Tag', value: 'keepOP' },
                         { label: 'Remove Only In Chats', value: 'chatOnly' },
                         { label: 'Remove', value: 'remove' },
-                    ]
+                    ],
+                    getRules: (s, m) => {
+                        if (s.miscellaneous.tagsBotApp === 'remove') return [ { selector: '.{0}', mods: [ m.tagsBot, 'botTag' ] } ];
+                        else if (s.miscellaneous.tagsBotApp === 'keepOP') return [ { selector: '.{0}:not(.{1})', mods: [ m.tagsBot, 'botTag', m.tagsBot, 'botTagOP' ] } ];
+                        else if (s.miscellaneous.tagsBotApp === 'chatOnly') return [ { selector: '[id^="message-username"] > .{0}', mods: [ m.tagsBot, 'botTag' ] } ];
+                    },
                 },
                 {
                     type: 'switch',
@@ -1018,6 +1446,7 @@ const config = {
                     name: 'Remove New User Badge',
                     note: 'Removes the New User badge from chat usernames area.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.miscellaneous.badgeNewUser) return [ { selector: '.{0}', mods: [ m.badgeNew, 'newMemberBadge' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -1025,6 +1454,7 @@ const config = {
                     name: 'Remove "Create Thread" Suggestion',
                     note: 'Removes the "Create Thread" suggestion that appears when having a chain of 3 replies.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.miscellaneous.threadSuggestions) return [ { selector: '.{0}', mods: [ m.threadSuggestion, 'threadSuggestionBar' ] } ]; },
                 },
             ],
         },
@@ -1041,6 +1471,7 @@ const config = {
                     name: 'Remove Invisible Typing Button',
                     note: 'Removes the button added by Strencher\'s InvisibleTyping plugin from the chat.',
                     defaultValue: false,
+                    getRules: (s, m) => { if (s.compatibility.invisibleTypingButton) return [ { selector: 'div:has(> .invisibleTypingButton)' } ]; },
                 },
                 {
                     type: 'switch',
@@ -1172,488 +1603,33 @@ module.exports = class ChatButtonsBegone {
             for (let settingGroup in settingCategory) {
                 let setting = settingCategory[settingGroup]
 
-                // console.log(setting)
-                let props = setting.getRules(this.settings, this.modules);
+                let props = undefined
+                try {
+                    props = setting.getRules(this.settings, this.modules);
+                } catch {}
                 if (typeof props !== 'undefined') {
                     for (let prop in props) {
                         let currentProp = props[prop]
-                        this.styler.add(currentProp.selector, ...currentProp.mods)
+
+                        if ('type' in currentProp) {
+                            if (currentProp['type'] === 'patch') {
+                                if ('mods' in currentProp) {
+                                    this.styler.patch(currentProp.content, currentProp.selector, ...currentProp.mods)
+                                } else {
+                                    this.styler.patch(currentProp.content, currentProp.selector)
+                                }
+                            }
+                        } else {
+                            if ('mods' in currentProp) {
+                                this.styler.add(currentProp.selector, ...currentProp.mods);
+                            } else {
+                                this.styler.add(currentProp.selector)
+                            }
+                        }                   
                     }
                 }
-                return
             }
-            return
         }
-
-        this.styler.apply();
-
-        return
-
-        /// Chat Buttons ///
-        if (this.settings.chatbar.attachButton) this.styler.add('.{0}', this.attachButton, 'attachWrapper');
-        if (this.settings.chatbar.giftButton) {
-            // Current Implementation
-            this.styler.add('.{0} div[class^="container"]:has(> .{1})', this.chatBarButtons, 'buttons', this.chatBarButtons, 'button');
-            // Quick DM
-            this.styler.add('.{0} div:has(> button svg > path[d^="M4 6a4 4 0 0 1 4-4h.09c1.8 0 3.39 1.18 3.91"])', this.textArea, 'channelTextArea');
-        }
-        if (this.settings.chatbar.gifButton) {
-            // Chatbar
-            this.styler.add('.expression-picker-chat-input-button:not(:has(.{0}, .{1}))', this.chatBarButtons, 'stickerButton', this.emojiButton, 'emojiButton');
-            // Quick DM
-            this.styler.add('.{0} div:has(> button svg path[d^=" M-7,-10 C-8.656999588012695,-10"])', this.textArea, 'channelTextArea');
-        }
-        if (this.settings.chatbar.stickerButton) this.styler.add('.expression-picker-chat-input-button:has(.{0})', this.chatBarButtons, 'stickerButton');
-        if (this.settings.chatbar.emojiButton) this.styler.add('.expression-picker-chat-input-button:has(.{0})', this.emojiButton, 'emojiButton');
-        if (this.settings.chatbar.appLauncherButton) this.styler.add('.app-launcher-entrypoint');
-
-        /// Message Actions ///
-        if (
-            this.settings.messageActions.quickReactions &&
-            this.settings.messageActions.reactionButton &&
-            this.settings.messageActions.editButton &&
-            this.settings.messageActions.replyButton &&
-            this.settings.messageActions.forwardButton &&
-            this.settings.messageActions.removeMore
-        ) {
-            this.styler.add('.{0} .{1}', this.messageActionContainer, 'message', this.messageActionContainer, 'buttons');
-        }
-        if (this.settings.messageActions.quickReactions) {
-            this.styler.add('.{0}:has(> .{1} > [data-type="emoji"])', this.messageActionButtons, 'hoverBarButton', this.messageActionButtons, 'icon');
-            this.styler.add('.{0}', this.messageActionButtons, 'separator');
-        }
-        if (this.settings.messageActions.reactionButton) this.styler.add('.{0}:has(svg > path[d^="M12 23a11 11 0 1 0 0-22 11 11 0 0 0 0 22ZM6.5"])', this.messageActionButtons, 'hoverBarButton');
-        if (this.settings.messageActions.editButton) this.styler.add('.{0}:has(svg > path[d^="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2"])', this.messageActionButtons, 'hoverBarButton');
-        if (this.settings.messageActions.replyButton) this.styler.add('.{0}:has(svg > path[d^="M2.3 7.3a1 1 0 0 0 0 1.4l5 5a1 1 0 0 0 1.4-1.4L5.42"])', this.messageActionButtons, 'hoverBarButton');
-        if (this.settings.messageActions.forwardButton) this.styler.add('.{0}:has(svg > path[d^="M21.7 7.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4-1.4L18.58"])', this.messageActionButtons, 'hoverBarButton');
-        if (this.settings.messageActions.removeMore) this.styler.add('.{0}:has(svg > path[d^="M4 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10-2a2"])', this.messageActionButtons, 'hoverBarButton');
-
-        if (this.settings.messageActions.addReactionButton) {
-            this.styler.add('div[id^="message-accessories"] > div[class^="reactions"] > span:has(div[class^="reactionBtn"])');
-            this.styler.add('ol[data-list-id="chat-messages"] div[class^="reactButtons"] > span:has(div[class^="reactionBtn"])');
-        }
-
-        // Context Menu Actions
-        if (this.settings.messageActions.removeBookmarkMessage) this.styler.add('div[role="menuitem"][id="message-bookmark"]');
-        if (this.settings.messageActions.removeCreateReminder) this.styler.add('div[role="menuitem"][id="message-reminder"]');
-        if (this.settings.messageActions.removeAppsContext) this.styler.add('div:has(> div[role="menuitem"][id="message-apps"])');
-        if (this.settings.messageActions.removeSpeakMessage) this.styler.add('div[role="menuitem"][id="message-tts"]');
-
-        /// Direct Messages ///
-        if (this.settings.dms.quickSwitcher) this.styler.add('.{0} [class^="searchBar"]', this.DMList, 'privateChannels');
-        if (this.settings.dms.friendsTab) this.styler.add('li:has([href="/channels/@me"])');
-        if (this.settings.dms.premiumTab) this.styler.add('li:has([href="/store"])');
-        if (this.settings.dms.discordShopTab) this.styler.add('li:has([href="/shop"])');
-        if (this.settings.dms.groupDM) this.styler.add('.{0}', this.groupDM, 'inviteToGroupButton');
-
-        if (this.settings.dms.DMHeader == 'hideButton') {
-            this.styler.add('.{0}', this.DMHeader, 'privateChannelRecipientsInviteButtonIconContainer');
-        } else if (this.settings.dms.DMHeader == 'hideText') {
-            this.styler.add('.{0}', this.DMHeader, 'headerText');
-        } else if (this.settings.dms.DMHeader == 'remove') {
-            this.styler.add('.{0}', this.DMHeader, 'privateChannelsHeaderContainer');
-        }
-
-        if (this.settings.dms.activeNow == 'simplify') { 
-            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
-            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
-            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'gameSection');
-        } else if (this.settings.dms.activeNow == 'empty') {
-            this.styler.add('.{0}:has(.{1})', this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
-        } else if (this.settings.dms.activeNow == 'simplifyempty') {
-            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'twitchSectionPreview');
-            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'activitySection');
-            this.styler.add('.{0}:has(.{1})', this.activeNowCards, 'body', this.activeNowCards, 'gameSection');
-            this.styler.add('.{0}:has(.{1})', this.activeNowColumn, 'nowPlayingColumn', this.activeNowEmpty, 'emptyCard');
-        } else if (this.settings.dms.activeNow == 'remove') {
-            this.styler.add('.{0}', this.activeNowColumn, 'nowPlayingColumn');
-        }
-
-        // Remove Custom User Status
-        if (this.settings.dms.userStatus == 'dmlist') {
-            this.styler.add('div[class^="subText"]:has(> .{0} > .{1})', this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
-        } else if (this.settings.dms.userStatus == 'memberlist') {
-            this.styler.add('.{0}:has(> .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-        } else if (this.settings.dms.userStatus == 'remove') {
-            // DM List
-            this.styler.add('div[class^="subText"]:has(> .{0} > .{1})', this.dmStatus, 'textXs', this.dmlistStatus, 'activityStatusText');
-            // Member List
-            this.styler.add('.{0}:has(> .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-        }
-
-        // Remove User Activity Status
-        if (this.settings.dms.userActivity == 'dmlist') {
-            this.styler.add('[class^="channel_"] div[class^="subText"]:has(> .{0} >span > .{0} > .{1})', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-        } else if (this.settings.dms.userActivity == 'memberlist') {
-            this.styler.add('[class^="memberInner"] .{0}:has(.{1} .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-        } else if (this.settings.dms.userActivity == 'remove') {
-            // DM List
-            this.styler.add('[class^="channel_"] div[class^="subText"]:has(> .{0} > span > .{0} > .{1})', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-            // Member List
-            this.styler.add('[class^="memberInner"] .{0}:has(.{1} .{1} > .{2})', this.memberlistStatus, 'subText', this.dmStatus, 'textXs', this.memberStatusText, 'truncated');
-        }
-
-        // Friend Page
-        if (this.settings.dms.defaultFLStatus) this.styler.add('.{0} .{1}:has(> [class^="text_"])', this.friendInfo, 'userInfo', this.friendInfo, 'subtext');
-        if (this.settings.dms.customFLStatus) {
-            this.styler.add('.{0} .{1}:has(> .{2} > div)', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendTextSm, 'textSm');
-            this.styler.add('.{0} .{1}:has(> .{2} > span > .{2})', this.friendInfo, 'userInfo', this.friendInfo, 'subtext', this.friendTextSm, 'textSm');
-        }
-
-        if (this.settings.dms.libraryTab) this.styler.add('li:has([href="/library"])');
-        if (this.settings.dms.pinDM) {
-            // DMs
-            this.styler.add('div[role="separator"] + div > div[id$="user-context-pin-dm"]');
-            this.styler.add('div[role="separator"]:has(+ div > div[id$="user-context-pin-dm"])');
-            // GDMs
-            this.styler.add('div[role="separator"] + div > div[id$="gdm-context-pin-dm"]');
-            this.styler.add('div[role="separator"]:has(+ div > div[id$="gdm-context-pin-dm"])');
-        }
-
-        /// Servers and Channels ///
-        if (this.settings.servers.addServerButton) this.styler.add('.{0}', this.addServerDiscoverButton, 'tutorialContainer');
-        if (this.settings.servers.discoverButton) this.styler.add('.{0} + .{1}', this.addServerDiscoverButton, 'tutorialContainer', this.addServerDiscoverButton, 'listItem');
-
-        if (this.settings.servers.unreadIndicator == 'both') {
-            this.styler.add('.{0}, .{1}', this.serverIndicatorTop, 'unreadMentionsIndicatorTop', this.serverIndicatorBottom, 'unreadMentionsIndicatorBottom');
-        } else if (this.settings.servers.unreadIndicator == 'top') {
-            this.styler.add('.{0}', this.serverIndicatorTop, 'unreadMentionsIndicatorTop');
-        } else if (this.settings.servers.unreadIndicator == 'bottom') {
-            this.styler.add('.{0}', this.serverIndicatorBottom, 'unreadMentionsIndicatorBottom');
-        }
-
-        if (this.settings.servers.serverBanner) {
-            this.styler.add('.{0}', this.serverBanner, 'animatedContainer');
-            this.styler.add('div#channels > ul :is(div[style="height: 84px;"], div[style="height: 8px;"], div[style="height: 12px;"])');
-        }
-        if (this.settings.servers.boostBar) this.styler.add('.{0}', this.boostBar, 'container');
-        if (this.settings.servers.stageNotice) this.styler.add('.{0}', this.liveNotice, 'channelNotice');
-        if (this.settings.servers.serverGuide) this.styler.add('#channels li:has(div[id*="home-tab"])');
-        if (this.settings.servers.eventButton) this.styler.add('#channels li:has(svg > path[d^="M7 1a1 1 0 0 1 1 1v.75c0 .14.11.25.25.25h7.5c.14 0"])');
-        if (this.settings.servers.membersButton) this.styler.add('#channels li:has(svg > path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"])');
-        if (this.settings.servers.channelsAndRoles) this.styler.add('#channels li:has(svg > path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])');
-        if (this.settings.servers.boostsButton) this.styler.add('li:has(div[id*="skill-trees"])');
-        if (this.settings.servers.shopButton) this.styler.add('#channels li:has(> div > [data-list-item-id*="shop"])');
-        if (this.settings.servers.inviteButton) {
-            this.styler.add('.{0}', this.headerInviteButton, 'inviteButton');
-            this.styler.add('.{0} > span:has(svg > path[d^="M19 14a1 1 0 0 1 1 1v3h3a1 1 0 0 1"])', this.channelListButtons, 'children');
-        }
-        if (this.settings.servers.showallButton) this.styler.add('.{0}', this.vcShowAllButton, 'refreshVoiceChannelsButton');
-        if (this.settings.servers.settingsButton) this.styler.add('.{0} > span:has(svg > path[d^="M10.56 1.1c-.46.05-.7.53-.64.98.18 1.16-.19 2.2-.98"])', this.channelListButtons, 'children');
-        
-        if (this.settings.servers.pinChannel) {
-            this.styler.add('div[role="separator"] + div > div[id$="channel-context-pin-channel"]');
-        }
-        
-        if (this.settings.servers.unreadMentionsBar) this.styler.add('.{0}', this.channelMentionsBar, 'mentionsBar');
-        if (this.settings.servers.unreadMessagesBar) this.styler.add('.{0}', this.channelMessagesBar, 'unreadBar');
-        if (this.settings.servers.activitySection) {
-            this.styler.add('.{0}:has([role="button"])', this.serverActivitySection, 'membersGroup');
-            this.styler.add('div > div .{0}', this.serverActivitySectionCards, 'usesCardRows');
-            this.styler.add('div > div .{0}.{1}', this.serverActivityOnHover, 'container', this.serverActivityOnHover, 'openOnHover');
-        }
-
-        /// Voice ///
-        if (this.settings.voice.invitePlaceholder) this.styler.add('div[class^="row"] > div:has(.{0})', this.vcScreen, 'singleUserRoot');
-        if (this.settings.voice.cameraPanelButton) this.styler.add('.{0} > button:first-of-type', this.vcButtons, 'actionButtons');
-        if (this.settings.voice.screensharePanelButton) this.styler.add('.{0} > button:nth-of-type(2)', this.vcButtons, 'actionButtons');
-        if (this.settings.voice.activityPanelButton) this.styler.add('.{0} > button:nth-of-type(3)', this.vcButtons, 'actionButtons');
-        if (this.settings.voice.soundboardPanelButton) this.styler.add('.{0} div:has(> button svg)', this.vcButtons, 'actionButtons');
-        if (this.settings.voice.krispButton) this.styler.add('.{0} button:first-of-type', this.vcKrisp, 'voiceButtonsContainer');
-        if (this.settings.voice.gameActivityPanel) this.styler.add('.{0}', this.vcActivityPanel, 'activityPanel');
-        if (this.settings.voice.gameActivityButton) this.styler.add('.{0}:has(.{1})', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
-        if (this.settings.voice.soundboardButton) this.styler.add('.{0} > .{1} + .{2}', this.vcButtonSection, 'buttonSection', this.vcButtonSection, 'buttonContainer', this.vcActivities, 'attachedCaretButtonContainer');
-        if (this.settings.voice.voiceAvatars) this.styler.add('.{0}', this.vcSmallAvatar, 'avatarSmall');
-        if (this.settings.voice.voiceWasHere) this.styler.add('.{0}', this.vcWasHere, 'row');
-        if (this.settings.voice.voiceInviteToVoice) {
-            this.styler.add('.{0}:has(>.{1})', this.vcInviteToVoice, 'animation', this.vcInviteToVoice, 'clickable');
-            this.styler.add('.{0} .{1}', this.vcOnCallInvite, 'bottomControls', this.vcOnCallInvite, 'edgeControls');
-        }
-        if (this.settings.voice.voiceSetCustomStatus) this.styler.add('.{0}', this.vcSetCustomStatus, 'linkBottom');
-
-        if (this.settings.voice.vcRTCpingWrap == 'rtcPing') {
-            this.styler.add('.{0}', this.vcRTCWrapper, 'clickablePing');
-        } else if (this.settings.voice.vcRTCpingWrap == 'rtcStatus') {
-            this.styler.add('.{0} > div[role="button"]', this.vcRTCWrapper, 'labelWrapper');
-        } else if (this.settings.voice.vcRTCpingWrap == 'rtcPingStatus') {
-            this.styler.add('.{0}', this.vcRTCWrapper, 'clickablePing');
-            this.styler.add('.{0} > div[role="button"]', this.vcRTCWrapper, 'labelWrapper');
-        }
-
-        /// Title Bar ///
-        if (this.settings.toolbar.navButtons) this.styler.add('.{0}', this.backForwardButtons, 'backForwardButtons');
-        if (this.settings.toolbar.locator) this.styler.add('.{0}', this.titleBarTrailing, 'title');
-        if (this.settings.toolbar.helpButton) this.styler.add(':is(.{0}, .{1}) a[href="https://support.discord.com"]', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
-        if (this.settings.toolbar.bookmarkButton) this.styler.add(':is(.{0}, .{1}) div:has(svg > path[d="M4 5a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v16a1 1 0 0 1-1.67.74l-5.66-5.13a1 1 0 0 0-1.34 0l-5.66 5.13A1 1 0 0 1 4 20.99V5Z"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
-        if (this.settings.toolbar.inboxButton) this.styler.add(':is(.{0}, .{1}) div:has(svg > path[d^="M5 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
-
-        /// Toolbar ///
-        if (this.settings.toolbar.threadsButton) this.styler.add('.{0}:has(svg > path[d^="M12 2.81a1 1 0 0 1 0-1.41l.36-.36a1 1 0 0 1 1.41 0l9.2 9.2a1"]) ', this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.notifyButton) {
-            // Strike Through Bell
-            this.styler.add('.{0}:has(> svg > path[d^="M1.3 21.3a1 1 0 1 0 1.4 1.4l20-20a1"]) ', this.upperToolbar, 'iconWrapper');
-            // Regular Bell
-            this.styler.add('.{0}:has(> svg > path[d^="M9.7 2.89c.18-.07.32-.24.37-.43a2"]) ', this.upperToolbar, 'iconWrapper');
-        }
-        if (this.settings.toolbar.pinnedButton) this.styler.add('.{0}:has(> svg path[d^="M19.38 11.38a3 3 0 0 0 4.24 0l.03-.03a.5.5 0 0 0 0-.7L13.35.35a.5.5"]) ', this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.memberButton) this.styler.add('.{0}:has(> svg > path[d^="M14.5 8a3 3 0 1 0-2.7-4.3c-.2.4.06.86.44 1.12a5"]) ', this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.voiceButton) this.styler.add('.{0}:has(svg > path[d="M13 7a1 1 0 0 1 1-1 4 4 0 0 1 4 4 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 0 1-1-1Z"]) ', this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.videoButton) this.styler.add('.{0}:has(> svg > path[d^="M4 4a3 3 0 0 0-3 3v10a3"])', this.upperToolbar, 'iconWrapper');
-        if (this.settings.toolbar.profileButton) this.styler.add('.{0}:has(> svg > path[d^="M23 12.38c-.02.38-.45.58-.78.4a6.97 6.97 0 0 0-6.27-.08.54.54"]) ', this.upperToolbar, 'iconWrapper');
-
-        /// Profile Customizations ///
-        if (this.settings.profileCustomizations.profileNoCustom) {
-            this.styler.patch(
-                `--profile-gradient-primary-color: var(--background-surface-high) !important;
-                --profile-gradient-secondary-color: var(--background-surface-high) !important;
-                --profile-gradient-overlay-color: rgba(0, 0, 0, 0) !important;
-                --profile-gradient-button-color: var(--background-mod-subtle) !important;
-                --profile-gradient-modal-background-color: var(--background-base-lower) !important;
-                --custom-theme-base-color-amount: unset !important;
-                --custom-theme-text-color-amount: unset !important;
-                --custom-theme-base-color-light-hsl: unset !important;
-                --custom-theme-base-color-light: unset !important;
-                --custom-theme-text-color-light: unset !important;
-                --custom-theme-base-color-dark-hsl: unset !important;
-                --custom-theme-base-color-dark: unset !important;
-                --custom-theme-text-color-dark: unset !important;`,
-                '[class*="custom-user-profile-theme"]'
-            );
-        }
-
-        if (this.settings.profileCustomizations.namePlate == 'original') {
-            // Server List / DM List
-            this.styler.add('.{0} > [style^="background: linear-gradient"]', this.dmEntry, 'interactive');
-            this.styler.add('.{0} > [style^="background: linear-gradient"]', this.namePlate, 'nameplated');
-        } else if (this.settings.profileCustomizations.namePlate == 'self') {
-            // Self Avatar Area
-            this.styler.add('.{0}', this.selfNamePlate, 'fitInAccount');
-        } else if (this.settings.profileCustomizations.namePlate == 'global' || this.settings.profileCustomizations.profileDisableAll) {
-            // Server List / DM List
-            this.styler.add('.{0} > [style^="background: linear-gradient"]', this.dmEntry, 'interactive');
-            this.styler.add('.{0} > [style^="background: linear-gradient"]', this.namePlate, 'nameplated');
-            // Self Avatar Area
-            this.styler.add('.{0}', this.selfNamePlate, 'fitInAccount');
-        }
-
-        if (this.settings.profileCustomizations.clanTag == 'memberlist' || this.settings.profileCustomizations.clanTag == 'global' || this.settings.profileCustomizations.profileDisableAll) {
-            // Member List
-            this.styler.add('.{0}', this.mlTagEntry, 'clanTag');
-            // DM List
-            this.styler.add('.{0}', this.dmTagEntry, 'clanTag');
-            // VC Users List
-            this.styler.add('.{0} .{1}', this.vcSmallAvatar, 'userSmall', this.containerChiplet, 'chipletParent');
-            // Friends List
-            this.styler.add('.{0}.{1}', this.clanTagFriendsList, 'chipletContainerInner', this.clanTagFriendsList, 'noTooltip');
-        }
-        if (this.settings.profileCustomizations.clanTag == 'profile' || this.settings.profileCustomizations.clanTag == 'global' || this.settings.profileCustomizations.profileDisableAll) {
-            // Chat
-            this.styler.add('.{0}', this.clanTagChiplet, 'clanTagChiplet');
-            // Profile
-            this.styler.add('.{0}', this.clanTagProfile, 'guildTag');
-            // DM's "Show Profile"
-            this.styler.add('.{0}', this.clanTagProfile, 'guildTagPill');
-            // Profile - NewOldProfiles Plugin
-            if (newOldProfiles) this.styler.add('.badgeSection .clanTagContainer, .badgeSection .divider');
-        }
-
-        if (this.settings.profileCustomizations.avatarDecoration || this.settings.profileCustomizations.profileDisableAll) {
-            this.styler.add(':not(.{0} > div ) > .{1}', this.avatarPreview, 'skuPreview', this.avatarDecorationContainer, 'avatarDecorationContainer');
-            this.styler.add(':not(.{0} > div ) > .{1}', this.avatarPreview, 'skuPreview', this.avatarDecorationChat, 'avatarDecoration');
-        }
-
-        if (this.settings.profileCustomizations.hideBadges || this.settings.profileCustomizations.profileDisableAll) {
-            this.styler.add('div[class^="container"]:has(> a.{0} > img)', this.profileBadges, 'anchor');
-            // Profile - NewOldProfiles Plugin
-            if (newOldProfiles) this.styler.add('.headerInfo .profileBadges .profileBadgeWrapper:not(:has(.profileBadgeBirthday))');
-        }
-
-        if (this.settings.profileCustomizations.hideBanner || this.settings.profileCustomizations.profileDisableAll) {
-            this.styler.patch(
-                `background-image: unset !important;`,
-                '.{0} .{1}',
-                this.profileBanner, 'banner', this.profileBanner, 'fill'
-            );
-        }
-
-        if (this.settings.profileCustomizations.removeCutout) {
-            this.styler.patch(
-                `--custom-cutout-radius: 0px !important;
-                --custom-cutout-x: unset !important;
-                --custom-cutout-y: unset !important;`,
-                '.{0} .{1}',
-                this.profileBanner, 'banner', this.profileBanner, 'fill'
-            );
-        }
-
-        if (this.settings.profileCustomizations.profileEffects || this.settings.profileCustomizations.profileDisableAll) this.styler.add(':not(.{0} > div > div) > .{1}', this.avatarPreview, 'skuPreview', this.profileEffects, 'profileEffects');
-        if (this.settings.profileCustomizations.profileGIF) this.styler.add('.{0}', this.profileGIF, 'gifTag');
-        if (this.settings.profileCustomizations.hideMessage) this.styler.add('[class^="footer"]:has(.{0})', this.textArea, 'channelTextArea');
-        if (this.settings.profileCustomizations.hideEditProfile) {
-            this.styler.add('.user-profile-popout [class^="footer"]:has(button)');
-            // Profile - NewOldProfiles Plugin
-            if (newOldProfiles) this.styler.add('.profileButtons > button:has(svg>path[d="m13.96 5.46 4.58 4.58a1 1 0 0 0 1.42 0l1.38-1.38a2 2 0 0 0 0-2.82l-3.18-3.18a2 2 0 0 0-2.82 0l-1.38 1.38a1 1 0 0 0 0 1.42ZM2.11 20.16l.73-4.22a3 3 0 0 1 .83-1.61l7.87-7.87a1 1 0 0 1 1.42 0l4.58 4.58a1 1 0 0 1 0 1.42l-7.87 7.87a3 3 0 0 1-1.6.83l-4.23.73a1.5 1.5 0 0 1-1.73-1.73Z"])');
-        }
-
-        if (this.settings.profileCustomizations.hideCollection || this.settings.profileCustomizations.profileDisableAll)  this.styler.add('.{0} .{1}', this.profileCards, 'cardsList', this.profileCollection, 'breadcrumb');
-
-        if (this.settings.profileCustomizations.hideProfileActivity == 'hpaPopout') {
-            this.styler.add(':not(.{0}) > .{1} .{2}:has( > article)', this.profileWishBody, 'cards', this.profileCards, 'container', this.profileCards, 'firstCardContainer');
-        }
-        else if (this.settings.profileCustomizations.hideProfileActivity == 'hpaDMs') {
-            this.styler.add('.{0}:has(.{1} > article)', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer');
-        }
-        else if (this.settings.profileCustomizations.hideProfileActivity == 'hpaGlobal' || this.settings.profileCustomizations.profileDisableAll) {
-            this.styler.add('.{0}:has(.{1} article)', this.profileCards, 'container', this.profileCards, 'cardsList');
-        }
-
-        if (this.settings.profileCustomizations.hideProfileStats == 'hpsPopout') {
-            this.styler.add(':not(.{0}) > .{1} .{2}:has( > div)', this.profileWishBody, 'cards', this.profileCards, 'container', this.profileCards, 'firstCardContainer');
-        }
-        else if (this.settings.profileCustomizations.hideProfileStats == 'hpsDMs') {
-            this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileWishBody, 'cards', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
-        }
-        else if (this.settings.profileCustomizations.hideProfileStats == 'hpsGlobal' || this.settings.profileCustomizations.profileDisableAll) {
-            this.styler.add('.{0} .{1} > div:has( > .{2})', this.profileCards, 'container', this.profileCards, 'firstCardContainer', this.profileCards, 'card');
-        }
-
-        if (this.settings.profileCustomizations.hideWishlist || this.settings.profileCustomizations.profileDisableAll) this.styler.add('.{0} .{1}', this.profileWishBody, 'cards', this.profileWishlist, 'container');
-
-        if (this.settings.profileCustomizations.hideStatus == 'hcsPopout' || this.settings.profileCustomizations.hideStatus == 'hcsGlobal' || this.settings.profileCustomizations.profileDisableAll) {
-            this.styler.add(':not([class^="previewContainer"]) > .user-profile-popout .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
-            this.styler.add(':not([class^="previewContainer"]) > .user-profile-popout .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
-        }
-        if (this.settings.profileCustomizations.hideStatus == 'hcsDMs' || this.settings.profileCustomizations.hideStatus == 'hcsGlobal' || this.settings.profileCustomizations.profileDisableAll) {
-            this.styler.add('.user-profile-sidebar .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'referenceContainer', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
-            this.styler.add('.user-profile-sidebar .{0}:has(.{1} > span.{2})', this.profileCustomStatus, 'container', this.profileCustomStatus, 'outer', this.profileCustomStatus, 'inner');
-        }
-
-        if (this.settings.profileCustomizations.frameDecoration || this.settings.profileCustomizations.profileDisableAll) {
-            this.styler.add('.{0} .{1}', this.frameDecoration, 'profileFrameContainer', this.frameDecoration, 'profileFrame');
-            // Patch out the resizing of the Profile to accommodate the Frame
-            this.styler.patch(
-                `--custom-profile-frame-container-width: unset !important;`,
-                '.custom-profile-frame'
-            );
-        }
-
-        if (this.settings.profileCustomizations.hideClips) {
-            this.styler.add('.{0} .{1}:has(svg path[d^="M15.74 5.74a.5.5 0 0 0 .54.7l5.01-.88a.5.5 0 0 0 .4-.58l-.26-1.47a3 3 0 0 0-3.2-2.47.46.46 0 0 0-.37.26l-2.12 4.44ZM15.13"])', this.profileMenu, 'menuOverlay', this.profileMenu, 'menuItem');
-            // Remove the Divider Gap from Status Select
-            this.styler.add('.{0} .{1}:has(+ .{1} svg path[d^="M15.74 5.74a.5.5 0 0 0 .54.7l5.01-.88a.5.5 0 0 0 .4-.58l-.26-1.47a3 3 0 0 0-3.2-2.47.46.46 0 0 0-.37.26l-2.12 4.44ZM15.13"])::after', this.profileMenu, 'menuOverlay', this.profileMenu, 'menuItem');
-        }
-
-        /// Miscellaneous ///
-        if (this.settings.miscellaneous.blockedMessage) this.styler.add('.{0}:has(.{1})', this.blockedGroup, 'groupStart', this.blockedIndicator, 'blockedSystemMessage');
-
-        if (this.settings.miscellaneous.nitroUpsell) {
-            // Settings "Edit Profile" Page
-            this.styler.add('.{0} div:has(> [class^="artContainer"])', this.shopArt, 'settingsPage');
-            // Billing Settings (Context Menu)
-            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu');
-            this.styler.add('.{0} div[role="group"]:has(#settings-menu-nitro_sidebar_item)', this.contextSettingsMenu, 'menu');
-            // Billing Settings (Context Menu / BetterSettings Plugin)
-            this.styler.add('.{0} div:has(> #settings-menu-Billing)', this.contextSettingsMenu, 'menu');
-            // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
-            this.styler.add('.{0}', this.profileUpsell, 'upsellOverlayContainer');
-            // Profile Shop Button
-            this.styler.add('[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M2.63 4.19A3 3 0 0 1 5.53 2H7a1 1 0 0"])');
-            // "Add to Favorites" Right Click Menu Option and Separator
-            this.styler.add('div[role="separator"] + div > div[id$="context-favorite-channel"]');
-            this.styler.add('div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])');
-            // Appearance Upsell
-            this.styler.add('div[data-nav-anchor-key="appearance_custom_themes_upsell"]');
-            // Nitro Rewards on Connections Page
-            this.styler.add('div[class^="stack"] div[class^="sectionHeader"]:has(+ div[class^="theme-"][class*="images-"])');
-            this.styler.add('div[class^="stack"] div[class^="theme-"][class*="images-"]');
-            // Profile Popup "Edit Profile" Sidebar
-            this.styler.add('div:has(> .{0}, > .{1})', this.profilePopupUpsell, 'nitro-pink', this.profilePopupUpsell, 'pink');
-        }
-
-        if (this.settings.miscellaneous.noQuests) {
-            this.styler.add('li:has([href="/quest-home"])');
-            // Active Now section
-            this.styler.add('.{0}', this.promotedQuest, 'promotedTag');
-            this.styler.add('.{0}', this.questPrompt, 'wrapper');
-            // MemberList Profile Popout Card Prompt
-            this.styler.add('div[id^="popout"]:has(.{0})', this.mlQuestPrompt, 'wrapper');
-            // Avatar Wrapper
-            this.styler.add('div:has(>div[data-testid="quest-bar-container"])');
-        }
-
-        // Activity Settings (Context Menu)
-        if (this.settings.miscellaneous.noActvityMenu) {
-            this.styler.add('.{0} div[role="separator"]:has(+ div > #settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu');
-            this.styler.add('.{0} div[role="group"]:has(#settings-menu-activity_privacy_sidebar_item)', this.contextSettingsMenu, 'menu');
-        }
-
-        if (this.settings.miscellaneous.placeholderText) this.styler.add('.{0}:not(.{1}) :has(+ .{2})', this.textArea, 'channelTextArea', this.textArea, 'channelTextAreaDisabled', this.txtPlaceholder, 'slateTextArea');
-        if (this.settings.miscellaneous.avatarPopover) this.styler.add('.{0}', this.profilePopover, 'statusPopover');
-
-        const listSeparatorDm = ['.{0}', this.dmDivider, 'sectionDivider'];
-        const listSeparatorServer = ['.{0}', this.channelDivider, 'sectionDivider'];
-        if (this.settings.miscellaneous.listSeparator == 'dmlist') {
-            this.styler.add(...listSeparatorDm);
-        } else if (this.settings.miscellaneous.listSeparator == 'serverlist') {
-            this.styler.add(...listSeparatorServer);
-        } else if (this.settings.miscellaneous.listSeparator == 'smart') {
-            if (
-                this.settings.dms.friendsTab &&
-                this.settings.dms.premiumTab &&
-                this.settings.dms.discordShopTab &&
-                this.settings.miscellaneous.noQuests
-            ) {
-                this.styler.add(...listSeparatorDm);
-            }
-            if (
-                this.settings.servers.serverGuide &&
-                this.settings.servers.eventButton &&
-                this.settings.servers.membersButton &&
-                this.settings.servers.channelsAndRoles &&
-                this.settings.servers.boostsButton &&
-                this.settings.servers.shopButton
-            ) {
-                this.styler.add(...listSeparatorServer);
-            }
-        } else if (this.settings.miscellaneous.listSeparator == 'remove') {
-            this.styler.add(...listSeparatorDm);
-            this.styler.add(...listSeparatorServer);
-        }
-
-        if (this.settings.miscellaneous.seasonalEvents) {
-            this.styler.add('[href="//discord.com/snowsgiving"], [href="/activities"]');
-            // Checkpoint Button
-            this.styler.add(':is(.{0}, .{1}) div:has(> svg > path[d^="M5.1 1a2.1 2.1 0 0 1 1.8 3.14h14.05c.84"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
-            // Last Meadow Online
-            this.styler.add(':is(.{0}, .{1}) div:has(> svg > path[fill^="url(#uid_"])', this.titleBarTrailing, 'trailing', this.upperToolbar, 'toolbar');
-        }
-        if (this.settings.miscellaneous.ioChevrons) {
-            this.styler.add('.{0}', this.userAreaIOChevron, 'buttonChevron');
-            // Patch
-            this.styler.patch(
-                `border-end-end-radius: 8px;
-                 border-start-end-radius: 8px;`,
-                '.{0} .{1}',
-                this.userAreaIOChevron, 'audioButtonParent', this.userAreaIOChevron, 'audioButtonWithMenu'
-            );
-        }
-        if (this.settings.miscellaneous.baseGradient) this.styler.add('.{0}', this.textAreaGradient, 'chatGradientBase');
-        if (this.settings.miscellaneous.noTypingDots) this.styler.add('.{0} > svg.{1}', this.typingAnimDots, 'typingDots', this.typingAnimDots, 'ellipsis');
-
-        if (this.settings.miscellaneous.tagsBotApp == 'remove') {
-            this.styler.add('.{0}', this.tagsBot, 'botTag');
-        } else if (this.settings.miscellaneous.tagsBotApp == 'keepOP') {
-            this.styler.add('.{0}:not(.{1})', this.tagsBot, 'botTag', this.tagsBot, 'botTagOP');
-        } else if (this.settings.miscellaneous.tagsBotApp == 'chatOnly') {
-            this.styler.add('[id^="message-username"] > .{0}', this.tagsBot, 'botTag');
-        }
-
-        if (this.settings.miscellaneous.badgeNewUser) this.styler.add('.{0}', this.badgeNew, 'newMemberBadge');
-
-        if (this.settings.miscellaneous.threadSuggestions) this.styler.add('.{0}', this.threadSuggestion, 'threadSuggestionBar');
-
-        /// Compatibility ///
-        if (this.settings.compatibility.invisibleTypingButton) this.styler.add('div:has(> .invisibleTypingButton)');
 
         this.styler.apply();
     }
