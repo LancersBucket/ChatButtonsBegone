@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord client.
- * @version 4.5.5
+ * @version 5.0.0
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -102,7 +102,7 @@ const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         changelog_url: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/CHANGELOG.md',
-        version: '4.5.5',
+        version: '5.0.0',
     },
     defaultConfig: [
         {
@@ -1528,45 +1528,7 @@ module.exports = class ChatButtonsBegone {
     }
 
     migrateConfig() {
-        const migrations = [
-            {
-                to: '4.1.0',
-                migrate: (config) => {
-                    // Migrate user status to DM settings
-                    config.dms.userStatus = config.miscellaneous.userStatus;
-                    delete config.miscellaneous.userStatus;
-
-                    // Migrate user activity to DM settings
-                    config.dms.userActivity = config.miscellaneous.userActivity;
-                    delete config.miscellaneous.userActivity;
-
-                    // Convert tagsBotApp to dropdown
-                    config.miscellaneous.tagsBotApp = config.miscellaneous.tagsBotApp ? 'show' : 'remove';
-
-                    return config;
-                },
-            },
-            {
-                to: '4.5.0',
-                migrate: (config) => {
-                    // Convert hideStatus to a dropdown
-                    config.profileCustomizations.hideStatus = config.profileCustomizations.hideStatus ? 'show' : 'hcsGlobal';
-
-                    return config;
-                }
-            },
-            {
-                to: '4.5.2',
-                migrate: (config) => {
-                    // Correct migrations by disabling both settings
-                    config.profileCustomizations.hideStatus = 'show';
-                    config.miscellaneous.tagsBotApp = 'show';
-
-                    return config;
-
-                }
-            },
-        ];
+        const migrations = [];
 
         let currentVersion = this.settingVersion;
         let migrated = false;

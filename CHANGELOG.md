@@ -1,16 +1,27 @@
 # Changelog
-## v4.5.5
+## v5.0.0
+### Added
+- Changelog popup on plugin update (Hello there!)
+- Option to remove Badges button from the profile status menu [Profile Customizations]
+
+### Changed
+- Overhauled plugin codebase so each setting is more modular. Also cleaned up how webpacks are named and organized. (Thanks zrodevkaan for the suggestion!) 
+- Overhauled settings menu (again). Disable All Profile Customizations should now actually disable the toggles that it overwrites to prevent confusion.
+
 ### Fixed
 - noQuests - Remove Quest attached to Avatar Wrapper area
 - VC - Invite to Voice: also remove the in-call floating edge Invite control
 
-## v4.5.4
+### Removed
+- Automatic migration support for versions less than 5.x.x
+
+## v4.5.4 - September 17th, 2026
 ### Fixed
 - Clan Tag not removing from friends list when 'Remove in Member List' or 'Remove' is selected
 - Clan Tag not removing from DM's Profile View when 'Remove in Profiles" or 'Remove' is selected
 - Soundboard Panel Button not removing properly
 
-## v4.5.3
+## v4.5.3 - August 28th, 2026
 ### Fixed
 - Settings menu not properly displaying config state
 - Settings not being applied if a "patch" is not present
@@ -19,16 +30,16 @@
 - DMs List Activity/Status Text and Friends Page User Info Sub-Status not removing properly
 - Settings not searching
 
-## v4.5.2
+## v4.5.2 - August 18th, 2026
 ### Fixed
 - Set Remove APP/BOT Tags and Profile Custom Status to disabled when updating to correct for a migration issue enabling them by default. If you need these settings you can re-enable again.
 - Profile Custom Status removing edit status from profile popup
 
-## v4.5.1
+## v4.5.1 - August 18th, 2026
 ### Fixed
 - Settings menu not properly displaying config state
 
-## v4.5.0
+## v4.5.0 - August 18th, 2026
 ### Added
 - Options to remove items from message context menus [Message Actions]
     - Remove "Bookmark Message" Button
