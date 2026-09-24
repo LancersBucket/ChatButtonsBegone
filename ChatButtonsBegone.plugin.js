@@ -101,6 +101,7 @@ class Styler {
 const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
+        changelog_url: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/CHANGELOG.md',
         version: '4.5.5',
     },
     defaultConfig: [
@@ -1054,7 +1055,103 @@ module.exports = class ChatButtonsBegone {
         this.settingVersion = this.api.Data.load('settingVersion') || '0.0.0';
 
         this.ensureDefaultSettings();
+        this.changelog();
         this.migrateConfig();
+    }
+
+    compareVersions(a, b) {
+        const aParts = a.split('.').map(Number);
+        const bParts = b.split('.').map(Number);
+
+        for (let i = 0; i < Math.min(aParts.length, bParts.length); i++) {
+            if (aParts[i] > bParts[i]) return 1;
+            if (aParts[i] < bParts[i]) return -1;
+        }
+        
+        if (aParts.length !== bParts.length) {
+            if (aParts.length > bParts.length) return 1;
+            if (aParts.length < bParts.length) return -1;
+        }
+        
+        return 0;
+    }
+
+    async changelog() {
+        // Ignore changelog for new install
+        if (this.settingVersion === '0.0.0') return;
+
+        const formatChangelog = (text) => {
+            if (!text || typeof text !== 'string') return [];
+
+            const latestSection = text
+                .replace(/^#\s*Changelog\s*$/im, '')
+                .split(/\n(?=##\s+)/)
+                .map((section) => section.trim())
+                .filter(Boolean)[0];
+
+            if (!latestSection) return [];
+
+            const typeMap = {
+                // Purposely mapped wrong. I like how it looks this way.
+                added: { title: 'Added', type: 'added' },
+                changed: { title: 'Changed', type: 'progress' },
+                fixed: { title: 'Fixed', type: 'improved' },
+                removed: { title: 'Removed', type: 'fixed' },
+            };
+
+            const changes = [];
+            let currentType = null;
+            for (const rawLine of latestSection.split('\n')) {
+                const line = rawLine.trim();
+                if (!line) continue;
+
+                const typeMatch = line.match(/^###\s+(Added|Fixed|Changed|Removed)\s*$/i);
+                if (typeMatch) {
+                    const normalizedType = typeMatch[1].toLowerCase();
+                    currentType = typeMap[normalizedType] ? normalizedType : null;
+                    continue;
+                }
+
+                if (!currentType) continue;
+
+                const itemMatch = line.match(/^[-*]\s+(.*)$/);
+                if (!itemMatch) continue;
+
+                const existing = changes.find((entry) => entry.type === typeMap[currentType].type);
+                if (existing) {
+                    existing.items.push(itemMatch[1].trim());
+                } else {
+                    changes.push({
+                        title: typeMap[currentType].title,
+                        type: typeMap[currentType].type,
+                        items: [itemMatch[1].trim()],
+                    });
+                }
+            }
+
+            return changes;
+        }
+        
+        if (compareVersions(this.settingVersion, config.info.version) < 0) {
+            let changelog = ""
+            try {
+                let response = await fetch(config.info.changelog_url)
+                if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+                
+                changelog = formatChangelog(response.text());
+            } catch (e) {
+                this.api.Logger.error("Could not get changelog: " + error);
+                return;
+            }
+
+            if (changelog.length > 0) {
+                this.api.UI.showChangelogModal({
+                    title: `What's new in ChatButtonsBegone v${config.info.version}?`,
+                    blurb: `Did something break in this update? Do you want a new feature? Let us know at: ${config.info.github}`,
+                    changes: changelog,
+                })
+            }
+        }
     }
 
     migrateConfig() {
@@ -1097,23 +1194,6 @@ module.exports = class ChatButtonsBegone {
                 }
             },
         ];
-
-        const compareVersions = (a, b) => {
-            const aParts = a.split('.').map(Number);
-            const bParts = b.split('.').map(Number);
-
-            for (let i = 0; i < Math.min(aParts.length, bParts.length); i++) {
-                if (aParts[i] > bParts[i]) return 1;
-                if (aParts[i] < bParts[i]) return -1;
-            }
-            
-            if (aParts.length !== bParts.length) {
-                if (aParts.length > bParts.length) return 1;
-                if (aParts.length < bParts.length) return -1;
-            }
-            
-            return 0;
-        }
 
         let currentVersion = this.settingVersion;
         let migrated = false;
