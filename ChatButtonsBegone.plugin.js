@@ -1178,6 +1178,19 @@ const config = {
                         ];
                     },
                 },
+                {
+                    type: 'switch',
+                    id: 'hideBadgesStatusMenu',
+                    name: 'Remove "Badges" from Status Menu',
+                    note: 'Removes the "Badges" option from Profile Status menu.',
+                    getRules: (v, s, m) => {
+                        if (v) return [
+                        { selector: '.{0} .{1}:has(svg path[d^="M11.91 16.43a.66.66 0 0 0-.16.08 3.16 3.16 0 0 1-2.85.27"])', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
+                        // Remove the Divider Gap from Status Select
+                        { selector: '.{0} .{1}:has(+ .{1} svg path[d^="M11.91 16.43a.66.66 0 0 0-.16.08 3.16 3.16 0 0 1-2.85.27"])::after', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
+                        ];
+                    },
+                },
             ],
         },
         {
