@@ -1505,7 +1505,7 @@ module.exports = class ChatButtonsBegone {
             return changes;
         }
         
-        if (compareVersions(this.settingVersion, config.info.version) < 0) {
+        if (this.compareVersions(this.settingVersion, config.info.version) < 0) {
             let changelog = ""
             try {
                 let response = await fetch(config.info.changelog_url)
@@ -1571,7 +1571,7 @@ module.exports = class ChatButtonsBegone {
         let currentVersion = this.settingVersion;
         let migrated = false;
         migrations.forEach((migration) => {
-            if (compareVersions(currentVersion, migration.to) < 0) {
+            if (this.compareVersions(currentVersion, migration.to) < 0) {
                 this.settings = migration.migrate(this.settings);
                 currentVersion = migration.to;
                 migrated = true;
@@ -1579,7 +1579,7 @@ module.exports = class ChatButtonsBegone {
         });
         if (migrated) this.api.Data.save('settings', this.settings);
 
-        if (compareVersions(this.settingVersion, config.info.version) <= 0) {
+        if (this.compareVersions(this.settingVersion, config.info.version) <= 0) {
             this.settingVersion = config.info.version;
             this.api.Data.save('settingVersion', this.settingVersion);
         }
