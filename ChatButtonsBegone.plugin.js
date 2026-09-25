@@ -1508,10 +1508,10 @@ module.exports = class ChatButtonsBegone {
         if (this.compareVersions(this.settingVersion, config.info.version) < 0) {
             let changelog = ""
             try {
-                let response = await fetch(config.info.changelog_url)
+                let response = await fetch(config.info.changelog_url);
                 if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
                 
-                changelog = formatChangelog(response.text());
+                changelog = formatChangelog(await response.text());
             } catch (e) {
                 this.api.Logger.error("Could not get changelog: " + error);
                 return;
