@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord client.
- * @version 5.0.0
+ * @version 5.0.1
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -19,7 +19,7 @@ class Styler {
      * Queue a style for the ChatButtonsBegone stylesheet. The style will be added when the webpack is loaded.
      * @param {string} selector CSS selector for the removal
      * @param {...any} modules A list of modules in the form [webpack1, property1, webpack2, property2,...]
-     * @returns 
+     * @returns
      */
     async add(selector, ...modules) {
         let mods = [];
@@ -61,7 +61,7 @@ class Styler {
     /**
      * Format a selector containing {n} tags and map them to to a provided list of modules.
      * @param {string} str A string containing {n} tags
-     * @param {...any} args A list of modules in the form [webpack1, property1, webpack2, property2,...] 
+     * @param {...any} args A list of modules in the form [webpack1, property1, webpack2, property2,...]
      * @returns {string} The formatted string
      */
     format(str, ...args) {
@@ -102,7 +102,7 @@ const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         changelog_url: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/CHANGELOG.md',
-        version: '5.0.0',
+        version: '5.0.1',
     },
     defaultConfig: [
         {
@@ -1389,6 +1389,13 @@ const config = {
                     note: 'Removes the "Create Thread" suggestion that appears when having a chain of 3 replies.',
                     getRules: (v, s, m) => { if (v) return [ { selector: '.{0}', mods: [ m.threadSuggestion, 'threadSuggestionBar' ] } ]; },
                 },
+                {
+                    type: 'switch',
+                    id: 'badgeBoosting',
+                    name: 'Remove Boosting Server Badge',
+                    note: 'Removes the Boosting Server badge from Memberlist area.',
+                    getRules: (v, s, m) => { if (v) return [ { selector: 'span:has(.{0})', mods: [ m.mlTagEntry, 'premiumIcon' ] } ]; },
+                },
             ],
         },
         {
@@ -1440,12 +1447,12 @@ module.exports = class ChatButtonsBegone {
             if (aParts[i] > bParts[i]) return 1;
             if (aParts[i] < bParts[i]) return -1;
         }
-        
+
         if (aParts.length !== bParts.length) {
             if (aParts.length > bParts.length) return 1;
             if (aParts.length < bParts.length) return -1;
         }
-        
+
         return 0;
     }
 
@@ -1504,13 +1511,13 @@ module.exports = class ChatButtonsBegone {
 
             return changes;
         }
-        
+
         if (this.compareVersions(this.settingVersion, config.info.version) < 0) {
             let changelog = ""
             try {
                 let response = await fetch(config.info.changelog_url);
                 if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-                
+
                 changelog = formatChangelog(await response.text());
             } catch (e) {
                 this.api.Logger.error("Could not get changelog: " + error);
@@ -1556,7 +1563,7 @@ module.exports = class ChatButtonsBegone {
                 for (let setting of category.settings) {
                     if (!(setting.id in this.settings[category.id]) || this.settings[category.id][setting.id] == null) {
                         if (!('defaultValue' in setting)) setting.defaultValue = false;
-                        
+
                         this.settings[category.id][setting.id] = setting.defaultValue;
                     }
                 }
@@ -1623,11 +1630,11 @@ module.exports = class ChatButtonsBegone {
                 { name: 'attachButton', filter: this.api.Webpack.Filters.byKeys('attachWrapper') }, // Attach Button
                 { name: 'chatBarButtons', filter: this.api.Webpack.Filters.byKeys('textArea', 'buttons') }, // Buttons Global
                 { name: 'emojiButton', filter: this.api.Webpack.Filters.byKeys('emojiButtonNormal', 'emojiButton') }, // Emoji Button
-                
+
                 // Message Actions //
                 { name: 'messageActionButtons', filter: this.api.Webpack.Filters.byKeys('hoverBarButton') }, // Message Action Buttons
                 { name: 'messageActionContainer', filter: this.api.Webpack.Filters.byKeys('messageListItem', 'message', 'buttons') }, // Message Action Button
-                
+
                 // Direct Messages //
                 { name: 'DMList', filter: this.api.Webpack.Filters.byKeys('privateChannels') }, // DM List
                 { name: 'DMHeader', filter: this.api.Webpack.Filters.byKeys('privateChannelsHeaderContainer') }, // DM Header
@@ -1643,7 +1650,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'multiActivity', filter: this.api.Webpack.Filters.byKeys('activityContainer') }, // Multi-Activity Status Container
                 { name: 'friendInfo', filter: this.api.Webpack.Filters.byKeys('userInfo', 'text', 'discordTag') }, // Friends Page UserInfo Sub-Status
                 { name: 'friendTextSm', filter: this.api.Webpack.Filters.byKeys('textSm') }, // Friends Page UserInfo Sub-Text
-                
+
                 // Servers & Channels //
                 { name: 'addServerDiscoverButton', filter: this.api.Webpack.Filters.byKeys('tutorialContainer', 'listItem') }, // Add Server / Discover Button
                 { name: 'serverIndicatorTop', filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop') }, // Server Unread Mentions Indicator: Top
@@ -1660,7 +1667,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'vcShowAllButton', filter: this.api.Webpack.Filters.byKeys('refreshVoiceChannelsButton') }, // Show All Button
                 { name: 'channelMentionsBar', filter: this.api.Webpack.Filters.byKeys('mentionsBar') }, // Unread Mentions Bar
                 { name: 'channelMessagesBar', filter: this.api.Webpack.Filters.byKeys('unreadBar') }, // Unread Messages Bar
-                
+
                 // Voice //
                 { name: 'vcScreen', filter: this.api.Webpack.Filters.byKeys('singleUserRoot') }, // Invite Placeholder
                 { name: 'vcButtons', filter: this.api.Webpack.Filters.byKeys('wrapper', 'container', 'actionButtons') }, // VC Buttons
@@ -1673,13 +1680,13 @@ module.exports = class ChatButtonsBegone {
                 { name: 'vcInviteToVoice', filter: this.api.Webpack.Filters.byKeys('animation', 'clickable') }, // VC Server Channel Invite to Voice
                 { name: 'vcOnCallInvite', filter: this.api.Webpack.Filters.byKeys('videoControls', 'controlSection') }, // VC On-Call Invite to Voice
                 { name: 'vcSetCustomStatus', filter: this.api.Webpack.Filters.byKeys('subtitle', 'linkBottom') }, // VC Server Channel Custom Status
-                
+
                 // Title Bar //
                 { name: 'vcRTCWrapper', filter: this.api.Webpack.Filters.byKeys('rtcConnectionStatusWrapper') }, // VC Ping/Status Indicator/Wrapper
                 { name: 'backForwardButtons', filter: this.api.Webpack.Filters.byKeys('backForwardButtons') }, // Back/Forward Buttons
                 { name: 'titleBarTrailing', filter: this.api.Webpack.Filters.byKeys('trailing', 'title') }, // Title Buttons
                 { name: 'upperToolbar', filter: this.api.Webpack.Filters.byKeys('upperContainer', 'toolbar', 'iconWrapper') }, // Toolbar Buttons
-                
+
                 // Profile Customizations
                 { name: 'namePlate', filter: this.api.Webpack.Filters.byKeys('nameplated', 'container') }, // Nameplates
                 { name: 'selfNamePlate', filter: this.api.Webpack.Filters.byKeys('container', 'fitInAccount') }, // Nameplates
@@ -1704,7 +1711,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'profileCustomStatus', filter: this.api.Webpack.Filters.byKeys('referenceContainer', 'container') }, // Profile Custom Status
                 { name: 'frameDecoration', filter: this.api.Webpack.Filters.byKeys('profileFrameContainer', 'profileFrame') }, // Profile Frame Decoration
                 { name: 'profileMenu', filter: this.api.Webpack.Filters.byKeys('menuOverlay', 'menuItem') }, // Self Profile Menu
-                
+
                 // Miscellaneous
                 { name: 'blockedGroup', filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
                 { name: 'blockedIndicator', filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
@@ -1740,7 +1747,7 @@ module.exports = class ChatButtonsBegone {
 
     waitForBulk(...modules) {
         let mods = {};
-        
+
         for (let mod in modules) {
             mods[modules[mod].name] = this.api.Webpack.waitForModule(modules[mod].filter);
         }
