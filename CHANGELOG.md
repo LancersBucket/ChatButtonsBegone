@@ -1,5 +1,13 @@
 # Changelog
-## v5.0.0
+## v5.0.1
+### Added
+- Option to remove Server Boost Badge from users in the server member list [Miscellaneous]
+- In case you forget it, there's now a button to view this changelog at the bottom of the settings panel!
+
+### Fixed
+- Remove "Clips" from Status Menu not removing properly
+
+## v5.0.0 - September 25th, 2026
 ### Added
 - Changelog popup on plugin update (Hello there!)
 - Option to remove Badges button from the profile status menu [Profile Customizations]

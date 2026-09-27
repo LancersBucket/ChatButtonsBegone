@@ -1456,7 +1456,7 @@ module.exports = class ChatButtonsBegone {
         return 0;
     }
 
-    async changelog() {
+    async changelog(ignoreVersionCheck = false) {
         // Ignore changelog for new install
         if (this.settingVersion === '0.0.0') return;
 
@@ -1512,7 +1512,7 @@ module.exports = class ChatButtonsBegone {
             return changes;
         }
 
-        if (this.compareVersions(this.settingVersion, config.info.version) < 0) {
+        if (ignoreVersionCheck || this.compareVersions(this.settingVersion, config.info.version) < 0) {
             let changelog = ""
             try {
                 let response = await fetch(config.info.changelog_url);
@@ -1968,6 +1968,16 @@ module.exports = class ChatButtonsBegone {
                     },
                 ),
                 createSettingsList(filteredSettings),
+                this.api.React.createElement(this.api.Components.Button,
+                    {
+                        className: "ChatButtonsBegone-settings-changelog",
+                        color: 'bd-button-color-primary',
+                        look: 'bd-button-filled',
+                        size: 'bd-button-small',
+                        onClick: _ => this.changelog(true)
+                    },
+                    'See Changelog',
+                ),
             );
         };
 
