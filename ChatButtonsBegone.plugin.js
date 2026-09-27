@@ -1172,9 +1172,9 @@ const config = {
                     note: 'Removes the "Clips" option from Profile Status menu.',
                     getRules: (v, s, m) => {
                         if (v) return [
-                        { selector: '.{0} .{1}:has(svg path[d^="M15.74 5.74a.5.5 0 0 0 .54.7l5.01-.88a.5.5 0 0 0 .4-.58l-.26-1.47a3.0 0 0 0 0-3.2-2.47.46.46 0 0 0-.37.26l-2.12 4.44ZM15.13"])', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
+                        { selector: '.{0} .{1}:has(svg path[d^="M15.74 5.74a.5.5 0 0 0 .54.7l5.01-.88a.5.5 0 0 0 .4-.58l-.26-1.47a3"])', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
                         // Remove the Divider Gap from Status Select
-                        { selector: '.{0} .{1}:has(+ .{1} svg path[d^="M15.74 5.74a.5.5 0 0 0 .54.7l5.01-.88a.5.5 0 0 0-.4-.58l-.26-1.47a3.0 0 0 0 0-3.2-2.47.46.46 0 0 0-.37.26l-2.12 4.44ZM15.13"])::after', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
+                        { selector: '.{0} .{1}:has(+ .{1} svg path[d^="M15.74 5.74a.5.5 0 0 0 .54.7l5.01-.88a.5.5 0 0 0 .4-.58l-.26-1.47a3"])::after', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
                         ];
                     },
                 },
