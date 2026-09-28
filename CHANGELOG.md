@@ -1,8 +1,8 @@
 # Changelog
 ## v5.0.1
 ### Added
+- You can now view this changelog, report an issue, or request a feature quickly from the bottom of the settings menu!
 - Option to remove Server Boost Badge from users in the server member list [Miscellaneous]
-- In case you forget it, there's now a button to view this changelog at the bottom of the settings panel!
 
 ### Fixed
 - Remove "Clips" from Status Menu not removing properly

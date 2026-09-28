@@ -1527,8 +1527,9 @@ module.exports = class ChatButtonsBegone {
             if (changelog.length > 0) {
                 this.api.UI.showChangelogModal({
                     title: `What's new in ChatButtonsBegone v${config.info.version}?`,
-                    blurb: `Did something break in this update? Do you want a new feature? Let us know at: ${config.info.github}`,
+                    blurb: `Did something break in this update? Do you want a new feature? Let us know at: ${config.info.github}/issues`,
                     changes: changelog,
+                    footer: this.api.React.createElement('div'),
                 })
             }
         }
@@ -1772,6 +1773,13 @@ module.exports = class ChatButtonsBegone {
             #ChatButtonsBegone-settings-panel .bd-settings-group~.bd-settings-group .bd-settings-title {
                 margin-top: 0px !important;
             }
+            #ChatButtonsBegone-buttons-container {
+                display: flex;
+                justify-content: space-evenly;
+            }
+            #ChatButtonsBegone-empty {
+                padding-bottom: 1em;
+            }
         `;
         this.api.DOM.addStyle('ChatButtonsBegone-settings-panel', styles);
 
@@ -1880,14 +1888,7 @@ module.exports = class ChatButtonsBegone {
             if (filteredSettings.length === 0) {
                 return this.api.React.createElement(this.api.Components.Text,
                     { id: "ChatButtonsBegone-empty" },
-                    `No results found. Can't find what you're looking for? Want a feature? Let us know at: `,
-                    this.api.React.createElement('a',
-                        {
-                            href: `${config.info.github}/issues`,
-                            target: '_blank',
-                        },
-                        `${config.info.github}/issues`,
-                    ),
+                    'Sorry, no results found :(' 
                 );
             }
 
@@ -1901,6 +1902,42 @@ module.exports = class ChatButtonsBegone {
                     children: category.settings.map((subSetting) => createSetting(category, subSetting, filteredSettings, refreshSettings)),
                 })),
             );
+        }
+
+        const HelperButtons = () => {
+            return this.api.React.createElement('div',
+                { id: "ChatButtonsBegone-buttons-container" },
+                this.api.React.createElement(this.api.Components.Button,
+                    {
+                        className: "ChatButtonsBegone-settings-changelog",
+                        color: 'bd-button-color-primary',
+                        look: 'bd-button-filled',
+                        size: 'bd-button-small',
+                        onClick: _ => this.changelog(true)
+                    },
+                    'See Changelog',
+                ),
+                this.api.React.createElement(this.api.Components.Button,
+                    {
+                        className: "ChatButtonsBegone-settings-issue",
+                        color: 'bd-button-color-primary',
+                        look: 'bd-button-filled',
+                        size: 'bd-button-small',
+                        onClick: _ => window.open(`${config.info.github}/issues`, '_blank')
+                    },
+                    'Report An Issue',
+                ),
+                this.api.React.createElement(this.api.Components.Button,
+                    {
+                        className: "ChatButtonsBegone-settings-issue",
+                        color: 'bd-button-color-primary',
+                        look: 'bd-button-filled',
+                        size: 'bd-button-small',
+                        onClick: _ => window.open(`${config.info.github}/issues`, '_blank')
+                    },
+                    'Request A Feature',
+                ),
+            )
         }
 
         // Search aliases
@@ -1968,16 +2005,7 @@ module.exports = class ChatButtonsBegone {
                     },
                 ),
                 createSettingsList(filteredSettings),
-                this.api.React.createElement(this.api.Components.Button,
-                    {
-                        className: "ChatButtonsBegone-settings-changelog",
-                        color: 'bd-button-color-primary',
-                        look: 'bd-button-filled',
-                        size: 'bd-button-small',
-                        onClick: _ => this.changelog(true)
-                    },
-                    'See Changelog',
-                ),
+                HelperButtons(),
             );
         };
 
