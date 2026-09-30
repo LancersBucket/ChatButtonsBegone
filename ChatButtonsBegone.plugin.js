@@ -30,7 +30,8 @@ class Styler {
                 this.api.Logger.warn(
                     `Invalid webpack detected. This may impact functionality of a setting you have enabled. ` + 
                     `Please report the following warning to ${config.info.github}/issues:` + 
-                    `\n\nSelector "${selector}" contains an invalid webpack for module ${i} (.${modules[i+1]})`
+                    `\n\nSelector "${selector}" contains an invalid webpack for module ${i} (.${modules[i+1]})` +
+                    `\n\n${Error().stack}`
                 );
                 return;
             }
@@ -1513,14 +1514,14 @@ module.exports = class ChatButtonsBegone {
         }
 
         if (ignoreVersionCheck || this.compareVersions(this.settingVersion, config.info.version) < 0) {
-            let changelog = ""
+            let changelog = ''
             try {
                 let response = await fetch(config.info.changelog_url);
                 if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
 
                 changelog = formatChangelog(await response.text());
             } catch (e) {
-                this.api.Logger.error("Could not get changelog: " + error);
+                this.api.Logger.warn(`Could not get changelog: ${e}`);
                 return;
             }
 
@@ -1887,13 +1888,13 @@ module.exports = class ChatButtonsBegone {
 
             if (filteredSettings.length === 0) {
                 return this.api.React.createElement(this.api.Components.Text,
-                    { id: "ChatButtonsBegone-empty" },
+                    { id: 'ChatButtonsBegone-empty' },
                     'Sorry, no results found :(' 
                 );
             }
 
-            return this.api.React.createElement("div",
-                { id: "ChatButtonsBegone-settings-list" },
+            return this.api.React.createElement('div',
+                { id: 'ChatButtonsBegone-settings-list' },
                 filteredSettings.map((category) => this.api.React.createElement(this.api.Components.SettingGroup, {
                     key: `group-${category.id}-${String(category.shown)}`,
                     name: category.name,
@@ -1906,10 +1907,10 @@ module.exports = class ChatButtonsBegone {
 
         const HelperButtons = () => {
             return this.api.React.createElement('div',
-                { id: "ChatButtonsBegone-buttons-container" },
+                { id: 'ChatButtonsBegone-buttons-container' },
                 this.api.React.createElement(this.api.Components.Button,
                     {
-                        className: "ChatButtonsBegone-settings-changelog",
+                        className: 'ChatButtonsBegone-settings-changelog',
                         color: 'bd-button-color-primary',
                         look: 'bd-button-filled',
                         size: 'bd-button-small',
@@ -1919,7 +1920,7 @@ module.exports = class ChatButtonsBegone {
                 ),
                 this.api.React.createElement(this.api.Components.Button,
                     {
-                        className: "ChatButtonsBegone-settings-issue",
+                        className: 'ChatButtonsBegone-settings-issue',
                         color: 'bd-button-color-primary',
                         look: 'bd-button-filled',
                         size: 'bd-button-small',
@@ -1929,7 +1930,7 @@ module.exports = class ChatButtonsBegone {
                 ),
                 this.api.React.createElement(this.api.Components.Button,
                     {
-                        className: "ChatButtonsBegone-settings-issue",
+                        className: 'ChatButtonsBegone-settings-issue',
                         color: 'bd-button-color-primary',
                         look: 'bd-button-filled',
                         size: 'bd-button-small',
@@ -1943,13 +1944,13 @@ module.exports = class ChatButtonsBegone {
         // Search aliases
         const SettingsPanel = () => {
             const aliases = [
-                ["voice", "vc", "vcs", "voice chat", "voice chats", "voice channel", "voice channels"],
-                ["dm", "dms", "direct message", "direct messages"],
-                ["gdm", "gdms", "group direct message", "group direct messages"],
-                ["chatbar", "chat bar", "typing area", "text area"],
-                ["title and toolbar", "title bar", "toolbar", "tool bar"],
-                ["servers and channels", "servers", "channels", "server", "channel"],
-                ["profile", "profile customization", "profile customizations"],
+                ['voice', 'vc', 'vcs', 'voice chat', 'voice chats', 'voice channel', 'voice channels'],
+                ['dm', 'dms', 'direct message', 'direct messages'],
+                ['gdm', 'gdms', 'group direct message', 'group direct messages'],
+                ['chatbar', 'chat bar', 'typing area', 'text area'],
+                ['title and toolbar', 'title bar', 'toolbar', 'tool bar'],
+                ['servers and channels', 'servers', 'channels', 'server', 'channel'],
+                ['profile', 'profile customization', 'profile customizations'],
             ].map(aliasGroup => aliasGroup.map(alias => alias.toLowerCase()));
 
             const [filteredSettings, setFilteredSettings] = this.api.React.useState(settings);
@@ -1965,7 +1966,7 @@ module.exports = class ChatButtonsBegone {
                 const filteredSettings = JSON.parse(JSON.stringify(settings));
                 filteredSettings.forEach((category) => {
                     category.settings = category.settings.filter((subSetting) => {
-                        if (term.startsWith("_")) {
+                        if (term.startsWith('_')) {
                             subSetting.name += ` [${category.id}.${subSetting.id}]`;
                             return (
                                 subSetting.id.toLowerCase().includes(term.slice(1)) ||
@@ -1995,11 +1996,11 @@ module.exports = class ChatButtonsBegone {
             };
 
             const numSettings = Object.keys(config.defaultConfig).reduce((acc, category) => acc + config.defaultConfig[category].settings.length, 0);
-            return this.api.React.createElement("div",
-                { id: "ChatButtonsBegone-settings-panel" },
+            return this.api.React.createElement('div',
+                { id: 'ChatButtonsBegone-settings-panel' },
                 this.api.React.createElement(this.api.Components.SearchInput,
                     {
-                        className: "ChatButtonsBegone-settings-search",
+                        className: 'ChatButtonsBegone-settings-search',
                         placeholder: `Search ${numSettings} settings...`,
                         onChange: e => filterSettings(e),
                     },
