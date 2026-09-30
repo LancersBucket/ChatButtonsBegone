@@ -6,6 +6,7 @@
 
 ### Fixed
 - Remove "Clips" from Status Menu not removing properly
+- VC - Invite to Voice selector leaking and removing the in-call control padding, popout, and full screen buttons 
 
 ## v5.0.0 - September 25th, 2026
 ### Added

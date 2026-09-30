@@ -718,7 +718,7 @@ const config = {
                     getRules: (v, s, m) => {
                         if (v) return [
                         { selector: '.{0}:has(>.{1})', mods: [ m.vcInviteToVoice, 'animation', m.vcInviteToVoice, 'clickable' ] },
-                        { selector: '.{0} .{1}', mods: [ m.vcOnCallInvite, 'bottomControls', m.vcOnCallInvite, 'edgeControls' ] },
+                        { selector: '.{0} [class="{1}"] > div', mods: [ m.vcOnCallInvite, 'bottomControls', m.vcOnCallInvite, 'edgeControls' ] },
                         ];
                     },
                 },
