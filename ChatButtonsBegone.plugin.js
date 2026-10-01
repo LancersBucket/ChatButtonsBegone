@@ -1235,7 +1235,7 @@ const config = {
                         { selector: 'div[class^="stack"] div[class^="sectionHeader"]:has(+ div[class^="theme-"][class*="images-"])' },
                         { selector: 'div[class^="stack"] div[class^="theme-"][class*="images-"]' },
                         // Profile Popup "Edit Profile" Sidebar
-                        { selector: 'div:has(> .{0}, > .{1})', mods: [ m.profilePopupUpsell, 'nitro-pink', m.profilePopupUpsell, 'pink' ] },
+                        { selector: '.{0}, .{0} + div', mods: [ m.profilePopupUpsell, 'premiumTryItOutSection' ] },
                         ];
                     },
                 },
@@ -1720,7 +1720,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'shopArt', filter: this.api.Webpack.Filters.byKeys('settingsPage') }, // Profile Shop Art
                 { name: 'contextSettingsMenu', filter: this.api.Webpack.Filters.byKeys('menu', 'flexible') }, // Nitro Context Menu
                 { name: 'profileUpsell', filter: this.api.Webpack.Filters.byKeys('upsellOverlayContainer') }, // Per-Server Nitro Upsell
-                { name: 'profilePopupUpsell', filter: this.api.Webpack.Filters.byKeys('nitro-pink', 'pink') }, // Profile Popup Nitro Sidebar
+                { name: 'profilePopupUpsell', filter: this.api.Webpack.Filters.byKeys('premiumTryItOutSection', 'premiumTryItOutDivider') }, // Profile Popup Nitro Sidebar
                 { name: 'txtPlaceholder', filter: this.api.Webpack.Filters.byKeys('slateTextArea') }, // Placeholder Text
                 { name: 'profilePopover', filter: this.api.Webpack.Filters.byKeys('statusPopover', 'statusPopover') }, // Profile Status Popover
                 { name: 'promotedQuest', filter: this.api.Webpack.Filters.byKeys('promotedTag') }, // Active Now Quests Promotion
