@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author LancersBucket
  * @description Remove annoying stuff from your Discord client.
- * @version 5.0.1
+ * @version 5.0.2
  * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
@@ -103,7 +103,7 @@ const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         changelog_url: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/CHANGELOG.md',
-        version: '5.0.1',
+        version: '5.0.2',
     },
     defaultConfig: [
         {
@@ -1397,6 +1397,13 @@ const config = {
                     note: 'Removes the Boosting Server badge from Memberlist area.',
                     getRules: (v, s, m) => { if (v) return [ { selector: 'span:has(.{0})', mods: [ m.mlTagEntry, 'premiumIcon' ] } ]; },
                 },
+                {
+                    type: 'switch',
+                    id: 'superReact',
+                    name: 'Remove "Add Super Reaction" Button',
+                    note: 'Removes the "Add Super Reaction" button from React popup.',
+                    getRules: (v, s, m) => { if (v) return [ { selector: '.{0}', mods: [ m.superReaction, 'burstReactionTooltipPrompt' ] } ]; },
+                },
             ],
         },
         {
@@ -1734,6 +1741,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'tagsBot', filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
                 { name: 'badgeNew', filter: this.api.Webpack.Filters.byKeys('newMemberBadge') }, // New User Badge
                 { name: 'threadSuggestion', filter: this.api.Webpack.Filters.byKeys('threadSuggestionBar') }, // Thread Suggestions
+                { name: 'superReaction', filter: this.api.Webpack.Filters.byKeys('reactionTooltip', 'burstReactionTooltipPrompt') }, // Super Reactions
             )
         }
 
