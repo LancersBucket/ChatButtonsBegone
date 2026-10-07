@@ -1110,8 +1110,14 @@ const config = {
                     ],
                     getRules: (v, s, m) => {
                         if (v === 'hpsPopout') return [ { selector: ':not(.{0}) > .{1} .{2}:has( > div)', mods: [ m.profileWishBody, 'cards', m.profileCards, 'container', m.profileCards, 'firstCardContainer' ] } ];
-                        else if (v === 'hpsDMs') return [ { selector: '.{0} .{1} > div:has( > .{2})', mods: [ m.profileWishBody, 'cards', m.profileCards, 'firstCardContainer', m.profileCards, 'card' ] } ];
-                        else if (v === 'hpsGlobal' || s.profileCustomizations.profileDisableAll) return [ { selector: '.{0} .{1} > div:has( > .{2})', mods: [ m.profileCards, 'container', m.profileCards, 'firstCardContainer', m.profileCards, 'card' ] } ];
+                        else if (v === 'hpsDMs') return [
+                            { selector: '.{0} .{1} > div:has( > .{2})', mods: [ m.profileWishBody, 'cards', m.profileCards, 'firstCardContainer', m.profileCards, 'card' ] },
+                            { selector: '.{0}', mods: [ m.profileCards, 'backgroundCardContainer' ] },
+                        ];
+                        else if (v === 'hpsGlobal' || s.profileCustomizations.profileDisableAll) return [
+                            { selector: '.{0} .{1} > div:has( > .{2})', mods: [ m.profileCards, 'container', m.profileCards, 'firstCardContainer', m.profileCards, 'card' ] },
+                            { selector: '.{0}', mods: [ m.profileCards, 'backgroundCardContainer' ] },
+                        ];
                     },
                 },
                 {
