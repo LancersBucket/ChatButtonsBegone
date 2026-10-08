@@ -1198,6 +1198,19 @@ const config = {
                         ];
                     },
                 },
+                {
+                    type: 'switch',
+                    id: 'hideOrbsProfileMenu',
+                    name: 'Remove "Orbs" from Status Menu',
+                    note: 'Removes the "Orbs" option from Profile Status menu.',
+                    getRules: (v, s, m) => {
+                        if (v) return [
+                        { selector: '.{0} .{1}:has(svg path[d^="M11.64.22c.3-.12.62-.12.91 0l7.49 3.1c.29.12.52.35.64.64l3.1 7.49c.12.29.12.62 0"])', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
+                        // Remove the Divider Gap from Status Select
+                        { selector: '.{0} .{1}:has(+ .{1} svg path[d^="M11.64.22c.3-.12.62-.12.91 0l7.49 3.1c.29.12.52.35.64.64l3.1 7.49c.12.29.12.62 0"])::after', mods: [ m.profileMenu, 'menuOverlay', m.profileMenu, 'menuItem' ] },
+                        ];
+                    },
+                },
             ],
         },
         {
