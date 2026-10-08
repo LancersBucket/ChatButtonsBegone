@@ -1,5 +1,14 @@
 # Changelog
-## v5.0.1
+## v5.0.2
+### Added
+- Option to remove "Add Super Reations" on reaction popup [Miscellaneous]
+- Option to remove Orbs from profile status menu [Profile Customizations]
+
+### Fixed
+- Remove Nitro Advertising: Profile Popup "Edit Profile" Sidebar not removing properly
+- Profile Stats Card not removing properly
+
+## v5.0.1 - October 2nd, 2026
 ### Added
 - You can now view this changelog, report an issue, or request a feature quickly from the bottom of the settings menu!
 - Option to remove Server Boost Badge from users in the server member list [Miscellaneous]
