@@ -1243,7 +1243,7 @@ const config = {
                         // Upsell in Profiles > Per-Server Profiles (Only should remove if user does not have Nitro)
                         { selector: '.{0}', mods: [ m.profileUpsell, 'upsellOverlayContainer' ] },
                         // Profile Shop Button
-                        { selector: 'div[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M2.63 4.19A3A3 0 0 1 5.53 2H7a1 1 0 0"])' },
+                        { selector: 'div[class^="profile"] [class^="profileButtons"] > span:has(svg > path[d^="M2.63 4.19A3 3 0 0 1 5.53 2H7a1"])' },
                         // "Add to Favorites" Right Click Menu Option and Separator
                         { selector: 'div[role="separator"] + div > div[id$="context-favorite-channel"]' },
                         { selector: 'div[role="separator"]:has(+ div > div[id$="context-favorite-channel"])' },
