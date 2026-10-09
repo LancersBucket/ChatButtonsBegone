@@ -1,9 +1,8 @@
 /**
  * @name ChatButtonsBegone
- * @author LancersBucket
+ * @author TheLastBucket, Zacam
  * @description Remove annoying stuff from your Discord client.
  * @version 5.0.2
- * @authorId 355477882082033664
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
