@@ -4,6 +4,10 @@
 - Option to remove "Add Super Reations" on reaction popup [Miscellaneous]
 - Option to remove Orbs from profile status menu [Profile Customizations]
 
+### Changed
+- KNOWN ISSUE: Plugin search bar does not work.
+    - This is a BetterDiscord issue and will be automatically resolved when it gets fixed upstream.
+
 ### Fixed
 - Remove Nitro Advertising: Profile Popup "Edit Profile" Sidebar not removing properly
 - Profile Stats Card not removing properly
