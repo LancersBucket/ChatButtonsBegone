@@ -1609,7 +1609,24 @@ module.exports = class ChatButtonsBegone {
     }
 
     migrateConfig() {
-        const migrations = [];
+        const migrations = [
+            {
+                to: "5.0.3",
+                migrate: (config) => {
+                    if (config.profileCustomizations.hideWishlist) {
+                        config.profileCustomizations.hideWishlist = "hpwGlobal"
+                    } else {
+                        config.profileCustomizations.hideWishlist = "show"
+                    }
+
+                    if (config.profileCustomizations.hideCollection) {
+                        config.profileCustomizations.hideCollection = "hpcGlobal"
+                    } else {
+                        config.profileCustomizations.hideCollection = "show"
+                    }
+                }
+            }
+        ];
 
         let currentVersion = this.settingVersion;
         let migrated = false;
