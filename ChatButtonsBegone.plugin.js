@@ -1131,11 +1131,26 @@ const config = {
                     },
                 },
                 {
-                    type: 'switch',
+                    type: 'dropdown',
                     id: 'hideWishlist',
-                    name: 'Remove Profile Wishlist (+)',
+                    name: 'Profile Wishlist (+)',
                     note: 'Removes the Wishlist from user profiles.',
-                    getRules: (v, s, m) => { if (v || s.profileCustomizations.profileDisableAll) return [ { selector: '.{0} .{1}', mods: [ m.profileWishBody, 'cards', m.profileWishlist, 'container' ] } ]; },
+                    defaultValue: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove in Popout Profile', value: 'hpwPopout' },
+                        { label: 'Remove in DMs View Profile', value: 'hpwDMs' },
+                        { label: 'Remove', value: 'hpwGlobal' },
+                    ],
+                    getRules: (v, s, m) => {
+                        if (v === 'hpwPopout') return [ { selector: '.user-profile-popout .{0} .{1}', mods: [ m.profileWishBody, 'cards', m.profileWishlist, 'container' ] } ];
+                        else if (v === 'hpwDMs') return [
+                            { selector: '.user-profile-sidebar .{0} .{1}', mods: [ m.profileWishBody, 'cards', m.profileWishlist, 'container' ] },
+                        ];
+                        else if (v === 'hpwGlobal' || s.profileCustomizations.profileDisableAll) return [
+                            { selector: '.{0} .{1}', mods: [ m.profileWishBody, 'cards', m.profileWishlist, 'container' ] },
+                        ];
+                    },
                 },
                 {
                     type: 'dropdown',
