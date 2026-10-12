@@ -1071,11 +1071,22 @@ const config = {
                     },
                 },
                 {
-                    type: 'switch',
+                    type: 'dropdown',
                     id: 'hideCollection',
-                    name: 'Remove Profile Collection (+)',
+                    name: 'Profile Collection (+)',
                     note: 'Removes the Game Collection from user profiles.',
-                    getRules: (v, s, m) => { if (v || s.profileCustomizations.profileDisableAll) return [ { selector: '.{0} .{1}', mods: [ m.profileCards, 'cardsList', m.profileCollection, 'breadcrumb' ] } ]; },
+                    defaultValue: 'show',
+                    options: [
+                        { label: 'Show', value: 'show' },
+                        { label: 'Remove in Popout Profile', value: 'hpcPopout' },
+                        { label: 'Remove in DMs View Profile', value: 'hpcDMs' },
+                        { label: 'Remove', value: 'hpcGlobal' },
+                    ],
+                    getRules: (v, s, m) => {
+                        if (v === 'hpcPopout') return [ { selector: '.user-profile-popout .{0} .{1}', mods: [ m.profileCards, 'cardsList', m.profileCollection, 'breadcrumb' ] } ];
+                        else if (v === 'hpcDMs') return [ { selector: '.user-profile-sidebar .{0} .{1}', mods: [ m.profileCards, 'cardsList', m.profileCollection, 'breadcrumb' ] } ];
+                        else if (v === 'hpcGlobal' || s.profileCustomizations.profileDisableAll) return [ { selector: '.{0} .{1}', mods: [ m.profileCards, 'cardsList', m.profileCollection, 'breadcrumb' ] } ];
+                    },
                 },
                 {
                     type: 'dropdown',
