@@ -1119,13 +1119,13 @@ const config = {
                         { label: 'Remove', value: 'hpsGlobal' },
                     ],
                     getRules: (v, s, m) => {
-                        if (v === 'hpsPopout') return [ { selector: ':not(.{0}) > .{1} .{2}:has( > div)', mods: [ m.profileWishBody, 'cards', m.profileCards, 'container', m.profileCards, 'firstCardContainer' ] } ];
+                        if (v === 'hpsPopout') return [ { selector: '.user-profile-popout .{0} .{1} > div:has(> .{2} > .{3})', mods: [ m.profileCards, 'container', m.profileCards, 'firstCardContainer', m.profileCards, 'card', m.profileStats, 'root' ] } ];
                         else if (v === 'hpsDMs') return [
-                            { selector: '.{0} .{1} > div:has( > .{2})', mods: [ m.profileWishBody, 'cards', m.profileCards, 'firstCardContainer', m.profileCards, 'card' ] },
-                            { selector: '.{0}', mods: [ m.profileCards, 'backgroundCardContainer' ] },
+                            { selector: '.user-profile-sidebar .{0} .{1} > div:has( > .{2} > .{3})', mods: [ m.profileWishBody, 'cards', m.profileCards, 'firstCardContainer', m.profileCards, 'card', m.profileStats, 'root' ] },
+                            { selector: '.user-profile-sidebar .{0}', mods: [ m.profileCards, 'backgroundCardContainer' ] },
                         ];
                         else if (v === 'hpsGlobal' || s.profileCustomizations.profileDisableAll) return [
-                            { selector: '.{0} .{1} > div:has( > .{2})', mods: [ m.profileCards, 'container', m.profileCards, 'firstCardContainer', m.profileCards, 'card' ] },
+                            { selector: '.{0} .{1} > div:has( > .{2} > .{3})', mods: [ m.profileCards, 'container', m.profileCards, 'firstCardContainer', m.profileCards, 'card', m.profileStats, 'root' ] },
                             { selector: '.{0}', mods: [ m.profileCards, 'backgroundCardContainer' ] },
                         ];
                     },
@@ -1765,6 +1765,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'profileGIF', filter: this.api.Webpack.Filters.byKeys('mask', 'gifTag') }, // Profile GIF Tag
                 { name: 'profileCards', filter: this.api.Webpack.Filters.byKeys('container', 'cardsList', 'firstCardContainer') }, // Profile Cards List
                 { name: 'profileCollection', filter: this.api.Webpack.Filters.byKeys('breadcrumb', 'innerContainer') }, // Game Collection Breadcrumb
+                { name: 'profileStats', filter: this.api.Webpack.Filters.byKeys('root', 'body', 'content') }, // Profile Stats Elements
                 { name: 'profileWishBody', filter: this.api.Webpack.Filters.byKeys('body', 'cards') }, // Profile Activity/Wishlist Cards
                 { name: 'profileWishlist', filter: this.api.Webpack.Filters.byKeys('container', 'cardsContainer') }, // Profile Wishlist
                 { name: 'profileCustomStatus', filter: this.api.Webpack.Filters.byKeys('referenceContainer', 'container') }, // Profile Custom Status
