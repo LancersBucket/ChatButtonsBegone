@@ -1753,7 +1753,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'profileEffects', filter: this.api.Webpack.Filters.byKeys('profileEffects') }, // Profile Effects
                 { name: 'profileGIF', filter: this.api.Webpack.Filters.byKeys('mask', 'gifTag') }, // Profile GIF Tag
                 { name: 'profileCards', filter: this.api.Webpack.Filters.byKeys('container', 'cardsList', 'firstCardContainer') }, // Profile Cards List
-                { name: 'profileCollection', filter: this.api.Webpack.Filters.byKeys('breadcrumb') }, // Game Collection Breadcrumb
+                { name: 'profileCollection', filter: this.api.Webpack.Filters.byKeys('breadcrumb', 'innerContainer') }, // Game Collection Breadcrumb
                 { name: 'profileWishBody', filter: this.api.Webpack.Filters.byKeys('body', 'cards') }, // Profile Activity/Wishlist Cards
                 { name: 'profileWishlist', filter: this.api.Webpack.Filters.byKeys('container', 'cardsContainer') }, // Profile Wishlist
                 { name: 'profileCustomStatus', filter: this.api.Webpack.Filters.byKeys('referenceContainer', 'container') }, // Profile Custom Status
