@@ -1,4 +1,9 @@
 # Changelog
+## v5.0.3
+### Added
+- Remove Nitro Advertising: Now removes per-server edit profile sidebar for users without Nitro
+    - Users without Nitro can't use the menu
+
 ## v5.0.2
 ### Added
 - Option to remove "Add Super Reations" on reaction popup [Miscellaneous]

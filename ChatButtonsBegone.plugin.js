@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author TheLastBucket, Zacam
  * @description Remove annoying stuff from your Discord client.
- * @version 5.0.2
+ * @version 5.0.3
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
@@ -102,7 +102,7 @@ const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         changelog_url: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/CHANGELOG.md',
-        version: '5.0.2',
+        version: '5.0.3',
     },
     defaultConfig: [
         {
@@ -1254,6 +1254,27 @@ const config = {
                         { selector: 'div[class^="stack"] div[class^="theme-"][class*="images-"]' },
                         // Profile Popup "Edit Profile" Sidebar
                         { selector: '.{0}, .{0} + div', mods: [ m.profilePopupUpsell, 'premiumTryItOutSection' ] },
+                        
+                        // Profile Popup "Edit Server Profile" Sidebar (removes fully)
+                        { selector: 'aside#user-profile-editing-panel:has(.{0})', mods: [ m.profilePopupUpsell, 'guildProfileUpsell' ] },
+                        // Fix ESP removal offset
+                        {
+                            type: 'patch',
+                            selector: '.{0}:has(.{1})',
+                            content:
+                            `grid-template-columns: 0px 1fr !important;`,
+                            mods: [ m.perServerEditProfile, 'editingPanelEnabled', m.profilePopupUpsell, 'guildProfileUpsell'],
+                        },
+                        // Fix ESP remove non-rounded corner
+                        {
+                            type: 'patch',
+                            selector: 'aside#user-profile-editing-panel:has(.{1}) + .{0}',
+                            content:
+                            `border-top-left-radius: 16px !important;
+                            border-bottom-left-radius: 16px !important;
+                            border-left: 1px solid rgba(255, 255, 255, 0.10) !important;`,
+                            mods: [ m.perServerEditProfile, 'profileContentOuter', m.profilePopupUpsell, 'guildProfileUpsell' ],
+                        }
                         ];
                     },
                 },
@@ -1760,6 +1781,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'badgeNew', filter: this.api.Webpack.Filters.byKeys('newMemberBadge') }, // New User Badge
                 { name: 'threadSuggestion', filter: this.api.Webpack.Filters.byKeys('threadSuggestionBar') }, // Thread Suggestions
                 { name: 'superReaction', filter: this.api.Webpack.Filters.byKeys('reactionTooltip', 'burstReactionTooltipPrompt') }, // Super Reactions
+                { name: 'perServerEditProfile', filter: this.api.Webpack.Filters.byKeys('editingPanelEnabled', 'editingPanelExpanded') }, // Per-Server Edit Profile Popup (sidebar)
             )
         }
 
