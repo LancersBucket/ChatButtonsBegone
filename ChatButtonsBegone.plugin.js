@@ -1873,6 +1873,9 @@ module.exports = class ChatButtonsBegone {
             #ChatButtonsBegone-empty {
                 padding-bottom: 1em;
             }
+            #ChatButtonsBegone-checkbox {
+                display: inline-flex;
+            }
         `;
         this.api.DOM.addStyle('ChatButtonsBegone-settings-panel', styles);
 
@@ -2033,6 +2036,38 @@ module.exports = class ChatButtonsBegone {
             )
         }
 
+        const CheckBox = (checkboxId, checkboxDescription, value) => {
+            return this.api.React.createElement('div',
+                { id: 'ChatButtonsBegone-checkbox' },
+                this.api.React.createElement('input',
+                    {
+                        id: checkboxId,
+                        type: 'checkbox',
+                        checked: value
+                    },
+                ),
+                this.api.React.createElement('div',
+                    { className: 'bd-radio-description' },
+                    checkboxDescription,
+                )
+            )
+        }
+
+        const CheckBoxFactory = (checkboxes) => {
+            let elements = []
+            checkboxes.forEach(checkbox => {
+                elements.push(CheckBox(checkbox.id, checkbox.description, checkbox.defaultValue))
+            })
+            return elements
+        }
+
+        const CheckBoxGroup = (checkboxes) => {
+            return this.api.React.createElement('div',
+                { id: 'ChatButtonsBegone-checkbox-group' },
+                ...CheckBoxFactory(checkboxes)
+            )
+        }
+
         // Search aliases
         const SettingsPanel = () => {
             const aliases = [
@@ -2097,6 +2132,14 @@ module.exports = class ChatButtonsBegone {
                         onChange: e => filterSettings(e),
                     },
                 ),
+                CheckBoxGroup(
+                    [
+                        { id: 'test 1', description: 'test 1', defaultValue: true},
+                        { id: 'test 2', description: 'test 2', defaultValue: false},
+                        { id: 'test 3', description: 'test 3', defaultValue: true},
+                    ]
+                ),
+                // CheckBox("test", "testing", "this is a test"),
                 createSettingsList(filteredSettings),
                 HelperButtons(),
             );
