@@ -1251,14 +1251,20 @@ const config = {
                     name: 'Test Multi Checkbox Settings',
                     note: 'This is a test of the new multi checkbox setting',
                     options: [
-                        { id: 'Test 1', label: 'Test 1', checked: true },
-                        { id: 'Test 2', label: 'Test 2', checked: false },
-                        { id: 'Test 3', label: 'Test 3', checked: true },
+                        { id: 'dms', label: 'DMs', checked: false },
+                        { id: 'servers', label: 'Servers', checked: false },
+                        { id: 'profiles', label: 'Profiles', checked: false },
                     ],
                     getRules: (v, s, m) => {
-                        if (v[0] === true) {
+                        // Example usage
+                        if (v[0]) {
+                            // dms
                         }
-                        if (v[1] === true) {
+                        if (v[1]) {
+                            // servers
+                        }
+                        if (v[2]) {
+                            // profiles
                         }
                     }
                 },
