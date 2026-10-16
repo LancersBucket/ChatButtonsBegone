@@ -1246,6 +1246,17 @@ const config = {
             shown: false,
             settings: [
                 {
+                    type: 'checkbox',
+                    id: 'testSetting',
+                    name: 'Test Multi Checkbox Settings',
+                    note: 'This is a test of the new multi checkbox setting',
+                    options: [
+                        { id: 'Test 1', label: 'Test 1', checked: true },
+                        { id: 'Test 2', label: 'Test 2', checked: false },
+                        { id: 'Test 3', label: 'Test 3', checked: true },
+                    ]
+                },
+                {
                     type: 'switch',
                     id: 'blockedMessage',
                     name: 'Remove Blocked Messages Indicator',
@@ -1653,7 +1664,12 @@ module.exports = class ChatButtonsBegone {
 
                 for (let setting of category.settings) {
                     if (!(setting.id in this.settings[category.id]) || this.settings[category.id][setting.id] == null) {
-                        if (!('defaultValue' in setting)) setting.defaultValue = false;
+                        if (setting.type === 'checkbox') {
+                            setting.defaultValue = setting.options.map((item) => {
+                                return item.checked
+                            })
+                        }
+                        else if (!('defaultValue' in setting)) setting.defaultValue = false;
 
                         this.settings[category.id][setting.id] = setting.defaultValue;
                     }
@@ -2139,7 +2155,6 @@ module.exports = class ChatButtonsBegone {
                         { id: 'test 3', description: 'test 3', defaultValue: true},
                     ]
                 ),
-                // CheckBox("test", "testing", "this is a test"),
                 createSettingsList(filteredSettings),
                 HelperButtons(),
             );
