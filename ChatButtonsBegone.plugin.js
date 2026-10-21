@@ -1259,6 +1259,8 @@ const config = {
                     note: 'Removes Nitro advertising thoughout various parts of Discord. Note: May not remove all of them.',
                     getRules: (v, s, m) => {
                         if (v) return [
+                        // Share Nitro 
+                        { selector: '.{0}', mods: [ m.nitroPink, 'container' ] },
                         // Settings "Edit Profile" Page
                         { selector: '.{0} div:has(> [class^="artContainer"])', mods: [ m.shopArt, 'settingsPage' ] },
                         // Billing Settings (Context Menu)
@@ -1280,7 +1282,6 @@ const config = {
                         { selector: 'div[class^="stack"] div[class^="theme-"][class*="images-"]' },
                         // Profile Popup "Edit Profile" Sidebar
                         { selector: '.{0}, .{0} + div', mods: [ m.profilePopupUpsell, 'premiumTryItOutSection' ] },
-                        
                         // Profile Popup "Edit Server Profile" Sidebar (removes fully)
                         { selector: 'aside#user-profile-editing-panel:has(.{0})', mods: [ m.profilePopupUpsell, 'guildProfileUpsell' ] },
                         // Fix ESP removal offset
@@ -1807,6 +1808,7 @@ module.exports = class ChatButtonsBegone {
                 // Miscellaneous
                 { name: 'blockedGroup', filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
                 { name: 'blockedIndicator', filter: this.api.Webpack.Filters.byKeys('blockedSystemMessage') }, // Blocked Message Indicator
+                { name: 'nitroPink', filter: this.api.Webpack.Filters.byKeys('container', 'nitro-pink') }, // Share Nitro
                 { name: 'shopArt', filter: this.api.Webpack.Filters.byKeys('settingsPage') }, // Profile Shop Art
                 { name: 'contextSettingsMenu', filter: this.api.Webpack.Filters.byKeys('menu', 'flexible') }, // Nitro Context Menu
                 { name: 'profileUpsell', filter: this.api.Webpack.Filters.byKeys('upsellOverlayContainer') }, // Per-Server Nitro Upsell
