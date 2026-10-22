@@ -772,6 +772,13 @@ const config = {
                 },
                 {
                     type: 'switch',
+                    id: 'showFriendsList',
+                    name: 'Remove "Show Friends List" Button',
+                    note: 'Removes the "Show Friends List" button.',
+                    getRules: (v, s, m) => { if (v) return [ { selector: '.{0} > div[role="button"]:has(svg > path[d^="M3 5v-.75C3 3.56 3.56 3 4.25 3s1.24.56 1.33"])', mods: [ m.titleBarTrailing, 'trailing' ] } ]; },
+                },
+                {
+                    type: 'switch',
                     id: 'inboxButton',
                     name: 'Remove Inbox Button',
                     note: 'Removes the Inbox button.',
