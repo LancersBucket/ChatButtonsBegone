@@ -772,13 +772,6 @@ const config = {
                 },
                 {
                     type: 'switch',
-                    id: 'bookmarkButton',
-                    name: 'Remove Bookmarks Button',
-                    note: 'Removes the Bookmarks button (added by experiment 2026-03-message-bookmarks variant 2)',
-                    getRules: (v, s, m) => { if (v) return [ { selector: ':is(.{0}, .{1}) div:has(svg > path[d="M4 5a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v16a1 1 0 0 1-1.67.74l-5.66-5.13a1 1 0 0 0-1.34 0l-5.66 5.13A1 1 0 0 1 4 20.99V5Z"])', mods: [ m.titleBarTrailing, 'trailing', m.upperToolbar, 'toolbar' ] } ]; },
-                },
-                {
-                    type: 'switch',
                     id: 'inboxButton',
                     name: 'Remove Inbox Button',
                     note: 'Removes the Inbox button.',
