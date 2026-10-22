@@ -1,8 +1,20 @@
 # Changelog
 ## v5.0.3
 ### Added
-- Remove Nitro Advertising: Now removes per-server edit profile sidebar for users without Nitro
-    - Users without Nitro can't use the menu
+- Remove Nitro Advertising:
+    - Now removes per-server edit profile sidebar for users without Nitro
+        - Users without Nitro can't use the menu anyway
+    - Now removes "Share Nitro" buttons (nitro-pink)
+- Option to remove "Show Friends List" [Title and Toolbar]
+
+### Changed
+- Converted Remove Profile Collection into a dropdown to allow for only in popup, only in DMs, or both (Remove)
+- Converted Remove Profile Wishlist into a dropdown to allow for only in popup, only in DMs, or both (Remove)
+
+### Fixed
+- Nitro Upsell: Profile Shop Button not removing properly
+- Remove Profile Collection not removing properly
+- Remove Profile Stats also removing profile collections
 
 ## v5.0.2
 ### Added
