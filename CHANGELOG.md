@@ -8,13 +8,17 @@
 - Option to remove "Show Friends List" [Title and Toolbar]
 
 ### Changed
-- Converted Remove Profile Collection into a dropdown to allow for only in popup, only in DMs, or both (Remove)
-- Converted Remove Profile Wishlist into a dropdown to allow for only in popup, only in DMs, or both (Remove)
+- Converted Remove Profile Collection into a dropdown to allow for only in popup, only in DMs, or both
+- Converted Remove Profile Wishlist into a dropdown to allow for only in popup, only in DMs, or both
 
 ### Fixed
-- Nitro Upsell: Profile Shop Button not removing properly
+- Remove Nitro Advertising: Profile Shop Button not removing properly
 - Remove Profile Collection not removing properly
 - Remove Profile Stats also removing profile collections
+
+### Removed
+- Option to remove Bookmark Button from the title bar
+    - This option has been defunct for a while since it got merged into the inbox
 
 ## v5.0.2
 ### Added
