@@ -1,4 +1,8 @@
 # Changelog
+## v5.0.4
+### Fixed
+- Plugin crash on update.
+
 ## v5.0.3
 ### Added
 - Remove Nitro Advertising:

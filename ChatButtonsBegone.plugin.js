@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author TheLastBucket, Zacam
  * @description Remove annoying stuff from your Discord client.
- * @version 5.0.3
+ * @version 5.0.4
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
@@ -102,7 +102,7 @@ const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         changelog_url: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/CHANGELOG.md',
-        version: '5.0.3',
+        version: '5.0.4',
     },
     defaultConfig: [
         {
@@ -1612,32 +1612,47 @@ module.exports = class ChatButtonsBegone {
     migrateConfig() {
         const migrations = [
             {
-                to: "5.0.3",
+                to: "5.0.4",
                 migrate: (config) => {
-                    if (config.profileCustomizations.hideWishlist) {
+                    if (config.profileCustomizations.hideWishlist === true) {
                         config.profileCustomizations.hideWishlist = "hpwGlobal"
                     } else {
                         config.profileCustomizations.hideWishlist = "show"
                     }
 
-                    if (config.profileCustomizations.hideCollection) {
+                    if (config.profileCustomizations.hideCollection === true) {
                         config.profileCustomizations.hideCollection = "hpcGlobal"
                     } else {
                         config.profileCustomizations.hideCollection = "show"
                     }
+
+                    return config;
                 }
             }
         ];
 
         let currentVersion = this.settingVersion;
         let migrated = false;
+        let abortFlag = false;
         migrations.forEach((migration) => {
             if (this.compareVersions(currentVersion, migration.to) < 0) {
-                this.settings = migration.migrate(this.settings);
+                let migratedSettings = migration.migrate(this.settings);
+
+                if (migratedSettings === undefined) {
+                    this.api.UI.showToast('ChatButtonsBegone invalid migration. Check logs.', { type: 'error', timeout: '10000' })
+                    this.api.Logger.error(`Migration from ${currentVersion} to ${migration.to} failed! Returned config is undefined. Did you include 'return config;'?\nAborting migration.`)
+                    abortFlag = true;
+                    return;
+                }
+                this.settings = migratedSettings;
+
                 currentVersion = migration.to;
                 migrated = true;
             }
         });
+
+        if (abortFlag) return;
+
         if (migrated) this.api.Data.save('settings', this.settings);
 
         if (this.compareVersions(this.settingVersion, config.info.version) <= 0) {
