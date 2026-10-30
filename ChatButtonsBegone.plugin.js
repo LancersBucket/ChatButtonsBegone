@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author TheLastBucket, Zacam
  * @description Remove annoying stuff from your Discord client.
- * @version 5.0.4
+ * @version 5.0.6
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
@@ -102,7 +102,7 @@ const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         changelog_url: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/CHANGELOG.md',
-        version: '5.0.4',
+        version: '5.0.6',
     },
     defaultConfig: [
         {
@@ -1800,7 +1800,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'dmEntry', filter: this.api.Webpack.Filters.byKeys('interactive', 'interactiveSelected') }, // DM Entry Item
                 { name: 'mlTagEntry', filter: this.api.Webpack.Filters.byKeys('memberInner', 'clanTag') }, // Member List clanTag
                 { name: 'dmTagEntry', filter: this.api.Webpack.Filters.byKeys('overflowTooltip', 'clanTag') }, // DM List clanTag
-                { name: 'clanTagProfile', filter: this.api.Webpack.Filters.byKeys('guildTag', 'clickable') }, // Profile Clan Tag
+                { name: 'clanTagProfile', filter: this.api.Webpack.Filters.byKeys('guildTagPill', 'clickable') }, // Profile Clan Tag
                 { name: 'clanTagChiplet', filter: this.api.Webpack.Filters.byKeys('clanTagChiplet') }, // Clan Tag Chiplet
                 { name: 'containerChiplet', filter: this.api.Webpack.Filters.byKeys('container', 'chipletContainer') }, // Clan Tag Chiplet Container
                 { name: 'clanTagFriendsList', filter: this.api.Webpack.Filters.byKeys('chipletContainerInner', 'noTooltip') }, // Friends List Clan Tag
