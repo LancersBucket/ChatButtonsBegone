@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author TheLastBucket, Zacam
  * @description Remove annoying stuff from your Discord client.
- * @version 5.0.6
+ * @version 5.0.5
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
@@ -102,7 +102,7 @@ const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         changelog_url: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/CHANGELOG.md',
-        version: '5.0.6',
+        version: '5.0.5',
     },
     defaultConfig: [
         {
@@ -546,8 +546,8 @@ const config = {
                 {
                     type: 'switch',
                     id: 'channelsAndRoles',
-                    name: 'Remove Channels / Roles Button',
-                    note: 'Removes the Channels / Roles button from the channel list.',
+                    name: 'Remove Channels / Roles Button (Browse Channels)',
+                    note: 'Removes the Channels / Roles (Browse Channels) button from the channel list.',
                     getRules: (v, s, m) => { if (v) return [ { selector: '#channels li:has(svg > path[d^="M18.5 23c.88 0 1.7-.25 2.4-.69l1.4 1.4a1"])' } ]; },
                 },
                 {
