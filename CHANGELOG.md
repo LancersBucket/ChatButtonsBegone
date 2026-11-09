@@ -1,4 +1,8 @@
 # Changelog
+## v5.0.5
+### Fixed
+- Clan Tag throwing a webpack warning
+
 ## v5.0.4
 ### Fixed
 - Plugin crash on update.

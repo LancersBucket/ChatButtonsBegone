@@ -959,9 +959,7 @@ const config = {
                         const profile = [
                             // Chat
                             { selector: '.{0}', mods: [ m.clanTagChiplet, 'clanTagChiplet' ] },
-                            // Profile
-                            { selector: '.{0}', mods: [ m.clanTagProfile, 'guildTag' ] },
-                            // DM's "Show Profile"
+                            // DM's "Show Profile" + Profile
                             { selector: '.{0}', mods: [ m.clanTagProfile, 'guildTagPill' ] },
                         ];
                         if (v === 'memberlist') return member;
