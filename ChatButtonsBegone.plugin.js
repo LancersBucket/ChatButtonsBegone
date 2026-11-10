@@ -1435,9 +1435,9 @@ const config = {
                         { label: 'Remove', value: 'remove' },
                     ],
                     getRules: (v, s, m) => {
-                        if (v === 'remove') return [ { selector: '.{0}', mods: [ m.tagsBot, 'botTag' ] } ];
-                        else if (v === 'keepOP') return [ { selector: '.{0}:not(.{1})', mods: [ m.tagsBot, 'botTag', m.tagsBot, 'botTagOP' ] } ];
-                        else if (v === 'chatOnly') return [ { selector: '[id^="message-username"] > .{0}', mods: [ m.tagsBot, 'botTag' ] } ];
+                        if (v === 'remove') return [ { selector: '.{0}', mods: [ m.tagsBot, 'botTagRegular' ] } ];
+                        else if (v === 'keepOP') return [ { selector: '.{0}:not(.{1})', mods: [ m.tagsBot, 'botTagRegular', m.tagsBot, 'botTagOP' ] } ];
+                        else if (v === 'chatOnly') return [ { selector: '[id^="message-username"] > .{0}', mods: [ m.tagsBot, 'botTagRegular' ] } ];
                     },
                 },
                 {
@@ -1836,7 +1836,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'userAreaIOChevron', filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
                 { name: 'textAreaGradient', filter: this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase') }, // Chat Input Gradient
                 { name: 'typingAnimDots', filter: this.api.Webpack.Filters.byKeys('typing', 'typingDots') }, // Animated Typing Dots
-                { name: 'tagsBot', filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
+                { name: 'tagsBot', filter: this.api.Webpack.Filters.byKeys('botTagRegular', 'botTagOP') }, // APP/BOT Tags
                 { name: 'badgeNew', filter: this.api.Webpack.Filters.byKeys('newMemberBadge') }, // New User Badge
                 { name: 'threadSuggestion', filter: this.api.Webpack.Filters.byKeys('threadSuggestionBar') }, // Thread Suggestions
                 { name: 'superReaction', filter: this.api.Webpack.Filters.byKeys('reactionTooltip', 'burstReactionTooltipPrompt') }, // Super Reactions
