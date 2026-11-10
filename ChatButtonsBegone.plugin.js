@@ -1783,7 +1783,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'vcSmallAvatar', filter: this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall') }, // VC Server Channel Avatars
                 { name: 'vcWasHere', filter: this.api.Webpack.Filters.byKeys('row', 'avatarWrapper') }, // VC Server Channel Was Here
                 { name: 'vcInviteToVoice', filter: this.api.Webpack.Filters.byKeys('animation', 'clickable') }, // VC Server Channel Invite to Voice
-                { name: 'vcOnCallInvite', filter: this.api.Webpack.Filters.byKeys('videoControls', 'controlSection') }, // VC On-Call Invite to Voice
+                { name: 'vcOnCallInvite', filter: this.api.Webpack.Filters.byKeys('root','videoControls') }, // VC On-Call Invite to Voice
                 { name: 'vcSetCustomStatus', filter: this.api.Webpack.Filters.byKeys('subtitle', 'linkBottom') }, // VC Server Channel Custom Status
 
                 // Title Bar //
