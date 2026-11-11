@@ -466,6 +466,23 @@ const config = {
             settings: [
                 {
                     type: 'switch',
+                    id: 'serverScroller',
+                    name: 'Remove Scrollbar from Server List',
+                    note: 'Removes the Scrollbar from the Server/Guilds List.',
+                    getRules: (v, s, m) => {
+                        if (v) return [
+                        {
+                            type: 'patch',
+                            selector: '.{0} .{1}',
+                            content:
+                            `scrollbar-width: none;`,
+                            mods: [ m.serverScrollBar, 'tree', m.serverScrollBar, 'scroller'],
+                        },
+                        ];
+                    },
+                },
+                {
+                    type: 'switch',
                     id: 'addServerButton',
                     name: 'Remove "Add a Server" Button',
                     note: 'Removes the "Add a Server" button from the server list.',
@@ -1191,7 +1208,7 @@ const config = {
                                 content: `--custom-profile-frame-container-width: unset !important;`,
                                 mods: [],
                             }
-                        ]; 
+                        ];
                     }
                 },
                 },
@@ -1774,6 +1791,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'friendTextSm', filter: this.api.Webpack.Filters.byKeys('textSm') }, // Friends Page UserInfo Sub-Text
 
                 // Servers & Channels //
+                { name: 'serverScrollBar', filter: this.api.Webpack.Filters.byKeys('tree', 'scroller') }, // GuildNav Scrollbar
                 { name: 'addServerDiscoverButton', filter: this.api.Webpack.Filters.byKeys('tutorialContainer', 'listItem') }, // Add Server / Discover Button
                 { name: 'serverIndicatorTop', filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorTop') }, // Server Unread Mentions Indicator: Top
                 { name: 'serverIndicatorBottom', filter: this.api.Webpack.Filters.byKeys('unreadMentionsIndicatorBottom') }, // Server Unread Mentions Indicator: Bottom
