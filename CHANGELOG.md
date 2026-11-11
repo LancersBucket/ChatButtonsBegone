@@ -6,6 +6,7 @@
 - fix botTags not applying
 ### Added
 - Remove Avatar Hover Tooltip [Profile Customizations]
+- Remove Server List Scroll Bar [Servers & Channels]
 
 ## v5.0.4
 ### Fixed
