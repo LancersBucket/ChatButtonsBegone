@@ -1278,6 +1278,29 @@ const config = {
             shown: false,
             settings: [
                 {
+                    type: 'checkbox',
+                    id: 'testSetting',
+                    name: 'Test Multi Checkbox Settings',
+                    note: 'This is a test of the new multi checkbox setting',
+                    options: [
+                        { id: 'dms', label: 'DMs', checked: false },
+                        { id: 'servers', label: 'Servers', checked: false },
+                        { id: 'profiles', label: 'Profiles', checked: false },
+                    ],
+                    getRules: (v, s, m) => {
+                        // Example usage
+                        if (v[0]) {
+                            // dms
+                        }
+                        if (v[1]) {
+                            // servers
+                        }
+                        if (v[2]) {
+                            // profiles
+                        }
+                    }
+                },
+                {
                     type: 'switch',
                     id: 'blockedMessage',
                     name: 'Remove Blocked Messages Indicator',
@@ -1700,9 +1723,16 @@ module.exports = class ChatButtonsBegone {
                 if (!(category.id in this.settings)) this.settings[category.id] = {};
 
                 for (let setting of category.settings) {
-                    if (!(setting.id in this.settings[category.id]) || this.settings[category.id][setting.id] == null) {
+                    if (setting.type === 'checkbox') {
+                        const savedValue = this.settings[category.id][setting.id];
+                        const defaultValue = setting.options.map((option) => option.checked);
+                        this.settings[category.id][setting.id] = Array.isArray(savedValue)
+                            ? setting.options.map((option, index) => (
+                                typeof savedValue[index] === 'boolean' ? savedValue[index] : option.checked
+                            ))
+                            : defaultValue;
+                    } else if (!(setting.id in this.settings[category.id]) || this.settings[category.id][setting.id] == null) {
                         if (!('defaultValue' in setting)) setting.defaultValue = false;
-
                         this.settings[category.id][setting.id] = setting.defaultValue;
                     }
                 }
@@ -1924,6 +1954,17 @@ module.exports = class ChatButtonsBegone {
             #ChatButtonsBegone-empty {
                 padding-bottom: 1em;
             }
+            .ChatButtonsBegone-checkbox-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.75rem 1rem;
+            }
+            .ChatButtonsBegone-checkbox {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                cursor: pointer;
+            }
         `;
         this.api.DOM.addStyle('ChatButtonsBegone-settings-panel', styles);
 
@@ -1967,6 +2008,10 @@ module.exports = class ChatButtonsBegone {
                 this.settings[category.id][subSetting.id] = defaultValue;
             }
 
+            const configuredCategory = settings.find((item) => item.id === category.id);
+            const configuredSetting = configuredCategory?.settings.find((item) => item.id === subSetting.id);
+            if (configuredSetting) configuredSetting.defaultValue = defaultValue;
+
             this.api.Data.save('settings', this.settings);
 
             if (category.id === 'core') return;
@@ -1980,7 +2025,7 @@ module.exports = class ChatButtonsBegone {
             let type;
             if (subSetting.type === 'switch') type = this.api.Components.SwitchInput;
             else if (subSetting.type === 'dropdown') type = this.api.Components.DropdownInput;
-            else {
+            else if (subSetting.type !== 'checkbox') {
                 this.api.Logger.warn(`Unknown setting type: ${subSetting.type}`);
                 return;
             }
@@ -2009,18 +2054,43 @@ module.exports = class ChatButtonsBegone {
                 saveSetting(category, subSetting, defaultValue);
             };
 
-            return this.api.React.createElement(this.api.Components.SettingItem, {
-                key: `settingcontainer-${category.id}-${subSetting.id}`,
-                name: subSetting.name,
-                note: subSetting.note,
-                inline: true,
-                children: this.api.React.createElement(type, {
+            let settingControl;
+            if (subSetting.type === 'checkbox') {
+                settingControl = this.api.React.createElement('div',
+                    { className: 'ChatButtonsBegone-checkbox-group' },
+                    subSetting.options.map((option, index) => this.api.React.createElement('label',
+                        {
+                            key: `${category.id}-${subSetting.id}-${option.id}`,
+                            className: 'ChatButtonsBegone-checkbox',
+                        },
+                        this.api.React.createElement('input', {
+                            type: 'checkbox',
+                            checked: subSetting.defaultValue[index] === true,
+                            onChange: event => {
+                                const nextValue = [...subSetting.defaultValue];
+                                nextValue[index] = event.target.checked;
+                                onChange(nextValue);
+                            },
+                        }),
+                        option.label,
+                    )),
+                );
+            } else {
+                settingControl = this.api.React.createElement(type, {
                     key: `setting-${category.id}-${subSetting.id}-${String(subSetting.defaultValue)}-${String(subSetting.disabled)}`,
                     defaultValue: subSetting.defaultValue,
                     disabled: subSetting.disabled,
                     options: subSetting.options,
                     onChange,
-                }),
+                });
+            }
+
+            return this.api.React.createElement(this.api.Components.SettingItem, {
+                key: `settingcontainer-${category.id}-${subSetting.id}`,
+                name: subSetting.name,
+                note: subSetting.note,
+                inline: true,
+                children: settingControl,
             });
         };
 
