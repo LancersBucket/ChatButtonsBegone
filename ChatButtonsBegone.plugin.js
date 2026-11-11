@@ -1234,6 +1234,23 @@ const config = {
                         ];
                     },
                 },
+                {
+                    type: 'switch',
+                    id: 'hideHoverStatus',
+                    name: 'Remove Avatar Hover Status',
+                    note: 'Removes Status Tooltip when hovering over an Avatar in Profile/Sidebar.',
+                    getRules: (v, s, m) => {
+                        if (v) return [
+                        {
+                            type: 'patch',
+                            selector: '.{0}',
+                            content:
+                            `pointer-events: none;`,
+                            mods: [ m.hoverAvatar, 'pointerEvents'],
+                        },
+                        ];
+                    },
+                },
             ],
         },
         {
@@ -1435,9 +1452,9 @@ const config = {
                         { label: 'Remove', value: 'remove' },
                     ],
                     getRules: (v, s, m) => {
-                        if (v === 'remove') return [ { selector: '.{0}', mods: [ m.tagsBot, 'botTag' ] } ];
-                        else if (v === 'keepOP') return [ { selector: '.{0}:not(.{1})', mods: [ m.tagsBot, 'botTag', m.tagsBot, 'botTagOP' ] } ];
-                        else if (v === 'chatOnly') return [ { selector: '[id^="message-username"] > .{0}', mods: [ m.tagsBot, 'botTag' ] } ];
+                        if (v === 'remove') return [ { selector: '.{0}', mods: [ m.tagsBot, 'botTagRegular' ] } ];
+                        else if (v === 'keepOP') return [ { selector: '.{0}:not(.{1})', mods: [ m.tagsBot, 'botTagRegular', m.tagsBot, 'botTagOP' ] } ];
+                        else if (v === 'chatOnly') return [ { selector: '[id^="message-username"] > .{0}', mods: [ m.tagsBot, 'botTagRegular' ] } ];
                     },
                 },
                 {
@@ -1783,7 +1800,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'vcSmallAvatar', filter: this.api.Webpack.Filters.byKeys('userSmall', 'avatarSmall') }, // VC Server Channel Avatars
                 { name: 'vcWasHere', filter: this.api.Webpack.Filters.byKeys('row', 'avatarWrapper') }, // VC Server Channel Was Here
                 { name: 'vcInviteToVoice', filter: this.api.Webpack.Filters.byKeys('animation', 'clickable') }, // VC Server Channel Invite to Voice
-                { name: 'vcOnCallInvite', filter: this.api.Webpack.Filters.byKeys('videoControls', 'controlSection') }, // VC On-Call Invite to Voice
+                { name: 'vcOnCallInvite', filter: this.api.Webpack.Filters.byKeys('root','videoControls') }, // VC On-Call Invite to Voice
                 { name: 'vcSetCustomStatus', filter: this.api.Webpack.Filters.byKeys('subtitle', 'linkBottom') }, // VC Server Channel Custom Status
 
                 // Title Bar //
@@ -1817,6 +1834,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'profileCustomStatus', filter: this.api.Webpack.Filters.byKeys('referenceContainer', 'container') }, // Profile Custom Status
                 { name: 'frameDecoration', filter: this.api.Webpack.Filters.byKeys('profileFrameContainer', 'profileFrame') }, // Profile Frame Decoration
                 { name: 'profileMenu', filter: this.api.Webpack.Filters.byKeys('menuOverlay', 'menuItem') }, // Self Profile Menu
+                { name: 'hoverAvatar', filter: this.api.Webpack.Filters.byKeys('avatar', 'pointerEvents') }, // Avatar Hover Tooltip
 
                 // Miscellaneous
                 { name: 'blockedGroup', filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
@@ -1836,7 +1854,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'userAreaIOChevron', filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
                 { name: 'textAreaGradient', filter: this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase') }, // Chat Input Gradient
                 { name: 'typingAnimDots', filter: this.api.Webpack.Filters.byKeys('typing', 'typingDots') }, // Animated Typing Dots
-                { name: 'tagsBot', filter: this.api.Webpack.Filters.byKeys('botText', 'botTag') }, // APP/BOT Tags
+                { name: 'tagsBot', filter: this.api.Webpack.Filters.byKeys('botTagRegular', 'botTagOP') }, // APP/BOT Tags
                 { name: 'badgeNew', filter: this.api.Webpack.Filters.byKeys('newMemberBadge') }, // New User Badge
                 { name: 'threadSuggestion', filter: this.api.Webpack.Filters.byKeys('threadSuggestionBar') }, // Thread Suggestions
                 { name: 'superReaction', filter: this.api.Webpack.Filters.byKeys('reactionTooltip', 'burstReactionTooltipPrompt') }, // Super Reactions

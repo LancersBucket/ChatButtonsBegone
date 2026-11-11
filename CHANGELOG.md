@@ -2,6 +2,10 @@
 ## v5.0.5
 ### Fixed
 - Clan Tag throwing a webpack warning
+- Fix vcOnCallInvite webpack
+- fix botTags not applying
+### Added
+- Remove Avatar Hover Tooltip [Profile Customizations]
 
 ## v5.0.4
 ### Fixed
