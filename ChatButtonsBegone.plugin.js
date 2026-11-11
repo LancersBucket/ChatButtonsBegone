@@ -1234,6 +1234,23 @@ const config = {
                         ];
                     },
                 },
+                {
+                    type: 'switch',
+                    id: 'hideHoverStatus',
+                    name: 'Remove Avatar Hover Status',
+                    note: 'Removes Status Tooltip when hovering over an Avatar in Profile/Sidebar.',
+                    getRules: (v, s, m) => {
+                        if (v) return [
+                        {
+                            type: 'patch',
+                            selector: '.{0}',
+                            content:
+                            `pointer-events: none;`,
+                            mods: [ m.hoverAvatar, 'pointerEvents'],
+                        },
+                        ];
+                    },
+                },
             ],
         },
         {
@@ -1817,6 +1834,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'profileCustomStatus', filter: this.api.Webpack.Filters.byKeys('referenceContainer', 'container') }, // Profile Custom Status
                 { name: 'frameDecoration', filter: this.api.Webpack.Filters.byKeys('profileFrameContainer', 'profileFrame') }, // Profile Frame Decoration
                 { name: 'profileMenu', filter: this.api.Webpack.Filters.byKeys('menuOverlay', 'menuItem') }, // Self Profile Menu
+                { name: 'hoverAvatar', filter: this.api.Webpack.Filters.byKeys('avatar', 'pointerEvents') }, // Avatar Hover Tooltip
 
                 // Miscellaneous
                 { name: 'blockedGroup', filter: this.api.Webpack.Filters.byKeys('groupStart') }, // Message Grouping Container
