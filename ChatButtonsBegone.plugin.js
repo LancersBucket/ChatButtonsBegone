@@ -2,7 +2,7 @@
  * @name ChatButtonsBegone
  * @author TheLastBucket, Zacam
  * @description Remove annoying stuff from your Discord client.
- * @version 5.0.5
+ * @version 5.0.6
  * @website https://github.com/LancersBucket/ChatButtonsBegone
  * @source https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/ChatButtonsBegone.plugin.js
  */
@@ -102,7 +102,7 @@ const config = {
     info: {
         github: 'https://github.com/LancersBucket/ChatButtonsBegone',
         changelog_url: 'https://raw.githubusercontent.com/LancersBucket/ChatButtonsBegone/refs/heads/main/CHANGELOG.md',
-        version: '5.0.5',
+        version: '5.0.6',
     },
     defaultConfig: [
         {
@@ -1199,7 +1199,7 @@ const config = {
                     name: 'Remove Profile Frame Decoration (+)',
                     note: 'Removes the Frame Decoration from Profiles.',
                     getRules: (v, s, m) => { if (v || s.profileCustomizations.profileDisableAll) {
-                        return [ 
+                        return [
                             { selector: '.{0} .{1}', mods: [ m.frameDecoration, 'profileFrameContainer', m.frameDecoration, 'profileFrame' ] },
                             // Patch out the resizing of the Profile to accommodate the Frame
                             {
@@ -1426,14 +1426,14 @@ const config = {
                     id: 'ioChevrons',
                     name: 'Remove I/O Chevrons',
                     note: 'Removes the chevrons (arrows) from the I/O buttons in the user panel.',
-                    getRules: (v, s, m) => { 
+                    getRules: (v, s, m) => {
                         if (v) {
-                            return [ 
+                            return [
                                 { selector: '.{0}', mods: [ m.userAreaIOChevron, 'buttonChevron' ] },
                                 {
                                     type: 'patch',
                                     selector: '.{0} .{1}',
-                                    content: 
+                                    content:
                                         `border-end-end-radius: 8px;
                                         border-start-end-radius: 8px;`,
                                     mods: [ m.userAreaIOChevron, 'audioButtonParent', m.userAreaIOChevron, 'audioButtonWithMenu' ],
@@ -1447,7 +1447,7 @@ const config = {
                     id: 'baseGradient',
                     name: 'Remove Chat/Typing Now Gradient',
                     note: 'Removes the gradient from the Chat Input/Now Typing area.',
-                    getRules: (v, s, m) => { if (v) return [ { selector: '.{0}', mods: [ m.textAreaGradient, 'chatGradientBase' ] } ]; },
+                    getRules: (v, s, m) => { if (v) return [ { selector: '.{0}, .{1}', mods: [ m.textAreaGradient, 'chatTypingGradientAtBottom', m.textAreaGradient, 'chatTypingGradientNotAtBottom' ] } ]; },
                 },
                 {
                     type: 'switch',
@@ -1870,7 +1870,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'dmDivider', filter: this.api.Webpack.Filters.byKeys('privateChannels', 'sectionDivider') }, // DMs List Divider
                 { name: 'channelDivider', filter: this.api.Webpack.Filters.byKeys('scroller', 'sectionDivider') }, // Server Channel Divider
                 { name: 'userAreaIOChevron', filter: this.api.Webpack.Filters.byKeys('buttonChevron') }, // I/O Chevrons
-                { name: 'textAreaGradient', filter: this.api.Webpack.Filters.byKeys('chatGradient', 'chatGradientBase') }, // Chat Input Gradient
+                { name: 'textAreaGradient', filter: this.api.Webpack.Filters.byKeys('messagesWrapper', 'chatGradient') }, // Chat Input Gradient
                 { name: 'typingAnimDots', filter: this.api.Webpack.Filters.byKeys('typing', 'typingDots') }, // Animated Typing Dots
                 { name: 'tagsBot', filter: this.api.Webpack.Filters.byKeys('botTagRegular', 'botTagOP') }, // APP/BOT Tags
                 { name: 'badgeNew', filter: this.api.Webpack.Filters.byKeys('newMemberBadge') }, // New User Badge
