@@ -1,12 +1,17 @@
 # Changelog
-## v5.0.5
+## v5.0.6
 ### Fixed
-- Clan Tag throwing a webpack warning
-- Fix vcOnCallInvite webpack
-- fix botTags not applying
+- Clan Tag now removes Clan Tags in Server Moderator Member List when 'Remove in Member List' or 'Remove' is selected
+
+## v5.0.5
 ### Added
 - Remove Avatar Hover Tooltip [Profile Customizations]
 - Remove Server List Scroll Bar [Servers & Channels]
+
+### Fixed
+- Clan Tag throwing a webpack warning
+- Fix vcOnCallInvite webpack
+- Fix botTags not applying
 
 ## v5.0.4
 ### Fixed

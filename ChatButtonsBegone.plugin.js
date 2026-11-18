@@ -972,6 +972,7 @@ const config = {
                             { selector: '.{0} .{1}', mods: [ m.vcSmallAvatar, 'userSmall', m.containerChiplet, 'chipletParent' ] },
                             // Friends List
                             { selector: '.{0}.{1}', mods: [ m.clanTagFriendsList, 'chipletContainerInner', m.clanTagFriendsList, 'noTooltip' ] },
+                            { selector: '.{0} + .{1}', mods: [ m.clanTagServerMemberList, 'memberNameText', m.clanTagServerMemberList, 'memberClanTag' ]}
                         ];
                         const profile = [
                             // Chat
@@ -1835,6 +1836,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'dmTagEntry', filter: this.api.Webpack.Filters.byKeys('overflowTooltip', 'clanTag') }, // DM List clanTag
                 { name: 'clanTagProfile', filter: this.api.Webpack.Filters.byKeys('guildTagPill', 'clickable') }, // Profile Clan Tag
                 { name: 'clanTagChiplet', filter: this.api.Webpack.Filters.byKeys('clanTagChiplet') }, // Clan Tag Chiplet
+                { name: 'clanTagServerMemberList', filter: this.api.Webpack.Filters.byKeys('memberClanTag', 'memberNameText') }, // Server Member List Clan Tag
                 { name: 'containerChiplet', filter: this.api.Webpack.Filters.byKeys('container', 'chipletContainer') }, // Clan Tag Chiplet Container
                 { name: 'clanTagFriendsList', filter: this.api.Webpack.Filters.byKeys('chipletContainerInner', 'noTooltip') }, // Friends List Clan Tag
                 { name: 'avatarPreview', filter: this.api.Webpack.Filters.byKeys('skuPreview') }, // SKU Preview Exclusion
