@@ -1,7 +1,8 @@
 # Changelog
 ## v5.0.6
 ### Fixed
-- Clan Tag now removes Clan Tags in Server Moderator Member List when 'Remove in Member List' or 'Remove' is selected
+- Clan Tag now removes Clan Tags in Server Settings Member List when 'Remove in Member List' or 'Remove' is selected
+- Clan Tag now removes Clan Tags in Server Mod View when 'Remove in Profile' or 'Remove' is selected
 
 ## v5.0.5
 ### Added
