@@ -979,6 +979,8 @@ const config = {
                             { selector: '.{0}', mods: [ m.clanTagChiplet, 'clanTagChiplet' ] },
                             // DM's "Show Profile" + Profile
                             { selector: '.{0}', mods: [ m.clanTagProfile, 'guildTagPill' ] },
+                            // Mod View Profile
+                            { selector: '.{0}', mods: [ m.clanTagModView, 'memberClanTagContainer' ] },
                         ];
                         if (v === 'memberlist') return member;
                         if (v === 'profile') return profile;
@@ -1839,6 +1841,7 @@ module.exports = class ChatButtonsBegone {
                 { name: 'clanTagServerMemberList', filter: this.api.Webpack.Filters.byKeys('memberClanTag', 'memberNameText') }, // Server Member List Clan Tag
                 { name: 'containerChiplet', filter: this.api.Webpack.Filters.byKeys('container', 'chipletContainer') }, // Clan Tag Chiplet Container
                 { name: 'clanTagFriendsList', filter: this.api.Webpack.Filters.byKeys('chipletContainerInner', 'noTooltip') }, // Friends List Clan Tag
+                { name: 'clanTagModView', filter: this.api.Webpack.Filters.byKeys('memberNameContainer', 'memberClanTagContainer') }, // Mod View Clan Tag
                 { name: 'avatarPreview', filter: this.api.Webpack.Filters.byKeys('skuPreview') }, // SKU Preview Exclusion
                 { name: 'avatarDecorationContainer', filter: this.api.Webpack.Filters.byKeys('avatar', 'avatarDecorationContainer') }, // Avatar Decoration
                 { name: 'avatarDecorationChat', filter: this.api.Webpack.Filters.byKeys('avatarDecoration', 'contents') }, // Avatar Decoration in Chat
