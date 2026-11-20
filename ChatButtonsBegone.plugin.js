@@ -972,6 +972,7 @@ const config = {
                             { selector: '.{0} .{1}', mods: [ m.vcSmallAvatar, 'userSmall', m.containerChiplet, 'chipletParent' ] },
                             // Friends List
                             { selector: '.{0}.{1}', mods: [ m.clanTagFriendsList, 'chipletContainerInner', m.clanTagFriendsList, 'noTooltip' ] },
+                            // Server Settings -> Server Members
                             { selector: '.{0} + .{1}', mods: [ m.clanTagServerMemberList, 'memberNameText', m.clanTagServerMemberList, 'memberClanTag' ]}
                         ];
                         const profile = [
